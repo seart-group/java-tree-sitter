@@ -2,6 +2,8 @@ package ai.serenade.treesitter;
 
 public class Languages {
 
+  private Languages() {}
+
   public static native long agda();
 
   public static native long bash();

@@ -2,6 +2,8 @@ package ai.serenade.treesitter;
 
 public class TreeSitter {
 
+  private TreeSitter() {}
+
   public static native Node nodeChild(Node node, int child);
 
   public static native int nodeChildCount(Node node);
