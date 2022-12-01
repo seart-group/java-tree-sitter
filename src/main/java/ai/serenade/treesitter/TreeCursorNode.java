@@ -1,10 +1,10 @@
 package ai.serenade.treesitter;
 
 public class TreeCursorNode {
-  private String type;
-  private String name;
-  private int startByte;
-  private int endByte;
+  private final String type;
+  private final String name;
+  private final int startByte;
+  private final int endByte;
 
   public TreeCursorNode(String type, String name, int startByte, int endByte) {
     this.type = type;
