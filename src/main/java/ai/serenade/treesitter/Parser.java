@@ -3,6 +3,10 @@ package ai.serenade.treesitter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Parsers are stateful objects that can be assigned a language and used to produce a
+ * {@link ai.serenade.treesitter.Tree Tree} based on some source code.
+ */
 public class Parser implements AutoCloseable {
   private long pointer;
 

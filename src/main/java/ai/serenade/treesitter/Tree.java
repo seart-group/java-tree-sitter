@@ -1,5 +1,9 @@
 package ai.serenade.treesitter;
 
+/**
+ * A Tree represents the syntax tree of an entire source code file. It contains {@link ai.serenade.treesitter.Node}
+ * instances that indicate the structure of the source code.
+ */
 public class Tree implements AutoCloseable {
   private long pointer;
 

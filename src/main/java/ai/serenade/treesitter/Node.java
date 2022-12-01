@@ -1,5 +1,9 @@
 package ai.serenade.treesitter;
 
+/**
+ * A Node represents a single node in the syntax tree. It tracks its start and end positions in the source code,
+ * as well as its relation to other nodes like its parent, siblings and children.
+ */
 public class Node {
   private int context0;
   private int context1;

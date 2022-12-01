@@ -1,5 +1,8 @@
 package ai.serenade.treesitter;
 
+/**
+ *  A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
+ */
 public class TreeCursor implements AutoCloseable {
   private long pointer;
   private int context0;
