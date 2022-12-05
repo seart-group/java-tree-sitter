@@ -1,11 +1,11 @@
 package ai.serenade.treesitter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.UnsupportedEncodingException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TreeCursorTest extends TestBase {
+class TreeCursorTest extends TestBase {
 
   @Test
   void testWalk() throws UnsupportedEncodingException {
@@ -13,27 +13,27 @@ public class TreeCursorTest extends TestBase {
       parser.setLanguage(Languages.python());
       try (Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")) {
         try (TreeCursor cursor = tree.getRootNode().walk()) {
-          assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
-          assertEquals("module", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoFirstChild());
-          assertEquals("function_definition", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoFirstChild());
+          Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
+          Assertions.assertEquals("module", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoFirstChild());
+          Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoFirstChild());
 
-          assertEquals("def", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoNextSibling());
-          assertEquals("identifier", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoNextSibling());
-          assertEquals("parameters", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoNextSibling());
-          assertEquals(":", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoNextSibling());
-          assertEquals("block", cursor.getCurrentNode().getType());
-          assertEquals("body", cursor.getCurrentFieldName());
-          assertEquals(false, cursor.gotoNextSibling());
+          Assertions.assertEquals("def", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoNextSibling());
+          Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoNextSibling());
+          Assertions.assertEquals("parameters", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoNextSibling());
+          Assertions.assertEquals(":", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoNextSibling());
+          Assertions.assertEquals("block", cursor.getCurrentNode().getType());
+          Assertions.assertEquals("body", cursor.getCurrentFieldName());
+          Assertions.assertEquals(false, cursor.gotoNextSibling());
 
-          assertEquals(true, cursor.gotoParent());
-          assertEquals("function_definition", cursor.getCurrentNode().getType());
-          assertEquals(true, cursor.gotoFirstChild());
+          Assertions.assertEquals(true, cursor.gotoParent());
+          Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
+          Assertions.assertEquals(true, cursor.gotoFirstChild());
         }
       }
     }
