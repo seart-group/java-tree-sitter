@@ -1,5 +1,7 @@
 package ai.serenade.treesitter;
 
+import java.util.function.Consumer;
+
 /**
  *  A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
  */
@@ -70,5 +72,22 @@ public class TreeCursor implements AutoCloseable {
    */
   public boolean gotoParent() {
     return TreeSitter.treeCursorGotoParent(pointer);
+  }
+
+  /**
+   * Iteratively traverse over the parse tree, applying a callback to the nodes before they are visited.
+   *
+   * @param callback The callback consumer which will execute upon visiting a node.
+   */
+  public void preorderTraversal(Consumer<Node> callback) {
+    for (;;) {
+      callback.accept(this.getCurrentNode());
+      if (this.gotoFirstChild() || this.gotoNextSibling())
+        continue;
+      do {
+        if (!this.gotoParent())
+          return;
+      } while (!this.gotoNextSibling());
+    }
   }
 }
