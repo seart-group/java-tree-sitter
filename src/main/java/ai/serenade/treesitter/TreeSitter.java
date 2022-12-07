@@ -10,7 +10,11 @@ public class TreeSitter {
 
   public static native int nodeEndByte(Node node);
 
+  public static native Point nodeEndPoint(Node node);
+
   public static native int nodeStartByte(Node node);
+
+  public static native Point nodeStartPoint(Node node);
 
   public static native String nodeString(Node node);
 

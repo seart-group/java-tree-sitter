@@ -21,6 +21,10 @@ static jfieldID _nodeContext3Field;
 static jfieldID _nodeIdField;
 static jfieldID _nodeTreeField;
 
+static jclass _pointClass;
+static jfieldID _pointRowField;
+static jfieldID _pointColumnField;
+
 static jclass _treeCursorNodeClass;
 static jfieldID _treeCursorNodeTypeField;
 static jfieldID _treeCursorNodeNameField;
@@ -51,6 +55,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_nodeContext3Field, _nodeClass, "context3", "I");
   _loadField(_nodeIdField, _nodeClass, "id", "J");
   _loadField(_nodeTreeField, _nodeClass, "tree", "J");
+
+  _loadClass(_pointClass, "ai/serenade/treesitter/Point");
+  _loadField(_pointRowField, _pointClass, "row", "I");
+  _loadField(_pointColumnField, _pointClass, "column", "I");
 
   _loadClass(_treeCursorNodeClass, "ai/serenade/treesitter/TreeCursorNode");
   _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type",
@@ -95,6 +103,15 @@ TSNode _unmarshalNode(JNIEnv* env, jobject javaObject) {
       (const TSTree*)env->GetLongField(javaObject, _nodeTreeField)};
 }
 
+jobject _marshalPoint(JNIEnv* env, TSPoint point) {
+  jobject javaObject = env->AllocObject(_pointClass);
+
+  env->SetIntField(javaObject, _pointRowField, point.row);
+  env->SetIntField(javaObject, _pointColumnField, point.column / 2);
+  // Not sure why I need to divide by two, probably because of utf-16
+  return javaObject;
+}
+
 jobject _marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node) {
   jobject javaObject = env->AllocObject(_treeCursorNodeClass);
   env->SetObjectField(javaObject, _treeCursorNodeTypeField,
@@ -133,6 +150,16 @@ JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndByte(
 JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartByte(
     JNIEnv* env, jclass self, jobject node) {
   return (jint)ts_node_start_byte(_unmarshalNode(env, node)) / 2;
+}
+
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartPoint(
+  JNIEnv* env, jclass self, jobject node) {
+  return _marshalPoint(env, ts_node_start_point(_unmarshalNode(env, node)));
+}
+
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndPoint(
+  JNIEnv* env, jclass self, jobject node) {
+  return _marshalPoint(env, ts_node_end_point(_unmarshalNode(env, node)));
 }
 
 JNIEXPORT jstring JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeType(

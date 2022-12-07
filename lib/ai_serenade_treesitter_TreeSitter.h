@@ -33,10 +33,26 @@ JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndByte
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeEndPoint
+ * Signature: (Lai/serenade/treesitter/Node;)Lai/serenade/treesitter/Point;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndPoint
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
  * Method:    nodeStartByte
  * Signature: (Lai/serenade/treesitter/Node;)I
  */
 JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartByte
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeStartPoint
+ * Signature: (Lai/serenade/treesitter/Node;)Lai/serenade/treesitter/Point;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartPoint
   (JNIEnv *, jclass, jobject);
 
 /*

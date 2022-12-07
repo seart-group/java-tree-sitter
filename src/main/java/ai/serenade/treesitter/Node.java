@@ -39,6 +39,13 @@ public class Node {
   }
 
   /**
+   * @return The node's end position in terms of rows and columns.
+   */
+  public Point getEndPoint() {
+    return TreeSitter.nodeEndPoint(this);
+  }
+
+  /**
    * This string is allocated with malloc and the caller is responsible for freeing it using free.
    *
    * @return An S-expression representing the node as a string.
@@ -52,6 +59,13 @@ public class Node {
    */
   public int getStartByte() {
     return TreeSitter.nodeStartByte(this);
+  }
+
+  /**
+   * @return The node's start position in terms of rows and columns.
+   */
+  public Point getStartPoint() {
+    return TreeSitter.nodeStartPoint(this);
   }
 
   /**
