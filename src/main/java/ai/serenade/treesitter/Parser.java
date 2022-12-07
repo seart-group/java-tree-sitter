@@ -25,10 +25,10 @@ public class Parser implements AutoCloseable {
   /**
    * Set the language that the parser should use for parsing.
    *
-   * @param language The identifier corresponding to the language.
+   * @param language The language used for parsing.
    */
-  public void setLanguage(long language) {
-    TreeSitter.parserSetLanguage(pointer, language);
+  public void setLanguage(Language language) {
+    TreeSitter.parserSetLanguage(pointer, language.getId());
   }
 
   /**

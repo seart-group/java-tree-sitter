@@ -30,7 +30,7 @@ class ParserTest extends TestBase {
   @Test
   void testParseString() throws UnsupportedEncodingException {
     try (Parser parser = new Parser()) {
-      parser.setLanguage(Languages.python());
+      parser.setLanguage(Language.PYTHON);
       try (Tree tree = parser.parseString(source)) {
         Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
       }
@@ -40,7 +40,7 @@ class ParserTest extends TestBase {
   @Test
   void testParseFile() throws IOException {
     try (Parser parser = new Parser()) {
-      parser.setLanguage(Languages.python());
+      parser.setLanguage(Language.PYTHON);
       try (Tree tree = parser.parseFile(tmpFile)) {
         Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
       }
