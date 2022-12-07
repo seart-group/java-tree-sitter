@@ -25,6 +25,17 @@ static jclass _pointClass;
 static jfieldID _pointRowField;
 static jfieldID _pointColumnField;
 
+static jclass _queryCursorClass;
+
+static jclass _queryMatchClass;
+static jfieldID _queryMatchIdField;
+static jfieldID _queryMatchPatternIndexField;
+static jfieldID _queryMatchCapturesField;
+
+static jclass _queryCaptureClass;
+static jfieldID _queryCaptureNode;
+static jfieldID _queryCaptureIndex;
+
 static jclass _treeCursorNodeClass;
 static jfieldID _treeCursorNodeTypeField;
 static jfieldID _treeCursorNodeNameField;
@@ -60,13 +71,21 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_pointRowField, _pointClass, "row", "I");
   _loadField(_pointColumnField, _pointClass, "column", "I");
 
+  _loadClass(_queryCursorClass, "ai/serenade/treesitter/QueryCursor");
+
+  _loadClass(_queryCaptureClass, "ai/serenade/treesitter/QueryCapture");
+  _loadField(_queryCaptureNode, _queryCaptureClass, "node", "Lai/serenade/treesitter/Node;");
+  _loadField(_queryCaptureIndex, _queryCaptureClass, "index", "I");
+
+  _loadClass(_queryMatchClass, "ai/serenade/treesitter/QueryMatch");
+  _loadField(_queryMatchIdField, _queryMatchClass, "id", "I");
+  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "pattern_index", "I");
+  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lai/serenade/treesitter/QueryCapture;");
+
   _loadClass(_treeCursorNodeClass, "ai/serenade/treesitter/TreeCursorNode");
-  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type",
-             "Ljava/lang/String;");
-  _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name",
-             "Ljava/lang/String;");
-  _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte",
-             "I");
+  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type", "Ljava/lang/String;");
+  _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name", "Ljava/lang/String;");
+  _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I");
   _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I");
 
   return JNI_VERSION;
@@ -109,6 +128,29 @@ jobject _marshalPoint(JNIEnv* env, TSPoint point) {
   env->SetIntField(javaObject, _pointRowField, point.row);
   env->SetIntField(javaObject, _pointColumnField, point.column / 2);
   // Not sure why I need to divide by two, probably because of utf-16
+  return javaObject;
+}
+
+jobject _marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
+  jobject javaObject = env->AllocObject(_queryCaptureClass);
+  env->SetIntField(javaObject, _queryCaptureIndex, capture.index);
+  env->SetObjectField(javaObject, _queryCaptureNode, _marshalNode(env, capture.node));
+
+  return javaObject;
+}
+
+jobject _marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
+  jobject javaObject = env->AllocObject(_queryMatchClass);
+  env->SetIntField(javaObject, _queryMatchIdField, match.id);
+  env->SetIntField(javaObject, _queryMatchPatternIndexField, match.pattern_index);
+
+  jobjectArray captures = (*env).NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
+  for (int i = 0; i < match.capture_count; i++) {
+    env->SetObjectArrayElement(captures, i, _marshalQueryCapture(env, match.captures[i]));
+  }
+  env->SetObjectField(javaObject, _queryMatchCapturesField, captures);
+
+
   return javaObject;
 }
 
@@ -192,6 +234,52 @@ JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_parserParseBytes(
       (TSParser*)parser, NULL, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16);
   env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
   return result;
+}
+
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_queryDelete(
+    JNIEnv* env, jclass self, jlong query) {
+  ts_query_delete((TSQuery*)query);
+}
+
+JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_queryNew(
+  JNIEnv* env, jclass self, jlong language, jstring source) {
+
+  const char* c_source;
+  uint32_t source_length = env->GetStringLength(source);
+  c_source = env->GetStringUTFChars(source, NULL);
+  uint32_t* error_offset = new uint32_t;
+  TSQueryError* error_type = new TSQueryError;
+  TSQuery* query = ts_query_new((TSLanguage*) language, c_source, source_length, error_offset, error_type);
+  return (jlong) query;
+}
+
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorDelete(
+  JNIEnv* env, jclass self, jlong query_cursor) {
+  ts_query_cursor_delete((TSQueryCursor*)query_cursor);
+}
+
+JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorNew(
+  JNIEnv* env, jclass self) {
+  TSQueryCursor* cursor = ts_query_cursor_new();
+  return (jlong) cursor;
+}
+
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorExec(
+  JNIEnv* env, jclass self, jlong query_cursor, jlong query, jobject node) {
+  ts_query_cursor_exec((TSQueryCursor*) query_cursor, (TSQuery*) query, _unmarshalNode(env,node));
+}
+
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorNextMatch(
+  JNIEnv * env, jclass self, jlong query_cursor) {
+    TSQueryMatch query_match;
+
+    bool found = ts_query_cursor_next_match((TSQueryCursor*)query_cursor, &query_match);
+
+    if (!found) {
+      return NULL;
+    }
+
+    return _marshalQueryMatch(env, query_match);
 }
 
 JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_treeCursorNew(

@@ -28,6 +28,18 @@ public class TreeSitter {
 
   public static native long parserParseBytes(long parser, byte[] source, int length);
 
+  public static native void queryDelete(long query);
+
+  public static native long queryNew(long language, String source);
+
+  public static native void queryCursorDelete(long query_cursor);
+
+  public static native long queryCursorNew();
+
+  public static native void queryCursorExec(long query_cursor, long query, Node node);
+
+  public static native QueryMatch queryCursorNextMatch(long query_cursor);
+
   public static native long treeCursorNew(Node node);
 
   public static native TreeCursorNode treeCursorCurrentTreeCursorNode(long cursor);

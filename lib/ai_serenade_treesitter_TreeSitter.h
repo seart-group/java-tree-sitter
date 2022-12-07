@@ -105,6 +105,54 @@ JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_parserParseBytes
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    queryDelete
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_queryDelete
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    queryNew
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_queryNew
+  (JNIEnv *, jclass, jlong, jstring);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    queryCursorDelete
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorDelete
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    queryCursorNew
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorNew
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    queryCursorExec
+ * Signature: (JJLai/serenade/treesitter/Node;)V
+ */
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorExec
+  (JNIEnv *, jclass, jlong, jlong, jobject);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    queryCursorNextMatch
+ * Signature: (J)Lai/serenade/treesitter/QueryMatch;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_queryCursorNextMatch
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
  * Method:    treeCursorNew
  * Signature: (Lai/serenade/treesitter/Node;)J
  */
