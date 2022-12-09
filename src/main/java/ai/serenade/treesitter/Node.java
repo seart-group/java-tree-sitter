@@ -80,6 +80,13 @@ public class Node {
   }
 
   /**
+   * @return true if the node is a syntax error or contains any syntax errors, false otherwise.
+   */
+  public boolean hasError() {
+    return TreeSitter.nodeHasError(this);
+  }
+
+  /**
    * Check if the node is <em>extra</em>. Extra nodes represent things like comments,
    * which are not required the grammar, but can appear anywhere.
    *

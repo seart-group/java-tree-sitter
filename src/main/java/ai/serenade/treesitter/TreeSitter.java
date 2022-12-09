@@ -12,6 +12,8 @@ public class TreeSitter {
 
   public static native Point nodeEndPoint(Node node);
 
+  public static native boolean nodeHasError(Node node);
+
   public static native boolean nodeIsExtra(Node node);
 
   public static native boolean nodeIsMissing(Node node);

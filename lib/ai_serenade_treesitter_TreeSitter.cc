@@ -204,6 +204,11 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndPoint(
   return _marshalPoint(env, ts_node_end_point(_unmarshalNode(env, node)));
 }
 
+JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeHasError(
+  JNIEnv* env, jclass self, jobject node) {
+  return (jboolean) ts_node_has_error(_unmarshalNode(env, node));
+}
+
 JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeIsExtra(
   JNIEnv* env, jclass self, jobject node) {
   return (jboolean) ts_node_is_extra(_unmarshalNode(env, node));
