@@ -54,6 +54,10 @@ public class Node {
     return TreeSitter.nodeString(this);
   }
 
+  public Range getRange() {
+    return new Range(this);
+  }
+
   /**
    * @return The node's start byte.
    */
