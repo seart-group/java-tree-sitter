@@ -204,6 +204,21 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndPoint(
   return _marshalPoint(env, ts_node_end_point(_unmarshalNode(env, node)));
 }
 
+JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeIsExtra(
+  JNIEnv* env, jclass self, jobject node) {
+  return (jboolean) ts_node_is_extra(_unmarshalNode(env, node));
+}
+
+JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeIsMissing(
+  JNIEnv* env, jclass self, jobject node) {
+  return (jboolean) ts_node_is_missing(_unmarshalNode(env, node));
+}
+
+JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeIsNamed(
+  JNIEnv* env, jclass self, jobject node) {
+  return (jboolean) ts_node_is_named(_unmarshalNode(env, node));
+}
+
 JNIEXPORT jstring JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeType(
     JNIEnv* env, jclass self, jobject node) {
   const char* type = ts_node_type(_unmarshalNode(env, node));

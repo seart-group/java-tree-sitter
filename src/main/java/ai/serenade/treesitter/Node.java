@@ -80,6 +80,36 @@ public class Node {
   }
 
   /**
+   * Check if the node is <em>extra</em>. Extra nodes represent things like comments,
+   * which are not required the grammar, but can appear anywhere.
+   *
+   * @return true if the node is an extra, false otherwise.
+   */
+  public boolean isExtra() {
+    return TreeSitter.nodeIsExtra(this);
+  }
+
+  /**
+   * Check if the node is <em>missing</em>. Missing nodes are inserted by the parser in order to recover from certain
+   * kinds of syntax errors.
+   *
+   * @return true if the node is missing, false otherwise.
+   */
+  public boolean isMissing() {
+    return TreeSitter.nodeIsMissing(this);
+  }
+
+  /**
+   * Check if the node is <em>named</em>. Named nodes correspond to named rules in the grammar, whereas anonymous nodes
+   * correspond to string literals in the grammar.
+   *
+   * @return true if the node is named, false otherwise.
+   */
+  public boolean isNamed() {
+    return TreeSitter.nodeIsNamed(this);
+  }
+
+  /**
    * A tree cursor allows you to walk a syntax tree more efficiently than is possible using the TSNode functions.
    * It is a mutable object that is always on a certain syntax node, and can be moved imperatively to different nodes.
    *
