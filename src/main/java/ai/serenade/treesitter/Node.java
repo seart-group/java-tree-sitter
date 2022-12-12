@@ -54,6 +54,20 @@ public class Node {
     return TreeSitter.nodeString(this);
   }
 
+  /**
+   * @return The node's next sibling.
+   */
+  public Node getNextSibling() {
+    return TreeSitter.nextSibling(this);
+  }
+
+  /**
+   * @return The node's previous sibling.
+   */
+  public Node getPrevSibling() {
+    return TreeSitter.prevSibling(this);
+  }
+
   public Range getRange() {
     return new Range(this);
   }
