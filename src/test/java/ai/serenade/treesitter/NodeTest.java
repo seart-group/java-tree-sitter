@@ -52,6 +52,20 @@ class NodeTest extends TestBase {
   }
 
   @Test
+  void testGetNextNamedSibling() throws UnsupportedEncodingException {
+    try (Parser parser = new Parser()) {
+      parser.setLanguage(Language.PYTHON);
+      try (Tree tree = parser.parseString(source)) {
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node def = function.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertEquals(identifier, def.getNextNamedSibling());
+      }
+    }
+  }
+
+  @Test
   void testGetNextSibling() throws UnsupportedEncodingException {
     try (Parser parser = new Parser()) {
       parser.setLanguage(Language.PYTHON);
@@ -61,6 +75,20 @@ class NodeTest extends TestBase {
         Node def = function.getChild(0);
         Node identifier = function.getChild(1);
         Assertions.assertEquals(identifier, def.getNextSibling());
+      }
+    }
+  }
+
+  @Test
+  void testGetPrevNamedSibling() throws UnsupportedEncodingException {
+    try (Parser parser = new Parser()) {
+      parser.setLanguage(Language.PYTHON);
+      try (Tree tree = parser.parseString(source)) {
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Node parameters = function.getChild(2);
+        Assertions.assertEquals(identifier, parameters.getPrevNamedSibling());
       }
     }
   }

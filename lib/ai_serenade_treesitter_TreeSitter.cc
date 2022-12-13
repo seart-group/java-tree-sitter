@@ -252,9 +252,27 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeParent(
   return _marshalNode(env, parent);
 }
 
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeNextNamedSibling(
+    JNIEnv* env, jclass self, jobject node) {
+  TSNode sibling = ts_node_next_named_sibling(_unmarshalNode(env, node));
+  if (ts_node_is_null(sibling)) {
+    return NULL;
+  }
+  return _marshalNode(env, sibling);
+}
+
 JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeNextSibling(
     JNIEnv* env, jclass self, jobject node) {
   TSNode sibling = ts_node_next_sibling(_unmarshalNode(env, node));
+  if (ts_node_is_null(sibling)) {
+    return NULL;
+  }
+  return _marshalNode(env, sibling);
+}
+
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodePrevNamedSibling(
+    JNIEnv* env, jclass self, jobject node) {
+  TSNode sibling = ts_node_prev_named_sibling(_unmarshalNode(env, node));
   if (ts_node_is_null(sibling)) {
     return NULL;
   }
