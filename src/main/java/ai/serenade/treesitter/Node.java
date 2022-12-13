@@ -68,6 +68,13 @@ public class Node {
     return TreeSitter.prevSibling(this);
   }
 
+  /**
+   * @return The node's immediate parent.
+   */
+  public Node getParent() {
+    return TreeSitter.nodeParent(this);
+  }
+
   public Range getRange() {
     return new Range(this);
   }

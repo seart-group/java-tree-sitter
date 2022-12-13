@@ -224,6 +224,15 @@ JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeIsNamed(
   return (jboolean) ts_node_is_named(_unmarshalNode(env, node));
 }
 
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeParent(
+  JNIEnv* env, jclass self, jobject node) {
+  TSNode parent = ts_node_parent(_unmarshalNode(env, node));
+  if (ts_node_is_null(parent)) {
+    return NULL;
+  }
+  return _marshalNode(env, parent);
+}
+
 JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nextSibling(
     JNIEnv* env, jclass self, jobject node) {
   TSNode sibling = ts_node_next_sibling(_unmarshalNode(env, node));

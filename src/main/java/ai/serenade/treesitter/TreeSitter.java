@@ -20,6 +20,8 @@ public class TreeSitter {
 
   public static native boolean nodeIsNamed(Node node);
 
+  public static native Node nodeParent(Node node);
+
   public static native Node prevSibling(Node node);
 
   public static native Node nextSibling(Node node);
