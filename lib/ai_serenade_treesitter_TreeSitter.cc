@@ -171,6 +171,18 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChild(
       env, ts_node_child(_unmarshalNode(env, node), (uint32_t)child));
 }
 
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChildByFieldName(
+    JNIEnv* env, jclass self, jobject node, jstring name) {
+  const char* c_name;
+  uint32_t name_length = env->GetStringLength(name);
+  c_name = env->GetStringUTFChars(name, NULL);
+  TSNode child = ts_node_child_by_field_name(_unmarshalNode(env, node), c_name, name_length);
+  if (ts_node_is_null(child)) {
+    return NULL;
+  }
+  return _marshalNode(env, child);
+}
+
 JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChildCount(
     JNIEnv* env, jclass self, jobject node) {
   return (jint)ts_node_child_count(_unmarshalNode(env, node));

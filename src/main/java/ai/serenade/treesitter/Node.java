@@ -25,6 +25,14 @@ public class Node {
   }
 
   /**
+   * @param name The node field name.
+   * @return The node's child with the given field name.
+   */
+  public Node getChildByFieldName(String name) {
+    return TreeSitter.nodeChildByFieldName(this, name);
+  }
+
+  /**
    * @return The node's number of children.
    */
   public int getChildCount() {

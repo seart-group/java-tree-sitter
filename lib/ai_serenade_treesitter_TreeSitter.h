@@ -17,6 +17,14 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChild
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeChildByFieldName
+ * Signature: (Lai/serenade/treesitter/Node;Ljava/lang/String;)Lai/serenade/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChildByFieldName
+  (JNIEnv *, jclass, jobject, jstring);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
  * Method:    nodeChildCount
  * Signature: (Lai/serenade/treesitter/Node;)I
  */
