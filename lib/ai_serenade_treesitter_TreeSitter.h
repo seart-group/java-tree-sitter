@@ -49,6 +49,14 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndPoint
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeEq
+ * Signature: (Lai/serenade/treesitter/Node;Lai/serenade/treesitter/Node;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEq
+  (JNIEnv *, jclass, jobject, jobject);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
  * Method:    nodeHasError
  * Signature: (Lai/serenade/treesitter/Node;)Z
  */

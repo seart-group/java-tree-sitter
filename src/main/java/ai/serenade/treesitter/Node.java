@@ -1,5 +1,7 @@
 package ai.serenade.treesitter;
 
+import java.math.BigDecimal;
+
 /**
  * A Node represents a single node in the syntax tree. It tracks its start and end positions in the source code,
  * as well as its relation to other nodes like its parent, siblings and children.
@@ -153,5 +155,18 @@ public class Node {
    */
   public TreeCursor walk() {
     return new TreeCursor(TreeSitter.treeCursorNew(this));
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Node other = (Node) obj;
+    return TreeSitter.nodeEq(this, other);
+  }
+
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
   }
 }

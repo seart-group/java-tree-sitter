@@ -201,6 +201,13 @@ JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEndByte(
   return (jint)ts_node_end_byte(_unmarshalNode(env, node)) / 2;
 }
 
+JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEq(
+    JNIEnv* env, jclass self, jobject node, jobject other) {
+  TSNode node_1 = _unmarshalNode(env, node);
+  TSNode node_2 = _unmarshalNode(env, other);
+  return ts_node_eq(node_1, node_2);
+}
+
 JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartByte(
     JNIEnv* env, jclass self, jobject node) {
   return (jint)ts_node_start_byte(_unmarshalNode(env, node)) / 2;
