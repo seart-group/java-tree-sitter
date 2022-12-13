@@ -22,9 +22,9 @@ public class TreeSitter {
 
   public static native Node nodeParent(Node node);
 
-  public static native Node prevSibling(Node node);
+  public static native Node nodePrevSibling(Node node);
 
-  public static native Node nextSibling(Node node);
+  public static native Node nodeNextSibling(Node node);
 
   public static native int nodeStartByte(Node node);
 

@@ -58,14 +58,14 @@ public class Node {
    * @return The node's next sibling.
    */
   public Node getNextSibling() {
-    return TreeSitter.nextSibling(this);
+    return TreeSitter.nodeNextSibling(this);
   }
 
   /**
    * @return The node's previous sibling.
    */
   public Node getPrevSibling() {
-    return TreeSitter.prevSibling(this);
+    return TreeSitter.nodePrevSibling(this);
   }
 
   /**

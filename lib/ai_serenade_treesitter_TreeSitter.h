@@ -81,18 +81,18 @@ JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeParent
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
- * Method:    prevSibling
+ * Method:    nodePrevSibling
  * Signature: (Lai/serenade/treesitter/Node;)Lai/serenade/treesitter/Node;
  */
-JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_prevSibling
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodePrevSibling
   (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
- * Method:    nextSibling
+ * Method:    nodeNextSibling
  * Signature: (Lai/serenade/treesitter/Node;)Lai/serenade/treesitter/Node;
  */
-JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nextSibling
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeNextSibling
   (JNIEnv *, jclass, jobject);
 
 /*
