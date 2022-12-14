@@ -46,6 +46,7 @@ class NodeTest extends TestBase {
       parser.setLanguage(Language.PYTHON);
       try (Tree tree = parser.parseString(source)) {
         Node root = tree.getRootNode();
+        Assertions.assertNull(root.getParent());
         Assertions.assertEquals(root, root.getChild(0).getParent());
       }
     }
@@ -60,6 +61,7 @@ class NodeTest extends TestBase {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
         Node identifier = function.getChild(1);
+        Assertions.assertNull(root.getNextNamedSibling());
         Assertions.assertEquals(identifier, def.getNextNamedSibling());
       }
     }
@@ -74,6 +76,7 @@ class NodeTest extends TestBase {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
         Node identifier = function.getChild(1);
+        Assertions.assertNull(root.getNextSibling());
         Assertions.assertEquals(identifier, def.getNextSibling());
       }
     }
@@ -88,6 +91,7 @@ class NodeTest extends TestBase {
         Node function = root.getChild(0);
         Node identifier = function.getChild(1);
         Node parameters = function.getChild(2);
+        Assertions.assertNull(root.getPrevNamedSibling());
         Assertions.assertEquals(identifier, parameters.getPrevNamedSibling());
       }
     }
@@ -102,6 +106,7 @@ class NodeTest extends TestBase {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
         Node identifier = function.getChild(1);
+        Assertions.assertNull(root.getPrevSibling());
         Assertions.assertEquals(def, identifier.getPrevSibling());
       }
     }
