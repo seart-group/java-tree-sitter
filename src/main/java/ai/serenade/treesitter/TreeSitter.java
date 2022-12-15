@@ -50,6 +50,8 @@ public class TreeSitter {
 
   public static native long parserParseBytes(long parser, byte[] source, int length);
 
+  public static native long parserIncrementalParseBytes(long parser, long old_tree, byte[] source, int length);
+
   public static native void queryDelete(long query);
 
   public static native long queryNew(long language, String source);
@@ -79,6 +81,8 @@ public class TreeSitter {
   public static native boolean treeCursorGotoParent(long cursor);
 
   public static native void treeDelete(long tree);
+
+  public static native void treeEdit(long tree, InputEdit edit);
 
   public static native Node treeRootNode(long tree);
 }

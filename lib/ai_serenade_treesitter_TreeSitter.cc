@@ -13,6 +13,14 @@ struct TreeCursorNode {
 
 static jint JNI_VERSION = JNI_VERSION_10;
 
+static jclass _inputEditClass;
+static jfieldID _inputEditStartByteField;
+static jfieldID _inputEditOldEndByteField;
+static jfieldID _inputEditNewEndByteField;
+static jfieldID _inputEditStartPointField;
+static jfieldID _inputEditOldEndPointField;
+static jfieldID _inputEditNewEndPointField;
+
 static jclass _nodeClass;
 static jfieldID _nodeContext0Field;
 static jfieldID _nodeContext1Field;
@@ -88,6 +96,14 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I");
   _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I");
 
+  _loadClass(_inputEditClass, "ai/serenade/treesitter/InputEdit");
+  _loadField(_inputEditStartByteField, _inputEditClass, "startByte", "I");
+  _loadField(_inputEditOldEndByteField, _inputEditClass, "oldEndByte", "I");
+  _loadField(_inputEditNewEndByteField, _inputEditClass, "newEndByte", "I");
+  _loadField(_inputEditStartPointField, _inputEditClass, "startPoint", "Lai/serenade/treesitter/Point;");
+  _loadField(_inputEditOldEndPointField, _inputEditClass, "oldEndPoint", "Lai/serenade/treesitter/Point;");
+  _loadField(_inputEditNewEndPointField, _inputEditClass, "newEndPoint", "Lai/serenade/treesitter/Point;");
+
   return JNI_VERSION;
 }
 
@@ -131,6 +147,13 @@ jobject _marshalPoint(JNIEnv* env, TSPoint point) {
   return javaObject;
 }
 
+TSPoint _unmarshalPoint(JNIEnv* env, jobject javaObject) {
+  return (TSPoint) {
+    (uint32_t)env->GetIntField(javaObject, _pointRowField),
+    (uint32_t)env->GetIntField(javaObject, _pointColumnField),
+  };
+}
+
 jobject _marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
   jobject javaObject = env->AllocObject(_queryCaptureClass);
   env->SetIntField(javaObject, _queryCaptureIndex, capture.index);
@@ -163,6 +186,17 @@ jobject _marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node) {
   env->SetIntField(javaObject, _treeCursorNodeStartByteField, node.startByte);
   env->SetIntField(javaObject, _treeCursorNodeEndByteField, node.endByte);
   return javaObject;
+}
+
+TSInputEdit _unmarshalInputEdit(JNIEnv* env, jobject inputEdit) {
+  return (TSInputEdit) {
+    (uint32_t)env->GetIntField(inputEdit, _inputEditStartByteField),
+    (uint32_t)env->GetIntField(inputEdit, _inputEditOldEndByteField),
+    (uint32_t)env->GetIntField(inputEdit, _inputEditNewEndByteField),
+    _unmarshalPoint(env, env->GetObjectField(inputEdit, _inputEditStartPointField)),
+    _unmarshalPoint(env, env->GetObjectField(inputEdit, _inputEditOldEndPointField)),
+    _unmarshalPoint(env, env->GetObjectField(inputEdit, _inputEditNewEndPointField)),
+  };
 }
 
 JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChild(
@@ -311,11 +345,24 @@ JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_parserSetLanguage(
 }
 
 JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_parserParseBytes(
-    JNIEnv* env, jclass self, jlong parser, jbyteArray source_bytes,
-    jint length) {
+    JNIEnv* env, jclass self, jlong parser, jbyteArray source_bytes, jint length) {
   jbyte* source = env->GetByteArrayElements(source_bytes, NULL);
   jlong result = (jlong)ts_parser_parse_string_encoding(
       (TSParser*)parser, NULL, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16);
+  env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
+  return result;
+}
+
+JNIEXPORT jlong JNICALL Java_ai_serenade_treesitter_TreeSitter_parserIncrementalParseBytes(
+  JNIEnv* env, jclass self, jlong parser, jlong old_tree, jbyteArray source_bytes, jint length) {
+  jbyte* source = env->GetByteArrayElements(source_bytes, NULL);
+  jlong result = (jlong)ts_parser_parse_string_encoding(
+                   (TSParser*)parser,
+                   (TSTree*)old_tree,
+                   reinterpret_cast<const char*>(source),
+                   length,
+                   TSInputEncodingUTF16
+  );
   env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
   return result;
 }
@@ -428,6 +475,13 @@ Java_ai_serenade_treesitter_TreeSitter_treeCursorGotoParent(JNIEnv* env,
 JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_treeDelete(
     JNIEnv* env, jclass self, jlong tree) {
   ts_tree_delete((TSTree*)tree);
+}
+
+
+JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_treeEdit(
+  JNIEnv* env, jclass self, jlong tree, jobject inputEdit) {
+  TSInputEdit edit = _unmarshalInputEdit(env, inputEdit);
+  ts_tree_edit((TSTree*) tree, &edit);
 }
 
 JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_treeRootNode(

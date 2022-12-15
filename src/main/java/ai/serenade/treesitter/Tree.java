@@ -20,6 +20,19 @@ public class Tree implements AutoCloseable {
   }
 
   /**
+   * Edit the syntax tree to keep it in sync with source code that has been edited.
+   *
+   * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates.
+   */
+  public void edit(InputEdit edit) {
+      TreeSitter.treeEdit(pointer, edit);
+  }
+
+  long getPointer() {
+    return pointer;
+  }
+
+  /**
    * @return The root node of the syntax tree.
    */
   public Node getRootNode() {
