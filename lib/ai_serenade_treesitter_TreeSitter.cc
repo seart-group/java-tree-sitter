@@ -9,6 +9,8 @@ struct TreeCursorNode {
   const char* name;
   uint32_t startByte;
   uint32_t endByte;
+  TSPoint startPoint;
+  TSPoint endPoint;
 };
 
 static jint JNI_VERSION = JNI_VERSION_10;
@@ -49,6 +51,8 @@ static jfieldID _treeCursorNodeTypeField;
 static jfieldID _treeCursorNodeNameField;
 static jfieldID _treeCursorNodeStartByteField;
 static jfieldID _treeCursorNodeEndByteField;
+static jfieldID _treeCursorNodeStartPointField;
+static jfieldID _treeCursorNodeEndPointField;
 
 #define _loadClass(VARIABLE, NAME)             \
   {                                            \
@@ -95,6 +99,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name", "Ljava/lang/String;");
   _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I");
   _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I");
+  _loadField(_treeCursorNodeStartPointField, _treeCursorNodeClass, "startPoint", "Lai/serenade/treesitter/Point;")
+  _loadField(_treeCursorNodeEndPointField, _treeCursorNodeClass, "endPoint", "Lai/serenade/treesitter/Point;")
 
   _loadClass(_inputEditClass, "ai/serenade/treesitter/InputEdit");
   _loadField(_inputEditStartByteField, _inputEditClass, "startByte", "I");
@@ -179,12 +185,12 @@ jobject _marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
 
 jobject _marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node) {
   jobject javaObject = env->AllocObject(_treeCursorNodeClass);
-  env->SetObjectField(javaObject, _treeCursorNodeTypeField,
-                      env->NewStringUTF(node.type));
-  env->SetObjectField(javaObject, _treeCursorNodeNameField,
-                      env->NewStringUTF(node.name));
+  env->SetObjectField(javaObject, _treeCursorNodeTypeField, env->NewStringUTF(node.type));
+  env->SetObjectField(javaObject, _treeCursorNodeNameField, env->NewStringUTF(node.name));
   env->SetIntField(javaObject, _treeCursorNodeStartByteField, node.startByte);
   env->SetIntField(javaObject, _treeCursorNodeEndByteField, node.endByte);
+  env->SetObjectField(javaObject, _treeCursorNodeStartPointField, _marshalPoint(env, node.startPoint));
+  env->SetObjectField(javaObject, _treeCursorNodeEndPointField, _marshalPoint(env, node.endPoint));
   return javaObject;
 }
 
@@ -448,9 +454,14 @@ Java_ai_serenade_treesitter_TreeSitter_treeCursorCurrentTreeCursorNode(
   TSNode node = ts_tree_cursor_current_node((TSTreeCursor*)cursor);
   return _marshalTreeCursorNode(
       env,
-      (TreeCursorNode){ts_node_type(node),
-                       ts_tree_cursor_current_field_name((TSTreeCursor*)cursor),
-                       ts_node_start_byte(node) / 2, ts_node_end_byte(node) / 2});
+      (TreeCursorNode){
+        ts_node_type(node),
+        ts_tree_cursor_current_field_name((TSTreeCursor*)cursor),
+        ts_node_start_byte(node) / 2,
+        ts_node_end_byte(node) / 2,
+        ts_node_start_point(node),
+        ts_node_end_point(node)
+      });
 }
 
 JNIEXPORT void JNICALL Java_ai_serenade_treesitter_TreeSitter_treeCursorDelete(
