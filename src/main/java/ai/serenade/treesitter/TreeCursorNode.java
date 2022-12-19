@@ -7,9 +7,16 @@ public class TreeCursorNode {
   private final int endByte;
   private final Point startPoint;
   private final Point endPoint;
+  private final boolean isNamed;
 
   public TreeCursorNode(
-          String type, String name, int startByte, int endByte, Point startPoint, Point endPoint
+          String type,
+          String name,
+          int startByte,
+          int endByte,
+          Point startPoint,
+          Point endPoint,
+          boolean isNamed
   ) {
     this.type = type;
     this.name = name;
@@ -17,6 +24,7 @@ public class TreeCursorNode {
     this.endByte = endByte;
     this.startPoint = startPoint;
     this.endPoint = endPoint;
+    this.isNamed = isNamed;
   }
 
   public String getType() {
@@ -41,5 +49,9 @@ public class TreeCursorNode {
 
   public Point getEndPoint() {
     return endPoint;
+  }
+
+  public boolean isNamed() {
+    return isNamed;
   }
 }
