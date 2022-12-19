@@ -41,6 +41,22 @@ class NodeTest extends TestBase {
   }
 
   @Test
+  void testGetFieldNameForChild() throws UnsupportedEncodingException {
+    try (Parser parser = new Parser()) {
+      parser.setLanguage(Language.PYTHON);
+      try (Tree tree = parser.parseString(source)) {
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Assertions.assertNull(function.getFieldNameForChild(0));                  // `def`
+        Assertions.assertEquals("name", function.getFieldNameForChild(1));        // "name"
+        Assertions.assertEquals("parameters", function.getFieldNameForChild(2));  // "parameters"
+        Assertions.assertNull(function.getFieldNameForChild(3));                  // `:`
+        Assertions.assertEquals("body", function.getFieldNameForChild(4));        // "body"
+      }
+    }
+  }
+
+  @Test
   void testGetParent() throws UnsupportedEncodingException {
     try (Parser parser = new Parser()) {
       parser.setLanguage(Language.PYTHON);

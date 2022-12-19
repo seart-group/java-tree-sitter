@@ -16,6 +16,8 @@ public class TreeSitter {
 
   public static native boolean nodeEq(Node node, Node other);
 
+  public static native String nodeFieldNameForChild(Node node, int child);
+
   public static native boolean nodeHasError(Node node);
 
   public static native boolean nodeIsExtra(Node node);

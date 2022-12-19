@@ -54,6 +54,14 @@ public class Node {
   }
 
   /**
+   * @return The field name for node's child at the given index, where zero represents the first child.
+   * Returns NULL, if no field is found.
+   */
+  public String getFieldNameForChild(int child) {
+    return TreeSitter.nodeFieldNameForChild(this, child);
+  }
+
+  /**
    * This string is allocated with malloc and the caller is responsible for freeing it using free.
    *
    * @return An S-expression representing the node as a string.

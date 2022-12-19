@@ -242,6 +242,13 @@ JNIEXPORT jboolean JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeEq(
   return ts_node_eq(node_1, node_2);
 }
 
+JNIEXPORT jstring JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFieldNameForChild(
+  JNIEnv* env, jclass self, jobject node, jint child) {
+  const char* nameForChild = ts_node_field_name_for_child(_unmarshalNode(env, node), (uint32_t)child);
+  jstring result = env->NewStringUTF(nameForChild);
+  return result;
+}
+
 JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartByte(
     JNIEnv* env, jclass self, jobject node) {
   return (jint)ts_node_start_byte(_unmarshalNode(env, node)) / 2;
