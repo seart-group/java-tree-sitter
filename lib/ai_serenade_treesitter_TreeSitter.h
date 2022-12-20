@@ -33,6 +33,14 @@ JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChildCount
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeDescendantForByteRange
+ * Signature: (Lai/serenade/treesitter/Node;II)Lai/serenade/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeDescendantForByteRange
+  (JNIEnv *, jclass, jobject, jint, jint);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
  * Method:    nodeEndByte
  * Signature: (Lai/serenade/treesitter/Node;)I
  */

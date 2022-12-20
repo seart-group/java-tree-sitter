@@ -41,6 +41,27 @@ class NodeTest extends TestBase {
   }
 
   @Test
+  void testGetDescendantForByteRange() throws UnsupportedEncodingException {
+    try (Parser parser = new Parser()) {
+      parser.setLanguage(Language.PYTHON);
+      try (Tree tree = parser.parseString(source)) {
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node def = function.getChild(0);
+        Node identifier = function.getChild(1);
+        Node parameters = function.getChild(2);
+        Node colon = function.getChild(3);
+        Node body = function.getChild(4);
+        Assertions.assertEquals(def, root.getDescendantForByteRange(def.getStartByte(), def.getEndByte()));
+        Assertions.assertEquals(identifier, root.getDescendantForByteRange(identifier.getStartByte(), identifier.getEndByte()));
+        Assertions.assertEquals(parameters, root.getDescendantForByteRange(parameters.getStartByte(), parameters.getEndByte()));
+        Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
+        Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
+      }
+    }
+  }
+
+  @Test
   void testGetFieldNameForChild() throws UnsupportedEncodingException {
     try (Parser parser = new Parser()) {
       parser.setLanguage(Language.PYTHON);

@@ -40,6 +40,15 @@ public class Node {
   }
 
   /**
+   * @param startByte The starting byte of the range
+   * @param endByte The ending byte of the range
+   * @return The smallest node within this node that spans the given range of bytes
+   */
+  public Node getDescendantForByteRange(int startByte, int endByte) {
+    return TreeSitter.nodeDescendantForByteRange(this, startByte, endByte);
+  }
+
+  /**
    * @return The node's end byte.
    */
   public int getEndByte() {

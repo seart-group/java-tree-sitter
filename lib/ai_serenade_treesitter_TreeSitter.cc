@@ -232,6 +232,15 @@ JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeChildCount(
   return (jint)ts_node_child_count(_unmarshalNode(env, node));
 }
 
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeDescendantForByteRange(
+    JNIEnv* env, jclass self, jobject node, jint start, jint end) {
+  TSNode descendant = ts_node_descendant_for_byte_range(
+    _unmarshalNode(env, node), (uint32_t)start * 2, (uint32_t)end * 2
+  // Not sure why I need to multiply by two, again probably because of utf-16
+  );
+  return _marshalNode(env, descendant);
+}
+
 JNIEXPORT jstring JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeString(
     JNIEnv* env, jclass self, jobject node) {
   char* nodeString = ts_node_string(_unmarshalNode(env, node));
