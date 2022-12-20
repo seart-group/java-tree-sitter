@@ -20,6 +20,10 @@ public class TreeSitter {
 
   public static native String nodeFieldNameForChild(Node node, int child);
 
+  public static native Node nodeFirstChildForByte(Node node, int offset);
+
+  public static native Node nodeFirstNamedChildForByte(Node node, int offset);
+
   public static native boolean nodeHasError(Node node);
 
   public static native boolean nodeIsExtra(Node node);

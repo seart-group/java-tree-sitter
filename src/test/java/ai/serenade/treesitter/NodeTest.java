@@ -78,6 +78,48 @@ class NodeTest extends TestBase {
   }
 
   @Test
+  void testGetFirstChildForByte() throws UnsupportedEncodingException {
+    try (Parser parser = new Parser()) {
+      parser.setLanguage(Language.PYTHON);
+      try (Tree tree = parser.parseString(source)) {
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node def = function.getChild(0);
+        Node identifier = function.getChild(1);
+        Node parameters = function.getChild(2);
+        Node colon = function.getChild(3);
+        Node body = function.getChild(4);
+        Assertions.assertEquals(def, function.getFirstChildForByte(def.getStartByte()));
+        Assertions.assertEquals(identifier, function.getFirstChildForByte(identifier.getStartByte()));
+        Assertions.assertEquals(parameters, function.getFirstChildForByte(parameters.getStartByte()));
+        Assertions.assertEquals(colon, function.getFirstChildForByte(colon.getStartByte()));
+        Assertions.assertEquals(body, function.getFirstChildForByte(body.getStartByte()));
+      }
+    }
+  }
+
+  @Test
+  void testGetFirstNamedChildForByte() throws UnsupportedEncodingException {
+    try (Parser parser = new Parser()) {
+      parser.setLanguage(Language.PYTHON);
+      try (Tree tree = parser.parseString(source)) {
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node def = function.getChild(0);
+        Node identifier = function.getChild(1);
+        Node parameters = function.getChild(2);
+        Node colon = function.getChild(3);
+        Node body = function.getChild(4);
+        Assertions.assertEquals(identifier, function.getFirstNamedChildForByte(def.getStartByte()));
+        Assertions.assertEquals(identifier, function.getFirstNamedChildForByte(identifier.getStartByte()));
+        Assertions.assertEquals(parameters, function.getFirstNamedChildForByte(parameters.getStartByte()));
+        Assertions.assertEquals(body, function.getFirstNamedChildForByte(colon.getStartByte()));
+        Assertions.assertEquals(body, function.getFirstNamedChildForByte(body.getStartByte()));
+      }
+    }
+  }
+
+  @Test
   void testGetParent() throws UnsupportedEncodingException {
     try (Parser parser = new Parser()) {
       parser.setLanguage(Language.PYTHON);

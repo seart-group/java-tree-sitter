@@ -268,6 +268,18 @@ JNIEXPORT jstring JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFieldNameFo
   return result;
 }
 
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFirstChildForByte(
+  JNIEnv* env, jclass self, jobject node, jint offset) {
+  TSNode child = ts_node_first_child_for_byte(_unmarshalNode(env, node), (uint32_t)offset * 2);
+  return _marshalNode(env, child);
+}
+
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFirstNamedChildForByte(
+  JNIEnv* env, jclass self, jobject node, jint offset) {
+  TSNode child = ts_node_first_named_child_for_byte(_unmarshalNode(env, node), (uint32_t)offset * 2);
+  return _marshalNode(env, child);
+}
+
 JNIEXPORT jint JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeStartByte(
     JNIEnv* env, jclass self, jobject node) {
   return (jint)ts_node_start_byte(_unmarshalNode(env, node)) / 2;

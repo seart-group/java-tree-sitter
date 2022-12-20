@@ -73,6 +73,22 @@ JNIEXPORT jstring JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFieldNameFo
 
 /*
  * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeFirstChildForByte
+ * Signature: (Lai/serenade/treesitter/Node;I)Lai/serenade/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFirstChildForByte
+  (JNIEnv *, jclass, jobject, jint);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
+ * Method:    nodeFirstNamedChildForByte
+ * Signature: (Lai/serenade/treesitter/Node;I)Lai/serenade/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ai_serenade_treesitter_TreeSitter_nodeFirstNamedChildForByte
+  (JNIEnv *, jclass, jobject, jint);
+
+/*
+ * Class:     ai_serenade_treesitter_TreeSitter
  * Method:    nodeHasError
  * Signature: (Lai/serenade/treesitter/Node;)Z
  */

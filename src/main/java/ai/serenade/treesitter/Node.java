@@ -71,6 +71,22 @@ public class Node {
   }
 
   /**
+   * @param offset The offset in bytes.
+   * @return The node's first child that extends beyond the given byte offset.
+   */
+  public Node getFirstChildForByte(int offset) {
+    return TreeSitter.nodeFirstChildForByte(this, offset);
+  }
+
+  /**
+   * @param offset The offset in bytes.
+   * @return The node's first named child that extends beyond the given byte offset.
+   */
+  public Node getFirstNamedChildForByte(int offset) {
+    return TreeSitter.nodeFirstNamedChildForByte(this, offset);
+  }
+
+  /**
    * This string is allocated with malloc and the caller is responsible for freeing it using free.
    *
    * @return An S-expression representing the node as a string.
