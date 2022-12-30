@@ -17,12 +17,12 @@ task buildSharedObject {
     inputs.file "lib/ai_serenade_treesitter_Languages.h"
     inputs.file "lib/ai_serenade_treesitter_TreeSitter.cc"
     inputs.file "lib/ai_serenade_treesitter_TreeSitter.h"
-    outputs.file "libjava-tree-sitter.dylib"
+    outputs.file "src/main/resources/libjava-tree-sitter.dylib"
 
     doLast {
         exec {
             commandLine "./build.py",
-                    "-o", "libjava-tree-sitter",
+                    "-o", "src/main/resources/libjava-tree-sitter",
                     "tree-sitter-c",
                     "tree-sitter-cpp",
                     "tree-sitter-java",
@@ -33,7 +33,7 @@ task buildSharedObject {
 }
 
 clean {
-    delete "libjava-tree-sitter.dylib"
+    delete "src/main/resources/libjava-tree-sitter.dylib"
 }
 
 compileJava {
@@ -77,6 +77,4 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-
-    environment "JAVA_TREE_SITTER", "${project.projectDir.toString()}/libjava-tree-sitter.dylib"
 }
