@@ -1,96 +1,96 @@
 package ai.serenade.treesitter;
 
-public class TreeSitter {
+class TreeSitter {
 
   private TreeSitter() {}
 
-  public static native Node nodeChild(Node node, int child);
+  static native Node nodeChild(Node node, int child);
 
-  public static native Node nodeChildByFieldName(Node node, String name);
+  static native Node nodeChildByFieldName(Node node, String name);
 
-  public static native int nodeChildCount(Node node);
+  static native int nodeChildCount(Node node);
 
-  public static native Node nodeDescendantForByteRange(Node node, int startByte, int endByte);
+  static native Node nodeDescendantForByteRange(Node node, int startByte, int endByte);
 
-  public static native int nodeEndByte(Node node);
+  static native int nodeEndByte(Node node);
 
-  public static native Point nodeEndPoint(Node node);
+  static native Point nodeEndPoint(Node node);
 
-  public static native boolean nodeEq(Node node, Node other);
+  static native boolean nodeEq(Node node, Node other);
 
-  public static native String nodeFieldNameForChild(Node node, int child);
+  static native String nodeFieldNameForChild(Node node, int child);
 
-  public static native Node nodeFirstChildForByte(Node node, int offset);
+  static native Node nodeFirstChildForByte(Node node, int offset);
 
-  public static native Node nodeFirstNamedChildForByte(Node node, int offset);
+  static native Node nodeFirstNamedChildForByte(Node node, int offset);
 
-  public static native boolean nodeHasError(Node node);
+  static native boolean nodeHasError(Node node);
 
-  public static native boolean nodeIsExtra(Node node);
+  static native boolean nodeIsExtra(Node node);
 
-  public static native boolean nodeIsMissing(Node node);
+  static native boolean nodeIsMissing(Node node);
 
-  public static native boolean nodeIsNamed(Node node);
+  static native boolean nodeIsNamed(Node node);
 
-  public static native Node nodeParent(Node node);
+  static native Node nodeParent(Node node);
 
-  public static native Node nodePrevNamedSibling(Node node);
+  static native Node nodePrevNamedSibling(Node node);
 
-  public static native Node nodePrevSibling(Node node);
+  static native Node nodePrevSibling(Node node);
 
-  public static native Node nodeNextNamedSibling(Node node);
+  static native Node nodeNextNamedSibling(Node node);
 
-  public static native Node nodeNextSibling(Node node);
+  static native Node nodeNextSibling(Node node);
 
-  public static native int nodeStartByte(Node node);
+  static native int nodeStartByte(Node node);
 
-  public static native Point nodeStartPoint(Node node);
+  static native Point nodeStartPoint(Node node);
 
-  public static native String nodeString(Node node);
+  static native String nodeString(Node node);
 
-  public static native String nodeType(Node node);
+  static native String nodeType(Node node);
 
-  public static native long parserNew();
+  static native long parserNew();
 
-  public static native void parserDelete(long parser);
+  static native void parserDelete(long parser);
 
-  public static native void parserSetLanguage(long parser, long language);
+  static native void parserSetLanguage(long parser, long language);
 
-  public static native long parserParseBytes(long parser, byte[] source, int length);
+  static native long parserParseBytes(long parser, byte[] source, int length);
 
-  public static native long parserIncrementalParseBytes(long parser, long old_tree, byte[] source, int length);
+  static native long parserIncrementalParseBytes(long parser, long old_tree, byte[] source, int length);
 
-  public static native void queryDelete(long query);
+  static native void queryDelete(long query);
 
-  public static native long queryNew(long language, String source);
+  static native long queryNew(long language, String source);
 
-  public static native void queryCursorDelete(long query_cursor);
+  static native void queryCursorDelete(long query_cursor);
 
-  public static native long queryCursorNew();
+  static native long queryCursorNew();
 
-  public static native void queryCursorExec(long query_cursor, long query, Node node);
+  static native void queryCursorExec(long query_cursor, long query, Node node);
 
-  public static native QueryMatch queryCursorNextMatch(long query_cursor);
+  static native QueryMatch queryCursorNextMatch(long query_cursor);
 
-  public static native long treeCursorNew(Node node);
+  static native long treeCursorNew(Node node);
 
-  public static native TreeCursorNode treeCursorCurrentTreeCursorNode(long cursor);
+  static native TreeCursorNode treeCursorCurrentTreeCursorNode(long cursor);
 
-  public static native String treeCursorCurrentFieldName(long cursor);
+  static native String treeCursorCurrentFieldName(long cursor);
 
-  public static native Node treeCursorCurrentNode(long cursor);
+  static native Node treeCursorCurrentNode(long cursor);
 
-  public static native void treeCursorDelete(long cursor);
+  static native void treeCursorDelete(long cursor);
 
-  public static native boolean treeCursorGotoFirstChild(long cursor);
+  static native boolean treeCursorGotoFirstChild(long cursor);
 
-  public static native boolean treeCursorGotoNextSibling(long cursor);
+  static native boolean treeCursorGotoNextSibling(long cursor);
 
-  public static native boolean treeCursorGotoParent(long cursor);
+  static native boolean treeCursorGotoParent(long cursor);
 
-  public static native void treeDelete(long tree);
+  static native void treeDelete(long tree);
 
-  public static native void treeEdit(long tree, InputEdit edit);
+  static native void treeEdit(long tree, InputEdit edit);
 
-  public static native Node treeRootNode(long tree);
+  static native Node treeRootNode(long tree);
 }

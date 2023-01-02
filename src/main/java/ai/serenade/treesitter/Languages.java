@@ -1,72 +1,39 @@
 package ai.serenade.treesitter;
-
-public class Languages {
+class Languages {
 
   private Languages() {}
 
-  public static native long agda();
-
-  public static native long bash();
-
-  public static native long c();
-
-  public static native long cSharp();
-
-  public static native long cpp();
-
-  public static native long css();
-
-  public static native long dart();
-
-  public static native long elm();
-
-  public static native long embeddedTemplate();
-
-  public static native long eno();
-
-  public static native long go();
-
-  public static native long haskell();
-
-  public static native long html();
-
-  public static native long java();
-
-  public static native long javascript();
-
-  public static native long julia();
-
-  public static native long kotlin();
-
-  public static native long lua();
-
-  public static native long markdown();
-
-  public static native long ocaml();
-
-  public static native long php();
-
-  public static native long python();
-
-  public static native long ruby();
-
-  public static native long rust();
-
-  public static native long scala();
-
-  public static native long scss();
-
-  public static native long swift();
-
-  public static native long toml();
-
-  public static native long tsx();
-
-  public static native long typescript();
-
-  public static native long vue();
-
-  public static native long yaml();
-
-  public static native long wasm();
+  static native long agda();
+  static native long bash();
+  static native long c();
+  static native long cSharp();
+  static native long cpp();
+  static native long css();
+  static native long dart();
+  static native long elm();
+  static native long embeddedTemplate();
+  static native long eno();
+  static native long go();
+  static native long haskell();
+  static native long html();
+  static native long java();
+  static native long javascript();
+  static native long julia();
+  static native long kotlin();
+  static native long lua();
+  static native long markdown();
+  static native long ocaml();
+  static native long php();
+  static native long python();
+  static native long ruby();
+  static native long rust();
+  static native long scala();
+  static native long scss();
+  static native long swift();
+  static native long toml();
+  static native long tsx();
+  static native long typescript();
+  static native long vue();
+  static native long yaml();
+  static native long wasm();
 }
