@@ -1,6 +1,9 @@
 # java-tree-sitter
 
 Java bindings for [tree-sitter](https://tree-sitter.github.io/tree-sitter/).
+Originally developed by [serenadeai](https://github.com/serenadeai).
+
+Fork development and maintenance has been migrated to [DL4SE](https://github.com/seart-group/DL4SE).
 
 ## Preparing
 
@@ -17,22 +20,6 @@ git clone https://github.com/serenadeai/java-tree-sitter.git
 git submodule update --init --recursive  
 # or:  git submodule init && git submodule update
 ```
-
-## Installing
-
-To add this library to a Gradle project:
-
-    allprojects {
-        repositories {
-            maven { 
-                url 'https://jitpack.io'
-            }
-        }
-    }
-
-    dependencies {
-        implementation "com.github.serenadeai:java-tree-sitter:1.1.2"
-    }
 
 ## Building
 
