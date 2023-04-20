@@ -3,10 +3,11 @@ package usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Stack;
 
 /**
  * A Node represents a single node in the syntax tree.
@@ -278,7 +279,7 @@ public class Node implements Iterable<Node> {
   public Iterator<Node> iterator() {
     return new Iterator<>() {
 
-      private final Stack<Node> stack = new Stack<>() {{ push(Node.this); }};
+      private final Deque<Node> stack = new ArrayDeque<>() {{ push(Node.this); }};
 
       @Override
       public boolean hasNext() {
