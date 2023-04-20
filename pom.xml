@@ -26,6 +26,14 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>**/.gitkeep</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -95,8 +103,8 @@
                 <argument>${project.build.sourceDirectory}</argument>
                 <argument>-d</argument>
                 <argument>${project.basedir}/lib</argument>
-                <argument>ai.serenade.treesitter.TreeSitter</argument>
-                <argument>ai.serenade.treesitter.Languages</argument>
+                <argument>usi.si.seart.treesitter.Languages</argument>
+                <argument>usi.si.seart.treesitter.TreeSitter</argument>
               </arguments>
             </configuration>
           </execution>

@@ -5,7 +5,6 @@ import ctypes.util
 import distutils.ccompiler
 import os
 import platform
-import sys
 import tempfile
 
 
@@ -33,8 +32,8 @@ def build(repositories, output_path="libjava-tree-sitter", arch=None, verbose=Fa
 
     cpp = False
     source_paths = [
-        os.path.join(here, "lib", "ai_serenade_treesitter_TreeSitter.cc"),
-        os.path.join(here, "lib", "ai_serenade_treesitter_Languages.cc"),
+        os.path.join(here, "lib", "usi_si_seart_treesitter_Languages.cc"),
+        os.path.join(here, "lib", "usi_si_seart_treesitter_TreeSitter.cc"),
     ]
 
     compiler = distutils.ccompiler.new_compiler()
