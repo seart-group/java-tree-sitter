@@ -6,6 +6,10 @@
   <artifactId>java-tree-sitter</artifactId>
   <version>1.0.0</version>
 
+  <name>Java tree-sitter</name>
+  <description>Java bindings for tree-sitter</description>
+  <inceptionYear>2022</inceptionYear>
+
   <licenses>
     <license>
       <name>MIT License</name>
