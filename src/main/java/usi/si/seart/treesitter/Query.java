@@ -27,7 +27,7 @@ import java.util.Objects;
  *     (binary_expression (string_literal))
  * </pre>
  *
- * @apiNote The underlying query value is immutable and can be safely shared between threads.
+ * The underlying query value is immutable and can be safely shared between threads.
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

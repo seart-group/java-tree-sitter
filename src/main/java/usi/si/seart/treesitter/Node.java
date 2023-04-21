@@ -63,7 +63,7 @@ public class Node implements Iterable<Node> {
    * @param startByte The starting byte of the range
    * @param endByte The ending byte of the range
    * @return The smallest node within this node that spans the given range of bytes
-   * @throws IllegalArgumentException if {@code startByte} > {@code endByte}
+   * @throws IllegalArgumentException if {@code startByte} &gt; {@code endByte}
    */
   public Node getDescendantForByteRange(int startByte, int endByte) {
     if (startByte > endByte)
