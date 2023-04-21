@@ -56,11 +56,8 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
         return TreeSitter.queryCursorNextMatch(pointer);
     }
 
-    /**
-     * Delete a query cursor, freeing all the memory that it used.
-     */
     @Override
-    public void close() {
+    protected void free(long pointer) {
         TreeSitter.queryCursorDelete(pointer);
     }
 

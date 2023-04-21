@@ -16,11 +16,8 @@ public class TreeCursor extends External {
     super(pointer);
   }
 
-  /**
-   * Delete the tree cursor, freeing all the memory that it used.
-   */
   @Override
-  public void close() {
+  protected void free(long pointer) {
     TreeSitter.treeCursorDelete(pointer);
   }
 

@@ -92,11 +92,8 @@ public class Query extends External {
         return !captures.isEmpty();
     }
 
-    /**
-     * Delete a query, freeing all the memory that it used.
-     */
     @Override
-    public void close() {
+    protected void free(long pointer) {
         TreeSitter.queryDelete(pointer);
     }
 

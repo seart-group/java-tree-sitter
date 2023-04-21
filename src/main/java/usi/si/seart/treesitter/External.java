@@ -26,4 +26,14 @@ abstract class External implements AutoCloseable {
     public int hashCode() {
         return Long.hashCode(pointer);
     }
+
+    @Override
+    public void close() {
+        free(pointer);
+    }
+
+    /**
+     * Delete the external resource, freeing all the memory that it used.
+     */
+    protected abstract void free(long pointer);
 }

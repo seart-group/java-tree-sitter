@@ -124,11 +124,8 @@ public class Parser extends External {
     return parseFile(path);
   }
 
-  /**
-   * Delete the parser, freeing all the memory that it used.
-   */
   @Override
-  public void close() {
+  protected void free(long pointer) {
     TreeSitter.parserDelete(pointer);
   }
 
