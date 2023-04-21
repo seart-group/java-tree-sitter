@@ -3,6 +3,7 @@
 import argparse
 import ctypes.util
 import distutils.ccompiler
+import distutils.log
 import os
 import platform
 import tempfile
