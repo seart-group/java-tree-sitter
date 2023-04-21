@@ -83,6 +83,21 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <show>public</show>
+          <quiet>true</quiet>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
       </plugin>
