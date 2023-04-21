@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -279,7 +280,7 @@ public class Node implements Iterable<Node> {
   public Iterator<Node> iterator() {
     return new Iterator<>() {
 
-      private final Deque<Node> stack = new ArrayDeque<>() {{ push(Node.this); }};
+      private final Deque<Node> stack = new ArrayDeque<>(List.of(Node.this));
 
       @Override
       public boolean hasNext() {
