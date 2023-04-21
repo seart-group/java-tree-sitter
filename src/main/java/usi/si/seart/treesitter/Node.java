@@ -90,6 +90,7 @@ public class Node implements Iterable<Node> {
    * The field name for node's child at the given index,
    * with zero representing the first child.
    * Returns NULL, if no field is found.
+   * @param child The zero-indexed child position
    * @throws IndexOutOfBoundsException
    * if the index is a negative number
    */
