@@ -28,6 +28,11 @@
     </developer>
   </developers>
 
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/seart-group/java-tree-sitter/issues</url>
+  </issueManagement>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
