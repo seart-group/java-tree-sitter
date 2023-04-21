@@ -13,6 +13,11 @@
     </license>
   </licenses>
 
+  <organization>
+    <name>SEART</name>
+    <url>https://seart.si.usi.ch/</url>
+  </organization>
+
   <developers>
     <developer>
       <id>dabico</id>
