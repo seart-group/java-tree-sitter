@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>usi.si.seart</groupId>
-  <artifactId>dl4se-parser</artifactId>
+  <artifactId>java-tree-sitter</artifactId>
   <version>1.0.0</version>
 
   <properties>
