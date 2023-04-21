@@ -102,6 +102,10 @@ public class Parser extends External {
    *
    * @param path The path of the file to be parsed.
    * @return A tree-sitter Tree matching the provided source.
+   * @throws IOException If an I/O error occurs reading from
+   * the file or a malformed or unmappable byte sequence is read.
+   * @throws OutOfMemoryError If the file is extremely large,
+   * for example larger than 2GB.
    */
   public Tree parseFile(Path path) throws IOException {
     String source = Files.readString(path);
@@ -113,6 +117,7 @@ public class Parser extends External {
    *
    * @param file The reference to the file which will be parsed.
    * @return A tree-sitter Tree matching the provided source.
+   * @see Parser#parseFile(Path)
    */
   public Tree parseFile(File file) throws IOException {
     Path path = file.toPath();
