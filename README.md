@@ -3,31 +3,33 @@
 Java bindings for [tree-sitter](https://tree-sitter.github.io/tree-sitter/).
 Originally developed by [serenadeai](https://github.com/serenadeai).
 
-Fork development and maintenance has been migrated to [DL4SE](https://github.com/seart-group/DL4SE).
+This fork was created with the purpose of more convenient integration into [DL4SE](https://github.com/seart-group/DL4SE), while including features introduced in [other forks](https://github.com/jakobkhansen/java-tree-sitter) and miscellaneous features absent from the original.
 
 ## Preparing
 
 Recursively clone the project with submodules:
 
 ```shell
-git clone https://github.com/serenadeai/java-tree-sitter.git --recursive
+git clone https://github.com/seart-group/java-tree-sitter.git --recursive
 ```
 
 Or clone first and update the submodules then:
 
 ```shell   
-git clone https://github.com/serenadeai/java-tree-sitter.git
+git clone https://github.com/seart-group/java-tree-sitter.git
 git submodule update --init --recursive  
 # or:  git submodule init && git submodule update
 ```
 
 ## Building
 
-Before you can start using java-tree-sitter, you need to build a shared library that Java can load using the `build.py` script. The first argument is the output file (_libjava-tree-sitter_ by default), followed by all of the tree-sitter repositories (already downloaded) that you want to include:
+To build the project locally, all one has to do is run the following:
 
 ```shell
-./build.py -o libjava-tree-sitter path-to-tree-sitter-css path-to-tree-sitter-python ...
+mvn clean package
 ```
+
+This will generate both the header files in `lib`, as well as the shared library produced by `build.py`.
 
 ## Examples
 
@@ -36,18 +38,18 @@ First, load the shared object somewhere in your application:
 ```java
 public class App {
   static {
-    // or on a Mac, libjava-tree-sitter.dylib
-    System.load("./path/to/libjava-tree-sitter.so");
+      LibraryLoader.load();
   }
 }
 ```
 
-Then, you can create a `Parser`, set the language, and parse a string:
+Then you can create a `Parser` initialized to a `Language`, and use it to parse a string of source code:
 
 ```java
-try (Parser parser = new Parser()) {
-  parser.setLanguage(Languages.python());
-  try (Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")) {
+try (
+        Parser parser = new Parser(Language.PYTHON);
+        Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")
+) {
     Node root = tree.getRootNode();
     assertEquals(1, root.getChildCount());
     assertEquals("module", root.getType());
@@ -56,41 +58,45 @@ try (Parser parser = new Parser()) {
     Node function = root.getChild(0);
     assertEquals("function_definition", function.getType());
     assertEquals(5, function.getChildCount());
-  }
+} catch (Exception ex) {
+    // ...
 }
 ```
 
-For debugging, it can be helpful to see a string of the tree:
+For debugging, it can be helpful to see an S-Expression of the tree structure:
 
 ```java
-try (Parser parser = new Parser()) {
-  parser.setLanguage(Languages.python());
-  try (Tree tree = parser.parseString("print(\"hi\")")) {
+try (
+        Parser parser = new Parser(Language.PYTHON);
+        Tree tree = parser.parseString("print(\"hi\")")
+) {
     assertEquals(
-      "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))",
-      tree.getRootNode().getNodeString()
+        "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))",
+        tree.getRootNode().getNodeString()
     );
-  }
+} catch (Exception ex) {
+    // ...
 }
 ```
 
-If you're going to be traversing a tree, then you can use the `walk` method, which is much more efficient than the above getters:
+For tree traversals use the `walk` method, as it is more efficient than the above getters:
 
 ```java
-try (Parser parser = new Parser()) {
-  parser.setLanguage(Languages.python());
-  try (Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")) {
-    try (TreeCursor cursor = tree.getRootNode().walk()) {
-      assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
-      cursor.gotoFirstChild();
-      assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
-      cursor.gotoFirstChild();
-      assertEquals("def", cursor.getCurrentTreeCursorNode().getType());
-      cursor.gotoNextSibling();
-      cursor.gotoParent();
-    }
-  }
+try (
+        Parser parser = new Parser(Language.PYTHON);
+        Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+        TreeCursor cursor = tree.getRootNode().walk()
+) {
+    assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
+    cursor.gotoFirstChild();
+    assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
+    cursor.gotoFirstChild();
+    assertEquals("def", cursor.getCurrentTreeCursorNode().getType());
+    cursor.gotoNextSibling();
+    cursor.gotoParent();
+} catch (Exception ex) {
+    // ...
 }
 ```
 
-For more examples, see the tests in `src/test/java/ai/serenade/treesitter`.
+For more examples, take a look at the [tests](src/test/java/usi/si/seart/treesitter).
