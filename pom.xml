@@ -6,6 +6,13 @@
   <artifactId>java-tree-sitter</artifactId>
   <version>1.0.0</version>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://raw.githubusercontent.com/seart-group/java-tree-sitter/master/LICENSE</url>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
       <id>dabico</id>
