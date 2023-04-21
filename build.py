@@ -10,17 +10,21 @@ import tempfile
 
 
 # adapted from https://github.com/tree-sitter/py-tree-sitter
-def build(repositories, output_path="libjava-tree-sitter", arch=None, verbose=False):
-    if arch and platform.system() != "Darwin":
+def build(repositories, output_path="libjava-tree-sitter", system=None, arch=None, verbose=False):
+
+    if system is None:
+        system = platform.system()
+
+    if arch and system != "Darwin":
         arch = "64" if "64" in arch else "32"
 
-    output_path = f"{output_path}.{'dylib' if platform.system() == 'Darwin' else 'so'}"
+    output_path = f"{output_path}.{'dylib' if system == 'Darwin' else 'so'}"
     here = os.path.dirname(os.path.realpath(__file__))
     env = ""
     if arch:
         env += (
             f"CFLAGS='-arch {arch} -mmacosx-version-min=11.0' LDFLAGS='-arch {arch}'"
-            if platform.system() == "Darwin"
+            if system == "Darwin"
             else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
         )
 
@@ -70,14 +74,14 @@ def build(repositories, output_path="libjava-tree-sitter", arch=None, verbose=Fa
         for source_path in source_paths:
             flags = ["-O3"]
 
-            if platform.system() == "Linux":
+            if system == "Linux":
                 flags.append("-fPIC")
 
             if source_path.endswith(".c"):
                 flags.append("-std=c99")
 
             if arch:
-                flags += ["-arch", arch] if platform.system() == "Darwin" else [f"-m{arch}"]
+                flags += ["-arch", arch] if system == "Darwin" else [f"-m{arch}"]
 
             include_dirs = [
                 os.path.dirname(source_path),
@@ -85,9 +89,9 @@ def build(repositories, output_path="libjava-tree-sitter", arch=None, verbose=Fa
                 os.path.join(os.environ["JAVA_HOME"], "include"),
             ]
 
-            if platform.system() == "Linux":
+            if system == "Linux":
                 include_dirs.append(os.path.join(os.environ["JAVA_HOME"], "include", "linux"))
-            elif platform.system() == "Darwin":
+            elif system == "Darwin":
                 include_dirs.append(os.path.join(os.environ["JAVA_HOME"], "include", "darwin"))
 
             object_paths.append(
@@ -100,11 +104,11 @@ def build(repositories, output_path="libjava-tree-sitter", arch=None, verbose=Fa
             )
 
         extra_preargs = []
-        if platform.system() == "Darwin":
+        if system == "Darwin":
             extra_preargs.append("-dynamiclib")
 
         if arch:
-            extra_preargs += ["-arch", arch] if platform.system() == "Darwin" else [f"-m{arch}"]
+            extra_preargs += ["-arch", arch] if system == "Darwin" else [f"-m{arch}"]
 
         compiler.link_shared_object(
             object_paths,
@@ -120,6 +124,11 @@ def build(repositories, output_path="libjava-tree-sitter", arch=None, verbose=Fa
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build a tree-sitter library")
     parser.add_argument(
+        "-s",
+        "--system",
+        help="Operating system to build for (Linux, Darwin, Windows)"
+    )
+    parser.add_argument(
         "-a",
         "--arch",
         help="Architecture to build for (x86, x86_64, arm64)",
@@ -134,4 +143,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     distutils.log.set_verbosity(int(args.verbose))
-    build(args.repositories, args.output, args.arch, args.verbose)
+    build(args.repositories, args.output, args.system, args.arch, args.verbose)
