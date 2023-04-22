@@ -84,15 +84,11 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
                 flags += ["-arch", arch] if system == "Darwin" else [f"-m{arch}"]
 
             include_dirs = [
-                os.path.dirname(source_path),
-                os.path.join(here, "tree-sitter", "lib", "include"),
+                os.path.join("include"),
                 os.path.join(os.environ["JAVA_HOME"], "include"),
+                os.path.join(here, "tree-sitter", "lib", "include"),
+                os.path.dirname(source_path),
             ]
-
-            if system == "Linux":
-                include_dirs.append(os.path.join(os.environ["JAVA_HOME"], "include", "linux"))
-            elif system == "Darwin":
-                include_dirs.append(os.path.join(os.environ["JAVA_HOME"], "include", "darwin"))
 
             object_paths.append(
                 compiler.compile(
