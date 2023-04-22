@@ -169,6 +169,8 @@
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>build.py</argument>
+                <argument>-s</argument>
+                <argument>Darwin</argument>
                 <argument>-o</argument>
                 <argument>src/main/resources/libjava-tree-sitter</argument>
                 <argument>tree-sitter-c</argument>
