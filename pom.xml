@@ -181,6 +181,29 @@
               </arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>generate-shared-objects</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>build.py</argument>
+                <argument>-s</argument>
+                <argument>Linux</argument>
+                <argument>-o</argument>
+                <argument>src/main/resources/libjava-tree-sitter</argument>
+                <argument>tree-sitter-c</argument>
+                <argument>tree-sitter-cpp</argument>
+                <argument>tree-sitter-java</argument>
+                <argument>tree-sitter-javascript</argument>
+                <argument>tree-sitter-python</argument>
+              </arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
