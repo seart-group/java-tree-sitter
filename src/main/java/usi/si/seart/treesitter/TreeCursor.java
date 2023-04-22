@@ -90,6 +90,6 @@ public class TreeCursor extends External {
 
     @Override
     public String toString() {
-        return "TreeCursor(id: "+id+", tree: "+tree+")";
+        return String.format("TreeCursor(id: %d, tree: %d)", id, tree);
     }
 }

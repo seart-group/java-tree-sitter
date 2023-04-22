@@ -15,6 +15,6 @@ public class QueryCapture {
 
     @Override
     public String toString() {
-        return "QueryCapture(index: "+index+", node: "+node+")";
+        return String.format("QueryCapture(index: %d, node: %s)", index, node);
     }
 }

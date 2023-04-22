@@ -52,6 +52,6 @@ public class Tree extends External implements Iterable<Node> {
 
     @Override
     public String toString() {
-        return "Tree(id: "+pointer+", language: "+language+")";
+        return String.format("Tree(id: %d, language: %s)", pointer, language);
     }
 }

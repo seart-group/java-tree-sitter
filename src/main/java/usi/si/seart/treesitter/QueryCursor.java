@@ -88,6 +88,6 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
 
     @Override
     public String toString() {
-        return "QueryCursor(node: "+node+", query: "+query+")";
+        return String.format("QueryCursor(node: %s, query: %s)", node, query);
     }
 }

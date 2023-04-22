@@ -273,7 +273,7 @@ public class Node implements Iterable<Node> {
 
     @Override
     public String toString() {
-        return "Node(id: "+id+", tree: "+tree+")";
+        return String.format("Node(id: %d, tree: %d)", id, tree);
     }
 
     /**

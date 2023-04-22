@@ -21,6 +21,6 @@ public class Range {
 
     @Override
     public String toString() {
-        return "["+startPoint+"] - ["+endPoint+"]";
+        return String.format("[%s] - [%s]", startPoint, endPoint);
     }
 }

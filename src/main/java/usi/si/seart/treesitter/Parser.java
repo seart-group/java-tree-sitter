@@ -122,6 +122,6 @@ public class Parser extends External {
 
     @Override
     public String toString() {
-        return "Parser(id: "+pointer+", language: "+language+")";
+        return String.format("Parser(id: %d, language: %s)", pointer, language);
     }
 }
