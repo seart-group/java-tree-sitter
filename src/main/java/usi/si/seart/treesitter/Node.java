@@ -67,7 +67,9 @@ public class Node implements Iterable<Node> {
      */
     public Node getDescendantForByteRange(int startByte, int endByte) {
         if (startByte > endByte)
-            throw new IllegalArgumentException("The starting byte of the range must not be greater than the ending byte!");
+            throw new IllegalArgumentException(
+                    "The starting byte of the range must not be greater than the ending byte!"
+            );
         return TreeSitter.nodeDescendantForByteRange(this, startByte, endByte);
     }
 
