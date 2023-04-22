@@ -32,6 +32,12 @@
     </developer>
   </developers>
 
+  <scm>
+    <url>https://github.com/seart-group/java-tree-sitter</url>
+    <connection>scm:git:git://github.com/seart-group/java-tree-sitter.git</connection>
+    <developerConnection>scm:git:git@github.com:seart-group/java-tree-sitter.git</developerConnection>
+  </scm>
+
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/seart-group/java-tree-sitter/issues</url>
