@@ -14,44 +14,44 @@ import java.util.Iterator;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Tree extends External implements Iterable<Node> {
 
-  Language language;
+    Language language;
 
-  Tree(long pointer, Language language) {
-    super(pointer);
-    this.language = language;
-  }
+    Tree(long pointer, Language language) {
+        super(pointer);
+        this.language = language;
+    }
 
-  @Override
-  protected void free(long pointer) {
-    TreeSitter.treeDelete(pointer);
-  }
+    @Override
+    protected void free(long pointer) {
+        TreeSitter.treeDelete(pointer);
+    }
 
-  /**
-   * Edit the syntax tree to keep it in sync with source code that has been edited.
-   *
-   * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates.
-   */
-  public void edit(InputEdit edit) {
-      TreeSitter.treeEdit(pointer, edit);
-  }
+    /**
+     * Edit the syntax tree to keep it in sync with source code that has been edited.
+     *
+     * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates.
+     */
+    public void edit(InputEdit edit) {
+        TreeSitter.treeEdit(pointer, edit);
+    }
 
-  /**
-   * @return The root node of the syntax tree.
-   */
-  public Node getRootNode() {
-    return TreeSitter.treeRootNode(pointer);
-  }
+    /**
+     * @return The root node of the syntax tree.
+     */
+    public Node getRootNode() {
+        return TreeSitter.treeRootNode(pointer);
+    }
 
-  /**
-   * @return An iterator over the entire syntax tree, starting from the root node.
-   */
-  @Override
-  public Iterator<Node> iterator() {
-    return getRootNode().iterator();
-  }
+    /**
+     * @return An iterator over the entire syntax tree, starting from the root node.
+     */
+    @Override
+    public Iterator<Node> iterator() {
+        return getRootNode().iterator();
+    }
 
-  @Override
-  public String toString() {
-    return "Tree(id: "+pointer+", language: "+language+")";
-  }
+    @Override
+    public String toString() {
+        return "Tree(id: "+pointer+", language: "+language+")";
+    }
 }

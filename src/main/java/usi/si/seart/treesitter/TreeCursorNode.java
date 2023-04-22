@@ -12,17 +12,17 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeCursorNode {
 
-  String type;
-  String name;
-  int startByte;
-  int endByte;
-  Point startPoint;
-  Point endPoint;
-  boolean isNamed;
+    String type;
+    String name;
+    int startByte;
+    int endByte;
+    Point startPoint;
+    Point endPoint;
+    boolean isNamed;
 
-  @Override
-  public String toString() {
-    String field = (name != null) ? name + ": " : "";
-    return String.format("%s%s [%s] - [%s]", field, type, startPoint, endPoint);
-  }
+    @Override
+    public String toString() {
+        String field = (name != null) ? name + ": " : "";
+        return String.format("%s%s [%s] - [%s]", field, type, startPoint, endPoint);
+    }
 }
