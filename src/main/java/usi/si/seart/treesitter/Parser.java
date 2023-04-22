@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import usi.si.seart.treesitter.error.ABIVersionError;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -110,18 +109,6 @@ public class Parser extends External {
     public Tree parseFile(Path path) throws IOException {
         String source = Files.readString(path);
         return parseString(source);
-    }
-
-    /**
-     * Use the parser to parse some source code found in a file represented by the reference.
-     *
-     * @param file The reference to the file which will be parsed.
-     * @return A tree-sitter Tree matching the provided source.
-     * @see Parser#parseFile(Path)
-     */
-    public Tree parseFile(File file) throws IOException {
-        Path path = file.toPath();
-        return parseFile(path);
     }
 
     @Override
