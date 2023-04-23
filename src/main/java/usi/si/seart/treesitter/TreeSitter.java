@@ -6,54 +6,6 @@ import usi.si.seart.treesitter.exception.query.QueryException;
 @UtilityClass
 class TreeSitter {
 
-    static native Node nodeChild(Node node, int child);
-
-    static native Node nodeChildByFieldName(Node node, String name);
-
-    static native int nodeChildCount(Node node);
-
-    static native Node nodeDescendantForByteRange(Node node, int startByte, int endByte);
-
-    static native int nodeEndByte(Node node);
-
-    static native Point nodeEndPoint(Node node);
-
-    static native boolean nodeEq(Node node, Node other);
-
-    static native String nodeFieldNameForChild(Node node, int child);
-
-    static native Node nodeFirstChildForByte(Node node, int offset);
-
-    static native Node nodeFirstNamedChildForByte(Node node, int offset);
-
-    static native boolean nodeHasError(Node node);
-
-    static native boolean nodeIsExtra(Node node);
-
-    static native boolean nodeIsMissing(Node node);
-
-    static native boolean nodeIsNamed(Node node);
-
-    static native boolean nodeIsNull(Node node);
-
-    static native Node nodeParent(Node node);
-
-    static native Node nodePrevNamedSibling(Node node);
-
-    static native Node nodePrevSibling(Node node);
-
-    static native Node nodeNextNamedSibling(Node node);
-
-    static native Node nodeNextSibling(Node node);
-
-    static native int nodeStartByte(Node node);
-
-    static native Point nodeStartPoint(Node node);
-
-    static native String nodeString(Node node);
-
-    static native String nodeType(Node node);
-
     static native long parserNew();
 
     static native void parserDelete(long parser);
