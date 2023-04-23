@@ -6,15 +6,7 @@ import usi.si.seart.treesitter.exception.query.QueryException;
 @UtilityClass
 class TreeSitter {
 
-    static native long parserNew();
-
     static native void parserDelete(long parser);
-
-    static native boolean parserSetLanguage(long parser, long language);
-
-    static native long parserParseBytes(long parser, byte[] source, int length);
-
-    static native long parserIncrementalParseBytes(long parser, long old_tree, byte[] source, int length);
 
     static native void queryDelete(long query);
 

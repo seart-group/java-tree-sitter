@@ -45,10 +45,12 @@ public class Parser extends External {
      */
     private static long createIfValid(Language language) {
         Languages.validate(language);
-        long pointer = TreeSitter.parserNew();
+        long pointer = malloc();
         setLanguage(pointer, language);
         return pointer;
     }
+
+    static native long malloc();
 
     /**
      * Set the language that the parser should use for parsing.
@@ -66,9 +68,11 @@ public class Parser extends External {
     }
 
     private static void setLanguage(long pointer, Language language) {
-        boolean success = TreeSitter.parserSetLanguage(pointer, language.getId());
+        boolean success = setLanguage(pointer, language.getId());
         if (!success) throw new ABIVersionError("Language could not be assigned to parser!");
     }
+
+    static native boolean setLanguage(long pointer, long language);
 
     /**
      * Use the parser to parse some source code and create a syntax tree.
@@ -80,9 +84,11 @@ public class Parser extends External {
      */
     public Tree parseString(String source) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = TreeSitter.parserParseBytes(pointer, bytes, bytes.length);
+        long treePointer = parseBytes(pointer, bytes, bytes.length);
         return new Tree(treePointer, language);
     }
+
+    static native long parseBytes(long parser, byte[] source, int length);
 
     /**
      * Use the parser to incrementally parse a changed source code string,
@@ -96,9 +102,11 @@ public class Parser extends External {
      */
     public Tree parseString(Tree oldTree, String source) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = TreeSitter.parserIncrementalParseBytes(pointer, oldTree.getPointer(), bytes, bytes.length);
+        long treePointer = parseBytes(pointer, oldTree.getPointer(), bytes, bytes.length);
         return new Tree(treePointer, language);
     }
+
+    static native long parseBytes(long parser, long oldTree, byte[] source, int length);
 
     /**
      * Use the parser to parse some source code found in a file at the specified path.

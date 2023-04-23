@@ -9,43 +9,11 @@ extern "C" {
 #endif
 /*
  * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    parserNew
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_parserNew
-  (JNIEnv *, jclass);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
  * Method:    parserDelete
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_parserDelete
   (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    parserSetLanguage
- * Signature: (JJ)Z
- */
-JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_TreeSitter_parserSetLanguage
-  (JNIEnv *, jclass, jlong, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    parserParseBytes
- * Signature: (J[BI)J
- */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_parserParseBytes
-  (JNIEnv *, jclass, jlong, jbyteArray, jint);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    parserIncrementalParseBytes
- * Signature: (JJ[BI)J
- */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_parserIncrementalParseBytes
-  (JNIEnv *, jclass, jlong, jlong, jbyteArray, jint);
 
 /*
  * Class:     usi_si_seart_treesitter_TreeSitter
