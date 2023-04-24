@@ -8,10 +8,10 @@ extern "C" {
 #endif
 
 #define _getClass(NAME) \
-  { env->FindClass(NAME) }
+  env->FindClass(NAME)
 
 #define _getField(CLASS, NAME, TYPE) \
-  { env->GetFieldID(CLASS, NAME, TYPE) }
+  env->GetFieldID(CLASS, NAME, TYPE)
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
 
