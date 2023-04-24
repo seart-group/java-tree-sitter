@@ -37,4 +37,12 @@ class TreeCursorTest extends TestBase {
     Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
     Assertions.assertTrue(cursor.gotoFirstChild());
   }
+
+  @Test
+  @SuppressWarnings("resource")
+  void testWalkException() {
+    Node nullNode = new Node();
+    Assertions.assertThrows(NullPointerException.class, () -> new TreeCursor(null));
+    Assertions.assertThrows(IllegalArgumentException.class, nullNode::walk);
+  }
 }

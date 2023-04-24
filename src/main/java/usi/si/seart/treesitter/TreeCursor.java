@@ -12,9 +12,11 @@ public class TreeCursor extends External {
     private long id;
     private long tree;
 
-    TreeCursor(long pointer) {
-        super(pointer);
+    TreeCursor(Node node) {
+        super(malloc(node));
     }
+
+    static native long malloc(Node node);
 
     @Override
     protected void free(long pointer) {
@@ -24,42 +26,32 @@ public class TreeCursor extends External {
     /**
      * @return The tree cursor's current node.
      */
-    public Node getCurrentNode() {
-        return TreeSitter.treeCursorCurrentNode(pointer);
-    }
+    public native Node getCurrentNode();
 
     /**
      * @return The field name of the tree cursor's current node.
      * Will return null if the current node doesn't have a field.
      */
-    public String getCurrentFieldName() {
-        return TreeSitter.treeCursorCurrentFieldName(pointer);
-    }
+    public native String getCurrentFieldName();
 
     /**
      * @return The tree cursor's current node.
      */
-    public TreeCursorNode getCurrentTreeCursorNode() {
-        return TreeSitter.treeCursorCurrentTreeCursorNode(pointer);
-    }
+    public native TreeCursorNode getCurrentTreeCursorNode();
 
     /**
      * Move the cursor to the first child of its current node.
      *
      * @return true if the cursor successfully moved, and false if there were no children.
      */
-    public boolean gotoFirstChild() {
-        return TreeSitter.treeCursorGotoFirstChild(pointer);
-    }
+    public native boolean gotoFirstChild();
 
     /**
      * Move the cursor to the next sibling of its current node.
      *
      * @return true if the cursor successfully moved, and false if there was no next sibling node.
      */
-    public boolean gotoNextSibling() {
-        return TreeSitter.treeCursorGotoNextSibling(pointer);
-    }
+    public native boolean gotoNextSibling();
 
     /**
      * Move the cursor to the parent of its current node.
@@ -67,9 +59,7 @@ public class TreeCursor extends External {
      * @return true if the cursor successfully moved, and false if there was no parent node
      * (the cursor was already on the root node).
      */
-    public boolean gotoParent() {
-        return TreeSitter.treeCursorGotoParent(pointer);
-    }
+    public native boolean gotoParent();
 
     /**
      * Iteratively traverse over the parse tree, applying a callback to the nodes before they are visited.

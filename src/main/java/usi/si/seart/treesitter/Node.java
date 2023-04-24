@@ -301,7 +301,7 @@ public class Node implements Iterable<Node> {
      * @return A new tree cursor starting from the given node.
      */
     public TreeCursor walk() {
-        return new TreeCursor(TreeSitter.treeCursorNew(this));
+        return new TreeCursor(this);
     }
 
     @Override

@@ -13,6 +13,16 @@ extern "C" {
 #define _getField(CLASS, NAME, TYPE) \
   env->GetFieldID(CLASS, NAME, TYPE)
 
+typedef struct {
+  const char* type;
+  const char* name;
+  uint32_t startByte;
+  uint32_t endByte;
+  TSPoint startPoint;
+  TSPoint endPoint;
+  bool isNamed;
+} TreeCursorNode;
+
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
@@ -28,6 +38,8 @@ jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture);
 jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
+
+jobject __marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node);
 
 #ifdef __cplusplus
 }

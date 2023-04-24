@@ -11,21 +11,7 @@ class TreeSitter {
 
     static native void queryCursorDelete(long query_cursor);
 
-    static native long treeCursorNew(Node node);
-
-    static native TreeCursorNode treeCursorCurrentTreeCursorNode(long cursor);
-
-    static native String treeCursorCurrentFieldName(long cursor);
-
-    static native Node treeCursorCurrentNode(long cursor);
-
     static native void treeCursorDelete(long cursor);
-
-    static native boolean treeCursorGotoFirstChild(long cursor);
-
-    static native boolean treeCursorGotoNextSibling(long cursor);
-
-    static native boolean treeCursorGotoParent(long cursor);
 
     static native void treeDelete(long tree);
 }

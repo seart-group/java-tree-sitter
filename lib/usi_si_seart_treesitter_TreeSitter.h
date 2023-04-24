@@ -33,66 +33,10 @@ JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorDelete
 
 /*
  * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorNew
- * Signature: (Lusi/si/seart/treesitter/Node;)J
- */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorNew
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorCurrentTreeCursorNode
- * Signature: (J)Lusi/si/seart/treesitter/TreeCursorNode;
- */
-JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorCurrentTreeCursorNode
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorCurrentFieldName
- * Signature: (J)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorCurrentFieldName
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorCurrentNode
- * Signature: (J)Lusi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorCurrentNode
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
  * Method:    treeCursorDelete
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorDelete
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorGotoFirstChild
- * Signature: (J)Z
- */
-JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorGotoFirstChild
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorGotoNextSibling
- * Signature: (J)Z
- */
-JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorGotoNextSibling
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorGotoParent
- * Signature: (J)Z
- */
-JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorGotoParent
   (JNIEnv *, jclass, jlong);
 
 /*

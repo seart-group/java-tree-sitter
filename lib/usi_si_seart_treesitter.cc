@@ -111,3 +111,23 @@ TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit) {
     __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditNewEndPointField)),
   };
 }
+
+jobject __marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node) {
+  jclass treeCursorNodeClass = _getClass("usi/si/seart/treesitter/TreeCursorNode");
+  jfieldID treeCursorNodeTypeField = _getField(treeCursorNodeClass, "type", "Ljava/lang/String;");
+  jfieldID treeCursorNodeNameField = _getField(treeCursorNodeClass, "name", "Ljava/lang/String;");
+  jfieldID treeCursorNodeStartByteField = _getField(treeCursorNodeClass, "startByte", "I");
+  jfieldID treeCursorNodeEndByteField = _getField(treeCursorNodeClass, "endByte", "I");
+  jfieldID treeCursorNodeStartPointField = _getField(treeCursorNodeClass, "startPoint", "Lusi/si/seart/treesitter/Point;");
+  jfieldID treeCursorNodeEndPointField = _getField(treeCursorNodeClass, "endPoint", "Lusi/si/seart/treesitter/Point;");
+  jfieldID treeCursorNodeIsNamed = _getField(treeCursorNodeClass, "isNamed", "Z");
+  jobject treeCursorNodeInstance = env->AllocObject(treeCursorNodeClass);
+  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeTypeField, env->NewStringUTF(node.type));
+  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeNameField, env->NewStringUTF(node.name));
+  env->SetIntField(treeCursorNodeInstance, treeCursorNodeStartByteField, node.startByte);
+  env->SetIntField(treeCursorNodeInstance, treeCursorNodeEndByteField, node.endByte);
+  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeStartPointField, __marshalPoint(env, node.startPoint));
+  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeEndPointField, __marshalPoint(env, node.endPoint));
+  env->SetBooleanField(treeCursorNodeInstance, treeCursorNodeIsNamed, node.isNamed);
+  return treeCursorNodeInstance;
+}
