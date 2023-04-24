@@ -1,6 +1,11 @@
 #include "usi_si_seart_treesitter.h"
 #include <jni.h>
 
+jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
+  jfieldID pointerField = _getField(objectClass, "pointer", "J");
+  return env->GetLongField(objectInstance, pointerField);
+}
+
 jobject __marshalNode(JNIEnv* env, TSNode node) {
   if (node.id == 0) return NULL;
   jclass nodeClass = _getClass("usi/si/seart/treesitter/Node");

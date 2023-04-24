@@ -13,6 +13,8 @@ extern "C" {
 #define _getField(CLASS, NAME, TYPE) \
   env->GetFieldID(CLASS, NAME, TYPE)
 
+jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance);
+
 jobject __marshalNode(JNIEnv* env, TSNode node);
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
