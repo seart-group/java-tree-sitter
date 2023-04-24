@@ -18,10 +18,12 @@ public class TreeCursor extends External {
 
     static native long malloc(Node node);
 
+    /**
+     * Delete the tree cursor,
+     * freeing all the memory that it used.
+     */
     @Override
-    protected void free(long pointer) {
-        TreeSitter.treeCursorDelete(pointer);
-    }
+    public native void close();
 
     /**
      * @return The tree cursor's current node.

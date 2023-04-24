@@ -17,6 +17,14 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Query_malloc
 
 /*
  * Class:     usi_si_seart_treesitter_Query
+ * Method:    close
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_Query_close
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     usi_si_seart_treesitter_Query
  * Method:    countStrings
  * Signature: ()I
  */

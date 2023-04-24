@@ -1,3 +1,4 @@
+#include "usi_si_seart_treesitter.h"
 #include "usi_si_seart_treesitter_Parser.h"
 #include <jni.h>
 #include <tree_sitter/api.h>
@@ -5,6 +6,13 @@
 JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Parser_malloc(
     JNIEnv* env, jclass self) {
   return (jlong)ts_parser_new();
+}
+
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_Parser_close(
+  JNIEnv* env, jobject thisObject) {
+  jclass parserClass = _getClass("usi/si/seart/treesitter/Parser");
+  jlong parser = __getPointer(env, parserClass, thisObject);
+  ts_parser_delete((TSParser*)parser);
 }
 
 JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_Parser_setLanguage(

@@ -8,6 +8,13 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_QueryCursor_malloc(
   return (jlong)ts_query_cursor_new();
 }
 
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_QueryCursor_close(
+  JNIEnv* env, jobject thisObject) {
+  jclass queryCursorClass = _getClass("usi/si/seart/treesitter/QueryCursor");
+  jlong queryCursor = __getPointer(env, queryCursorClass, thisObject);
+  ts_query_cursor_delete((TSQueryCursor*)queryCursor);
+}
+
 JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_QueryCursor_execute(
   JNIEnv* env, jobject thisObject) {
   jclass queryCursorClass = _getClass("usi/si/seart/treesitter/QueryCursor");

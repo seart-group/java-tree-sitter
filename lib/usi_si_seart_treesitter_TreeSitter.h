@@ -7,46 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    parserDelete
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_parserDelete
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryDelete
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryDelete
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryCursorDelete
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorDelete
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeCursorDelete
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorDelete
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeDelete
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeDelete
-  (JNIEnv *, jclass, jlong);
-
 #ifdef __cplusplus
 }
 #endif

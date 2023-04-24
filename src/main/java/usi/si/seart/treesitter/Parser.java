@@ -53,6 +53,12 @@ public class Parser extends External {
     static native long malloc();
 
     /**
+     * Delete the parser, freeing all the memory that it used.
+     */
+    @Override
+    public native void close();
+
+    /**
      * Set the language that the parser should use for parsing.
      *
      * @param language The language used for parsing.
@@ -121,11 +127,6 @@ public class Parser extends External {
     public Tree parseFile(Path path) throws IOException {
         String source = Files.readString(path);
         return parseString(source);
-    }
-
-    @Override
-    protected void free(long pointer) {
-        TreeSitter.parserDelete(pointer);
     }
 
     @Override

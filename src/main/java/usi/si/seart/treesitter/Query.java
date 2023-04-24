@@ -60,6 +60,12 @@ public class Query extends External {
     static native long malloc(long language, String pattern) throws QueryException;
 
     /**
+     * Delete the query, freeing all the memory that it used.
+     */
+    @Override
+    public native void close();
+
+    /**
      * @return The number of string literals in this query.
      */
     public native int countStrings();
@@ -91,11 +97,6 @@ public class Query extends External {
      */
     public boolean hasCaptures() {
         return !captures.isEmpty();
-    }
-
-    @Override
-    protected void free(long pointer) {
-        TreeSitter.queryDelete(pointer);
     }
 
     @Override

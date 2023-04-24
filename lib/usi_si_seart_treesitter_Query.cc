@@ -48,6 +48,13 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Query_malloc(
   return env->ThrowNew(exceptionClass, c_message);
 }
 
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_Query_close(
+  JNIEnv* env, jobject thisObject) {
+  jclass queryClass = _getClass("usi/si/seart/treesitter/Query");
+  jlong query = __getPointer(env, queryClass, thisObject);
+  ts_query_delete((TSQuery*)query);
+}
+
 JNIEXPORT jint JNICALL Java_usi_si_seart_treesitter_Query_countStrings(
   JNIEnv* env, jobject thisObject) {
   jclass queryClass = _getClass("usi/si/seart/treesitter/Query");

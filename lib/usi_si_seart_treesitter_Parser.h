@@ -17,6 +17,14 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Parser_malloc
 
 /*
  * Class:     usi_si_seart_treesitter_Parser
+ * Method:    close
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_Parser_close
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     usi_si_seart_treesitter_Parser
  * Method:    setLanguage
  * Signature: (JJ)Z
  */

@@ -38,6 +38,13 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     static native long malloc();
 
     /**
+     * Delete the query cursor,
+     * freeing all the memory that it used.
+     */
+    @Override
+    public native void close();
+
+    /**
      * Start running a given query on a given node.
      * Successive calls to this method are ignored.
      */
@@ -51,11 +58,6 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * if {@code queryExec()} was not called beforehand
      */
     public native QueryMatch nextMatch();
-
-    @Override
-    protected void free(long pointer) {
-        TreeSitter.queryCursorDelete(pointer);
-    }
 
     /**
      * @return An iterator over the query cursor matches, starting from the first match.

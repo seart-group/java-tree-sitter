@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     usi_si_seart_treesitter_Tree
+ * Method:    close
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_Tree_close
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     usi_si_seart_treesitter_Tree
  * Method:    edit
  * Signature: (Lusi/si/seart/treesitter/InputEdit;)V
  */

@@ -21,10 +21,11 @@ public class Tree extends External implements Iterable<Node> {
         this.language = language;
     }
 
+    /**
+     * Delete the tree, freeing all the memory that it used.
+     */
     @Override
-    protected void free(long pointer) {
-        TreeSitter.treeDelete(pointer);
-    }
+    public native void close();
 
     /**
      * Edit the syntax tree to keep it in sync with source code that has been edited.

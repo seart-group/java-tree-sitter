@@ -21,6 +21,13 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeCursor_malloc(
   return (jlong)cursor;
 }
 
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeCursor_close(
+  JNIEnv* env, jobject thisObject) {
+  jclass treeCursorClass = _getClass("usi/si/seart/treesitter/TreeCursor");
+  jlong treeCursor = __getPointer(env, treeCursorClass, thisObject);
+  delete (TSTreeCursor*)treeCursor;
+}
+
 JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeCursor_getCurrentNode(
   JNIEnv* env, jobject thisObject) {
   jclass treeCursorClass = _getClass("usi/si/seart/treesitter/TreeCursor");

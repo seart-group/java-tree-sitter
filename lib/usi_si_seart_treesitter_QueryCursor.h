@@ -17,6 +17,14 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_QueryCursor_malloc
 
 /*
  * Class:     usi_si_seart_treesitter_QueryCursor
+ * Method:    close
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_QueryCursor_close
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     usi_si_seart_treesitter_QueryCursor
  * Method:    execute
  * Signature: ()V
  */
