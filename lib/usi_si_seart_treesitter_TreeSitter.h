@@ -25,46 +25,6 @@ JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryDelete
 
 /*
  * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryNew
- * Signature: (JLjava/lang/String;)J
- */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryNew
-  (JNIEnv *, jclass, jlong, jstring);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryCaptureName
- * Signature: (JI)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCaptureName
-  (JNIEnv *, jclass, jlong, jint);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryStringCount
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryStringCount
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryCaptureCount
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCaptureCount
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryPatternCount
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryPatternCount
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
  * Method:    queryCursorDelete
  * Signature: (J)V
  */

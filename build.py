@@ -41,6 +41,7 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         os.path.join(here, "lib", "usi_si_seart_treesitter_Node.cc"),
         os.path.join(here, "lib", "usi_si_seart_treesitter_Parser.cc"),
         os.path.join(here, "lib", "usi_si_seart_treesitter_Languages.cc"),
+        os.path.join(here, "lib", "usi_si_seart_treesitter_Query.cc"),
         os.path.join(here, "lib", "usi_si_seart_treesitter_TreeSitter.cc"),
     ]
 
