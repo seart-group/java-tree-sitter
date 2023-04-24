@@ -102,7 +102,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_queryMatchClass, "usi/si/seart/treesitter/QueryMatch");
   _loadField(_queryMatchIdField, _queryMatchClass, "id", "I");
-  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "pattern_index", "I");
+  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I");
   _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lusi/si/seart/treesitter/QueryCapture;");
 
   _loadClass(_treeCursorNodeClass, "usi/si/seart/treesitter/TreeCursorNode");
