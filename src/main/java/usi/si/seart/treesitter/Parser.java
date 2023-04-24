@@ -90,29 +90,28 @@ public class Parser extends External {
      */
     public Tree parseString(String source) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = parseBytes(pointer, bytes, bytes.length);
+        long treePointer = parseBytes(bytes, bytes.length);
         return new Tree(treePointer, language);
     }
 
-    static native long parseBytes(long parser, byte[] source, int length);
+    native long parseBytes(byte[] source, int length);
 
     /**
      * Use the parser to incrementally parse a changed source code string,
      * reusing unchanged parts of the tree to speed up the process.
      *
-     * @param oldTree The syntax tree before changes were made.
      * @param source The source code string to be parsed.
+     * @param oldTree The syntax tree before changes were made.
      * @return A syntax tree matching the provided source.
-     * @throws UnsupportedEncodingException
-     * If the UTF-16LE character set is not supported
+     * @throws UnsupportedEncodingException If the UTF-16LE character set is not supported
      */
-    public Tree parseString(Tree oldTree, String source) throws UnsupportedEncodingException {
+    public Tree parseString(String source, Tree oldTree) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = parseBytes(pointer, oldTree.getPointer(), bytes, bytes.length);
+        long treePointer = parseBytes(bytes, bytes.length, oldTree);
         return new Tree(treePointer, language);
     }
 
-    static native long parseBytes(long parser, long oldTree, byte[] source, int length);
+    native long parseBytes(byte[] source, int length, Tree oldTree);
 
     /**
      * Use the parser to parse some source code found in a file at the specified path.

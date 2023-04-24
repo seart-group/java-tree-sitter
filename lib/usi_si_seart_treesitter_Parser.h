@@ -34,18 +34,18 @@ JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_Parser_setLanguage
 /*
  * Class:     usi_si_seart_treesitter_Parser
  * Method:    parseBytes
- * Signature: (J[BI)J
+ * Signature: ([BI)J
  */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Parser_parseBytes__J_3BI
-  (JNIEnv *, jclass, jlong, jbyteArray, jint);
+JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Parser_parseBytes___3BI
+  (JNIEnv *, jobject, jbyteArray, jint);
 
 /*
  * Class:     usi_si_seart_treesitter_Parser
  * Method:    parseBytes
- * Signature: (JJ[BI)J
+ * Signature: ([BILusi/si/seart/treesitter/Tree;)J
  */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Parser_parseBytes__JJ_3BI
-  (JNIEnv *, jclass, jlong, jlong, jbyteArray, jint);
+JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Parser_parseBytes___3BILusi_si_seart_treesitter_Tree_2
+  (JNIEnv *, jobject, jbyteArray, jint, jobject);
 
 #ifdef __cplusplus
 }
