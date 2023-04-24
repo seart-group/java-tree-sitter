@@ -1,6 +1,22 @@
 #include "usi_si_seart_treesitter.h"
 #include <jni.h>
 
+static jint JNI_VERSION = JNI_VERSION_10;
+
+jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+  JNIEnv* env;
+  if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
+    return JNI_ERR;
+  }
+
+  return JNI_VERSION;
+}
+
+void JNI_OnUnload(JavaVM* vm, void* reserved) {
+  JNIEnv* env;
+  vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
+}
+
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
   jfieldID pointerField = _getField(objectClass, "pointer", "J");
   return env->GetLongField(objectInstance, pointerField);
