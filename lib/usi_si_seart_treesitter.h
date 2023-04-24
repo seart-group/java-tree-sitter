@@ -27,6 +27,8 @@ jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture);
 
 jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match);
 
+TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
+
 #ifdef __cplusplus
 }
 #endif

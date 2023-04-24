@@ -298,15 +298,3 @@ JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeDelete(
     JNIEnv* env, jclass self, jlong tree) {
   ts_tree_delete((TSTree*)tree);
 }
-
-
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeEdit(
-    JNIEnv* env, jclass self, jlong tree, jobject inputEdit) {
-  TSInputEdit edit = _unmarshalInputEdit(env, inputEdit);
-  ts_tree_edit((TSTree*) tree, &edit);
-}
-
-JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeRootNode(
-    JNIEnv* env, jclass self, jlong tree) {
-  return _marshalNode(env, ts_tree_root_node((TSTree*)tree));
-}

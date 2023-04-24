@@ -103,22 +103,6 @@ JNIEXPORT jboolean JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorGot
 JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeDelete
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeEdit
- * Signature: (JLusi/si/seart/treesitter/InputEdit;)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeEdit
-  (JNIEnv *, jclass, jlong, jobject);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    treeRootNode
- * Signature: (J)Lusi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeRootNode
-  (JNIEnv *, jclass, jlong);
-
 #ifdef __cplusplus
 }
 #endif

@@ -28,8 +28,4 @@ class TreeSitter {
     static native boolean treeCursorGotoParent(long cursor);
 
     static native void treeDelete(long tree);
-
-    static native void treeEdit(long tree, InputEdit edit);
-
-    static native Node treeRootNode(long tree);
 }
