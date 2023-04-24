@@ -239,25 +239,6 @@ JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorDelete
   ts_query_cursor_delete((TSQueryCursor*)query_cursor);
 }
 
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorNew(
-    JNIEnv* env, jclass self) {
-  TSQueryCursor* cursor = ts_query_cursor_new();
-  return (jlong)cursor;
-}
-
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorExec(
-    JNIEnv* env, jclass self, jlong query_cursor, jlong query, jobject node) {
-  ts_query_cursor_exec((TSQueryCursor*) query_cursor, (TSQuery*) query, _unmarshalNode(env,node));
-}
-
-JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorNextMatch(
-    JNIEnv * env, jclass self, jlong query_cursor) {
-  TSQueryMatch query_match;
-  bool found = ts_query_cursor_next_match((TSQueryCursor*)query_cursor, &query_match);
-  if (!found) return NULL;
-  return _marshalQueryMatch(env, query_match);
-}
-
 JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_treeCursorNew(
     JNIEnv* env, jclass self, jobject node) {
   TSTreeCursor* cursor = new TSTreeCursor(ts_tree_cursor_new(_unmarshalNode(env, node)));

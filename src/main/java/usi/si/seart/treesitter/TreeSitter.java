@@ -11,12 +11,6 @@ class TreeSitter {
 
     static native void queryCursorDelete(long query_cursor);
 
-    static native long queryCursorNew();
-
-    static native void queryCursorExec(long query_cursor, long query, Node node);
-
-    static native QueryMatch queryCursorNextMatch(long query_cursor);
-
     static native long treeCursorNew(Node node);
 
     static native TreeCursorNode treeCursorCurrentTreeCursorNode(long cursor);

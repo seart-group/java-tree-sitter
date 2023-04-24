@@ -64,3 +64,32 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
     (uint32_t)env->GetIntField(pointObject, pointColumnField),
   };
 }
+
+jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
+  jclass queryCaptureClass = _getClass("usi/si/seart/treesitter/QueryCapture");
+  jfieldID queryCaptureIndex = _getField(queryCaptureClass, "index", "I");
+  jfieldID queryCaptureNode = _getField(queryCaptureClass, "node", "Lusi/si/seart/treesitter/Node;");
+  jobject captureInstance = env->AllocObject(queryCaptureClass);
+  env->SetIntField(captureInstance, queryCaptureIndex, capture.index);
+  env->SetObjectField(captureInstance, queryCaptureNode, __marshalNode(env, capture.node));
+  return captureInstance;
+}
+
+jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
+  jclass queryMatchClass = _getClass("usi/si/seart/treesitter/QueryMatch");
+  jclass queryCaptureClass = _getClass("usi/si/seart/treesitter/QueryCapture");
+  jfieldID queryMatchIdField = _getField(queryMatchClass, "id", "I");
+  jfieldID queryMatchPatternIndexField = _getField(queryMatchClass, "patternIndex", "I");
+  jfieldID queryMatchCapturesField = _getField(queryMatchClass, "captures", "[Lusi/si/seart/treesitter/QueryCapture;");
+  jobject matchInstance = env->AllocObject(queryMatchClass);
+  env->SetIntField(matchInstance, queryMatchIdField, match.id);
+  env->SetIntField(matchInstance, queryMatchPatternIndexField, match.pattern_index);
+
+  jobjectArray captures = (*env).NewObjectArray(match.capture_count, queryCaptureClass, NULL);
+  for (int i = 0; i < match.capture_count; i++) {
+    env->SetObjectArrayElement(captures, i, __marshalQueryCapture(env, match.captures[i]));
+  }
+  env->SetObjectField(matchInstance, queryMatchCapturesField, captures);
+
+  return matchInstance;
+}

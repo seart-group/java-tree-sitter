@@ -23,6 +23,10 @@ jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
 
+jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture);
+
+jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match);
+
 #ifdef __cplusplus
 }
 #endif

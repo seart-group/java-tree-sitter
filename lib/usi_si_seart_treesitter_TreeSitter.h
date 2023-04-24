@@ -33,30 +33,6 @@ JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorDelete
 
 /*
  * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryCursorNew
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorNew
-  (JNIEnv *, jclass);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryCursorExec
- * Signature: (JJLusi/si/seart/treesitter/Node;)V
- */
-JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorExec
-  (JNIEnv *, jclass, jlong, jlong, jobject);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
- * Method:    queryCursorNextMatch
- * Signature: (J)Lusi/si/seart/treesitter/QueryMatch;
- */
-JNIEXPORT jobject JNICALL Java_usi_si_seart_treesitter_TreeSitter_queryCursorNextMatch
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     usi_si_seart_treesitter_TreeSitter
  * Method:    treeCursorNew
  * Signature: (Lusi/si/seart/treesitter/Node;)J
  */
