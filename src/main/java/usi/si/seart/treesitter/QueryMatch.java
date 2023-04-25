@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class QueryMatch {
 
     int id;
-    int pattern_index;
+    int patternIndex;
     QueryCapture[] captures;
 
     @Override
@@ -22,6 +22,6 @@ public class QueryMatch {
         String joined = Stream.of(captures)
                 .map(QueryCapture::toString)
                 .collect(Collectors.joining(", "));
-        return String.format("QueryMatch(id: %d, pattern: %d, captures: [%s])", id, pattern_index, joined);
+        return String.format("QueryMatch(id: %d, pattern: %d, captures: [%s])", id, patternIndex, joined);
     }
 }

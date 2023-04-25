@@ -185,8 +185,13 @@
                 <argument>${project.build.sourceDirectory}</argument>
                 <argument>-d</argument>
                 <argument>${project.basedir}/lib</argument>
-                <argument>usi.si.seart.treesitter.Languages</argument>
-                <argument>usi.si.seart.treesitter.TreeSitter</argument>
+                <argument>usi.si.seart.treesitter.Node</argument>
+                <argument>usi.si.seart.treesitter.Parser</argument>
+                <argument>usi.si.seart.treesitter.Language</argument>
+                <argument>usi.si.seart.treesitter.Query</argument>
+                <argument>usi.si.seart.treesitter.QueryCursor</argument>
+                <argument>usi.si.seart.treesitter.Tree</argument>
+                <argument>usi.si.seart.treesitter.TreeCursor</argument>
               </arguments>
             </configuration>
           </execution>

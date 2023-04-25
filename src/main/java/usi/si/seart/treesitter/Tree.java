@@ -21,26 +21,23 @@ public class Tree extends External implements Iterable<Node> {
         this.language = language;
     }
 
+    /**
+     * Delete the tree, freeing all the memory that it used.
+     */
     @Override
-    protected void free(long pointer) {
-        TreeSitter.treeDelete(pointer);
-    }
+    public native void close();
 
     /**
      * Edit the syntax tree to keep it in sync with source code that has been edited.
      *
      * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates.
      */
-    public void edit(InputEdit edit) {
-        TreeSitter.treeEdit(pointer, edit);
-    }
+    public native void edit(InputEdit edit);
 
     /**
      * @return The root node of the syntax tree.
      */
-    public Node getRootNode() {
-        return TreeSitter.treeRootNode(pointer);
-    }
+    public native Node getRootNode();
 
     /**
      * @return An iterator over the entire syntax tree, starting from the root node.

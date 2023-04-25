@@ -33,10 +33,9 @@ class TreeTest extends TestBase {
 
         tree.edit(inputEdit);
 
-        tree = parser.parseString(tree, "class Main {\n}");
+        tree = parser.parseString("class Main {\n}", tree);
 
         String newSExp = tree.getRootNode().getNodeString();
         Assertions.assertNotEquals(oldSExp, newSExp);
     }
-
 }

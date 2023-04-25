@@ -63,7 +63,7 @@ public class SyntaxTreePrinter {
     private final class TreePrinterCursor extends TreeCursor {
 
         private TreePrinterCursor(Node node) {
-            super(TreeSitter.treeCursorNew(node));
+            super(node);
         }
 
         @Override

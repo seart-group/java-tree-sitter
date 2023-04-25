@@ -2,9 +2,7 @@ package usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 abstract class External implements AutoCloseable {
 
@@ -27,13 +25,10 @@ abstract class External implements AutoCloseable {
         return Long.hashCode(pointer);
     }
 
-    @Override
-    public void close() {
-        free(pointer);
-    }
-
     /**
-     * Delete the external resource, freeing all the memory that it used.
+     * Delete the external resource,
+     * freeing all the memory that it used.
      */
-    protected abstract void free(long pointer);
+    @Override
+    public abstract void close();
 }

@@ -1,14 +1,14 @@
 package usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 /**
  * A Node represents a single node in the syntax tree.
@@ -16,15 +16,20 @@ import java.util.Objects;
  * as well as its relation to other nodes like its parent,
  * siblings and children.
  */
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Node implements Iterable<Node> {
 
-    private int context0;
-    private int context1;
-    private int context2;
-    private int context3;
-    private long id;
-    private long tree;
+    int context0;
+    int context1;
+    int context2;
+    int context3;
+    long id;
+    long tree;
+
+    Node() {
+        this(0, 0, 0, 0, 0L, 0L);
+    }
 
     /**
      * Get the node's child at the given index,
@@ -33,31 +38,22 @@ public class Node implements Iterable<Node> {
      * @param child The zero-indexed child position
      * @return The Node's child at the given index
      * @throws IndexOutOfBoundsException
-     * if the index is a negative number
+     * if the index is a negative number or if it is
+     * greater or equal to the total number of children
      */
-    public Node getChild(int child) {
-        if (child < 0)
-            throw new IndexOutOfBoundsException("Child index must not be negative!");
-        return TreeSitter.nodeChild(this, child);
-    }
+    public native Node getChild(int child);
 
     /**
      * @param name The child field name.
      * @return The node's child with the given field name.
-     * @throws NullPointerException
-     * if the field name is null
+     * @throws NullPointerException if the field name is null
      */
-    public Node getChildByFieldName(String name) {
-        Objects.requireNonNull(name, "Field name must not be null!");
-        return TreeSitter.nodeChildByFieldName(this, name);
-    }
+    public native Node getChildByFieldName(String name);
 
     /**
      * @return The node's number of children.
      */
-    public int getChildCount() {
-        return TreeSitter.nodeChildCount(this);
-    }
+    public native int getChildCount();
 
     /**
      * @param startByte The starting byte of the range
@@ -65,27 +61,17 @@ public class Node implements Iterable<Node> {
      * @return The smallest node within this node that spans the given range of bytes
      * @throws IllegalArgumentException if {@code startByte} &gt; {@code endByte}
      */
-    public Node getDescendantForByteRange(int startByte, int endByte) {
-        if (startByte > endByte)
-            throw new IllegalArgumentException(
-                    "The starting byte of the range must not be greater than the ending byte!"
-            );
-        return TreeSitter.nodeDescendantForByteRange(this, startByte, endByte);
-    }
+    public native Node getDescendantForByteRange(int startByte, int endByte);
 
     /**
      * @return The node's end byte.
      */
-    public int getEndByte() {
-        return TreeSitter.nodeEndByte(this);
-    }
+    public native int getEndByte();
 
     /**
      * @return The node's end position in terms of rows and columns.
      */
-    public Point getEndPoint() {
-        return TreeSitter.nodeEndPoint(this);
-    }
+    public native Point getEndPoint();
 
     /**
      * @return
@@ -94,77 +80,54 @@ public class Node implements Iterable<Node> {
      * Returns NULL, if no field is found.
      * @param child The zero-indexed child position
      * @throws IndexOutOfBoundsException
-     * if the index is a negative number
+     * if the index is a negative number or if it is
+     * greater or equal to the total number of children
      */
-    public String getFieldNameForChild(int child) {
-        if (child < 0)
-            throw new IndexOutOfBoundsException("Child index must not be negative!");
-        return TreeSitter.nodeFieldNameForChild(this, child);
-    }
+    public native String getFieldNameForChild(int child);
 
     /**
      * @param offset The offset in bytes.
      * @return The node's first child that extends beyond the given byte offset.
-     * @throws IndexOutOfBoundsException if the offset is a negative number
+     * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
      */
-    public Node getFirstChildForByte(int offset) {
-        if (offset < 0)
-            throw new IndexOutOfBoundsException("Byte offset must not be negative!");
-        return TreeSitter.nodeFirstChildForByte(this, offset);
-    }
+    public native Node getFirstChildForByte(int offset);
 
     /**
      * @param offset The offset in bytes.
      * @return The node's first named child that extends beyond the given byte offset.
-     * @throws IndexOutOfBoundsException if the offset is a negative number
+     * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
      */
-    public Node getFirstNamedChildForByte(int offset) {
-        if (offset < 0)
-            throw new IndexOutOfBoundsException("Byte offset must not be negative!");
-        return TreeSitter.nodeFirstNamedChildForByte(this, offset);
-    }
+    public native Node getFirstNamedChildForByte(int offset);
 
     /**
      * @return An S-expression representing the node as a string.
      */
-    public String getNodeString() {
-        return TreeSitter.nodeString(this);
-    }
+    public native String getNodeString();
 
     /**
      * @return The node's next <em>named</em> sibling.
      */
-    public Node getNextNamedSibling() {
-        return TreeSitter.nodeNextNamedSibling(this);
-    }
+    public native Node getNextNamedSibling();
 
     /**
      * @return The node's next sibling.
      */
-    public Node getNextSibling() {
-        return TreeSitter.nodeNextSibling(this);
-    }
+    public native Node getNextSibling();
 
     /**
      * @return The node's previous <em>named</em> sibling.
      */
-    public Node getPrevNamedSibling() {
-        return TreeSitter.nodePrevNamedSibling(this);
-    }
+    public native Node getPrevNamedSibling();
 
     /**
      * @return The node's previous sibling.
      */
-    public Node getPrevSibling() {
-        return TreeSitter.nodePrevSibling(this);
-    }
+    public native Node getPrevSibling();
 
     /**
      * @return The node's immediate parent.
      */
-    public Node getParent() {
-        return TreeSitter.nodeParent(this);
-    }
+    public native Node getParent();
 
     /**
      * @return The node's range, indicating its byte and file position span.
@@ -176,42 +139,32 @@ public class Node implements Iterable<Node> {
     /**
      * @return The node's start byte.
      */
-    public int getStartByte() {
-        return TreeSitter.nodeStartByte(this);
-    }
+    public native int getStartByte();
 
     /**
      * @return The node's start position in terms of rows and columns.
      */
-    public Point getStartPoint() {
-        return TreeSitter.nodeStartPoint(this);
-    }
+    public native Point getStartPoint();
 
     /**
      * @return The node's type as a string
      */
-    public String getType() {
-        return TreeSitter.nodeType(this);
-    }
+    public native String getType();
 
     /**
      * @return true if the node is a syntax error or contains any syntax errors, false otherwise.
      */
-    public boolean hasError() {
-        return TreeSitter.nodeHasError(this);
-    }
+    public native boolean hasError();
 
     /**
      * Check if the node is <em>extra</em>.
      * Extra nodes represent things like comments,
-     * which are not required the grammar,
+     * which are not required by the grammar,
      * but can appear anywhere.
      *
      * @return true if the node is an extra, false otherwise.
      */
-    public boolean isExtra() {
-        return TreeSitter.nodeIsExtra(this);
-    }
+    public native boolean isExtra();
 
     /**
      * Check if the node is <em>missing</em>.
@@ -221,9 +174,7 @@ public class Node implements Iterable<Node> {
      *
      * @return true if the node is missing, false otherwise.
      */
-    public boolean isMissing() {
-        return TreeSitter.nodeIsMissing(this);
-    }
+    public native boolean isMissing();
 
     /**
      * Check if the node is <em>named</em>.
@@ -233,18 +184,14 @@ public class Node implements Iterable<Node> {
      *
      * @return true if the node is named, false otherwise.
      */
-    public boolean isNamed() {
-        return TreeSitter.nodeIsNamed(this);
-    }
+    public native boolean isNamed();
 
     /**
      * Check if the node is <em>null</em> node.
      *
      * @return true if {@code id == 0}, false otherwise
      */
-    public boolean isNull() {
-        return TreeSitter.nodeIsNull(this);
-    }
+    public native boolean isNull();
 
     /**
      * A tree cursor allows you to walk a syntax tree more
@@ -255,7 +202,7 @@ public class Node implements Iterable<Node> {
      * @return A new tree cursor starting from the given node.
      */
     public TreeCursor walk() {
-        return new TreeCursor(TreeSitter.treeCursorNew(this));
+        return new TreeCursor(this);
     }
 
     @Override
@@ -263,8 +210,10 @@ public class Node implements Iterable<Node> {
         if (obj == this) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Node other = (Node) obj;
-        return TreeSitter.nodeEq(this, other);
+        return equals(this, other);
     }
+
+    static native boolean equals(Node node, Node other);
 
     @Override
     public int hashCode() {

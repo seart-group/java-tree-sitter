@@ -44,11 +44,19 @@ public class Parser extends External {
      * - Has not been linked to the system library
      */
     private static long createIfValid(Language language) {
-        Languages.validate(language);
-        long pointer = TreeSitter.parserNew();
+        Language.validate(language);
+        long pointer = malloc();
         setLanguage(pointer, language);
         return pointer;
     }
+
+    static native long malloc();
+
+    /**
+     * Delete the parser, freeing all the memory that it used.
+     */
+    @Override
+    public native void close();
 
     /**
      * Set the language that the parser should use for parsing.
@@ -61,14 +69,16 @@ public class Parser extends External {
      * been linked to the system library
      */
     public void setLanguage(Language language) {
-        Languages.validate(language);
+        Language.validate(language);
         setLanguage(pointer, language);
     }
 
     private static void setLanguage(long pointer, Language language) {
-        boolean success = TreeSitter.parserSetLanguage(pointer, language.getId());
+        boolean success = setLanguage(pointer, language.getId());
         if (!success) throw new ABIVersionError("Language could not be assigned to parser!");
     }
+
+    static native boolean setLanguage(long pointer, long language);
 
     /**
      * Use the parser to parse some source code and create a syntax tree.
@@ -80,25 +90,28 @@ public class Parser extends External {
      */
     public Tree parseString(String source) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = TreeSitter.parserParseBytes(pointer, bytes, bytes.length);
+        long treePointer = parseBytes(bytes, bytes.length);
         return new Tree(treePointer, language);
     }
+
+    native long parseBytes(byte[] source, int length);
 
     /**
      * Use the parser to incrementally parse a changed source code string,
      * reusing unchanged parts of the tree to speed up the process.
      *
-     * @param oldTree The syntax tree before changes were made.
      * @param source The source code string to be parsed.
+     * @param oldTree The syntax tree before changes were made.
      * @return A syntax tree matching the provided source.
-     * @throws UnsupportedEncodingException
-     * If the UTF-16LE character set is not supported
+     * @throws UnsupportedEncodingException If the UTF-16LE character set is not supported
      */
-    public Tree parseString(Tree oldTree, String source) throws UnsupportedEncodingException {
+    public Tree parseString(String source, Tree oldTree) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = TreeSitter.parserIncrementalParseBytes(pointer, oldTree.getPointer(), bytes, bytes.length);
+        long treePointer = parseBytes(bytes, bytes.length, oldTree);
         return new Tree(treePointer, language);
     }
+
+    native long parseBytes(byte[] source, int length, Tree oldTree);
 
     /**
      * Use the parser to parse some source code found in a file at the specified path.
@@ -113,11 +126,6 @@ public class Parser extends External {
     public Tree parseFile(Path path) throws IOException {
         String source = Files.readString(path);
         return parseString(source);
-    }
-
-    @Override
-    protected void free(long pointer) {
-        TreeSitter.parserDelete(pointer);
     }
 
     @Override

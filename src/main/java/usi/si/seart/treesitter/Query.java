@@ -3,6 +3,7 @@ package usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import usi.si.seart.treesitter.exception.query.QueryException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,41 +42,45 @@ public class Query extends External {
         super(createIfValid(language, pattern));
         this.language = language;
         this.pattern = pattern;
-        int capturesCount = TreeSitter.queryCaptureCount(pointer);
+        int capturesCount = countCaptures(pointer);
         List<String> captures = new ArrayList<>(capturesCount);
         for (int idx = 0; idx < capturesCount; idx++) {
-            String capture = TreeSitter.queryCaptureName(pointer, idx);
+            String capture = getCaptureName(pointer, idx);
             captures.add(capture);
         }
         this.captures = Collections.unmodifiableList(captures);
     }
 
     private static long createIfValid(Language language, String pattern) {
-        Languages.validate(language);
+        Language.validate(language);
         Objects.requireNonNull(pattern, "Pattern must not be null!");
-        return TreeSitter.queryNew(language.getId(), pattern);
+        return malloc(language.getId(), pattern);
     }
+
+    static native long malloc(long language, String pattern) throws QueryException;
+
+    /**
+     * Delete the query, freeing all the memory that it used.
+     */
+    @Override
+    public native void close();
 
     /**
      * @return The number of string literals in this query.
      */
-    public int countStrings() {
-        return TreeSitter.queryStringCount(pointer);
-    }
+    public native int countStrings();
 
     /**
      * @return The number of captures in this query.
      */
-    public int countCaptures() {
-        return TreeSitter.queryCaptureCount(pointer);
-    }
+    public native int countCaptures();
+
+    static native int countCaptures(long query);
 
     /**
      * @return The number of patterns in this query.
      */
-    public int countPatterns() {
-        return TreeSitter.queryPatternCount(pointer);
-    }
+    public native int countPatterns();
 
     /**
      * @param capture The query capture.
@@ -85,16 +90,13 @@ public class Query extends External {
         return captures.get(capture.getIndex());
     }
 
+    static native String getCaptureName(long query, int index);
+
     /**
      * @return true if the query has captures, false otherwise.
      */
     public boolean hasCaptures() {
         return !captures.isEmpty();
-    }
-
-    @Override
-    protected void free(long pointer) {
-        TreeSitter.queryDelete(pointer);
     }
 
     @Override
