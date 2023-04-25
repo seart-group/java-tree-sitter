@@ -33,9 +33,9 @@
   </developers>
 
   <scm>
-    <url>https://github.com/seart-group/java-tree-sitter</url>
-    <connection>scm:git:git://github.com/seart-group/java-tree-sitter.git</connection>
-    <developerConnection>scm:git:git@github.com:seart-group/java-tree-sitter.git</developerConnection>
+    <url>https://github.com/seart-group/java-tree-sitter/tree/master</url>
+    <connection>scm:git:https://github.com/seart-group/java-tree-sitter.git</connection>
+    <developerConnection>scm:git:ssh://github.com:seart-group/java-tree-sitter.git</developerConnection>
   </scm>
 
   <issueManagement>
