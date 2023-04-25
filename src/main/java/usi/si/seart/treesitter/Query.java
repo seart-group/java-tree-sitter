@@ -52,7 +52,7 @@ public class Query extends External {
     }
 
     private static long createIfValid(Language language, String pattern) {
-        Languages.validate(language);
+        Language.validate(language);
         Objects.requireNonNull(pattern, "Pattern must not be null!");
         return malloc(language.getId(), pattern);
     }

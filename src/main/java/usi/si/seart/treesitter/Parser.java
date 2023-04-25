@@ -44,7 +44,7 @@ public class Parser extends External {
      * - Has not been linked to the system library
      */
     private static long createIfValid(Language language) {
-        Languages.validate(language);
+        Language.validate(language);
         long pointer = malloc();
         setLanguage(pointer, language);
         return pointer;
@@ -69,7 +69,7 @@ public class Parser extends External {
      * been linked to the system library
      */
     public void setLanguage(Language language) {
-        Languages.validate(language);
+        Language.validate(language);
         setLanguage(pointer, language);
     }
 
