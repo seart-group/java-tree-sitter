@@ -1,7 +1,8 @@
 package usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -16,15 +17,20 @@ import java.util.Objects;
  * as well as its relation to other nodes like its parent,
  * siblings and children.
  */
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Node implements Iterable<Node> {
 
-    private int context0;
-    private int context1;
-    private int context2;
-    private int context3;
-    private long id;
-    private long tree;
+    int context0;
+    int context1;
+    int context2;
+    int context3;
+    long id;
+    long tree;
+
+    Node() {
+        this(0, 0, 0, 0, 0L, 0L);
+    }
 
     /**
      * Get the node's child at the given index,
