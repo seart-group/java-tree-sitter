@@ -3,7 +3,6 @@ package usi.si.seart.treesitter;
 import lombok.Getter;
 
 import java.util.Objects;
-import java.util.function.LongSupplier;
 
 public enum Language {
 
@@ -18,229 +17,229 @@ public enum Language {
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-agda">tree-sitter-agda</a>
      */
-    AGDA(Language::agda),
+    AGDA(agda()),
 
     /**
      * Bash language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter-bash</a>
      */
-    BASH(Language::bash),
+    BASH(bash()),
 
     /**
      * C language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c">tree-sitter-c</a>
      */
-    C(Language::c),
+    C(c()),
 
     /**
      * C# language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
      */
-    CSHARP(Language::cSharp),
+    CSHARP(cSharp()),
 
     /**
      * C++ language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-cpp">tree-sitter-cpp</a>
      */
-    CPP(Language::cpp),
+    CPP(cpp()),
 
     /**
      * CSS language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter-css</a>
      */
-    CSS(Language::css),
+    CSS(css()),
 
     /**
      * Dart language mapping.
      *
      * @see <a href="https://github.com/UserNobody14/tree-sitter-dart">tree-sitter-dart</a>
      */
-    DART(Language::dart),
+    DART(dart()),
 
     /**
      * Elm language mapping.
      *
      * @see <a href="https://github.com/elm-tooling/tree-sitter-elm">tree-sitter-elm</a>
      */
-    ELM(Language::elm),
+    ELM(elm()),
 
     /**
      * Embedded template (EJS &amp; ERS) language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-embedded-template">tree-sitter-embedded-template</a>
      */
-    EMBEDDED_TEMPLATE(Language::embeddedTemplate),
+    EMBEDDED_TEMPLATE(embeddedTemplate()),
 
     /**
      * Eno language mapping.
      *
      * @see <a href="https://github.com/eno-lang/tree-sitter-eno">tree-sitter-eno</a>
      */
-    ENO(Language::eno),
+    ENO(eno()),
 
     /**
      * Go language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter-go</a>
      */
-    GO(Language::go),
+    GO(go()),
 
     /**
      * Haskell language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter-haskell</a>
      */
-    HASKELL(Language::haskell),
+    HASKELL(haskell()),
 
     /**
      * HTML language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-html">tree-sitter-html</a>
      */
-    HTML(Language::html),
+    HTML(html()),
 
     /**
      * Java language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-java">tree-sitter-java</a>
      */
-    JAVA(Language::java),
+    JAVA(java()),
 
     /**
      * JavaScript language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-javascript">tree-sitter-javascript</a>
      */
-    JAVASCRIPT(Language::javascript),
+    JAVASCRIPT(javascript()),
 
     /**
      * Julia language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-julia">tree-sitter-julia</a>
      */
-    JULIA(Language::julia),
+    JULIA(julia()),
 
     /**
      * Kotlin language mapping.
      *
      * @see <a href="https://github.com/fwcd/tree-sitter-kotlin">tree-sitter-kotlin</a>
      */
-    KOTLIN(Language::kotlin),
+    KOTLIN(kotlin()),
 
     /**
      * Lua language mapping.
      *
      * @see <a href="https://github.com/Azganoth/tree-sitter-lua">tree-sitter-lua</a>
      */
-    LUA(Language::lua),
+    LUA(lua()),
 
     /**
      * Markdown language mapping.
      *
      * @see <a href="https://github.com/MDeiml/tree-sitter-markdown">tree-sitter-markdown</a>
      */
-    MARKDOWN(Language::markdown),
+    MARKDOWN(markdown()),
 
     /**
      * OCaml language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter-ocaml</a>
      */
-    OCAML(Language::ocaml),
+    OCAML(ocaml()),
 
     /**
      * PHP language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-php">tree-sitter-php</a>
      */
-    PHP(Language::php),
+    PHP(php()),
 
     /**
      * Python language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter-python</a>
      */
-    PYTHON(Language::python),
+    PYTHON(python()),
 
     /**
      * Ruby language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter-ruby</a>
      */
-    RUBY(Language::ruby),
+    RUBY(ruby()),
 
     /**
      * Rust language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-rust">tree-sitter-rust</a>
      */
-    RUST(Language::rust),
+    RUST(rust()),
 
     /**
      * Scala language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-scala">tree-sitter-scala</a>
      */
-    SCALA(Language::scala),
+    SCALA(scala()),
 
     /**
      * SCSS language mapping.
      *
      * @see <a href="https://github.com/serenadeai/tree-sitter-scss">tree-sitter-scss</a>
      */
-    SCSS(Language::scss),
+    SCSS(scss()),
 
     /**
      * Swift language mapping.
      *
      * @see <a href="https://github.com/alex-pinkus/tree-sitter-swift">tree-sitter-swift</a>
      */
-    SWIFT(Language::swift),
+    SWIFT(swift()),
 
     /**
      * TOML language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-toml">tree-sitter-toml</a>
      */
-    TOML(Language::toml),
+    TOML(toml()),
 
     /**
      * JSX-enhanced TypeScript language mapping.
      */
-    TSX(Language::tsx),
+    TSX(tsx()),
 
     /**
      * TypeScript language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
      */
-    TYPESCRIPT(Language::typescript),
+    TYPESCRIPT(typescript()),
 
     /**
      * Vue language mapping.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-vue">tree-sitter-vue</a>
      */
-    VUE(Language::vue),
+    VUE(vue()),
 
     /**
      * YAML language mapping.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
      */
-    YAML(Language::yaml),
+    YAML(yaml()),
 
     /**
      * WebAssembly language mapping.
      *
      * @see <a href="https://github.com/wasm-lsp/tree-sitter-wasm">tree-sitter-wasm</a>
      */
-    WASM(Language::wasm);
+    WASM(wasm());
 
     static native long agda();
     static native long bash();
@@ -287,23 +286,15 @@ public enum Language {
     @Getter
     private final long id;
 
-    static final long INVALID = 0L;
+    private static final long INVALID = 0L;
 
     Language() {
-        this.id = INVALID;
+        this(INVALID);
     }
 
-    Language(LongSupplier supplier) {
-        long id = INVALID;
-        try {
-            id = supplier.getAsLong();
-        } catch (UnsatisfiedLinkError ignored) {
-            // Triggered whenever a language is not included in the native library.
-        } finally {
-            this.id = id;
-        }
+    Language(long id) {
+        this.id = id;
     }
-
 
     @Override
     public String toString() {
