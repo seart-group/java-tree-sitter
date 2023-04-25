@@ -8,6 +8,7 @@
 
   <name>Java tree-sitter</name>
   <description>Java bindings for tree-sitter</description>
+  <url>https://github.com/seart-group/java-tree-sitter</url>
   <inceptionYear>2022</inceptionYear>
 
   <licenses>
