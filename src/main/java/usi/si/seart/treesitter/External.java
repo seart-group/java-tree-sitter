@@ -2,7 +2,6 @@ package usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 abstract class External implements AutoCloseable {
