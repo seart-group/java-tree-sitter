@@ -9,7 +9,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 /**
  * A Node represents a single node in the syntax tree.
@@ -39,37 +38,22 @@ public class Node implements Iterable<Node> {
      * @param child The zero-indexed child position
      * @return The Node's child at the given index
      * @throws IndexOutOfBoundsException
-     * if the index is a negative number
+     * if the index is a negative number or if it is
+     * greater or equal to the total number of children
      */
-    public Node getChild(int child) {
-        if (child < 0)
-            throw new IndexOutOfBoundsException("Child index must not be negative!");
-        return getChild(this, child);
-    }
-
-    static native Node getChild(Node node, int child);
+    public native Node getChild(int child);
 
     /**
      * @param name The child field name.
      * @return The node's child with the given field name.
-     * @throws NullPointerException
-     * if the field name is null
+     * @throws NullPointerException if the field name is null
      */
-    public Node getChildByFieldName(String name) {
-        Objects.requireNonNull(name, "Field name must not be null!");
-        return getChildByFieldName(this, name);
-    }
-
-    static native Node getChildByFieldName(Node node, String name);
+    public native Node getChildByFieldName(String name);
 
     /**
      * @return The node's number of children.
      */
-    public int getChildCount() {
-        return getChildCount(this);
-    }
-
-    static native int getChildCount(Node node);
+    public native int getChildCount();
 
     /**
      * @param startByte The starting byte of the range
@@ -77,33 +61,17 @@ public class Node implements Iterable<Node> {
      * @return The smallest node within this node that spans the given range of bytes
      * @throws IllegalArgumentException if {@code startByte} &gt; {@code endByte}
      */
-    public Node getDescendantForByteRange(int startByte, int endByte) {
-        if (startByte > endByte)
-            throw new IllegalArgumentException(
-                    "The starting byte of the range must not be greater than the ending byte!"
-            );
-        return getDescendantForByteRange(this, startByte, endByte);
-    }
-
-    static native Node getDescendantForByteRange(Node node, int startByte, int endByte);
+    public native Node getDescendantForByteRange(int startByte, int endByte);
 
     /**
      * @return The node's end byte.
      */
-    public int getEndByte() {
-        return getEndByte(this);
-    }
-
-    static native int getEndByte(Node node);
+    public native int getEndByte();
 
     /**
      * @return The node's end position in terms of rows and columns.
      */
-    public Point getEndPoint() {
-        return getEndPoint(this);
-    }
-
-    static native Point getEndPoint(Node node);
+    public native Point getEndPoint();
 
     /**
      * @return
@@ -112,95 +80,54 @@ public class Node implements Iterable<Node> {
      * Returns NULL, if no field is found.
      * @param child The zero-indexed child position
      * @throws IndexOutOfBoundsException
-     * if the index is a negative number
+     * if the index is a negative number or if it is
+     * greater or equal to the total number of children
      */
-    public String getFieldNameForChild(int child) {
-        if (child < 0)
-            throw new IndexOutOfBoundsException("Child index must not be negative!");
-        return getFieldNameForChild(this, child);
-    }
-
-    static native String getFieldNameForChild(Node node, int child);
+    public native String getFieldNameForChild(int child);
 
     /**
      * @param offset The offset in bytes.
      * @return The node's first child that extends beyond the given byte offset.
-     * @throws IndexOutOfBoundsException if the offset is a negative number
+     * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
      */
-    public Node getFirstChildForByte(int offset) {
-        if (offset < 0)
-            throw new IndexOutOfBoundsException("Byte offset must not be negative!");
-        return getFirstChildForByte(this, offset);
-    }
-
-    static native Node getFirstChildForByte(Node node, int offset);
+    public native Node getFirstChildForByte(int offset);
 
     /**
      * @param offset The offset in bytes.
      * @return The node's first named child that extends beyond the given byte offset.
-     * @throws IndexOutOfBoundsException if the offset is a negative number
+     * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
      */
-    public Node getFirstNamedChildForByte(int offset) {
-        if (offset < 0)
-            throw new IndexOutOfBoundsException("Byte offset must not be negative!");
-        return getFirstNamedChildForByte(this, offset);
-    }
-
-    static native Node getFirstNamedChildForByte(Node node, int offset);
+    public native Node getFirstNamedChildForByte(int offset);
 
     /**
      * @return An S-expression representing the node as a string.
      */
-    public String getNodeString() {
-        return getNodeString(this);
-    }
-
-    static native String getNodeString(Node node);
+    public native String getNodeString();
 
     /**
      * @return The node's next <em>named</em> sibling.
      */
-    public Node getNextNamedSibling() {
-        return getNextNamedSibling(this);
-    }
-
-    static native Node getNextNamedSibling(Node node);
+    public native Node getNextNamedSibling();
 
     /**
      * @return The node's next sibling.
      */
-    public Node getNextSibling() {
-        return getNextSibling(this);
-    }
-
-    static native Node getNextSibling(Node node);
+    public native Node getNextSibling();
 
     /**
      * @return The node's previous <em>named</em> sibling.
      */
-    public Node getPrevNamedSibling() {
-        return getPrevNamedSibling(this);
-    }
-
-    static native Node getPrevNamedSibling(Node node);
+    public native Node getPrevNamedSibling();
 
     /**
      * @return The node's previous sibling.
      */
-    public Node getPrevSibling() {
-        return getPrevSibling(this);
-    }
-
-    static native Node getPrevSibling(Node node);
+    public native Node getPrevSibling();
 
     /**
      * @return The node's immediate parent.
      */
-    public Node getParent() {
-        return getParent(this);
-    }
-
-    static native Node getParent(Node node);
+    public native Node getParent();
 
     /**
      * @return The node's range, indicating its byte and file position span.
@@ -212,52 +139,32 @@ public class Node implements Iterable<Node> {
     /**
      * @return The node's start byte.
      */
-    public int getStartByte() {
-        return getStartByte(this);
-    }
-
-    static native int getStartByte(Node node);
+    public native int getStartByte();
 
     /**
      * @return The node's start position in terms of rows and columns.
      */
-    public Point getStartPoint() {
-        return getStartPoint(this);
-    }
-
-    static native Point getStartPoint(Node node);
+    public native Point getStartPoint();
 
     /**
      * @return The node's type as a string
      */
-    public String getType() {
-        return getType(this);
-    }
-
-    static native String getType(Node node);
+    public native String getType();
 
     /**
      * @return true if the node is a syntax error or contains any syntax errors, false otherwise.
      */
-    public boolean hasError() {
-        return hasError(this);
-    }
-
-    static native boolean hasError(Node node);
+    public native boolean hasError();
 
     /**
      * Check if the node is <em>extra</em>.
      * Extra nodes represent things like comments,
-     * which are not required the grammar,
+     * which are not required by the grammar,
      * but can appear anywhere.
      *
      * @return true if the node is an extra, false otherwise.
      */
-    public boolean isExtra() {
-        return isExtra(this);
-    }
-
-    static native boolean isExtra(Node node);
+    public native boolean isExtra();
 
     /**
      * Check if the node is <em>missing</em>.
@@ -267,11 +174,7 @@ public class Node implements Iterable<Node> {
      *
      * @return true if the node is missing, false otherwise.
      */
-    public boolean isMissing() {
-        return isMissing(this);
-    }
-
-    static native boolean isMissing(Node node);
+    public native boolean isMissing();
 
     /**
      * Check if the node is <em>named</em>.
@@ -281,22 +184,14 @@ public class Node implements Iterable<Node> {
      *
      * @return true if the node is named, false otherwise.
      */
-    public boolean isNamed() {
-        return isNamed(this);
-    }
-
-    static native boolean isNamed(Node node);
+    public native boolean isNamed();
 
     /**
      * Check if the node is <em>null</em> node.
      *
      * @return true if {@code id == 0}, false otherwise
      */
-    public boolean isNull() {
-        return isNull(this);
-    }
-
-    static native boolean isNull(Node node);
+    public native boolean isNull();
 
     /**
      * A tree cursor allows you to walk a syntax tree more

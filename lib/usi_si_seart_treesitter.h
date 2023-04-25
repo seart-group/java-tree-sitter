@@ -13,6 +13,9 @@ extern "C" {
 #define _getField(CLASS, NAME, TYPE) \
   env->GetFieldID(CLASS, NAME, TYPE)
 
+#define _getConstructor(CLASS, TYPE) \
+  env->GetMethodID(CLASS, "<init>", TYPE)
+
 typedef struct {
   const char* type;
   const char* name;

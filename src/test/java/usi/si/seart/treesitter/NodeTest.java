@@ -40,6 +40,7 @@ class NodeTest extends TestBase {
         Assertions.assertEquals("function_definition", function.getType());
         Assertions.assertEquals(5, function.getChildCount());
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(-1));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(Integer.MAX_VALUE));
     }
 
     @Test
@@ -75,6 +76,7 @@ class NodeTest extends TestBase {
         Assertions.assertNull(function.getFieldNameForChild(3));                  // `:`
         Assertions.assertEquals("body", function.getFieldNameForChild(4));        // "body"
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFieldNameForChild(-1));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(Integer.MAX_VALUE));
     }
 
     @Test
@@ -91,6 +93,7 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(colon, function.getFirstChildForByte(colon.getStartByte()));
         Assertions.assertEquals(body, function.getFirstChildForByte(body.getStartByte()));
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(-1));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(Integer.MAX_VALUE));
     }
 
     @Test
@@ -107,6 +110,7 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(body, function.getFirstNamedChildForByte(colon.getStartByte()));
         Assertions.assertEquals(body, function.getFirstNamedChildForByte(body.getStartByte()));
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(-1));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(Integer.MAX_VALUE));
     }
 
     @Test
