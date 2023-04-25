@@ -1,7 +1,6 @@
 #include "usi_si_seart_treesitter.h"
 #include "usi_si_seart_treesitter_Query.h"
 #include <jni.h>
-#include <math.h>
 #include <string.h>
 #include <tree_sitter/api.h>
 
@@ -14,38 +13,31 @@ JNIEXPORT jlong JNICALL Java_usi_si_seart_treesitter_Query_malloc(
   TSQueryError* error_type = new TSQueryError;
   TSQuery* query = ts_query_new((TSLanguage*)language, c_source, source_length, error_offset, error_type);
   jclass exceptionClass;
-  const char* c_pattern;
   switch (*error_type) {
     case TSQueryErrorNone:
       return (jlong)query;
     case TSQueryErrorSyntax:
       exceptionClass = _getClass("usi/si/seart/treesitter/exception/query/QuerySyntaxException");
-      c_pattern = "Bad syntax at offset %d";
       break;
     case TSQueryErrorNodeType:
       exceptionClass = _getClass("usi/si/seart/treesitter/exception/query/QueryNodeTypeException");
-      c_pattern = "Bad node name at offset %d";
       break;
     case TSQueryErrorField:
       exceptionClass = _getClass("usi/si/seart/treesitter/exception/query/QueryFieldException");
-      c_pattern = "Bad field name at offset %d";
       break;
     case TSQueryErrorCapture:
       exceptionClass = _getClass("usi/si/seart/treesitter/exception/query/QueryCaptureException");
-      c_pattern = "Bad capture at offset %d";
       break;
     case TSQueryErrorStructure:
       exceptionClass = _getClass("usi/si/seart/treesitter/exception/query/QueryStructureException");
-      c_pattern = "Bad pattern structure at offset %d";
       break;
     default:
       exceptionClass = _getClass("usi/si/seart/treesitter/exception/TreeSitterException");
       return env->ThrowNew(exceptionClass, NULL);
   }
-  int digits = static_cast<int>(floor(log10(*error_offset))) + 1;
-  char c_message[strlen(c_pattern) + 1 + digits];
-  snprintf(c_message, sizeof(c_message), c_pattern, *error_offset);
-  return env->ThrowNew(exceptionClass, c_message);
+  jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(I)V");
+  jobject exception = env->NewObject(exceptionClass, exceptionConstructor, *error_offset);
+  return env->Throw((jthrowable)exception);
 }
 
 JNIEXPORT void JNICALL Java_usi_si_seart_treesitter_Query_close(
