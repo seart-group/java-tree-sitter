@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
 
-import argparse
-import ctypes.util
-import distutils.ccompiler
-import distutils.log
-import os
-import platform
-import tempfile
+from argparse import ArgumentParser
+from ctypes.util import find_library as find_cpp_library
+from distutils.ccompiler import new_compiler as new_c_compiler
+from distutils.log import set_verbosity as set_log_verbosity
+from os import environ
+from os import system as cmd
+from os.path import dirname, exists, getmtime, realpath
+from os.path import join as path
+from os.path import split as split_path
+from platform import system as os_name
+from tempfile import TemporaryDirectory
 
 
 # adapted from https://github.com/tree-sitter/py-tree-sitter
 def build(repositories, output_path="libjava-tree-sitter", system=None, arch=None, verbose=False):
 
     if system is None:
-        system = platform.system()
+        system = os_name()
 
     if arch and system != "Darwin":
         arch = "64" if "64" in arch else "32"
 
     output_path = f"{output_path}.{'dylib' if system == 'Darwin' else 'so'}"
-    here = os.path.dirname(os.path.realpath(__file__))
+    here = dirname(realpath(__file__))
     env = ""
     if arch:
         env += (
@@ -28,54 +32,49 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
         )
 
-    os.system(
-        f"make -C \"{os.path.join(here, 'tree-sitter')}\" clean {'> /dev/null' if not verbose else ''}"
-    )
-    os.system(
-        f"{env} make -C \"{os.path.join(here, 'tree-sitter')}\" {'> /dev/null' if not verbose else ''}"
-    )
+    cmd(f"make -C \"{path(here, 'tree-sitter')}\" clean {'> /dev/null' if not verbose else ''}")
+    cmd(f"{env} make -C \"{path(here, 'tree-sitter')}\" {'> /dev/null' if not verbose else ''}")
 
     cpp = False
     source_paths = [
-        os.path.join(here, "lib", "usi_si_seart_treesitter.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_Node.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_Parser.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_Language.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_Query.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_QueryCursor.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_Tree.cc"),
-        os.path.join(here, "lib", "usi_si_seart_treesitter_TreeCursor.cc"),
+        path(here, "lib", "usi_si_seart_treesitter.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_Node.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_Parser.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_Language.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_Query.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_QueryCursor.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_Tree.cc"),
+        path(here, "lib", "usi_si_seart_treesitter_TreeCursor.cc"),
     ]
 
-    compiler = distutils.ccompiler.new_compiler()
+    compiler = new_c_compiler()
     for repository in repositories:
-        src_path = os.path.join(repository, "src")
-        source_paths.append(os.path.join(src_path, "parser.c"))
-        scanner_c = os.path.join(src_path, "scanner.c")
-        scanner_cc = os.path.join(src_path, "scanner.cc")
-        if os.path.exists(scanner_cc):
+        src_path = path(repository, "src")
+        source_paths.append(path(src_path, "parser.c"))
+        scanner_c = path(src_path, "scanner.c")
+        scanner_cc = path(src_path, "scanner.cc")
+        if exists(scanner_cc):
             cpp = True
             source_paths.append(scanner_cc)
-        elif os.path.exists(scanner_c):
+        elif exists(scanner_c):
             source_paths.append(scanner_c)
 
-        compiler.define_macro(
-            f"TS_LANGUAGE_{os.path.split(repository.rstrip('/'))[1].split('tree-sitter-')[-1].replace('-', '_').upper()}",
-            "1",
-        )
+        repository_name = split_path(repository.rstrip('/'))[1]
+        repository_lang = repository_name.split('tree-sitter-')[-1]
+        compiler.define_macro(f"TS_LANGUAGE_{repository_lang.replace('-', '_').upper()}", "1")
 
-    source_mtimes = [os.path.getmtime(__file__)] + [os.path.getmtime(path) for path in source_paths]
+    source_mtimes = [getmtime(__file__)] + [getmtime(source_path) for source_path in source_paths]
     if cpp:
-        if ctypes.util.find_library("stdc++"):
+        if find_cpp_library("stdc++"):
             compiler.add_library("stdc++")
-        elif ctypes.util.find_library("c++"):
+        elif find_cpp_library("c++"):
             compiler.add_library("c++")
 
-    output_mtime = os.path.getmtime(output_path) if os.path.exists(output_path) else 0
+    output_mtime = getmtime(output_path) if exists(output_path) else 0
     if max(source_mtimes) <= output_mtime:
         return False
 
-    with tempfile.TemporaryDirectory(suffix="tree_sitter_language") as out_dir:
+    with TemporaryDirectory(suffix="tree_sitter_language") as out_dir:
         object_paths = []
         for source_path in source_paths:
             flags = ["-O3"]
@@ -90,10 +89,10 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
                 flags += ["-arch", arch] if system == "Darwin" else [f"-m{arch}"]
 
             include_dirs = [
-                os.path.join("include"),
-                os.path.join(os.environ["JAVA_HOME"], "include"),
-                os.path.join(here, "tree-sitter", "lib", "include"),
-                os.path.dirname(source_path),
+                dirname(source_path),
+                path("include"),
+                path(environ["JAVA_HOME"], "include"),
+                path(here, "tree-sitter", "lib", "include"),
             ]
 
             object_paths.append(
@@ -116,15 +115,15 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             object_paths,
             output_path,
             extra_preargs=extra_preargs,
-            extra_postargs=[os.path.join(here, "tree-sitter", "libtree-sitter.a")],
-            library_dirs=[os.path.join(here, "tree-sitter")],
+            extra_postargs=[path(here, "tree-sitter", "libtree-sitter.a")],
+            library_dirs=[path(here, "tree-sitter")],
         )
 
     return True
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Build a tree-sitter library")
+    parser = ArgumentParser(description="Build a tree-sitter library")
     parser.add_argument(
         "-s",
         "--system",
@@ -144,5 +143,5 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    distutils.log.set_verbosity(int(args.verbose))
+    set_log_verbosity(int(args.verbose))
     build(args.repositories, args.output, args.system, args.arch, args.verbose)
