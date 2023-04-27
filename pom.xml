@@ -87,6 +87,16 @@
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${project.basedir}/src/main/resources</directory>
+              <includes>
+                <include>**/libjava-tree-sitter.*</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
@@ -189,21 +199,6 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.2.1</version>
         <executions>
-          <execution>
-            <id>clean-generated-files</id>
-            <phase>pre-clean</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>sh</executable>
-              <workingDirectory>${project.basedir}</workingDirectory>
-              <arguments>
-                <argument>-c</argument>
-                <argument>printf "Removed files:\n$(rm -vf src/main/resources/libjava-tree-sitter.*)\n"</argument>
-              </arguments>
-            </configuration>
-          </execution>
           <execution>
             <id>generate-jni-headers</id>
             <phase>generate-sources</phase>
