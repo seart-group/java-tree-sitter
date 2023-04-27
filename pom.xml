@@ -189,7 +189,7 @@
         <version>3.0.0</version>
         <executions>
           <execution>
-            <id>generate-dynamic-library</id>
+            <id>build-shared-object-library</id>
             <phase>compile</phase>
             <goals>
               <goal>exec</goal>
@@ -199,31 +199,6 @@
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>build.py</argument>
-                <argument>-s</argument>
-                <argument>Darwin</argument>
-                <argument>-o</argument>
-                <argument>${project.build.outputDirectory}/libjava-tree-sitter</argument>
-                <argument>tree-sitter-c</argument>
-                <argument>tree-sitter-cpp</argument>
-                <argument>tree-sitter-java</argument>
-                <argument>tree-sitter-javascript</argument>
-                <argument>tree-sitter-python</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-shared-objects</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>python</executable>
-              <workingDirectory>${project.basedir}</workingDirectory>
-              <arguments>
-                <argument>build.py</argument>
-                <argument>-s</argument>
-                <argument>Linux</argument>
                 <argument>-o</argument>
                 <argument>${project.build.outputDirectory}/libjava-tree-sitter</argument>
                 <argument>tree-sitter-c</argument>
