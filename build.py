@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 from ctypes.util import find_library as find_cpp_library
 from distutils.ccompiler import new_compiler as new_c_compiler
 from distutils.log import set_verbosity as set_log_verbosity
+from glob import glob as find
 from os import environ
 from os import system as cmd
 from os.path import dirname, exists, getmtime, realpath
@@ -36,16 +37,7 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
     cmd(f"{env} make -C \"{path(here, 'tree-sitter')}\" {'> /dev/null' if not verbose else ''}")
 
     cpp = False
-    source_paths = [
-        path(here, "lib", "usi_si_seart_treesitter.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_Node.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_Parser.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_Language.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_Query.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_QueryCursor.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_Tree.cc"),
-        path(here, "lib", "usi_si_seart_treesitter_TreeCursor.cc"),
-    ]
+    source_paths = find(path(here, "lib", "*.cc"))
 
     compiler = new_c_compiler()
     for repository in repositories:
