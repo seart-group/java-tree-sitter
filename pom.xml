@@ -87,16 +87,6 @@
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <version>3.1.0</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>${project.basedir}/src/main/resources</directory>
-              <includes>
-                <include>**/libjava-tree-sitter.*</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
@@ -108,6 +98,10 @@
         <configuration>
           <source>11</source>
           <target>11</target>
+          <compilerArgs>
+            <arg>-h</arg>
+            <arg>${project.basedir}/lib</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
@@ -200,34 +194,8 @@
         <version>3.0.0</version>
         <executions>
           <execution>
-            <id>generate-jni-headers</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>javah</executable>
-              <workingDirectory>${project.basedir}</workingDirectory>
-              <arguments>
-                <argument>-verbose</argument>
-                <argument>-jni</argument>
-                <argument>-classpath</argument>
-                <argument>${project.build.sourceDirectory}</argument>
-                <argument>-d</argument>
-                <argument>${project.basedir}/lib</argument>
-                <argument>usi.si.seart.treesitter.Node</argument>
-                <argument>usi.si.seart.treesitter.Parser</argument>
-                <argument>usi.si.seart.treesitter.Language</argument>
-                <argument>usi.si.seart.treesitter.Query</argument>
-                <argument>usi.si.seart.treesitter.QueryCursor</argument>
-                <argument>usi.si.seart.treesitter.Tree</argument>
-                <argument>usi.si.seart.treesitter.TreeCursor</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>generate-dynamic-library</id>
-            <phase>generate-sources</phase>
+            <phase>compile</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -239,7 +207,7 @@
                 <argument>-s</argument>
                 <argument>Darwin</argument>
                 <argument>-o</argument>
-                <argument>src/main/resources/libjava-tree-sitter</argument>
+                <argument>${project.build.outputDirectory}/libjava-tree-sitter</argument>
                 <argument>tree-sitter-c</argument>
                 <argument>tree-sitter-cpp</argument>
                 <argument>tree-sitter-java</argument>
@@ -250,7 +218,7 @@
           </execution>
           <execution>
             <id>generate-shared-objects</id>
-            <phase>generate-sources</phase>
+            <phase>compile</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -262,7 +230,7 @@
                 <argument>-s</argument>
                 <argument>Linux</argument>
                 <argument>-o</argument>
-                <argument>src/main/resources/libjava-tree-sitter</argument>
+                <argument>${project.build.outputDirectory}/libjava-tree-sitter</argument>
                 <argument>tree-sitter-c</argument>
                 <argument>tree-sitter-cpp</argument>
                 <argument>tree-sitter-java</argument>
