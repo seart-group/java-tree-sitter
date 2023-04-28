@@ -89,6 +89,30 @@
         <version>3.1.0</version>
       </plugin>
       <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireOS>
+                  <family>unix</family>
+                </requireOS>
+                <requireJavaVersion>
+                  <version>1.11</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>3.0.0</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.2.0</version>
       </plugin>
