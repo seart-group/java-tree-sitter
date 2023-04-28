@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 /**
  *  A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
  */
-@SuppressWarnings("unused")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeCursor extends External {
 
