@@ -8,7 +8,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 class NodeTest extends TestBase {
 
@@ -217,5 +219,22 @@ class NodeTest extends TestBase {
     void testIsNull() {
         Assertions.assertFalse(root.isNull());
         Assertions.assertTrue(new Node().isNull());
+    }
+
+    @Test
+    void testIterator() {
+        Node function = root.getChild(0);
+        Iterator<Node> iterator = function.iterator();
+        Assertions.assertTrue(iterator.hasNext());
+        Assertions.assertEquals(function, iterator.next());
+        for (int i = 0; i < function.getChildCount(); i++) {
+            Assertions.assertTrue(iterator.hasNext());
+            Assertions.assertEquals(function.getChild(i), iterator.next());
+        }
+        Assertions.assertTrue(iterator.hasNext());
+        Iterator<Node> empty = new Node().iterator();
+        empty.next();
+        Assertions.assertFalse(empty.hasNext());
+        Assertions.assertThrows(NoSuchElementException.class, empty::next);
     }
 }
