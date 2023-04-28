@@ -162,7 +162,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version>
+        <version>0.8.10</version>
         <executions>
           <execution>
             <id>default-prepare</id>
@@ -205,6 +205,25 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jarsigner-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <skip>true</skip><!-- TODO: Remove when ready -->
+          <archiveDirectory>${project.build.directory}</archiveDirectory>
+          <alias>java-tree-sitter-keystore</alias>
+          <storepass><!-- TODO: Set when ready --></storepass>
+          <keystore>${project.basedir}/keystore.jks</keystore>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
