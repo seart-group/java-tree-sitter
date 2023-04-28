@@ -189,7 +189,7 @@
         <version>3.0.0</version>
         <executions>
           <execution>
-            <id>build-shared-object-library</id>
+            <id>build-shared-object-library-macos</id>
             <phase>compile</phase>
             <goals>
               <goal>exec</goal>
@@ -206,6 +206,29 @@
                 <argument>tree-sitter-java</argument>
                 <argument>tree-sitter-javascript</argument>
                 <argument>tree-sitter-python</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-shared-object-library-linux</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <environmentVariables>
+                <DOCKER_BUILDKIT>1</DOCKER_BUILDKIT>
+                <BUILDKIT_PROGRESS>plain</BUILDKIT_PROGRESS>
+              </environmentVariables>
+              <executable>docker</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>build</argument>
+                <argument>--file</argument>
+                <argument>Dockerfile</argument>
+                <argument>--output</argument>
+                <argument>${project.build.outputDirectory}</argument>
+                <argument>.</argument>
               </arguments>
             </configuration>
           </execution>
