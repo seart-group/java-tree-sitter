@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
  * as well as its relation to other nodes like its parent,
  * siblings and children.
  */
+@SuppressWarnings("unused")
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Node implements Iterable<Node> {
