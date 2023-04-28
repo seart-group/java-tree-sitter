@@ -1,16 +1,22 @@
 package ch.usi.si.seart.treesitter;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
 import java.util.function.Consumer;
 
 /**
  *  A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
  */
+@SuppressWarnings("unused")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeCursor extends External {
 
-    private int context0;
-    private int context1;
-    private long id;
-    private long tree;
+    int context0;
+    int context1;
+
+    long id;
+    long tree;
 
     TreeCursor(Node node) {
         super(malloc(node));
