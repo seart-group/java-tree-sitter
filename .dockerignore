@@ -1,0 +1,10 @@
+*
+!lib
+!include
+!tree-sitter
+!tree-sitter-c
+!tree-sitter-cpp
+!tree-sitter-java
+!tree-sitter-javascript
+!tree-sitter-python
+!build.py
