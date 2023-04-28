@@ -52,6 +52,19 @@ class ParserTest extends TestBase {
     }
 
     @Test
+    @SneakyThrows(IOException.class)
+    void testParserSetLanguage() {
+        @Cleanup Parser parser = new Parser(Language.PYTHON);
+        parser.setLanguage(Language.JAVA);
+        String source = "public class _ {}";
+        @Cleanup Tree tree = parser.parseString(source);
+        Assertions.assertEquals(
+                "(program (class_declaration (modifiers) name: (identifier) body: (class_body)))",
+                tree.getRootNode().getNodeString()
+        );
+    }
+
+    @Test
     @SuppressWarnings("resource")
     void testParserThrows() {
         Assertions.assertThrows(NullPointerException.class, () -> new Parser(null));
