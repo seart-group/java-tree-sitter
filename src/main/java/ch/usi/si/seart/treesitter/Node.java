@@ -9,6 +9,8 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A Node represents a single node in the syntax tree.
@@ -54,6 +56,15 @@ public class Node implements Iterable<Node> {
      * @return The node's number of children.
      */
     public native int getChildCount();
+
+    /**
+     * @return A list of the node's children
+     */
+    public List<Node> getChildren() {
+        return IntStream.range(0, getChildCount())
+                .mapToObj(this::getChild)
+                .collect(Collectors.toList());
+    }
 
     /**
      * @param startByte The starting byte of the range
@@ -243,10 +254,7 @@ public class Node implements Iterable<Node> {
             public Node next() {
                 if (!hasNext()) throw new NoSuchElementException();
                 Node node = stack.pop();
-                int children = node.getChildCount();
-                for (int child = children - 1; child >= 0; child--) {
-                    stack.push(node.getChild(child));
-                }
+                stack.addAll(node.getChildren());
                 return node;
             }
         };

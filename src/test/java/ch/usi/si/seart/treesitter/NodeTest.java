@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 class NodeTest extends TestBase {
 
@@ -41,6 +42,18 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(5, function.getChildCount());
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(-1));
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(Integer.MAX_VALUE));
+    }
+
+    @Test
+    void testGetChildren() {
+        Node function = root.getChild(0);
+        int count = function.getChildCount();
+        List<Node> children = function.getChildren();
+        Assertions.assertEquals(count, children.size());
+        for (int i = 0; i < count; i++) {
+            Assertions.assertEquals(function.getChild(i), children.get(i));
+        }
+        Assertions.assertEquals(new Node().getChildren(), List.of());
     }
 
     @Test

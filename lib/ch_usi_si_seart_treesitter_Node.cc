@@ -38,7 +38,8 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
-  return (jint)ts_node_child_count(node);
+  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_child_count(node);
+  return (jint)count;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange(
