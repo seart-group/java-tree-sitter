@@ -62,11 +62,14 @@ public class LibraryLoader {
 
     private String getExtension() {
         String platform = System.getProperty("os.name").toLowerCase();
-        if (platform.contains("nix") || platform.contains("nux") || platform.contains("aix"))
+        if (platform.contains("nix") || platform.contains("nux") || platform.contains("aix")) {
             return "so";
-        else if (platform.contains("mac") || platform.contains("darwin"))
+        } else if (platform.contains("mac") || platform.contains("darwin")) {
             return "dylib";
-        else
-            throw new TreeSitterException("The tree-sitter library was not compiled for this platform: " + platform);
+        } else {
+            throw new TreeSitterException(
+                    "The tree-sitter library was not compiled for this platform: " + platform
+            );
+        }
     }
 }
