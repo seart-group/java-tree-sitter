@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.exception.query.QueryException;
 import lombok.AccessLevel;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -100,6 +101,7 @@ public class Query extends External {
     }
 
     @Override
+    @Generated
     public String toString() {
         return String.format(
                 "Query(language: %s, pattern: '%s', captures: [%s])",

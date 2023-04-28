@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
+import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 
 import java.util.function.Consumer;
@@ -87,6 +88,7 @@ public class TreeCursor extends External {
     }
 
     @Override
+    @Generated
     public String toString() {
         return String.format("TreeCursor(id: %d, tree: %d)", id, tree);
     }

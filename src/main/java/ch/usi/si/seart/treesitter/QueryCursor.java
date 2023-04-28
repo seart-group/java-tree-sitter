@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
+import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 
@@ -85,6 +86,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     }
 
     @Override
+    @Generated
     public String toString() {
         return String.format("QueryCursor(node: %s, query: %s)", node, query);
     }

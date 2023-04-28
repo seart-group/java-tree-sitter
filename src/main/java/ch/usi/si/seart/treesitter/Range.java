@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +21,7 @@ public class Range {
     }
 
     @Override
+    @Generated
     public String toString() {
         return String.format("[%s] - [%s]", startPoint, endPoint);
     }

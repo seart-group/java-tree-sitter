@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -48,6 +49,7 @@ public class Tree extends External implements Iterable<Node> {
     }
 
     @Override
+    @Generated
     public String toString() {
         return String.format("Tree(id: %d, language: %s)", pointer, language);
     }

@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -14,6 +15,7 @@ public class QueryCapture {
     int index;
 
     @Override
+    @Generated
     public String toString() {
         return String.format("QueryCapture(index: %d, node: %s)", index, node);
     }

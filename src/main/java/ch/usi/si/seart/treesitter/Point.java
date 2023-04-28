@@ -3,6 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +19,7 @@ public class Point {
     int column;
 
     @Override
+    @Generated
     public String toString() {
         return row + ":" + column;
     }

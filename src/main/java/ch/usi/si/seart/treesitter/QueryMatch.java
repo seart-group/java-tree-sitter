@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -18,6 +19,7 @@ public class QueryMatch {
     QueryCapture[] captures;
 
     @Override
+    @Generated
     public String toString() {
         String joined = Stream.of(captures)
                 .map(QueryCapture::toString)

@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +22,7 @@ public class TreeCursorNode {
     boolean isNamed;
 
     @Override
+    @Generated
     public String toString() {
         String field = (name != null) ? name + ": " : "";
         return String.format("%s%s [%s] - [%s]", field, type, startPoint, endPoint);

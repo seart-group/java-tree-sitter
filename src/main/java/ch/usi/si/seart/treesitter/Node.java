@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayDeque;
@@ -232,6 +233,7 @@ public class Node implements Iterable<Node> {
     }
 
     @Override
+    @Generated
     public String toString() {
         return String.format("Node(id: %d, tree: %d)", id, tree);
     }
