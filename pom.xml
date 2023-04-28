@@ -224,6 +224,7 @@
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>build</argument>
+                <argument>--quiet</argument>
                 <argument>--file</argument>
                 <argument>Dockerfile</argument>
                 <argument>--output</argument>
