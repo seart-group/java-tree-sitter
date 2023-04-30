@@ -31,6 +31,20 @@ mvn clean package
 
 This will generate both the header files in `lib`, as well as the shared library produced by `build.py`.
 
+## Adding a grammar
+
+To add a new grammar, first create a submodule in the repository root:
+
+```shell
+git submodule add https://github.com/{{owner}}/tree-sitter-{{language}}.git tree-sitter-{{language}}
+```
+
+Once finished, check out the release whose version is **less than or equal** to the current `tree-sitter` release:
+```shell
+(cd tree-sitter-{{language}} && git checkout {{version}})
+```
+
+
 ## Examples
 
 First, load the shared object somewhere in your application:
