@@ -5,7 +5,7 @@ Originally developed by [serenadeai](https://github.com/serenadeai).
 
 This fork was created with the purpose of more convenient integration into [DL4SE](https://github.com/seart-group/DL4SE), while including features introduced in [other forks](https://github.com/jakobkhansen/java-tree-sitter) and miscellaneous features absent from the original.
 
-## Preparing
+## Local development
 
 Recursively clone the project with submodules:
 
@@ -21,7 +21,7 @@ git submodule update --init --recursive
 # or:  git submodule init && git submodule update
 ```
 
-## Building
+## Building the dependency
 
 To build the project locally, all one has to do is run the following:
 
@@ -44,8 +44,7 @@ Once finished, check out the release whose version is **less than or equal** to 
 (cd tree-sitter-{{language}} && git checkout {{version}})
 ```
 
-
-## Examples
+## Example usage
 
 First, load the shared object somewhere in your application:
 
