@@ -303,11 +303,6 @@
                 <argument>build.py</argument>
                 <argument>-o</argument>
                 <argument>${project.build.outputDirectory}/libjava-tree-sitter</argument>
-                <argument>tree-sitter-c</argument>
-                <argument>tree-sitter-cpp</argument>
-                <argument>tree-sitter-java</argument>
-                <argument>tree-sitter-javascript</argument>
-                <argument>tree-sitter-python</argument>
               </arguments>
             </configuration>
           </execution>

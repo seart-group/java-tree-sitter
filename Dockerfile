@@ -15,12 +15,7 @@ RUN apk update && \
 WORKDIR /java-tree-sitter
 COPY . ./
 
-RUN python3 build.py \
-            tree-sitter-c \
-            tree-sitter-cpp \
-            tree-sitter-java \
-            tree-sitter-javascript \
-            tree-sitter-python
+RUN python3 build.py
 
 FROM scratch AS export
 COPY --from=build /java-tree-sitter/libjava-tree-sitter.so .

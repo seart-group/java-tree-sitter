@@ -7,7 +7,7 @@ from distutils.log import set_verbosity as set_log_verbosity
 from glob import glob as find
 from os import environ
 from os import system as cmd
-from os.path import dirname, exists, getmtime, realpath
+from os.path import basename, dirname, exists, getmtime, realpath
 from os.path import join as path
 from os.path import split as split_path
 from platform import system as os_name
@@ -16,6 +16,13 @@ from tempfile import TemporaryDirectory
 
 # adapted from https://github.com/tree-sitter/py-tree-sitter
 def build(repositories, output_path="libjava-tree-sitter", system=None, arch=None, verbose=False):
+    here = dirname(realpath(__file__))
+
+    if not repositories:
+        repositories = sorted([basename(repository) for repository in find(path(here, "tree-sitter-*"))])
+
+    if not repositories:
+        raise ValueError("Library can not be compiled, no grammars were included!")
 
     if system is None:
         system = os_name()
@@ -24,7 +31,6 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         arch = "64" if "64" in arch else "32"
 
     output_path = f"{output_path}.{'dylib' if system == 'Darwin' else 'so'}"
-    here = dirname(realpath(__file__))
     env = ""
     if arch:
         env += (
@@ -115,23 +121,37 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description="Build a tree-sitter library")
+    parser = ArgumentParser(description="Build a tree-sitter library.")
     parser.add_argument(
         "-s",
         "--system",
-        help="Operating system to build for (Linux, Darwin, Windows)"
+        help="Operating system to build for (Linux, Darwin, Windows)."
     )
     parser.add_argument(
         "-a",
         "--arch",
-        help="Architecture to build for (x86, x86_64, arm64)",
+        help="Architecture to build for (x86, x86_64, arm64).",
     )
-    parser.add_argument("-o", "--output", default="libjava-tree-sitter", help="Output file name")
-    parser.add_argument("-v", "--verbose", action="store_true", help="Print verbose output")
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="libjava-tree-sitter",
+        help="Output file name.",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Print verbose output.",
+    )
     parser.add_argument(
         "repositories",
-        nargs="+",
-        help="tree-sitter repositories to include in build",
+        nargs="*",
+        help="""
+        tree-sitter repositories to include in build.
+        If none are specified, all directories that
+        match ./tree-sitter-* will be included.
+        """,
     )
 
     args = parser.parse_args()
