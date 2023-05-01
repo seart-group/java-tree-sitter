@@ -2,9 +2,14 @@
 !lib
 !include
 !tree-sitter
+!tree-sitter-bash
 !tree-sitter-c
 !tree-sitter-cpp
+!tree-sitter-haskell
 !tree-sitter-java
 !tree-sitter-javascript
+!tree-sitter-julia
 !tree-sitter-python
+!tree-sitter-rust
+!tree-sitter-scala
 !build.py
