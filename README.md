@@ -21,7 +21,7 @@ git submodule update --init --recursive
 # or:  git submodule init && git submodule update
 ```
 
-## Building the dependency
+## Building dependency locally
 
 To build the project locally, all one has to do is run the following:
 
@@ -30,6 +30,18 @@ mvn clean package
 ```
 
 This will generate both the header files in `lib`, as well as the shared library produced by `build.py`.
+
+## Adding dependency to project
+
+To use in your own Maven project, include the following in your POM file:
+
+```xml
+<dependency>
+  <groupId>ch.usi.si.seart</groupId>
+  <artifactId>java-tree-sitter</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 
 ## Adding a grammar
 
