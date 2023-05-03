@@ -34,6 +34,27 @@
     </developer>
   </developers>
 
+  <contributors>
+    <contributor>
+      <name>Tommy MacWilliam</name>
+      <email>tmacwilliam@cs.harvard.edu</email>
+      <url>https://tommymacwilliam.com/</url>
+      <organization>Figma</organization>
+      <organizationUrl>https://www.figma.com/</organizationUrl>
+    </contributor>
+    <contributor>
+      <name>Sam Dixon</name>
+      <organization>Figma</organization>
+      <organizationUrl>https://www.figma.com/</organizationUrl>
+    </contributor>
+    <contributor>
+      <name>Lawrence Wang</name>
+    </contributor>
+    <contributor>
+      <name>Symbolk</name>
+    </contributor>
+  </contributors>
+
   <scm>
     <tag>HEAD</tag>
     <url>https://github.com/seart-group/java-tree-sitter/tree/master</url>
