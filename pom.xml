@@ -299,6 +299,16 @@
         <version>3.0.0</version>
         <executions>
           <execution>
+            <id>git-update-submodules</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>update.sh</executable>
+            </configuration>
+          </execution>
+          <execution>
             <id>build-shared-object-library-macos</id>
             <phase>compile</phase>
             <goals>
