@@ -69,7 +69,9 @@ Once finished, check out the release whose version is **less than or equal** to 
 First, load the shared object somewhere in your application:
 
 ```java
-public class App {
+import ch.usi.si.seart.treesitter.*;
+
+public class Example {
   static {
       LibraryLoader.load();
   }
@@ -79,57 +81,118 @@ public class App {
 Then you can create a `Parser` initialized to a `Language`, and use it to parse a string of source code:
 
 ```java
-try (
-        Parser parser = new Parser(Language.PYTHON);
-        Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")
-) {
-    Node root = tree.getRootNode();
-    assertEquals(1, root.getChildCount());
-    assertEquals("module", root.getType());
-    assertEquals(0, root.getStartByte());
-    assertEquals(44, root.getEndByte());
-    Node function = root.getChild(0);
-    assertEquals("function_definition", function.getType());
-    assertEquals(5, function.getChildCount());
-} catch (Exception ex) {
-    // ...
+import ch.usi.si.seart.treesitter.*;
+
+public class Example {
+    
+    // init omitted...
+
+    public static void main(String[] args) {
+        try (
+            Parser parser = new Parser(Language.PYTHON);
+            Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")
+        ) {
+            Node root = tree.getRootNode();
+            assert root.getChildCount() == 1;
+            assert root.getType().equals("module");
+            assert root.getStartByte() == 0;
+            assert root.getEndByte() == 44;
+            Node function = root.getChild(0);
+            assert function.getType().equals("function_definition");
+            assert function.getChildCount() == 5;
+        } catch (Exception ex) {
+            // ...
+        }
+    }
 }
 ```
 
-For debugging, it can be helpful to see an S-Expression of the tree structure:
+For debugging, it can be helpful to see a [symbolic expression](https://en.wikipedia.org/wiki/S-expression) representation of the tree structure:
 
 ```java
-try (
-        Parser parser = new Parser(Language.PYTHON);
-        Tree tree = parser.parseString("print(\"hi\")")
-) {
-    assertEquals(
-        "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))",
-        tree.getRootNode().getNodeString()
-    );
-} catch (Exception ex) {
-    // ...
+import ch.usi.si.seart.treesitter.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        try (
+            Parser parser = new Parser(Language.PYTHON);
+            Tree tree = parser.parseString("print(\"hi\")")
+        ) {
+            String actual = tree.getRootNode().getNodeString();
+            String expected = "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))";
+            assert expected.equals(actual);
+        } catch (Exception ex) {
+            // ...
+        }
+    }
 }
 ```
 
-For tree traversals use the `walk` method, as it is more efficient than the above getters:
+We also provide a way to print the syntax tree, similar to the [online playground](https://tree-sitter.github.io/tree-sitter/playground):
 
 ```java
-try (
-        Parser parser = new Parser(Language.PYTHON);
-        Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
-        TreeCursor cursor = tree.getRootNode().walk()
-) {
-    assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
-    cursor.gotoFirstChild();
-    assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
-    cursor.gotoFirstChild();
-    assertEquals("def", cursor.getCurrentTreeCursorNode().getType());
-    cursor.gotoNextSibling();
-    cursor.gotoParent();
-} catch (Exception ex) {
-    // ...
+import ch.usi.si.seart.treesitter.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        try (
+            Parser parser = new Parser(Language.PYTHON);
+            Tree tree = parser.parseString("print(\"hi\")")
+        ) {
+            SyntaxTreePrinter printer = new SyntaxTreePrinter(tree.getRootNode());
+            String actual = printer.printSubtree();
+            String expected =
+                "module [0:0] - [0:11]\n" +
+                "  expression_statement [0:0] - [0:11]\n" +
+                "    call [0:0] - [0:11]\n" +
+                "      function: identifier [0:0] - [0:5]\n" +
+                "      arguments: argument_list [0:5] - [0:11]\n" +
+                "        string [0:6] - [0:10]\n";
+            assert expected.equals(actual);
+        } catch (Exception ex) {
+            // ...
+        }
+    }
 }
 ```
 
-For more examples, take a look at the [tests](src/test/java/usi/si/seart/treesitter).
+Use `TreeCursor` instances to traverse trees, as it is more efficient than both manual traversal, and through `Node` iterators:
+
+```java
+import ch.usi.si.seart.treesitter.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        String type;
+        try (
+            Parser parser = new Parser(Language.PYTHON);
+            Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+            TreeCursor cursor = tree.getRootNode().walk()
+        ) {
+            type = cursor.getCurrentTreeCursorNode().getType();
+            assert type.equals("module");
+            cursor.gotoFirstChild();
+            type = cursor.getCurrentTreeCursorNode().getType();
+            assert type.equals("function_definition");
+            cursor.gotoFirstChild();
+            type = cursor.getCurrentTreeCursorNode().getType();
+            assert type.equals("def");
+            cursor.gotoNextSibling();
+            cursor.gotoParent();
+        } catch (Exception ex) {
+            // ...
+        }
+    }
+}
+```
+
+For more usage examples, take a look at the [tests](src/test/java/usi/si/seart/treesitter).
