@@ -23,13 +23,21 @@ git submodule update --init --recursive
 
 ## Building dependency locally
 
-To build the project locally, all one has to do is run the following:
+To build the project for development purposes, all one has to do is run the following:
 
 ```shell
 mvn clean package
 ```
 
 This will generate both the header files in `lib`, as well as the shared library produced by `build.py`.
+For it to work, you must have the following installed:
+
+| Dependency | Version |
+|:-----------|--------:|
+| Java       |      11 |
+| Maven      |    3.9+ |
+| Python     |     3.9 |
+| Docker     |     23+ |
 
 ## Adding dependency to project
 
