@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.exception.TreeSitterException;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
@@ -16,6 +17,7 @@ import java.net.URL;
 @UtilityClass
 public class LibraryLoader {
 
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     private static final class SystemResource {
 
@@ -23,8 +25,7 @@ public class LibraryLoader {
         String name;
 
         private SystemResource(String name) {
-            this.url = ClassLoader.getSystemResource(name);
-            this.name = name;
+            this(LibraryLoader.class.getClassLoader().getResource(name), name);
         }
     }
 
