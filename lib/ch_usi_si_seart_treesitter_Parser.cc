@@ -29,6 +29,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BI(
       (TSParser*)parser, NULL, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
   );
   env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
+  ts_parser_reset((TSParser*)parser);
   return result;
 }
 
@@ -48,5 +49,6 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BIL
       (TSParser*)parser, (TSTree*)tree, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
   );
   env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
+  ts_parser_reset((TSParser*)parser);
   return result;
 }
