@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
@@ -288,7 +289,6 @@ public enum Language {
         );
     }
 
-    @Getter
     long id;
 
     private static final long INVALID = 0L;
