@@ -11,6 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Parsers are stateful objects that can be assigned a language
@@ -87,6 +90,40 @@ public class Parser extends External {
      * @return the timeout duration set for parsing, 0 if it was not set.
      */
     public native long getTimeout();
+
+    /**
+     * Set the maximum duration that parsing should be allowed to take before halting.
+     * If parsing takes longer than this, an exception is thrown.
+     * Note that the supplied duration will be rounded down
+     * to 0 if the duration is expressed in nanoseconds.
+     *
+     * @param duration the timeout duration.
+     * @throws NullPointerException if the duration is {@code null}
+     */
+    public void setTimeout(Duration duration) {
+        Objects.requireNonNull(duration, "Duration must not be null!");
+        long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
+        setTimeout(micros);
+    }
+
+    /**
+     * Set the maximum duration that parsing should be allowed to take before halting.
+     * If parsing takes longer than this, an exception is thrown.
+     * Note that the supplied duration will be rounded down
+     * to 0 if the duration is expressed in nanoseconds.
+     *
+     * @param timeout the timeout duration amount.
+     * @param timeUnit the duration time unit.
+     * @throws NullPointerException if the time unit is {@code null}
+     * @throws IllegalArgumentException if the timeout value is negative
+     */
+    public void setTimeout(long timeout, TimeUnit timeUnit) {
+        if (timeout < 0)
+            throw new IllegalArgumentException("Timeout can not be negative!");
+        Objects.requireNonNull(timeUnit, "Time unit must not be null!");
+        long micros = timeUnit.toMicros(timeout);
+        setTimeout(micros);
+    }
 
     /**
      * Set the maximum duration in microseconds that
