@@ -1,5 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
+import ch.usi.si.seart.treesitter.exception.ParsingException;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
@@ -10,8 +11,11 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 class ParserTest extends TestBase {
 
@@ -65,9 +69,37 @@ class ParserTest extends TestBase {
     }
 
     @Test
+    @SuppressWarnings("DataFlowIssue")
+    @SneakyThrows({URISyntaxException.class, IOException.class})
+    void testParserTimeout() {
+        @Cleanup Parser parser = new Parser(Language.JAVA);
+        Assertions.assertEquals(0, parser.getTimeout());
+        parser.setTimeout(10);
+        Assertions.assertEquals(10, parser.getTimeout());
+        Path path = Path.of(getClass().getClassLoader().getResource("deep_string_concat").toURI());
+        Assertions.assertThrows(ParsingException.class, () -> parser.parseFile(path));
+        TimeUnit unit = TimeUnit.SECONDS;
+        parser.setTimeout(1, unit);
+        Assertions.assertEquals(unit.toMicros(1), parser.getTimeout());
+        Assertions.assertFalse(parser.parseFile(path).isNull());
+        Duration duration = Duration.ofSeconds(1);
+        parser.setTimeout(duration);
+        Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
+        Assertions.assertFalse(parser.parseFile(path).isNull());
+        parser.setTimeout(Duration.ofNanos(500));
+        Assertions.assertEquals(0, parser.getTimeout());
+        parser.setTimeout(500, TimeUnit.NANOSECONDS);
+        Assertions.assertEquals(0, parser.getTimeout());
+    }
+
+    @Test
     @SuppressWarnings("resource")
     void testParserThrows() {
         Assertions.assertThrows(NullPointerException.class, () -> new Parser(null));
         Assertions.assertThrows(UnsatisfiedLinkError.class, () -> new Parser(Language._INVALID_));
+        Assertions.assertThrows(NullPointerException.class, () -> parser.setTimeout(null));
+        Assertions.assertThrows(NullPointerException.class, () -> parser.setTimeout(100, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.setTimeout(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.setTimeout(-1, TimeUnit.MICROSECONDS));
     }
 }
