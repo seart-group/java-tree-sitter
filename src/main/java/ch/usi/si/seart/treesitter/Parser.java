@@ -89,6 +89,16 @@ public class Parser extends External {
     public native long getTimeout();
 
     /**
+     * Set the maximum duration in microseconds that
+     * parsing should be allowed to take before halting.
+     * If parsing takes longer than this, an exception is thrown.
+     *
+     * @param timeout the timeout in microseconds.
+     * @throws IllegalArgumentException if the timeout value is negative.
+     */
+    public native void setTimeout(long timeout);
+
+    /**
      * Use the parser to parse some source code and create a syntax tree.
      *
      * @param source The source code string to be parsed.

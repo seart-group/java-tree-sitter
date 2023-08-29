@@ -27,6 +27,18 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
   return (jlong)ts_parser_timeout_micros((TSParser*)parser);
 }
 
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
+    JNIEnv* env, jobject thisObject, jlong timeout) {
+  if (timeout >= 0) {
+      jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
+      jlong parser = __getPointer(env, parserClass, thisObject);
+      ts_parser_set_timeout_micros((TSParser*)parser, (uint64_t)timeout);
+  } else {
+      jclass exceptionClass = _getClass("java/lang/IllegalArgumentException");
+      env->ThrowNew(exceptionClass, "Timeout can not be negative!");
+  }
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BI(
   JNIEnv* env, jobject thisObject, jbyteArray source_bytes, jint length) {
   jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
