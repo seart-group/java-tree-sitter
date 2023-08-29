@@ -1,9 +1,12 @@
 package ch.usi.si.seart.treesitter;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Objects;
 
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum Language {
 
     /**
@@ -290,10 +293,6 @@ public enum Language {
 
     Language() {
         this(INVALID);
-    }
-
-    Language(long id) {
-        this.id = id;
     }
 
     @Override
