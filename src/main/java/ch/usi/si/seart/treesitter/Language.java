@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
-@Getter
+@Getter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
