@@ -3,10 +3,12 @@ package ch.usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
 
     /**
@@ -287,7 +289,7 @@ public enum Language {
     }
 
     @Getter
-    private final long id;
+    long id;
 
     private static final long INVALID = 0L;
 
