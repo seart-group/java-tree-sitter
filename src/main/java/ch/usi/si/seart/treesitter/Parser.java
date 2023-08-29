@@ -82,6 +82,13 @@ public class Parser extends External {
     static native boolean setLanguage(long pointer, long language);
 
     /**
+     * Get the duration in microseconds that parsing is allowed to take.
+     *
+     * @return the timeout duration set for parsing, 0 if it was not set.
+     */
+    public native long getTimeout();
+
+    /**
      * Use the parser to parse some source code and create a syntax tree.
      *
      * @param source The source code string to be parsed.

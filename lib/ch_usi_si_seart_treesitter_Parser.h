@@ -33,6 +33,14 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    getTimeout
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    parseBytes
  * Signature: ([BI)J
  */

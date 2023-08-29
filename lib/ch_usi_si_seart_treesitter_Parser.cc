@@ -20,6 +20,13 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
   return ts_parser_set_language((TSParser*)parser, (TSLanguage*)language) ? JNI_TRUE : JNI_FALSE;
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
+    JNIEnv* env, jobject thisObject) {
+  jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
+  jlong parser = __getPointer(env, parserClass, thisObject);
+  return (jlong)ts_parser_timeout_micros((TSParser*)parser);
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BI(
   JNIEnv* env, jobject thisObject, jbyteArray source_bytes, jint length) {
   jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
