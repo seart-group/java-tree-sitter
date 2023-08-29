@@ -103,6 +103,8 @@ public class Parser extends External {
      *
      * @param source The source code string to be parsed.
      * @return A syntax tree matching the provided source.
+     * @throws ch.usi.si.seart.treesitter.exception.ParsingException
+     * If a parsing failure occurs (e.g. timeout)
      * @throws UnsupportedEncodingException
      * If the UTF-16LE character set is not supported
      */
@@ -121,7 +123,10 @@ public class Parser extends External {
      * @param source The source code string to be parsed.
      * @param oldTree The syntax tree before changes were made.
      * @return A syntax tree matching the provided source.
-     * @throws UnsupportedEncodingException If the UTF-16LE character set is not supported
+     * @throws ch.usi.si.seart.treesitter.exception.ParsingException
+     * If a parsing failure occurs (e.g. timeout)
+     * @throws UnsupportedEncodingException
+     * If the UTF-16LE character set is not supported
      */
     public Tree parseString(String source, Tree oldTree) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);

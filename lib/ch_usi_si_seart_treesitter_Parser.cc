@@ -49,6 +49,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BI(
   );
   env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
   ts_parser_reset((TSParser*)parser);
+  if (result == 0) {
+    jclass causeClass = _getClass("java/util/concurrent/TimeoutException");
+    jmethodID causeConstructor = _getConstructor(causeClass, "()V");
+    jobject cause = env->NewObject(causeClass, causeConstructor);
+    jclass exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/ParsingException");
+    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(Ljava/lang/Throwable;)V");
+    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, (jthrowable)cause);
+    env->Throw((jthrowable)exception);
+  }
   return result;
 }
 
@@ -69,5 +78,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BIL
   );
   env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
   ts_parser_reset((TSParser*)parser);
+  if (result == 0) {
+    jclass causeClass = _getClass("java/util/concurrent/TimeoutException");
+    jmethodID causeConstructor = _getConstructor(causeClass, "()V");
+    jobject cause = env->NewObject(causeClass, causeConstructor);
+    jclass exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/ParsingException");
+    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(Ljava/lang/Throwable;)V");
+    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, (jthrowable)cause);
+    env->Throw((jthrowable)exception);
+  }
   return result;
 }
