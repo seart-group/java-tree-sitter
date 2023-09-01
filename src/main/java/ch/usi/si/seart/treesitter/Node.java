@@ -3,6 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayDeque;
@@ -27,7 +28,10 @@ public class Node implements Iterable<Node> {
     int context1;
     int context2;
     int context3;
+
+    @Getter(AccessLevel.PACKAGE)
     long id;
+
     long tree;
 
     Node() {
