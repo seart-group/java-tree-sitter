@@ -59,7 +59,7 @@ To use in your own Maven project, include the following in your POM file:
 <dependency>
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
