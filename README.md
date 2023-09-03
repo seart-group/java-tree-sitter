@@ -3,7 +3,19 @@
 Java bindings for [tree-sitter](https://tree-sitter.github.io/tree-sitter/).
 Originally developed by [serenadeai](https://github.com/serenadeai).
 
-This fork was created with the purpose of more convenient integration into [DL4SE](https://github.com/seart-group/DL4SE), while including features introduced in [other forks](https://github.com/jakobkhansen/java-tree-sitter) and miscellaneous features absent from the original.
+This fork was originally created to simplify integration into [DL4SE](https://github.com/seart-group/DL4SE).
+Along the way, the project evolved to include useful features from [other forks](https://github.com/jakobkhansen/java-tree-sitter),
+while introducing support for those that were completely absent from the original project.
+Highlights include:
+
+- Incremental abstract syntax tree edits
+- APIs for querying parsed abstract syntax trees
+- Support for both macOS and Linux out of the box
+- A wide range of languages [supported](.gitmodules) out of the box
+- Streamlined native library construction, packaging and runtime loading
+- Safer interop with native code to minimize risks of segmentation faults
+- Multiple AST export formats: DOT, XML and human-readable syntax trees
+- Various other quality-of-life improvements
 
 ## Local development
 
