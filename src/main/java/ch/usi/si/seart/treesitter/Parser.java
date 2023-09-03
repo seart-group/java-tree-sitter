@@ -92,6 +92,7 @@ public class Parser extends External {
      * Get the duration in microseconds that parsing is allowed to take.
      *
      * @return the timeout duration set for parsing, 0 if it was not set
+     * @since 1.1.0
      */
     public native long getTimeout();
 
@@ -103,6 +104,7 @@ public class Parser extends External {
      *
      * @param duration the timeout duration
      * @throws NullPointerException if the duration is {@code null}
+     * @since 1.1.0
      */
     public void setTimeout(Duration duration) {
         Objects.requireNonNull(duration, "Duration must not be null!");
@@ -120,6 +122,7 @@ public class Parser extends External {
      * @param timeUnit the duration time unit
      * @throws NullPointerException if the time unit is {@code null}
      * @throws IllegalArgumentException if the timeout value is negative
+     * @since 1.1.0
      */
     public void setTimeout(long timeout, TimeUnit timeUnit) {
         if (timeout < 0)
@@ -136,6 +139,7 @@ public class Parser extends External {
      *
      * @param timeout the timeout in microseconds
      * @throws IllegalArgumentException if the timeout value is negative
+     * @since 1.1.0
      */
     public native void setTimeout(long timeout);
 
