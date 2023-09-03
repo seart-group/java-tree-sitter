@@ -1,10 +1,10 @@
-package ch.usi.si.seart.treesitter.printer;
+package ch.usi.si.seart.treesitter;
 
-import ch.usi.si.seart.treesitter.Node;
-import ch.usi.si.seart.treesitter.OffsetTreeCursor;
-import ch.usi.si.seart.treesitter.Point;
-import ch.usi.si.seart.treesitter.Tree;
-import ch.usi.si.seart.treesitter.TreeCursor;
+import ch.usi.si.seart.treesitter.printer.PrinterTestBase;
+import ch.usi.si.seart.treesitter.printer.SyntaxTreePrinter;
+import ch.usi.si.seart.treesitter.printer.TreePrinter;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OffsetTreeCursorTest extends PrinterTestBase {
 
