@@ -20,7 +20,7 @@ public abstract class PrinterTestBase extends TestBase {
 
     @Test
     @SneakyThrows(UnsupportedEncodingException.class)
-    void testPrint() {
+    protected void testPrint() {
         String source = getSource();
         @Cleanup Parser parser = getParser();
         @Cleanup Tree tree = parser.parseString(source);
@@ -33,7 +33,7 @@ public abstract class PrinterTestBase extends TestBase {
 
     @Test
     @SneakyThrows({UnsupportedEncodingException.class, IOException.class})
-    void testExport() {
+    protected void testExport() {
         String source = getSource();
         @Cleanup Parser parser = getParser();
         @Cleanup Tree tree = parser.parseString(source);
@@ -48,7 +48,7 @@ public abstract class PrinterTestBase extends TestBase {
     }
 
     @Test
-    void testPrinterThrows() {
+    protected void testPrinterThrows() {
         Assertions.assertThrows(NullPointerException.class, () -> getPrinter(null));
     }
 
