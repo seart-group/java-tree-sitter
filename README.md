@@ -3,7 +3,19 @@
 Java bindings for [tree-sitter](https://tree-sitter.github.io/tree-sitter/).
 Originally developed by [serenadeai](https://github.com/serenadeai).
 
-This fork was created with the purpose of more convenient integration into [DL4SE](https://github.com/seart-group/DL4SE), while including features introduced in [other forks](https://github.com/jakobkhansen/java-tree-sitter) and miscellaneous features absent from the original.
+This fork was originally created to simplify integration into [DL4SE](https://github.com/seart-group/DL4SE).
+Along the way, the project evolved to include useful features from [other forks](https://github.com/jakobkhansen/java-tree-sitter),
+while introducing support for those that were completely absent from the original project.
+Highlights include:
+
+- Incremental abstract syntax tree edits
+- APIs for querying parsed abstract syntax trees
+- Support for both macOS and Linux out of the box
+- A wide range of languages [supported](.gitmodules) out of the box
+- Streamlined native library construction, packaging and runtime loading
+- Safer interop with native code to minimize risks of segmentation faults
+- Multiple AST export formats: DOT, XML and human-readable syntax trees
+- Various other quality-of-life improvements
 
 ## Local development
 
@@ -47,7 +59,7 @@ To use in your own Maven project, include the following in your POM file:
 <dependency>
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
@@ -131,37 +143,6 @@ public class Example {
 }
 ```
 
-We also provide a way to print the syntax tree, similar to the [online playground](https://tree-sitter.github.io/tree-sitter/playground):
-
-```java
-import ch.usi.si.seart.treesitter.*;
-
-public class Example {
-
-    // init omitted...
-
-    public static void main(String[] args) {
-        try (
-            Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parseString("print(\"hi\")")
-        ) {
-            SyntaxTreePrinter printer = new SyntaxTreePrinter(tree.getRootNode());
-            String actual = printer.printSubtree();
-            String expected =
-                "module [0:0] - [0:11]\n" +
-                "  expression_statement [0:0] - [0:11]\n" +
-                "    call [0:0] - [0:11]\n" +
-                "      function: identifier [0:0] - [0:5]\n" +
-                "      arguments: argument_list [0:5] - [0:11]\n" +
-                "        string [0:6] - [0:10]\n";
-            assert expected.equals(actual);
-        } catch (Exception ex) {
-            // ...
-        }
-    }
-}
-```
-
 Use `TreeCursor` instances to traverse trees, as it is more efficient than both manual traversal, and through `Node` iterators:
 
 ```java
@@ -188,6 +169,39 @@ public class Example {
             assert type.equals("def");
             cursor.gotoNextSibling();
             cursor.gotoParent();
+        } catch (Exception ex) {
+            // ...
+        }
+    }
+}
+```
+
+We also provide a way to print the syntax tree, similar to the [online playground](https://tree-sitter.github.io/tree-sitter/playground):
+
+```java
+import ch.usi.si.seart.treesitter.*;
+import ch.usi.si.seart.treesitter.printer.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        try (
+            Parser parser = new Parser(Language.PYTHON);
+            Tree tree = parser.parseString("print(\"hi\")");
+            TreeCursor cursor = tree.getRootNode().walk()
+        ) {
+            SyntaxTreePrinter printer = new SyntaxTreePrinter(cursor);
+            String actual = printer.print();
+            String expected =
+                "module [0:0] - [0:11]\n" +
+                "  expression_statement [0:0] - [0:11]\n" +
+                "    call [0:0] - [0:11]\n" +
+                "      function: identifier [0:0] - [0:5]\n" +
+                "      arguments: argument_list [0:5] - [0:11]\n" +
+                "        string [0:6] - [0:10]\n";
+            assert expected.equals(actual);
         } catch (Exception ex) {
             // ...
         }

@@ -14,6 +14,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
+/**
+ * Utility for loading the native system library.
+ *
+ * @since 1.0.0
+ * @author Ozren Dabić
+ */
 @UtilityClass
 public class LibraryLoader {
 
@@ -29,6 +35,10 @@ public class LibraryLoader {
         }
     }
 
+    /**
+     * Load the native library.
+     * Call this once prior to using any of the APIs.
+     */
     public void load() {
         String name = "libjava-tree-sitter";
         String extension = getExtension();

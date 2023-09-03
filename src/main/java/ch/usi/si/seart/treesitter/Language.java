@@ -7,6 +7,12 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
+/**
+ * Enum that consists of all the officially recognized programming language mappings.
+ *
+ * @since 1.0.0
+ * @author Ozren Dabić
+ */
 @Getter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

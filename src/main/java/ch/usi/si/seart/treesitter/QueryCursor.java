@@ -13,6 +13,9 @@ import java.util.Objects;
  * Cursor used for executing queries, carrying the state needed to process them.
  * <p>
  * The query cursor should not be shared between threads, but can be reused for many query executions.
+ *
+ * @since 1.0.0
+ * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class QueryCursor extends External implements Iterable<QueryMatch> {
@@ -39,8 +42,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     static native long malloc();
 
     /**
-     * Delete the query cursor,
-     * freeing all the memory that it used.
+     * Delete the query cursor, freeing all the memory that it used.
      */
     @Override
     public native void close();
@@ -54,14 +56,14 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     /**
      * Advance to the next match of the currently running query.
      *
-     * @return A match if there is one, null otherwise.
+     * @return A match if there is one, null otherwise
      * @throws IllegalStateException
      * if {@code queryExec()} was not called beforehand
      */
     public native QueryMatch nextMatch();
 
     /**
-     * @return An iterator over the query cursor matches, starting from the first match.
+     * @return An iterator over the query cursor matches, starting from the first match
      */
     @Override
     public Iterator<QueryMatch> iterator() {

@@ -7,7 +7,12 @@ import lombok.experimental.FieldDefaults;
 
 /**
  * Utility used for pretty-printing entire syntax trees, as well as their subtrees.
+ *
+ * @deprecated use the {@linkplain ch.usi.si.seart.treesitter.printer.SyntaxTreePrinter new implementation} instead.
+ * @since 1.0.0
+ * @author Ozren Dabić
  */
+@Deprecated(since = "1.2.0", forRemoval = true)
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SyntaxTreePrinter {
@@ -22,7 +27,7 @@ public class SyntaxTreePrinter {
     }
 
     /**
-     * @return A string representation of the subtree. Consists only of named nodes.
+     * @return A string representation of the subtree, consisting only of named nodes
      * @see <a href="https://tree-sitter.github.io/tree-sitter/playground">Syntax Tree Playground</a>
      */
     public String printSubtree() {

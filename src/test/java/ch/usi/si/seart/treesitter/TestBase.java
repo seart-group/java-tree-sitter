@@ -1,6 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
-class TestBase {
+public abstract class TestBase {
 
   static {
     LibraryLoader.load();

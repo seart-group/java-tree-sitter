@@ -4,11 +4,16 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Special type of node returned during tree traversals with {@link TreeCursor}.
+ *
+ * @since 1.0.0
+ * @author Tommy MacWilliam
+ * @author Ozren Dabić
+ */
 @Getter
-@Setter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeCursorNode {

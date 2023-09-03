@@ -9,6 +9,12 @@ import lombok.experimental.FieldDefaults;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Collection of nodes matched with a single {@link Query} capture.
+ *
+ * @since 1.0.0
+ * @author Ozren Dabić
+ */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
