@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 import java.util.function.Consumer;
 
 /**
- *  A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
+ * A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeCursor extends External {
@@ -72,7 +72,8 @@ public class TreeCursor extends External {
     public native boolean gotoParent();
 
     /**
-     * Iteratively traverse over the parse tree, applying a callback to the nodes before they are visited
+     * Iteratively traverse over the parse tree,
+     * applying a callback to the nodes before they are visited.
      *
      * @param callback The callback consumer which will execute upon visiting a node
      */
