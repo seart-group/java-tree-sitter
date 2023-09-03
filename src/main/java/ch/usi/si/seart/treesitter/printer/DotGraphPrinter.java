@@ -1,23 +1,26 @@
 package ch.usi.si.seart.treesitter.printer;
 
 import ch.usi.si.seart.treesitter.Tree;
-import lombok.AllArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Printer used for generating DOT graph representations of trees.
  * Unlike its sister classes, it does not rely on an iterative approach,
  * relying instead on the internal {@code tree-sitter} API.
  */
-@AllArgsConstructor
 public class DotGraphPrinter implements TreePrinter {
 
     Tree tree;
+
+    public DotGraphPrinter(Tree tree) {
+        this.tree = Objects.requireNonNull(tree, "Tree must not be null!");
+    }
 
     /**
      * Generates a DOT graph of the tree.

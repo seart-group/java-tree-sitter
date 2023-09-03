@@ -50,6 +50,11 @@ public class DotGraphPrinterTest extends TestBase {
         assertion(actual);
     }
 
+    @Test
+    void testPrinterThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> new DotGraphPrinter(null));
+    }
+
     private void assertion(String result) {
         Assertions.assertEquals(594, result.lines().count());
         Assertions.assertTrue(result.startsWith("digraph tree {"));
