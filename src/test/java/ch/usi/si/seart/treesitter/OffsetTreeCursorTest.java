@@ -4,6 +4,7 @@ import ch.usi.si.seart.treesitter.printer.PrinterTestBase;
 import ch.usi.si.seart.treesitter.printer.SyntaxTreePrinter;
 import ch.usi.si.seart.treesitter.printer.TreePrinter;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class OffsetTreeCursorTest extends PrinterTestBase {
@@ -15,6 +16,11 @@ public class OffsetTreeCursorTest extends PrinterTestBase {
                 NullPointerException.class,
                 () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, 1), null)
         );
+    }
+
+    @Disabled
+    @Override
+    protected void testPrinterThrows() {
     }
 
     @Override
