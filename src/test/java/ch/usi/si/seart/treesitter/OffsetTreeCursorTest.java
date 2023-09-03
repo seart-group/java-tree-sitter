@@ -8,6 +8,15 @@ import org.junit.jupiter.api.Test;
 
 public class OffsetTreeCursorTest extends PrinterTestBase {
 
+    @Test
+    @SuppressWarnings("resource")
+    void testCursorThrows() {
+        Assertions.assertThrows(
+                NullPointerException.class,
+                () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, 1), null)
+        );
+    }
+
     @Override
     protected TreeCursor getCursor(Tree tree) {
         Node root = tree.getRootNode();

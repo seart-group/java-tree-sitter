@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +28,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
     public OffsetTreeCursor(Node node, Point offset) {
         super(node);
+        Objects.requireNonNull(offset, "Offset must not be null!");
         this.offset = offset;
     }
 
