@@ -47,6 +47,11 @@ public abstract class PrinterTestBase extends TestBase {
         Assertions.assertEquals(expected, actual);
     }
 
+    @Test
+    void testPrinterThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> getPrinter(null));
+    }
+
     protected Parser getParser() {
         return new Parser(Language.JAVA);
     }
