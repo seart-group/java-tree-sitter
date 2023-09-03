@@ -15,6 +15,8 @@ import lombok.experimental.FieldDefaults;
  *     <li>start point</li>
  *     <li>end point</li>
  * </ul>
+ *
+ * @author Ozren Dabić
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

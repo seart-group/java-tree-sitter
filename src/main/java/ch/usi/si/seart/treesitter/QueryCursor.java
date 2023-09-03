@@ -13,6 +13,8 @@ import java.util.Objects;
  * Cursor used for executing queries, carrying the state needed to process them.
  * <p>
  * The query cursor should not be shared between threads, but can be reused for many query executions.
+ *
+ * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class QueryCursor extends External implements Iterable<QueryMatch> {

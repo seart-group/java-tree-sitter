@@ -26,6 +26,7 @@ import java.util.function.Consumer;
  * While indentation is used to represent the tree structure.
  *
  * @see <a href="https://tree-sitter.github.io/tree-sitter/playground">Syntax Tree Playground</a>
+ * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SyntaxTreePrinter extends IterativeTreePrinter {

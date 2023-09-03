@@ -18,6 +18,9 @@ import java.util.stream.IntStream;
  * It tracks its start and end positions in the source code,
  * as well as its relation to other nodes like its parent,
  * siblings and children.
+ *
+ * @author Tommy MacWilliam
+ * @author Ozren Dabić
  */
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  *
  * @see java.util.function.Consumer Consumer
  * @param <T> the type of the input to the operation
+ * @author Ozren Dabić
  */
 @FunctionalInterface
 public interface IOExceptionThrowingConsumer<T> {

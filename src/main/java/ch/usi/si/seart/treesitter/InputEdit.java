@@ -9,6 +9,8 @@ import lombok.experimental.FieldDefaults;
  * Represents an edit operation on a section of source code.
  * Contains information pertaining to the starting byte offset and position,
  * as well as the former and current end byte offsets and positions.
+ *
+ * @author Ozren Dabić
  */
 @Getter
 @AllArgsConstructor

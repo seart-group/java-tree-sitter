@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 /**
  * Collection of nodes matched with a single {@link Query} capture.
+ *
+ * @author Ozren Dabić
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

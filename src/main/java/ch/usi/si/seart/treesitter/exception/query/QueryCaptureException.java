@@ -4,6 +4,8 @@ import lombok.experimental.StandardException;
 
 /**
  * Thrown when a query string has incorrect captures.
+ *
+ * @author Ozren Dabić
  */
 @SuppressWarnings("unused")
 @StandardException

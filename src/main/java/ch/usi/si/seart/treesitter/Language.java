@@ -9,6 +9,8 @@ import java.util.Objects;
 
 /**
  * Enum that consists of all the officially recognized programming language mappings.
+ *
+ * @author Ozren Dabić
  */
 @Getter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

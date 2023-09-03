@@ -13,6 +13,8 @@ import java.util.Objects;
  * Printer used for generating DOT graph representations of trees.
  * Unlike its sister classes, it does not rely on an iterative approach,
  * relying instead on the internal {@code tree-sitter} API.
+ *
+ * @author Ozren Dabić
  */
 public class DotGraphPrinter implements TreePrinter {
 

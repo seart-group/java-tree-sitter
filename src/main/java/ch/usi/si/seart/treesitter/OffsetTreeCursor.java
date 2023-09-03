@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
  * positional offset of {@code new Position(0, -n)}.
  * Row and column offsets can be combined with various
  * positive and negative arrangements.
+ *
+ * @author Ozren Dabić
  */
 public class OffsetTreeCursor extends TreeCursor {
 

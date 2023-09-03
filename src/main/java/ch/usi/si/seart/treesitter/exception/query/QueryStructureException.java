@@ -4,6 +4,8 @@ import lombok.experimental.StandardException;
 
 /**
  * Thrown when the node structure in the query does not adhere to the grammar.
+ *
+ * @author Ozren Dabić
  */
 @SuppressWarnings("unused")
 @StandardException

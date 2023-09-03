@@ -8,6 +8,9 @@ import lombok.experimental.FieldDefaults;
 
 /**
  * Special type of node returned during tree traversals with {@link TreeCursor}.
+ *
+ * @author Tommy MacWilliam
+ * @author Ozren Dabić
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

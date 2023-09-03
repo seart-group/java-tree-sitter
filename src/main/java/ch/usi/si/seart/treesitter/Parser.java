@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
  * and used to produce a {@link Tree Tree} based on some source code.
  * Instances of this class <strong>can not</strong> be created
  * without an initially set language.
+ *
+ * @author Tommy MacWilliam
+ * @author Ozren Dabić
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

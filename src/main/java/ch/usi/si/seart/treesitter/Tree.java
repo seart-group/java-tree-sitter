@@ -8,8 +8,11 @@ import lombok.experimental.FieldDefaults;
 import java.util.Iterator;
 
 /**
- * A Tree represents the syntax tree of an entire source code file. It contains {@link Node Node}
- * instances that indicate the structure of the source code.
+ * A Tree represents the syntax tree of an entire source code file.
+ * It contains {@link Node Node} instances that indicate the structure of the source code.
+ *
+ * @author Tommy MacWilliam
+ * @author Ozren Dabić
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

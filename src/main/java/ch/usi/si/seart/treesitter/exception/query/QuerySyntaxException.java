@@ -4,6 +4,8 @@ import lombok.experimental.StandardException;
 
 /**
  * Thrown when a query has incorrect syntax.
+ *
+ * @author Ozren Dabić
  */
 @SuppressWarnings("unused")
 @StandardException

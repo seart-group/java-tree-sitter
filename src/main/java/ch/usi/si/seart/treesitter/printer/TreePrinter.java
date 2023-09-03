@@ -8,6 +8,8 @@ import java.io.IOException;
  * representations of Abstract Syntax Trees (ASTs).
  * Implementations of this interface are responsible
  * for traversing trees and producing a specific representation.
+ *
+ * @author Ozren Dabić
  */
 public interface TreePrinter {
 

@@ -27,6 +27,7 @@ import java.util.function.Consumer;
  * document does not contain the actual source code contents.
  *
  * @see <a href="https://github.com/tree-sitter/tree-sitter/blob/293f0d1ca30a63839810ad4b943c0f19f1cb4933/cli/src/parse.rs#L186-L239">Rust implementation</a>
+ * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class XMLPrinter extends IterativeTreePrinter {

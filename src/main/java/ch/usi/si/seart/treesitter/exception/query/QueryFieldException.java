@@ -4,6 +4,8 @@ import lombok.experimental.StandardException;
 
 /**
  * Thrown when the targeted node does not have a field with the specified name.
+ *
+ * @author Ozren Dabić
  */
 @SuppressWarnings("unused")
 @StandardException

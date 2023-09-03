@@ -16,6 +16,8 @@ import java.net.URL;
 
 /**
  * Utility for loading the native system library.
+ *
+ * @author Ozren Dabić
  */
 @UtilityClass
 public class LibraryLoader {

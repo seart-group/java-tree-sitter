@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
  * Wrapper for a single node matched with a {@link Query} capture.
  * Each instance contains a reference to a matched node,
  * as well as the ordinal index within the match.
+ *
+ * @author Ozren Dabić
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

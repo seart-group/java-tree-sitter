@@ -4,6 +4,8 @@ import lombok.experimental.StandardException;
 
 /**
  * Thrown when a specified node type does not exist in the language grammar.
+ *
+ * @author Ozren Dabić
  */
 @SuppressWarnings("unused")
 @StandardException

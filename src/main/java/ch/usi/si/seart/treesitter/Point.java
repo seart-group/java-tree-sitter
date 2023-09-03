@@ -15,6 +15,8 @@ import lombok.experimental.FieldDefaults;
  * Although node positions within files should never be negative,
  * instances of this class can be created with negative row and column
  * values for other purposes, such as denoting repositioning offsets.
+ *
+ * @author Ozren Dabić
  */
 @Getter
 @Setter(value = AccessLevel.PACKAGE)

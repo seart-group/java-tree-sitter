@@ -30,6 +30,8 @@ import java.util.Objects;
  * </pre>
  *
  * The underlying query value is immutable and can be safely shared between threads.
+ *
+ * @author Ozren Dabić
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
