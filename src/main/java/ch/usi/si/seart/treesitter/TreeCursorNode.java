@@ -6,6 +6,9 @@ import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Special type of node returned during tree traversals with {@link TreeCursor}.
+ */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
