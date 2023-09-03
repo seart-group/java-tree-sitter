@@ -43,7 +43,7 @@ public abstract class PrinterTestBase extends TestBase {
         File file = printer.export();
         Path path = file.toPath();
         String actual = Files.readString(path);
-        file.deleteOnExit();
+        Files.delete(path);
         Assertions.assertEquals(expected, actual);
     }
 
