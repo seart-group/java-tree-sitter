@@ -238,6 +238,7 @@
             <exclude>**/exception/**</exclude>
             <exclude>**/function/**</exclude>
             <exclude>**/External.class</exclude>
+            <exclude>**/OffsetTreeCursor$*.class</exclude>
           </excludes>
         </configuration>
       </plugin>
