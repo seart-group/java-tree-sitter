@@ -14,6 +14,7 @@ import java.util.Objects;
  * <p>
  * The query cursor should not be shared between threads, but can be reused for many query executions.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

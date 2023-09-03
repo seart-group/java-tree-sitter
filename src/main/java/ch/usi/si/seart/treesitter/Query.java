@@ -31,6 +31,7 @@ import java.util.Objects;
  *
  * The underlying query value is immutable and can be safely shared between threads.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Getter

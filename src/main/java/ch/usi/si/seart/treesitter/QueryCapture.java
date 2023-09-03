@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
  * Each instance contains a reference to a matched node,
  * as well as the ordinal index within the match.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Getter

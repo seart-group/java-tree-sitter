@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
  * Utility used for pretty-printing entire syntax trees, as well as their subtrees.
  *
  * @deprecated use the {@linkplain ch.usi.si.seart.treesitter.printer.SyntaxTreePrinter new implementation} instead.
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Deprecated(since = "1.2.0", forRemoval = true)

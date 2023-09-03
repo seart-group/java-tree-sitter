@@ -8,6 +8,7 @@ import java.util.function.Consumer;
  * Represents an operation that accepts a single input argument and returns no result.
  * Can potentially throw an {@link IOException} while doing so.
  *
+ * @since 1.2.0
  * @see java.util.function.Consumer Consumer
  * @param <T> the type of the input to the operation
  * @author Ozren Dabić

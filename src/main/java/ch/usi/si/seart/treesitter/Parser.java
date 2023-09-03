@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Instances of this class <strong>can not</strong> be created
  * without an initially set language.
  *
+ * @since 1.0.0
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */

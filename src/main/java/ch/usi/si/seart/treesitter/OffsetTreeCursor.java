@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
  * Row and column offsets can be combined with various
  * positive and negative arrangements.
  *
+ * @since 1.2.0
  * @author Ozren Dabić
  */
 public class OffsetTreeCursor extends TreeCursor {

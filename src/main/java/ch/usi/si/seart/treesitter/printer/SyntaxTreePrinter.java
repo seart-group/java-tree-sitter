@@ -25,6 +25,7 @@ import java.util.function.Consumer;
  * }</pre>
  * While indentation is used to represent the tree structure.
  *
+ * @since 1.2.0
  * @see <a href="https://tree-sitter.github.io/tree-sitter/playground">Syntax Tree Playground</a>
  * @author Ozren Dabić
  */

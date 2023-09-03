@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 /**
  * Collection of nodes matched with a single {@link Query} capture.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Getter

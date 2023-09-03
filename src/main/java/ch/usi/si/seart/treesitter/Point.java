@@ -16,6 +16,7 @@ import lombok.experimental.FieldDefaults;
  * instances of this class can be created with negative row and column
  * values for other purposes, such as denoting repositioning offsets.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Getter

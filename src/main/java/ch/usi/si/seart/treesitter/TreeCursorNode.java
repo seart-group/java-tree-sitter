@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 /**
  * Special type of node returned during tree traversals with {@link TreeCursor}.
  *
+ * @since 1.0.0
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */

@@ -16,6 +16,7 @@ import lombok.experimental.FieldDefaults;
  *     <li>end point</li>
  * </ul>
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Getter

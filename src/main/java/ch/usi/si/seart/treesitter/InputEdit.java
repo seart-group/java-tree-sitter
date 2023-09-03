@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
  * Contains information pertaining to the starting byte offset and position,
  * as well as the former and current end byte offsets and positions.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @Getter

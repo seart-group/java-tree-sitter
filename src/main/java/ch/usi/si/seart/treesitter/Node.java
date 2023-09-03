@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
  * as well as its relation to other nodes like its parent,
  * siblings and children.
  *
+ * @since 1.0.0
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */

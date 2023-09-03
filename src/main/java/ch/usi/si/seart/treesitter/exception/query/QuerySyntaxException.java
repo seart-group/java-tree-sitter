@@ -5,6 +5,7 @@ import lombok.experimental.StandardException;
 /**
  * Thrown when a query has incorrect syntax.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @SuppressWarnings("unused")

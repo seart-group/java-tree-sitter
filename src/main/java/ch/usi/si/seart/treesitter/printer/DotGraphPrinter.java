@@ -14,6 +14,7 @@ import java.util.Objects;
  * Unlike its sister classes, it does not rely on an iterative approach,
  * relying instead on the internal {@code tree-sitter} API.
  *
+ * @since 1.2.0
  * @author Ozren Dabić
  */
 public class DotGraphPrinter implements TreePrinter {

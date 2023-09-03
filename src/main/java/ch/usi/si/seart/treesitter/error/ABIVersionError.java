@@ -8,6 +8,7 @@ import lombok.experimental.StandardException;
  * These usually occur as a result of a language being generated
  * with an incompatible version of the Tree-sitter CLI.
  *
+ * @since 1.0.0
  * @author Ozren Dabić
  */
 @StandardException

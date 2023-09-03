@@ -9,6 +9,7 @@ import java.io.IOException;
  * Implementations of this interface are responsible
  * for traversing trees and producing a specific representation.
  *
+ * @since 1.2.0
  * @author Ozren Dabić
  */
 public interface TreePrinter {
