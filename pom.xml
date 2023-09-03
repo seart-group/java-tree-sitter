@@ -236,6 +236,7 @@
           <excludes>
             <exclude>**/error/**</exclude>
             <exclude>**/exception/**</exclude>
+            <exclude>**/function/**</exclude>
             <exclude>**/External.class</exclude>
           </excludes>
         </configuration>
