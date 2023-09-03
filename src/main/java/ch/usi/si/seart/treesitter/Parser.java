@@ -28,7 +28,7 @@ public class Parser extends External {
     Language language;
 
     /**
-     * @param language The language used for parsing.
+     * @param language The language used for parsing
      * @throws NullPointerException
      * if the specified language is null
      * @throws UnsatisfiedLinkError
@@ -65,7 +65,7 @@ public class Parser extends External {
     /**
      * Set the language that the parser should use for parsing.
      *
-     * @param language The language used for parsing.
+     * @param language The language used for parsing
      * @throws NullPointerException
      * if the specified language is null
      * @throws UnsatisfiedLinkError
@@ -87,7 +87,7 @@ public class Parser extends External {
     /**
      * Get the duration in microseconds that parsing is allowed to take.
      *
-     * @return the timeout duration set for parsing, 0 if it was not set.
+     * @return the timeout duration set for parsing, 0 if it was not set
      */
     public native long getTimeout();
 
@@ -97,7 +97,7 @@ public class Parser extends External {
      * Note that the supplied duration will be rounded down
      * to 0 if the duration is expressed in nanoseconds.
      *
-     * @param duration the timeout duration.
+     * @param duration the timeout duration
      * @throws NullPointerException if the duration is {@code null}
      */
     public void setTimeout(Duration duration) {
@@ -112,8 +112,8 @@ public class Parser extends External {
      * Note that the supplied duration will be rounded down
      * to 0 if the duration is expressed in nanoseconds.
      *
-     * @param timeout the timeout duration amount.
-     * @param timeUnit the duration time unit.
+     * @param timeout the timeout duration amount
+     * @param timeUnit the duration time unit
      * @throws NullPointerException if the time unit is {@code null}
      * @throws IllegalArgumentException if the timeout value is negative
      */
@@ -130,16 +130,16 @@ public class Parser extends External {
      * parsing should be allowed to take before halting.
      * If parsing takes longer than this, an exception is thrown.
      *
-     * @param timeout the timeout in microseconds.
-     * @throws IllegalArgumentException if the timeout value is negative.
+     * @param timeout the timeout in microseconds
+     * @throws IllegalArgumentException if the timeout value is negative
      */
     public native void setTimeout(long timeout);
 
     /**
      * Use the parser to parse some source code and create a syntax tree.
      *
-     * @param source The source code string to be parsed.
-     * @return A syntax tree matching the provided source.
+     * @param source The source code string to be parsed
+     * @return A syntax tree matching the provided source
      * @throws ch.usi.si.seart.treesitter.exception.ParsingException
      * If a parsing failure occurs (e.g. timeout)
      * @throws UnsupportedEncodingException
@@ -157,9 +157,9 @@ public class Parser extends External {
      * Use the parser to incrementally parse a changed source code string,
      * reusing unchanged parts of the tree to speed up the process.
      *
-     * @param source The source code string to be parsed.
-     * @param oldTree The syntax tree before changes were made.
-     * @return A syntax tree matching the provided source.
+     * @param source The source code string to be parsed
+     * @param oldTree The syntax tree before changes were made
+     * @return A syntax tree matching the provided source
      * @throws ch.usi.si.seart.treesitter.exception.ParsingException
      * If a parsing failure occurs (e.g. timeout)
      * @throws UnsupportedEncodingException
@@ -176,12 +176,12 @@ public class Parser extends External {
     /**
      * Use the parser to parse some source code found in a file at the specified path.
      *
-     * @param path The path of the file to be parsed.
-     * @return A tree-sitter Tree matching the provided source.
+     * @param path The path of the file to be parsed
+     * @return A tree-sitter Tree matching the provided source
      * @throws IOException If an I/O error occurs reading from
-     * the file or a malformed or unmappable byte sequence is read.
+     * the file or a malformed or unmappable byte sequence is read
      * @throws OutOfMemoryError If the file is extremely large,
-     * for example larger than 2GB.
+     * for example larger than 2GB
      */
     public Tree parseFile(Path path) throws IOException {
         String source = Files.readString(path);

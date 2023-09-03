@@ -43,7 +43,7 @@ public class XMLPrinter extends IterativeTreePrinter {
      * Generates an XML representation of the tree,
      * starting from the node currently pointed to by the cursor.
      *
-     * @return An XML string of the tree.
+     * @return An XML string of the tree
      */
     @Override
     public String print() {
@@ -56,7 +56,7 @@ public class XMLPrinter extends IterativeTreePrinter {
      * Generates an XML representation of the tree,
      * writing it directly to a file.
      *
-     * @return A file containing the XML string of the tree.
+     * @return A file containing the XML string of the tree
      * @throws IOException if an I/O error occurs
      */
     @Override

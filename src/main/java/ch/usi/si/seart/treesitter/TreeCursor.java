@@ -25,54 +25,56 @@ public class TreeCursor extends External {
     static native long malloc(Node node);
 
     /**
-     * Delete the tree cursor,
-     * freeing all the memory that it used.
+     * Delete the tree cursor, freeing all the memory that it used.
      */
     @Override
     public native void close();
 
     /**
-     * @return The tree cursor's current node.
+     * @return The tree cursor's current node
      */
     public native Node getCurrentNode();
 
     /**
-     * @return The field name of the tree cursor's current node.
-     * Will return null if the current node doesn't have a field.
+     * @return The field name of the tree cursor's current node,
+     * {@code null} if the current node doesn't have a field
      */
     public native String getCurrentFieldName();
 
     /**
-     * @return The tree cursor's current node.
+     * @return The tree cursor's current node
      */
     public native TreeCursorNode getCurrentTreeCursorNode();
 
     /**
      * Move the cursor to the first child of its current node.
      *
-     * @return true if the cursor successfully moved, and false if there were no children.
+     * @return true if the cursor successfully moved,
+     * and false if there were no children
      */
     public native boolean gotoFirstChild();
 
     /**
      * Move the cursor to the next sibling of its current node.
      *
-     * @return true if the cursor successfully moved, and false if there was no next sibling node.
+     * @return true if the cursor successfully moved,
+     * and false if there was no next sibling node
      */
     public native boolean gotoNextSibling();
 
     /**
      * Move the cursor to the parent of its current node.
      *
-     * @return true if the cursor successfully moved, and false if there was no parent node
-     * (the cursor was already on the root node).
+     * @return true if the cursor successfully moved,
+     * and false if there was no parent node
+     * (the cursor was already on the root node)
      */
     public native boolean gotoParent();
 
     /**
-     * Iteratively traverse over the parse tree, applying a callback to the nodes before they are visited.
+     * Iteratively traverse over the parse tree, applying a callback to the nodes before they are visited
      *
-     * @param callback The callback consumer which will execute upon visiting a node.
+     * @param callback The callback consumer which will execute upon visiting a node
      */
     public void preorderTraversal(Consumer<Node> callback) {
         for (;;) {

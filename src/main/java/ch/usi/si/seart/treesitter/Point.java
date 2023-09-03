@@ -32,7 +32,7 @@ public class Point {
      *      row:column
      * }</pre>
      *
-     * @return A string representation of this point.
+     * @return A string representation of this point
      */
     @Override
     @Generated
@@ -45,7 +45,7 @@ public class Point {
      * which is when both the row and the column are zero.
      * In byte range terms, this point also corresponds to zero.
      *
-     * @return true if this is an origin point, false otherwise.
+     * @return true if this is an origin point, false otherwise
      */
     public boolean isOrigin() {
         return row == 0 && column == 0;

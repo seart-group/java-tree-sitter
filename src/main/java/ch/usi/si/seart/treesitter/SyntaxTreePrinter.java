@@ -25,7 +25,7 @@ public class SyntaxTreePrinter {
     }
 
     /**
-     * @return A string representation of the subtree. Consists only of named nodes.
+     * @return A string representation of the subtree, consisting only of named nodes
      * @see <a href="https://tree-sitter.github.io/tree-sitter/playground">Syntax Tree Playground</a>
      */
     public String printSubtree() {

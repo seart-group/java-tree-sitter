@@ -25,7 +25,7 @@ public class DotGraphPrinter implements TreePrinter {
     /**
      * Generates a DOT graph of the tree.
      *
-     * @return A DOT graph string of the tree.
+     * @return A DOT graph string of the tree
      */
     @Override
     public String print() {
@@ -44,7 +44,8 @@ public class DotGraphPrinter implements TreePrinter {
      * Generates a DOT graph of the tree,
      * writing it directly to a file.
      *
-     * @return A file containing the DOT graph of the tree.
+     * @return A file containing the DOT graph of the tree
+     * @throws IOException if an I/O error occurs
      */
     @Override
     public File export() throws IOException {

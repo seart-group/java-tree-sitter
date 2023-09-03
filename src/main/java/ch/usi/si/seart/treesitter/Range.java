@@ -36,7 +36,7 @@ public class Range {
      *      [startPoint] - [endPoint]
      * }</pre>
      *
-     * @return A string representation of this range.
+     * @return A string representation of this range
      */
     @Override
     @Generated

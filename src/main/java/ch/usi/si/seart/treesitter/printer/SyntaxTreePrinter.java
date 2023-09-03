@@ -40,7 +40,7 @@ public class SyntaxTreePrinter extends IterativeTreePrinter {
      * Generates a human-readable representation of the tree,
      * starting from the node currently pointed to by the cursor.
      *
-     * @return A human-readable print-out of the tree.
+     * @return A human-readable print-out of the tree
      */
     @Override
     public String print() {
@@ -50,7 +50,7 @@ public class SyntaxTreePrinter extends IterativeTreePrinter {
     }
 
     /**
-     * @return A file containing human-readable print-out of the tree.
+     * @return A file containing human-readable print-out of the tree
      * @throws IOException if an I/O error occurs
      */
     @Override

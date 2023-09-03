@@ -31,17 +31,17 @@ public class Tree extends External implements Iterable<Node> {
     /**
      * Edit the syntax tree to keep it in sync with source code that has been edited.
      *
-     * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates.
+     * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates
      */
     public native void edit(InputEdit edit);
 
     /**
-     * @return The root node of the syntax tree.
+     * @return The root node of the syntax tree
      */
     public native Node getRootNode();
 
     /**
-     * @return An iterator over the entire syntax tree, starting from the root node.
+     * @return An iterator over the entire syntax tree, starting from the root node
      */
     @Override
     public Iterator<Node> iterator() {

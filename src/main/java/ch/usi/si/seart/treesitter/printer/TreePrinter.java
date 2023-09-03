@@ -14,7 +14,7 @@ public interface TreePrinter {
     /**
      * Generates a string representation of an Abstract Syntax Tree (AST).
      *
-     * @return A string representation of the tree.
+     * @return A string representation of the tree
      */
     String print();
 
@@ -24,7 +24,7 @@ public interface TreePrinter {
      * This method should be preferred over {@link #print()}
      * when dealing with extremely wide, or deep trees.
      *
-     * @return A file containing the string representation of the tree.
+     * @return A file containing the string representation of the tree
      * @throws IOException if an I/O error occurs
      */
     File export() throws IOException;

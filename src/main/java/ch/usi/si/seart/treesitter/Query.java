@@ -67,25 +67,25 @@ public class Query extends External {
     public native void close();
 
     /**
-     * @return The number of string literals in this query.
+     * @return The number of string literals in this query
      */
     public native int countStrings();
 
     /**
-     * @return The number of captures in this query.
+     * @return The number of captures in this query
      */
     public native int countCaptures();
 
     static native int countCaptures(long query);
 
     /**
-     * @return The number of patterns in this query.
+     * @return The number of patterns in this query
      */
     public native int countPatterns();
 
     /**
-     * @param capture The query capture.
-     * @return The name of the provided query captures.
+     * @param capture The query capture
+     * @return The name of the provided query captures
      */
     public String getCaptureName(QueryCapture capture) {
         return captures.get(capture.getIndex());
@@ -94,7 +94,7 @@ public class Query extends External {
     static native String getCaptureName(long query, int index);
 
     /**
-     * @return true if the query has captures, false otherwise.
+     * @return true if the query has captures, false otherwise
      */
     public boolean hasCaptures() {
         return !captures.isEmpty();
