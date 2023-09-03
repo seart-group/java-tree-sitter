@@ -3,6 +3,7 @@ package ch.usi.si.seart.treesitter.printer;
 import ch.usi.si.seart.treesitter.Point;
 import ch.usi.si.seart.treesitter.TreeCursor;
 import ch.usi.si.seart.treesitter.TreeCursorNode;
+import ch.usi.si.seart.treesitter.function.IOExceptionThrowingConsumer;
 import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
@@ -63,13 +64,12 @@ public class XMLPrinter extends IterativeTreePrinter {
         File file = Files.createTempFile("ts-export-", ".xml").toFile();
         @Cleanup Writer writer = new BufferedWriter(new FileWriter(file));
         writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        write(string -> {
-            try {
-                writer.write(string);
-            } catch (IOException ex) {
-                throw new UncheckedIOException(ex);
-            }
-        });
+        Consumer<String> appender = IOExceptionThrowingConsumer.toUnchecked(writer::append);
+        try {
+            write(appender);
+        } catch (UncheckedIOException ex) {
+            throw ex.getCause();
+        }
         return file;
     }
 
