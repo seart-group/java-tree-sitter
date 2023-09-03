@@ -239,6 +239,8 @@
             <exclude>**/function/**</exclude>
             <exclude>**/External.class</exclude>
             <exclude>**/OffsetTreeCursor$*.class</exclude>
+            <!-- TODO: Remove following exclusion once the deprecated class is removed -->
+            <exclude>**/treesitter/SyntaxTreePrinter*.class</exclude>
           </excludes>
         </configuration>
       </plugin>
