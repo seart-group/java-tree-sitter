@@ -143,37 +143,6 @@ public class Example {
 }
 ```
 
-We also provide a way to print the syntax tree, similar to the [online playground](https://tree-sitter.github.io/tree-sitter/playground):
-
-```java
-import ch.usi.si.seart.treesitter.*;
-
-public class Example {
-
-    // init omitted...
-
-    public static void main(String[] args) {
-        try (
-            Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parseString("print(\"hi\")")
-        ) {
-            SyntaxTreePrinter printer = new SyntaxTreePrinter(tree.getRootNode());
-            String actual = printer.printSubtree();
-            String expected =
-                "module [0:0] - [0:11]\n" +
-                "  expression_statement [0:0] - [0:11]\n" +
-                "    call [0:0] - [0:11]\n" +
-                "      function: identifier [0:0] - [0:5]\n" +
-                "      arguments: argument_list [0:5] - [0:11]\n" +
-                "        string [0:6] - [0:10]\n";
-            assert expected.equals(actual);
-        } catch (Exception ex) {
-            // ...
-        }
-    }
-}
-```
-
 Use `TreeCursor` instances to traverse trees, as it is more efficient than both manual traversal, and through `Node` iterators:
 
 ```java
@@ -200,6 +169,39 @@ public class Example {
             assert type.equals("def");
             cursor.gotoNextSibling();
             cursor.gotoParent();
+        } catch (Exception ex) {
+            // ...
+        }
+    }
+}
+```
+
+We also provide a way to print the syntax tree, similar to the [online playground](https://tree-sitter.github.io/tree-sitter/playground):
+
+```java
+import ch.usi.si.seart.treesitter.*;
+import ch.usi.si.seart.treesitter.printer.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        try (
+            Parser parser = new Parser(Language.PYTHON);
+            Tree tree = parser.parseString("print(\"hi\")");
+            TreeCursor cursor = tree.getRootNode().walk()
+        ) {
+            SyntaxTreePrinter printer = new SyntaxTreePrinter(cursor);
+            String actual = printer.print();
+            String expected =
+                "module [0:0] - [0:11]\n" +
+                "  expression_statement [0:0] - [0:11]\n" +
+                "    call [0:0] - [0:11]\n" +
+                "      function: identifier [0:0] - [0:5]\n" +
+                "      arguments: argument_list [0:5] - [0:11]\n" +
+                "        string [0:6] - [0:10]\n";
+            assert expected.equals(actual);
         } catch (Exception ex) {
             // ...
         }
