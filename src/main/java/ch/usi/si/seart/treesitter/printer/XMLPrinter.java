@@ -33,6 +33,8 @@ import java.util.function.Consumer;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class XMLPrinter extends IterativeTreePrinter {
 
+    public static final String START_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
     @NonFinal
     boolean visitedChildren = false;
     Deque<String> tags = new ArrayDeque<>();
@@ -49,7 +51,7 @@ public class XMLPrinter extends IterativeTreePrinter {
      */
     @Override
     public String print() {
-        StringBuilder stringBuilder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        StringBuilder stringBuilder = new StringBuilder(START_TAG);
         write(stringBuilder::append);
         return stringBuilder.toString();
     }
@@ -65,7 +67,7 @@ public class XMLPrinter extends IterativeTreePrinter {
     public File export() throws IOException {
         File file = Files.createTempFile("ts-export-", ".xml").toFile();
         @Cleanup Writer writer = new BufferedWriter(new FileWriter(file));
-        writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        writer.append(START_TAG);
         Consumer<String> appender = IOExceptionThrowingConsumer.toUnchecked(writer::append);
         try {
             write(appender);
