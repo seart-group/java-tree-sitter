@@ -38,4 +38,10 @@ class TreeTest extends TestBase {
         String newSExp = tree.getRootNode().getNodeString();
         Assertions.assertNotEquals(oldSExp, newSExp);
     }
+
+    @Test
+    void testTreeThrows() {
+        @Cleanup Tree tree = new Tree(0L, Language.JAVA);
+        Assertions.assertThrows(NullPointerException.class, () -> tree.edit(null));
+    }
 }
