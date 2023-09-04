@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class Query extends External {
     String pattern;
     List<String> captures;
 
-    public Query(Language language, String pattern) {
+    public Query(@NotNull Language language, @NotNull String pattern) {
         super(createIfValid(language, pattern));
         this.language = language;
         this.pattern = pattern;
@@ -90,7 +91,7 @@ public class Query extends External {
      * @param capture The query capture
      * @return The name of the provided query captures
      */
-    public String getCaptureName(QueryCapture capture) {
+    public String getCaptureName(@NotNull QueryCapture capture) {
         return captures.get(capture.getIndex());
     }
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the portions of source code taken up by a node within a file or snippet.
@@ -29,7 +30,7 @@ public class Range {
     Point startPoint;
     Point endPoint;
 
-    public Range(Node node) {
+    public Range(@NotNull Node node) {
         this(node.getStartByte(), node.getEndByte(), node.getStartPoint(), node.getEndPoint());
     }
 

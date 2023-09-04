@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
@@ -21,7 +22,7 @@ public class Tree extends External implements Iterable<Node> {
 
     Language language;
 
-    Tree(long pointer, Language language) {
+    Tree(long pointer, @NotNull Language language) {
         super(pointer);
         this.language = language;
     }
@@ -37,7 +38,7 @@ public class Tree extends External implements Iterable<Node> {
      *
      * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates
      */
-    public native void edit(InputEdit edit);
+    public native void edit(@NotNull InputEdit edit);
 
     /**
      * @return The root node of the syntax tree
@@ -48,7 +49,7 @@ public class Tree extends External implements Iterable<Node> {
      * @return An iterator over the entire syntax tree, starting from the root node
      */
     @Override
-    public Iterator<Node> iterator() {
+    public @NotNull Iterator<Node> iterator() {
         return getRootNode().iterator();
     }
 

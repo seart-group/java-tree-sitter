@@ -3,6 +3,7 @@ package ch.usi.si.seart.treesitter.printer;
 import ch.usi.si.seart.treesitter.Tree;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class DotGraphPrinter implements TreePrinter {
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     Tree tree;
 
-    public DotGraphPrinter(Tree tree) {
+    public DotGraphPrinter(@NotNull Tree tree) {
         this.tree = Objects.requireNonNull(tree, "Tree must not be null!");
     }
 

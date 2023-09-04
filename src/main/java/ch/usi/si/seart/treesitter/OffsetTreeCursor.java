@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +59,7 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         @Override
-        public Node getChildByFieldName(String name) {
+        public Node getChildByFieldName(@NotNull String name) {
             return new OffsetNode(super.getChildByFieldName(name));
         }
 

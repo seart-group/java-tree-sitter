@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -27,7 +28,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     @NonFinal
     boolean executed = false;
 
-    public QueryCursor(Node node, Query query) {
+    public QueryCursor(@NotNull Node node, @NotNull Query query) {
         super(createIfValid(node, query));
         this.node = node;
         this.query = query;
@@ -66,7 +67,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * @return An iterator over the query cursor matches, starting from the first match
      */
     @Override
-    public Iterator<QueryMatch> iterator() {
+    public @NotNull Iterator<QueryMatch> iterator() {
         execute();
         return new Iterator<>() {
 
