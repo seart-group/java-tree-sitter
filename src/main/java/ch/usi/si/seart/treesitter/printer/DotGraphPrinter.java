@@ -1,9 +1,9 @@
 package ch.usi.si.seart.treesitter.printer;
 
 import ch.usi.si.seart.treesitter.Tree;
-import org.jetbrains.annotations.NotNull;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
