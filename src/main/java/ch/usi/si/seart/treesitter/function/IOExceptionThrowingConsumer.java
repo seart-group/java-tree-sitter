@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter.function;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -33,8 +34,10 @@ public interface IOExceptionThrowingConsumer<T> {
      * @param <T> the type of the input to the operation
      * @return and identical {@code Consumer} that throws
      * {@code UncheckedIOException} instead
+     * @throws NullPointerException if {@code consumer} is null
      */
     static <T> Consumer<T> toUnchecked(IOExceptionThrowingConsumer<T> consumer) {
+        Objects.requireNonNull(consumer, "Throwing consumer must not be null!");
         return t -> {
             try {
                 consumer.accept(t);
