@@ -5,6 +5,7 @@ import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -27,7 +28,7 @@ public class TreeCursor extends External {
         super(malloc(node));
     }
 
-    static native long malloc(Node node);
+    private static native long malloc(Node node);
 
     /**
      * Delete the tree cursor, freeing all the memory that it used.
@@ -81,8 +82,10 @@ public class TreeCursor extends External {
      * applying a callback to the nodes before they are visited.
      *
      * @param callback The callback consumer which will execute upon visiting a node
+     * @throws NullPointerException if {@code callback} is null
      */
     public void preorderTraversal(@NotNull Consumer<Node> callback) {
+        Objects.requireNonNull(callback, "Callback must not be null!");
         for (;;) {
             callback.accept(this.getCurrentNode());
             if (this.gotoFirstChild() || this.gotoNextSibling())

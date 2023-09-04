@@ -230,7 +230,7 @@ public class Node implements Iterable<Node> {
         return equals(this, other);
     }
 
-    static native boolean equals(@NotNull Node node, @NotNull Node other);
+    private static native boolean equals(@NotNull Node node, @NotNull Node other);
 
     @Override
     public int hashCode() {

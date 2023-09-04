@@ -2,6 +2,8 @@ package ch.usi.si.seart.treesitter.printer;
 
 import ch.usi.si.seart.treesitter.Tree;
 import org.jetbrains.annotations.NotNull;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +20,10 @@ import java.util.Objects;
  * @since 1.2.0
  * @author Ozren Dabić
  */
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DotGraphPrinter implements TreePrinter {
 
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     Tree tree;
 
     public DotGraphPrinter(@NotNull Tree tree) {
@@ -58,5 +62,5 @@ public class DotGraphPrinter implements TreePrinter {
         return file;
     }
 
-    native void write(File file) throws IOException;
+    private native void write(File file) throws IOException;
 }
