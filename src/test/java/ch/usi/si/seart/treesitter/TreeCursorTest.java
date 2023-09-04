@@ -39,6 +39,20 @@ class TreeCursorTest extends TestBase {
   }
 
   @Test
+  @SneakyThrows(UnsupportedEncodingException.class)
+  void testPreorderTraversal() {
+    @Cleanup Parser parser = new Parser(Language.PYTHON);
+    @Cleanup Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+    @Cleanup TreeCursor cursor = tree.getRootNode().walk();
+    AtomicInteger count = new AtomicInteger();
+    cursor.preorderTraversal(node -> {
+      if (node.isNamed())
+        count.incrementAndGet();
+    });
+    Assertions.assertEquals(17, count.get());
+  }
+
+  @Test
   @SuppressWarnings("resource")
   void testWalkException() {
     Node nullNode = new Node();
