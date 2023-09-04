@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -80,8 +81,10 @@ public class TreeCursor extends External {
      * applying a callback to the nodes before they are visited.
      *
      * @param callback The callback consumer which will execute upon visiting a node
+     * @throws NullPointerException if {@code callback} is null
      */
     public void preorderTraversal(Consumer<Node> callback) {
+        Objects.requireNonNull(callback, "Callback must not be null!");
         for (;;) {
             callback.accept(this.getCurrentNode());
             if (this.gotoFirstChild() || this.gotoNextSibling())
