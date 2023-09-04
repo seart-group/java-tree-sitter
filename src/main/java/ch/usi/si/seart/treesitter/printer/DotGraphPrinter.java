@@ -22,6 +22,7 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DotGraphPrinter implements TreePrinter {
 
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     Tree tree;
 
     public DotGraphPrinter(Tree tree) {
