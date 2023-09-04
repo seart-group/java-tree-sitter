@@ -57,5 +57,5 @@ public class DotGraphPrinter implements TreePrinter {
         return file;
     }
 
-    native void write(File file) throws IOException;
+    private native void write(File file) throws IOException;
 }

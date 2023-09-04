@@ -58,7 +58,7 @@ public class Parser extends External {
         return pointer;
     }
 
-    static native long malloc();
+    private static native long malloc();
 
     /**
      * Delete the parser, freeing all the memory that it used.
@@ -86,7 +86,7 @@ public class Parser extends External {
         if (!success) throw new ABIVersionError("Language could not be assigned to parser!");
     }
 
-    static native boolean setLanguage(long pointer, long language);
+    private static native boolean setLanguage(long pointer, long language);
 
     /**
      * Get the duration in microseconds that parsing is allowed to take.

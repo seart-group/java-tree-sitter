@@ -39,7 +39,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
         return malloc();
     }
 
-    static native long malloc();
+    private static native long malloc();
 
     /**
      * Delete the query cursor, freeing all the memory that it used.

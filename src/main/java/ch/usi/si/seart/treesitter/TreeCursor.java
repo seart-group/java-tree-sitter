@@ -26,7 +26,7 @@ public class TreeCursor extends External {
         super(malloc(node));
     }
 
-    static native long malloc(Node node);
+    private static native long malloc(Node node);
 
     /**
      * Delete the tree cursor, freeing all the memory that it used.
