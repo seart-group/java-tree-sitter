@@ -2,7 +2,7 @@ package ch.usi.si.seart.treesitter.printer;
 
 import ch.usi.si.seart.treesitter.TreeCursor;
 
-public class XMLPrinterTest extends PrinterTestBase {
+class XMLPrinterTest extends PrinterTestBase {
 
     @Override
     protected String getExpected() {

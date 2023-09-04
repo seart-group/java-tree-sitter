@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class OffsetTreeCursorTest extends PrinterTestBase {
+class OffsetTreeCursorTest extends PrinterTestBase {
 
     @Test
     @SuppressWarnings("resource")

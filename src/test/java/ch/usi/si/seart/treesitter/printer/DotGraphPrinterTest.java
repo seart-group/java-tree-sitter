@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DotGraphPrinterTest extends TestBase {
+class DotGraphPrinterTest extends TestBase {
 
     private static final String source =
             "package ch.usi.si;\n" +
