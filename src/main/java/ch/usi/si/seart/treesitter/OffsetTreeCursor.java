@@ -1,5 +1,8 @@
 package ch.usi.si.seart.treesitter;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
  * @since 1.2.0
  * @author Ozren Dabić
  */
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OffsetTreeCursor extends TreeCursor {
 
     Point offset;
