@@ -1,20 +1,48 @@
 package ch.usi.si.seart.treesitter;
 
-import lombok.Cleanup;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class TreeCursorTest extends TestBase {
 
-  @Test
+  private static Parser parser;
+  private static Tree tree;
+
+  private TreeCursor cursor;
+
+  @BeforeAll
   @SneakyThrows(UnsupportedEncodingException.class)
+  static void beforeAll() {
+    parser = new Parser(Language.PYTHON);
+    tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+  }
+
+  @BeforeEach
+  void setUp() {
+    cursor = tree.getRootNode().walk();
+  }
+
+  @AfterEach
+  void tearDown() {
+    cursor.close();
+  }
+
+  @AfterAll
+  static void afterAll() {
+    tree.close();
+    parser.close();
+  }
+
+  @Test
   void testWalk() {
-    @Cleanup Parser parser = new Parser(Language.PYTHON);
-    @Cleanup Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
-    @Cleanup TreeCursor cursor = tree.getRootNode().walk();
     Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
     Assertions.assertEquals("module", cursor.getCurrentNode().getType());
     Assertions.assertTrue(cursor.gotoFirstChild());
@@ -39,11 +67,7 @@ class TreeCursorTest extends TestBase {
   }
 
   @Test
-  @SneakyThrows(UnsupportedEncodingException.class)
   void testPreorderTraversal() {
-    @Cleanup Parser parser = new Parser(Language.PYTHON);
-    @Cleanup Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
-    @Cleanup TreeCursor cursor = tree.getRootNode().walk();
     AtomicInteger count = new AtomicInteger();
     cursor.preorderTraversal(node -> {
       if (node.isNamed())
