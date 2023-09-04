@@ -1,5 +1,7 @@
 package ch.usi.si.seart.treesitter.function;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
@@ -36,7 +38,7 @@ public interface IOExceptionThrowingConsumer<T> {
      * {@code UncheckedIOException} instead
      * @throws NullPointerException if {@code consumer} is null
      */
-    static <T> Consumer<T> toUnchecked(IOExceptionThrowingConsumer<T> consumer) {
+    static <T> Consumer<T> toUnchecked(@NotNull IOExceptionThrowingConsumer<T> consumer) {
         Objects.requireNonNull(consumer, "Throwing consumer must not be null!");
         return t -> {
             try {

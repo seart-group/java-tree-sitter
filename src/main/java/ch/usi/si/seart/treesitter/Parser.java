@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -39,7 +40,7 @@ public class Parser extends External {
      * if the specified language has not
      * been linked to the system library
      */
-    public Parser(Language language) {
+    public Parser(@NotNull Language language) {
         super(createIfValid(language));
         this.language = language;
     }
@@ -76,7 +77,7 @@ public class Parser extends External {
      * if the specified language has not
      * been linked to the system library
      */
-    public void setLanguage(Language language) {
+    public void setLanguage(@NotNull Language language) {
         Language.validate(language);
         setLanguage(pointer, language);
     }
@@ -106,7 +107,7 @@ public class Parser extends External {
      * @throws NullPointerException if the duration is {@code null}
      * @since 1.1.0
      */
-    public void setTimeout(Duration duration) {
+    public void setTimeout(@NotNull Duration duration) {
         Objects.requireNonNull(duration, "Duration must not be null!");
         long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
         setTimeout(micros);
@@ -124,7 +125,7 @@ public class Parser extends External {
      * @throws IllegalArgumentException if the timeout value is negative
      * @since 1.1.0
      */
-    public void setTimeout(long timeout, TimeUnit timeUnit) {
+    public void setTimeout(long timeout, @NotNull TimeUnit timeUnit) {
         if (timeout < 0)
             throw new IllegalArgumentException("Timeout can not be negative!");
         Objects.requireNonNull(timeUnit, "Time unit must not be null!");
@@ -153,7 +154,7 @@ public class Parser extends External {
      * @throws UnsupportedEncodingException
      * If the UTF-16LE character set is not supported
      */
-    public Tree parseString(String source) throws UnsupportedEncodingException {
+    public Tree parseString(@NotNull String source) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
         long treePointer = parseBytes(bytes, bytes.length);
         return new Tree(treePointer, language);
@@ -173,7 +174,7 @@ public class Parser extends External {
      * @throws UnsupportedEncodingException
      * If the UTF-16LE character set is not supported
      */
-    public Tree parseString(String source, Tree oldTree) throws UnsupportedEncodingException {
+    public Tree parseString(@NotNull String source, @NotNull Tree oldTree) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
         long treePointer = parseBytes(bytes, bytes.length, oldTree);
         return new Tree(treePointer, language);
@@ -191,7 +192,7 @@ public class Parser extends External {
      * @throws OutOfMemoryError If the file is extremely large,
      * for example larger than 2GB
      */
-    public Tree parseFile(Path path) throws IOException {
+    public Tree parseFile(@NotNull Path path) throws IOException {
         String source = Files.readString(path);
         return parseString(source);
     }

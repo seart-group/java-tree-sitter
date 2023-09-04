@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +40,7 @@ public class XMLPrinter extends IterativeTreePrinter {
     boolean visitedChildren = false;
     Deque<String> tags = new ArrayDeque<>();
 
-    public XMLPrinter(TreeCursor cursor) {
+    public XMLPrinter(@NotNull TreeCursor cursor) {
         super(cursor);
     }
 

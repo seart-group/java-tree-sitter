@@ -3,6 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -22,7 +23,7 @@ public class TreeCursor extends External {
     long id;
     long tree;
 
-    TreeCursor(Node node) {
+    TreeCursor(@NotNull Node node) {
         super(malloc(node));
     }
 
@@ -81,7 +82,7 @@ public class TreeCursor extends External {
      *
      * @param callback The callback consumer which will execute upon visiting a node
      */
-    public void preorderTraversal(Consumer<Node> callback) {
+    public void preorderTraversal(@NotNull Consumer<Node> callback) {
         for (;;) {
             callback.accept(this.getCurrentNode());
             if (this.gotoFirstChild() || this.gotoNextSibling())

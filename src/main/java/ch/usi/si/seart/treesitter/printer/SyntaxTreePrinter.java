@@ -6,6 +6,7 @@ import ch.usi.si.seart.treesitter.function.IOExceptionThrowingConsumer;
 import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,7 +35,7 @@ public class SyntaxTreePrinter extends IterativeTreePrinter {
 
     int depth = 0;
 
-    public SyntaxTreePrinter(TreeCursor cursor) {
+    public SyntaxTreePrinter(@NotNull TreeCursor cursor) {
         super(cursor);
     }
 

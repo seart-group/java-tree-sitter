@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -55,7 +56,7 @@ public class Node implements Iterable<Node> {
      * @return The node's child with the given field name
      * @throws NullPointerException if the field name is null
      */
-    public native Node getChildByFieldName(String name);
+    public native Node getChildByFieldName(@NotNull String name);
 
     /**
      * @return The node's number of children
@@ -229,7 +230,7 @@ public class Node implements Iterable<Node> {
         return equals(this, other);
     }
 
-    static native boolean equals(Node node, Node other);
+    static native boolean equals(@NotNull Node node, @NotNull Node other);
 
     @Override
     public int hashCode() {
@@ -246,7 +247,7 @@ public class Node implements Iterable<Node> {
      * @return An iterator over the node subtree, starting from the current node
      */
     @Override
-    public Iterator<Node> iterator() {
+    public @NotNull Iterator<Node> iterator() {
         return new Iterator<>() {
 
             private final Deque<Node> stack = new ArrayDeque<>(List.of(Node.this));
