@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 public class Parser extends External {
 
     Language language;
+
+    private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
     /**
      * @param language The language used for parsing
@@ -155,7 +158,7 @@ public class Parser extends External {
      * If the UTF-16LE character set is not supported
      */
     public Tree parseString(@NotNull String source) throws UnsupportedEncodingException {
-        byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
+        byte[] bytes = source.getBytes(CHARSET);
         long treePointer = parseBytes(bytes, bytes.length);
         return new Tree(treePointer, language);
     }
@@ -175,7 +178,7 @@ public class Parser extends External {
      * If the UTF-16LE character set is not supported
      */
     public Tree parseString(@NotNull String source, @NotNull Tree oldTree) throws UnsupportedEncodingException {
-        byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
+        byte[] bytes = source.getBytes(CHARSET);
         long treePointer = parseBytes(bytes, bytes.length, oldTree);
         return new Tree(treePointer, language);
     }
