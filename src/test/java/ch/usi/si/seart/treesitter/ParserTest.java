@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,21 +41,18 @@ class ParserTest extends TestBase {
     }
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     void testParseString() {
         @Cleanup Tree tree = parser.parse(source);
         Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
     }
 
     @Test
-    @SneakyThrows(IOException.class)
     void testParseFile() {
         @Cleanup Tree tree = parser.parse(tmpFile);
         Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
     }
 
     @Test
-    @SneakyThrows(IOException.class)
     void testParserSetLanguage() {
         @Cleanup Parser parser = new Parser(Language.PYTHON);
         parser.setLanguage(Language.JAVA);
@@ -70,7 +66,7 @@ class ParserTest extends TestBase {
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    @SneakyThrows({URISyntaxException.class, IOException.class})
+    @SneakyThrows(URISyntaxException.class)
     void testParserTimeout() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Assertions.assertEquals(0, parser.getTimeout());

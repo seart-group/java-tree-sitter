@@ -12,14 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public abstract class PrinterTestBase extends TestBase {
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     protected void testPrint() {
         String source = getSource();
         @Cleanup Parser parser = getParser();
@@ -32,7 +30,7 @@ public abstract class PrinterTestBase extends TestBase {
     }
 
     @Test
-    @SneakyThrows({UnsupportedEncodingException.class, IOException.class})
+    @SneakyThrows(IOException.class)
     protected void testExport() {
         String source = getSource();
         @Cleanup Parser parser = getParser();
