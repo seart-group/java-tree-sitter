@@ -102,7 +102,7 @@ public class Example {
     public static void main(String[] args) {
         try (
             Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)")
+            Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)")
         ) {
             Node root = tree.getRootNode();
             assert root.getChildCount() == 1;
@@ -131,7 +131,7 @@ public class Example {
     public static void main(String[] args) {
         try (
             Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parseString("print(\"hi\")")
+            Tree tree = parser.parse("print(\"hi\")")
         ) {
             String actual = tree.getRootNode().getNodeString();
             String expected = "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))";
@@ -156,7 +156,7 @@ public class Example {
         String type;
         try (
             Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+            Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
             TreeCursor cursor = tree.getRootNode().walk()
         ) {
             type = cursor.getCurrentTreeCursorNode().getType();
@@ -189,7 +189,7 @@ public class Example {
     public static void main(String[] args) {
         try (
             Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parseString("print(\"hi\")");
+            Tree tree = parser.parse("print(\"hi\")");
             TreeCursor cursor = tree.getRootNode().walk()
         ) {
             SyntaxTreePrinter printer = new SyntaxTreePrinter(cursor);
