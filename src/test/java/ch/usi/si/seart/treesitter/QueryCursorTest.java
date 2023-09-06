@@ -26,7 +26,7 @@ class QueryCursorTest extends TestBase {
     @SneakyThrows(UnsupportedEncodingException.class)
     static void beforeAll() {
         parser = new Parser(language);
-        tree = parser.parseString(source);
+        tree = parser.parse(source);
         root = tree.getRootNode();
     }
 

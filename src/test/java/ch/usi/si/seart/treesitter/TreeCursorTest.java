@@ -22,7 +22,7 @@ class TreeCursorTest extends TestBase {
     @SneakyThrows(UnsupportedEncodingException.class)
     static void beforeAll() {
         parser = new Parser(Language.PYTHON);
-        tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+        tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
     }
 
     @BeforeEach

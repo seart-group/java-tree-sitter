@@ -14,7 +14,7 @@ class TreeTest extends TestBase {
     void testTreeEdit() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
 
-        Tree tree = parser.parseString("class Main {\n    // This is a line comment\n}");
+        Tree tree = parser.parse("class Main {\n    // This is a line comment\n}");
 
         Node root = tree.getRootNode();
         Node body = root.getChild(0).getChildByFieldName("body");
@@ -33,7 +33,7 @@ class TreeTest extends TestBase {
 
         tree.edit(inputEdit);
 
-        tree = parser.parseString("class Main {\n}", tree);
+        tree = parser.parse("class Main {\n}", tree);
 
         String newSExp = tree.getRootNode().getNodeString();
         Assertions.assertNotEquals(oldSExp, newSExp);
