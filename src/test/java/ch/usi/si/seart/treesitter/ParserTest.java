@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,26 +41,23 @@ class ParserTest extends TestBase {
     }
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     void testParseString() {
-        @Cleanup Tree tree = parser.parseString(source);
+        @Cleanup Tree tree = parser.parse(source);
         Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
     }
 
     @Test
-    @SneakyThrows(IOException.class)
     void testParseFile() {
-        @Cleanup Tree tree = parser.parseFile(tmpFile);
+        @Cleanup Tree tree = parser.parse(tmpFile);
         Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
     }
 
     @Test
-    @SneakyThrows(IOException.class)
     void testParserSetLanguage() {
         @Cleanup Parser parser = new Parser(Language.PYTHON);
         parser.setLanguage(Language.JAVA);
         String source = "public class _ {}";
-        @Cleanup Tree tree = parser.parseString(source);
+        @Cleanup Tree tree = parser.parse(source);
         Assertions.assertEquals(
                 "(program (class_declaration (modifiers) name: (identifier) body: (class_body)))",
                 tree.getRootNode().getNodeString()
@@ -70,22 +66,22 @@ class ParserTest extends TestBase {
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    @SneakyThrows({URISyntaxException.class, IOException.class})
+    @SneakyThrows(URISyntaxException.class)
     void testParserTimeout() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(10);
         Assertions.assertEquals(10, parser.getTimeout());
         Path path = Path.of(getClass().getClassLoader().getResource("deep_string_concat").toURI());
-        Assertions.assertThrows(ParsingException.class, () -> parser.parseFile(path));
+        Assertions.assertThrows(ParsingException.class, () -> parser.parse(path));
         TimeUnit unit = TimeUnit.SECONDS;
         parser.setTimeout(1, unit);
         Assertions.assertEquals(unit.toMicros(1), parser.getTimeout());
-        Assertions.assertFalse(parser.parseFile(path).isNull());
+        Assertions.assertFalse(parser.parse(path).isNull());
         Duration duration = Duration.ofSeconds(1);
         parser.setTimeout(duration);
         Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
-        Assertions.assertFalse(parser.parseFile(path).isNull());
+        Assertions.assertFalse(parser.parse(path).isNull());
         parser.setTimeout(Duration.ofNanos(500));
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(500, TimeUnit.NANOSECONDS);

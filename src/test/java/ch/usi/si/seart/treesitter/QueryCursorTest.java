@@ -1,13 +1,11 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.Cleanup;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,10 +21,9 @@ class QueryCursorTest extends TestBase {
     private static Node root;
 
     @BeforeAll
-    @SneakyThrows(UnsupportedEncodingException.class)
     static void beforeAll() {
         parser = new Parser(language);
-        tree = parser.parseString(source);
+        tree = parser.parse(source);
         root = tree.getRootNode();
     }
 

@@ -49,18 +49,10 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    parseBytes
- * Signature: ([BI)J
+ * Method:    parse
+ * Signature: ([BILch/usi/si/seart/treesitter/Tree;)Lch/usi/si/seart/treesitter/Tree;
  */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BI
-  (JNIEnv *, jobject, jbyteArray, jint);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    parseBytes
- * Signature: ([BILch/usi/si/seart/treesitter/Tree;)J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BILch_usi_si_seart_treesitter_Tree_2
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse
   (JNIEnv *, jobject, jbyteArray, jint, jobject);
 
 #ifdef __cplusplus

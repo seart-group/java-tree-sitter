@@ -12,18 +12,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public abstract class PrinterTestBase extends TestBase {
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     protected void testPrint() {
         String source = getSource();
         @Cleanup Parser parser = getParser();
-        @Cleanup Tree tree = parser.parseString(source);
+        @Cleanup Tree tree = parser.parse(source);
         @Cleanup TreeCursor cursor = getCursor(tree);
         TreePrinter printer = getPrinter(cursor);
         String expected = getExpected();
@@ -32,11 +30,11 @@ public abstract class PrinterTestBase extends TestBase {
     }
 
     @Test
-    @SneakyThrows({UnsupportedEncodingException.class, IOException.class})
+    @SneakyThrows(IOException.class)
     protected void testExport() {
         String source = getSource();
         @Cleanup Parser parser = getParser();
-        @Cleanup Tree tree = parser.parseString(source);
+        @Cleanup Tree tree = parser.parse(source);
         @Cleanup TreeCursor cursor = getCursor(tree);
         TreePrinter printer = getPrinter(cursor);
         String expected = getExpected();

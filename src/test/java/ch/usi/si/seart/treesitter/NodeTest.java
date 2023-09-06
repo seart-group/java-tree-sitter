@@ -1,13 +1,11 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.Cleanup;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,10 +18,9 @@ class NodeTest extends TestBase {
     private static Node root;
 
     @BeforeAll
-    @SneakyThrows(UnsupportedEncodingException.class)
     static void beforeAll() {
         parser = new Parser(Language.PYTHON);
-        tree = parser.parseString(source);
+        tree = parser.parse(source);
         root = tree.getRootNode();
     }
 
@@ -171,9 +168,8 @@ class NodeTest extends TestBase {
     }
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     void testHasError() {
-        @Cleanup Tree tree = parser.parseString("def foo(bar, baz):\n  print(bar.)");
+        @Cleanup Tree tree = parser.parse("def foo(bar, baz):\n  print(bar.)");
         Node root = tree.getRootNode();
         Node function = root.getChild(0);
         Node def = function.getChild(0);
@@ -183,9 +179,8 @@ class NodeTest extends TestBase {
     }
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     void testIsExtra() {
-        @Cleanup Tree tree = parser.parseString("# this is just a comment");
+        @Cleanup Tree tree = parser.parse("# this is just a comment");
         Node root = tree.getRootNode();
         Node comment = root.getChild(0);
         Assertions.assertFalse(root.isExtra());
@@ -193,10 +188,9 @@ class NodeTest extends TestBase {
     }
 
     @Test
-    @SneakyThrows(UnsupportedEncodingException.class)
     void testIsMissing() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
-        @Cleanup Tree tree = parser.parseString("class C { public static final int i = 6 }");
+        @Cleanup Tree tree = parser.parse("class C { public static final int i = 6 }");
         Node root = tree.getRootNode();
         Assertions.assertFalse(root.isMissing());
         Assertions.assertFalse(root.getChild(0).isMissing());

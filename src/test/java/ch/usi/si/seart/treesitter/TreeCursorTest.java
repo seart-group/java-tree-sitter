@@ -1,6 +1,5 @@
 package ch.usi.si.seart.treesitter;
 
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class TreeCursorTest extends TestBase {
@@ -19,10 +17,9 @@ class TreeCursorTest extends TestBase {
     private TreeCursor cursor;
 
     @BeforeAll
-    @SneakyThrows(UnsupportedEncodingException.class)
     static void beforeAll() {
         parser = new Parser(Language.PYTHON);
-        tree = parser.parseString("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+        tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
     }
 
     @BeforeEach

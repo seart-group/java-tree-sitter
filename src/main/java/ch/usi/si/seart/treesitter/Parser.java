@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.error.ABIVersionError;
+import ch.usi.si.seart.treesitter.exception.ParsingException;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 public class Parser extends External {
 
     Language language;
+
+    private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
     /**
      * @param language The language used for parsing
@@ -145,22 +149,33 @@ public class Parser extends External {
     public native void setTimeout(long timeout);
 
     /**
+     * @deprecated Use {@link #parse(String)} instead
+     */
+    @Deprecated(since = "1.3.0", forRemoval = true)
+    public Tree parseString(@NotNull String source) throws UnsupportedEncodingException {
+        return parse(source);
+    }
+
+    /**
      * Use the parser to parse some source code and create a syntax tree.
      *
      * @param source The source code string to be parsed
      * @return A syntax tree matching the provided source
-     * @throws ch.usi.si.seart.treesitter.exception.ParsingException
-     * If a parsing failure occurs (e.g. timeout)
-     * @throws UnsupportedEncodingException
-     * If the UTF-16LE character set is not supported
+     * @throws ParsingException if a parsing failure occurs
+     * @since 1.3.0
      */
-    public Tree parseString(@NotNull String source) throws UnsupportedEncodingException {
-        byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = parseBytes(bytes, bytes.length);
-        return new Tree(treePointer, language);
+    public Tree parse(@NotNull String source) throws ParsingException {
+        byte[] bytes = source.getBytes(CHARSET);
+        return parse(bytes, bytes.length, null);
     }
 
-    native long parseBytes(byte[] source, int length);
+    /**
+     * @deprecated Use {@link #parse(String, Tree)} instead
+     */
+    @Deprecated(since = "1.3.0", forRemoval = true)
+    public Tree parseString(@NotNull String source, @NotNull Tree oldTree) throws UnsupportedEncodingException {
+        return parse(source, oldTree);
+    }
 
     /**
      * Use the parser to incrementally parse a changed source code string,
@@ -169,33 +184,60 @@ public class Parser extends External {
      * @param source The source code string to be parsed
      * @param oldTree The syntax tree before changes were made
      * @return A syntax tree matching the provided source
-     * @throws ch.usi.si.seart.treesitter.exception.ParsingException
-     * If a parsing failure occurs (e.g. timeout)
-     * @throws UnsupportedEncodingException
-     * If the UTF-16LE character set is not supported
+     * @throws ParsingException if a parsing failure occurs
+     * @since 1.3.0
      */
-    public Tree parseString(@NotNull String source, @NotNull Tree oldTree) throws UnsupportedEncodingException {
-        byte[] bytes = source.getBytes(StandardCharsets.UTF_16LE);
-        long treePointer = parseBytes(bytes, bytes.length, oldTree);
-        return new Tree(treePointer, language);
+    public Tree parse(@NotNull String source, @NotNull Tree oldTree) throws ParsingException {
+        byte[] bytes = source.getBytes(CHARSET);
+        return parse(bytes, bytes.length, oldTree);
     }
 
-    native long parseBytes(byte[] source, int length, Tree oldTree);
+    /**
+     * @deprecated Use {@link #parse(Path)} instead
+     */
+    @Deprecated(since = "1.3.0", forRemoval = true)
+    public Tree parseFile(@NotNull Path path) throws IOException {
+        String source = Files.readString(path);
+        return parseString(source);
+    }
 
     /**
      * Use the parser to parse some source code found in a file at the specified path.
      *
      * @param path The path of the file to be parsed
      * @return A tree-sitter Tree matching the provided source
-     * @throws IOException If an I/O error occurs reading from
-     * the file or a malformed or unmappable byte sequence is read
-     * @throws OutOfMemoryError If the file is extremely large,
-     * for example larger than 2GB
+     * @throws ParsingException if a parsing failure occurs
+     * @since 1.3.0
      */
-    public Tree parseFile(@NotNull Path path) throws IOException {
-        String source = Files.readString(path);
-        return parseString(source);
+    public Tree parse(@NotNull Path path) throws ParsingException {
+        try {
+            String source = Files.readString(path);
+            return parse(source);
+        } catch (IOException ex) {
+            throw new ParsingException(ex);
+        }
     }
+
+    /**
+     * Use the parser to parse some source code found in a file at the specified path,
+     * reusing unchanged parts of the tree to speed up the process.
+     *
+     * @param path The path of the file to be parsed
+     * @param oldTree The syntax tree before changes were made
+     * @return A tree-sitter Tree matching the provided source
+     * @throws ParsingException if a parsing failure occurs
+     * @since 1.3.0
+     */
+    public Tree parse(@NotNull Path path, @NotNull Tree oldTree) throws ParsingException {
+        try {
+            String source = Files.readString(path);
+            return parse(source, oldTree);
+        } catch (IOException ex) {
+            throw new ParsingException(ex);
+        }
+    }
+
+    private native Tree parse(byte[] bytes, int length, Tree oldTree);
 
     @Override
     @Generated

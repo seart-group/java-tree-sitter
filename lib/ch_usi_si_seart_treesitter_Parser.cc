@@ -39,53 +39,31 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
   }
 }
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BI(
-  JNIEnv* env, jobject thisObject, jbyteArray source_bytes, jint length) {
-  jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
-  jlong parser = __getPointer(env, parserClass, thisObject);
-  jbyte* source = env->GetByteArrayElements(source_bytes, NULL);
-  jlong result = (jlong)ts_parser_parse_string_encoding(
-      (TSParser*)parser, NULL, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
-  );
-  env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
-  ts_parser_reset((TSParser*)parser);
-  if (result == 0) {
-    jclass causeClass = _getClass("java/util/concurrent/TimeoutException");
-    jmethodID causeConstructor = _getConstructor(causeClass, "()V");
-    jobject cause = env->NewObject(causeClass, causeConstructor);
-    jclass exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/ParsingException");
-    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(Ljava/lang/Throwable;)V");
-    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, (jthrowable)cause);
-    env->Throw((jthrowable)exception);
-  }
-  return result;
-}
-
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_parseBytes___3BILch_usi_si_seart_treesitter_Tree_2(
-  JNIEnv* env, jobject thisObject, jbyteArray source_bytes, jint length, jobject oldTree) {
-  jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
-  jlong parser = __getPointer(env, parserClass, thisObject);
-  if (oldTree == NULL) {
-      jclass exceptionClass = _getClass("java/lang/NullPointerException");
-      env->ThrowNew(exceptionClass, "Tree must not be null!");
-      return (jlong)0;
-  }
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
+  JNIEnv* env, jobject thisObject, jbyteArray bytes, jint length, jobject oldTree) {
   jclass treeClass = _getClass("ch/usi/si/seart/treesitter/Tree");
-  jlong tree = __getPointer(env, treeClass, oldTree);
-  jbyte* source = env->GetByteArrayElements(source_bytes, NULL);
-  jlong result = (jlong)ts_parser_parse_string_encoding(
-      (TSParser*)parser, (TSTree*)tree, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
+  jclass parserClass = _getClass("ch/usi/si/seart/treesitter/Parser");
+  TSParser* parser = (TSParser*)__getPointer(env, parserClass, thisObject);
+  TSTree* old = (oldTree != NULL) ? (TSTree*)__getPointer(env, treeClass, oldTree) : NULL;
+  jbyte* source = env->GetByteArrayElements(bytes, NULL);
+  TSTree* result = ts_parser_parse_string_encoding(
+      parser, old, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
   );
-  env->ReleaseByteArrayElements(source_bytes, source, JNI_ABORT);
-  ts_parser_reset((TSParser*)parser);
+  env->ReleaseByteArrayElements(bytes, source, JNI_ABORT);
+  ts_parser_reset(parser);
   if (result == 0) {
-    jclass causeClass = _getClass("java/util/concurrent/TimeoutException");
-    jmethodID causeConstructor = _getConstructor(causeClass, "()V");
-    jobject cause = env->NewObject(causeClass, causeConstructor);
-    jclass exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/ParsingException");
-    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(Ljava/lang/Throwable;)V");
-    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, (jthrowable)cause);
-    env->Throw((jthrowable)exception);
+      jclass causeClass = _getClass("java/util/concurrent/TimeoutException");
+      jmethodID causeConstructor = _getConstructor(causeClass, "()V");
+      jobject cause = env->NewObject(causeClass, causeConstructor);
+      jclass exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/ParsingException");
+      jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(Ljava/lang/Throwable;)V");
+      jobject exception = env->NewObject(exceptionClass, exceptionConstructor, (jthrowable)cause);
+      env->Throw((jthrowable)exception);
+      return NULL;
   }
-  return result;
+  jfieldID languageField = _getField(parserClass, "language", "Lch/usi/si/seart/treesitter/Language;");
+  jobject language = env->GetObjectField(thisObject, languageField);
+  jmethodID treeConstructor = _getConstructor(treeClass, "(JLch/usi/si/seart/treesitter/Language;)V");
+  jobject tree = env->NewObject(treeClass, treeConstructor, (jlong)result, language);
+  return tree;
 }
