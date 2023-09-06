@@ -163,7 +163,7 @@ public class Parser extends External {
         return new Tree(treePointer, language);
     }
 
-    native long parseBytes(byte[] source, int length);
+    private native long parseBytes(byte[] source, int length);
 
     /**
      * Use the parser to incrementally parse a changed source code string,
@@ -183,7 +183,7 @@ public class Parser extends External {
         return new Tree(treePointer, language);
     }
 
-    native long parseBytes(byte[] source, int length, Tree oldTree);
+    private native long parseBytes(byte[] source, int length, Tree oldTree);
 
     /**
      * Use the parser to parse some source code found in a file at the specified path.
