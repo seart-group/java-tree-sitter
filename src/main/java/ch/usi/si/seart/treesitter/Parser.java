@@ -159,11 +159,8 @@ public class Parser extends External {
      */
     public Tree parseString(@NotNull String source) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(CHARSET);
-        long treePointer = parseBytes(bytes, bytes.length);
-        return new Tree(treePointer, language);
+        return parse(bytes, bytes.length, null);
     }
-
-    private native long parseBytes(byte[] source, int length);
 
     /**
      * Use the parser to incrementally parse a changed source code string,
@@ -179,11 +176,10 @@ public class Parser extends External {
      */
     public Tree parseString(@NotNull String source, @NotNull Tree oldTree) throws UnsupportedEncodingException {
         byte[] bytes = source.getBytes(CHARSET);
-        long treePointer = parseBytes(bytes, bytes.length, oldTree);
-        return new Tree(treePointer, language);
+        return parse(bytes, bytes.length, oldTree);
     }
 
-    private native long parseBytes(byte[] source, int length, Tree oldTree);
+    private native Tree parse(byte[] bytes, int length, Tree oldTree);
 
     /**
      * Use the parser to parse some source code found in a file at the specified path.
