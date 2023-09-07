@@ -118,7 +118,10 @@ public class Node implements Iterable<Node> {
 
     /**
      * @return An S-expression representing the node as a string
+     * @deprecated <strong>This operation is potentially unsafe for large trees</strong>
+     * @see ch.usi.si.seart.treesitter.printer.SymbolicExpressionPrinter SymbolicExpressionPrinter
      */
+    @Deprecated(since = "1.4.0", forRemoval = true)
     public native String getNodeString();
 
     /**

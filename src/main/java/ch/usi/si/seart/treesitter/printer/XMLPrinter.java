@@ -3,20 +3,8 @@ package ch.usi.si.seart.treesitter.printer;
 import ch.usi.si.seart.treesitter.Point;
 import ch.usi.si.seart.treesitter.TreeCursor;
 import ch.usi.si.seart.treesitter.TreeCursorNode;
-import ch.usi.si.seart.treesitter.function.IOExceptionThrowingConsumer;
-import lombok.AccessLevel;
-import lombok.Cleanup;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.io.Writer;
-import java.nio.file.Files;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.function.Consumer;
@@ -31,54 +19,27 @@ import java.util.function.Consumer;
  * @see <a href="https://github.com/tree-sitter/tree-sitter/blob/293f0d1ca30a63839810ad4b943c0f19f1cb4933/cli/src/parse.rs#L186-L239">Rust implementation</a>
  * @author Ozren Dabić
  */
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class XMLPrinter extends IterativeTreePrinter {
 
     public static final String PROLOG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
-    @NonFinal
-    boolean visitedChildren = false;
-    Deque<String> tags = new ArrayDeque<>();
 
     public XMLPrinter(@NotNull TreeCursor cursor) {
         super(cursor);
     }
 
-    /**
-     * Generates an XML representation of the tree,
-     * starting from the node currently pointed to by the cursor.
-     *
-     * @return An XML string of the tree
-     */
     @Override
-    public String print() {
-        StringBuilder stringBuilder = new StringBuilder(PROLOG);
-        write(stringBuilder::append);
-        return stringBuilder.toString();
+    protected String getPreamble() {
+        return PROLOG;
     }
 
-    /**
-     * Generates an XML representation of the tree,
-     * writing it directly to a file.
-     *
-     * @return A file containing the XML string of the tree
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    public File export() throws IOException {
-        File file = Files.createTempFile("ts-export-", ".xml").toFile();
-        @Cleanup Writer writer = new BufferedWriter(new FileWriter(file));
-        writer.append(PROLOG);
-        Consumer<String> appender = IOExceptionThrowingConsumer.toUnchecked(writer::append);
-        try {
-            write(appender);
-        } catch (UncheckedIOException ex) {
-            throw ex.getCause();
-        }
-        return file;
+    protected String getFileExtension() {
+        return ".xml";
     }
 
-    private void write(Consumer<String> appender) {
+    protected void write(Consumer<String> appender) {
+        boolean visitedChildren = false;
+        Deque<String> tags = new ArrayDeque<>();
         for (;;) {
             TreeCursorNode cursorNode = cursor.getCurrentTreeCursorNode();
             boolean isNamed = cursorNode.isNamed();

@@ -25,8 +25,6 @@ class ParserTest extends TestBase {
     private static Parser parser;
 
     private static final String source = "print(\"hi\")\n";
-    private static final String nodeString =
-            "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))";
 
     @BeforeAll
     static void beforeAll() throws IOException {
@@ -43,25 +41,43 @@ class ParserTest extends TestBase {
     @Test
     void testParseString() {
         @Cleanup Tree tree = parser.parse(source);
-        Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
+        Assertions.assertFalse(tree.isNull());
+        Node root = tree.getRootNode();
+        Assertions.assertEquals("module", root.getType());
+        Range range = root.getRange();
+        Point start = range.getStartPoint();
+        Point end = range.getEndPoint();
+        Assertions.assertEquals(new Point(0, 0), start);
+        Assertions.assertEquals(new Point(1, 0), end);
     }
 
     @Test
     void testParseFile() {
         @Cleanup Tree tree = parser.parse(tmpFile);
-        Assertions.assertEquals(nodeString, tree.getRootNode().getNodeString());
+        Assertions.assertFalse(tree.isNull());
+        Node root = tree.getRootNode();
+        Assertions.assertEquals("module", root.getType());
+        Range range = root.getRange();
+        Point start = range.getStartPoint();
+        Point end = range.getEndPoint();
+        Assertions.assertEquals(new Point(0, 0), start);
+        Assertions.assertEquals(new Point(1, 0), end);
     }
 
     @Test
     void testParserSetLanguage() {
         @Cleanup Parser parser = new Parser(Language.PYTHON);
         parser.setLanguage(Language.JAVA);
-        String source = "public class _ {}";
+        String source = "public class _ {}\n";
         @Cleanup Tree tree = parser.parse(source);
-        Assertions.assertEquals(
-                "(program (class_declaration (modifiers) name: (identifier) body: (class_body)))",
-                tree.getRootNode().getNodeString()
-        );
+        Assertions.assertFalse(tree.isNull());
+        Node root = tree.getRootNode();
+        Assertions.assertEquals("program", root.getType());
+        Range range = root.getRange();
+        Point start = range.getStartPoint();
+        Point end = range.getEndPoint();
+        Assertions.assertEquals(new Point(0, 0), start);
+        Assertions.assertEquals(new Point(1, 0), end);
     }
 
     @Test

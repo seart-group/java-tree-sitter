@@ -9,10 +9,14 @@ class TreeTest extends TestBase {
     @Test
     void testTreeEdit() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
-
-        Tree tree = parser.parse("class Main {\n    // This is a line comment\n}");
-
+        Tree tree = parser.parse("class Main {\n    // This is a line comment\n}\n");
         Node root = tree.getRootNode();
+        Assertions.assertEquals("program", root.getType());
+        Range range = root.getRange();
+        Point start = range.getStartPoint();
+        Point end = range.getEndPoint();
+        Assertions.assertEquals(new Point(0, 0), start);
+        Assertions.assertEquals(new Point(3, 0), end);
         Node body = root.getChild(0).getChildByFieldName("body");
         int newEndByte = 13;
         Point newEndPoint = new Point(1, 1);
@@ -24,15 +28,15 @@ class TreeTest extends TestBase {
                 body.getEndPoint(),
                 newEndPoint
         );
-
-        String oldSExp = tree.getRootNode().getNodeString();
-
         tree.edit(inputEdit);
-
-        tree = parser.parse("class Main {\n}", tree);
-
-        String newSExp = tree.getRootNode().getNodeString();
-        Assertions.assertNotEquals(oldSExp, newSExp);
+        tree = parser.parse("class Main {\n}\n", tree);
+        root = tree.getRootNode();
+        Assertions.assertEquals("program", root.getType());
+        range = root.getRange();
+        start = range.getStartPoint();
+        end = range.getEndPoint();
+        Assertions.assertEquals(new Point(0, 0), start);
+        Assertions.assertEquals(new Point(2, 0), end);
     }
 
     @Test

@@ -14,7 +14,7 @@ Highlights include:
 - A wide range of languages [supported](.gitmodules) out of the box
 - Streamlined native library construction, packaging and runtime loading
 - Safer interop with native code to minimize risks of segmentation faults
-- Multiple AST export formats: DOT, XML and human-readable syntax trees
+- Multiple AST export formats: DOT, XML, [symbolic expression](https://en.wikipedia.org/wiki/S-expression) and human-readable syntax trees
 - Various other quality-of-life improvements
 
 ## Local development
@@ -59,7 +59,7 @@ To use in your own Maven project, include the following in your POM file:
 <dependency>
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
 </dependency>
 ```
 
@@ -112,30 +112,6 @@ public class Example {
             Node function = root.getChild(0);
             assert function.getType().equals("function_definition");
             assert function.getChildCount() == 5;
-        } catch (Exception ex) {
-            // ...
-        }
-    }
-}
-```
-
-For debugging, it can be helpful to see a [symbolic expression](https://en.wikipedia.org/wiki/S-expression) representation of the tree structure:
-
-```java
-import ch.usi.si.seart.treesitter.*;
-
-public class Example {
-
-    // init omitted...
-
-    public static void main(String[] args) {
-        try (
-            Parser parser = new Parser(Language.PYTHON);
-            Tree tree = parser.parse("print(\"hi\")")
-        ) {
-            String actual = tree.getRootNode().getNodeString();
-            String expected = "(module (expression_statement (call function: (identifier) arguments: (argument_list (string)))))";
-            assert expected.equals(actual);
         } catch (Exception ex) {
             // ...
         }
