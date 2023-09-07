@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SymbolicExpressionPrinter extends IterativeTreePrinter {
 
-    protected SymbolicExpressionPrinter(@NotNull TreeCursor cursor) {
+    public SymbolicExpressionPrinter(@NotNull TreeCursor cursor) {
         super(cursor);
     }
 
