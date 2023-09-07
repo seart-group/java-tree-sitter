@@ -3,9 +3,6 @@ package ch.usi.si.seart.treesitter.printer;
 import ch.usi.si.seart.treesitter.Point;
 import ch.usi.si.seart.treesitter.TreeCursor;
 import ch.usi.si.seart.treesitter.TreeCursorNode;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
@@ -22,14 +19,9 @@ import java.util.function.Consumer;
  * @see <a href="https://github.com/tree-sitter/tree-sitter/blob/293f0d1ca30a63839810ad4b943c0f19f1cb4933/cli/src/parse.rs#L186-L239">Rust implementation</a>
  * @author Ozren Dabić
  */
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class XMLPrinter extends IterativeTreePrinter {
 
     public static final String PROLOG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
-    @NonFinal
-    boolean visitedChildren = false;
-    Deque<String> tags = new ArrayDeque<>();
 
     public XMLPrinter(@NotNull TreeCursor cursor) {
         super(cursor);
@@ -46,6 +38,8 @@ public class XMLPrinter extends IterativeTreePrinter {
     }
 
     protected void write(Consumer<String> appender) {
+        boolean visitedChildren = false;
+        Deque<String> tags = new ArrayDeque<>();
         for (;;) {
             TreeCursorNode cursorNode = cursor.getCurrentTreeCursorNode();
             boolean isNamed = cursorNode.isNamed();

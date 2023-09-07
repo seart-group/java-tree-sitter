@@ -2,8 +2,6 @@ package ch.usi.si.seart.treesitter.printer;
 
 import ch.usi.si.seart.treesitter.TreeCursor;
 import ch.usi.si.seart.treesitter.TreeCursorNode;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -21,10 +19,7 @@ import java.util.function.Consumer;
  * @see <a href="https://tree-sitter.github.io/tree-sitter/playground">Syntax Tree Playground</a>
  * @author Ozren Dabić
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SyntaxTreePrinter extends IterativeTreePrinter {
-
-    int depth = 0;
 
     public SyntaxTreePrinter(@NotNull TreeCursor cursor) {
         super(cursor);
@@ -36,6 +31,7 @@ public class SyntaxTreePrinter extends IterativeTreePrinter {
     }
 
     protected void write(Consumer<String> appender) {
+        int depth = 0;
         for (;;) {
             TreeCursorNode cursorNode = cursor.getCurrentTreeCursorNode();
             if (cursorNode.isNamed()) {
