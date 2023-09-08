@@ -131,6 +131,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_javascript
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    json
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_json
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    julia
  * Signature: ()J
  */

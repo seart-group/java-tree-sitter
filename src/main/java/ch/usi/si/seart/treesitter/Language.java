@@ -130,6 +130,13 @@ public enum Language {
     JAVASCRIPT(javascript()),
 
     /**
+     * JSON language mapping.
+     *
+     * @see <a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a>
+     */
+    JSON(json()),
+
+    /**
      * Julia language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-julia">tree-sitter-julia</a>
@@ -303,6 +310,7 @@ public enum Language {
     private static native long html();
     private static native long java();
     private static native long javascript();
+    private static native long json();
     private static native long julia();
     private static native long kotlin();
     private static native long lua();
@@ -350,6 +358,7 @@ public enum Language {
             case C:
             case CSS:
             case HTML:
+            case JSON:
             case PHP:
             case R:
             case SCSS:

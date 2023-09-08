@@ -168,6 +168,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_javascript(JNIE
 }
 #endif
 
+#ifdef TS_LANGUAGE_JSON
+extern "C" TSLanguage* tree_sitter_json();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_json(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_json();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_json(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_JULIA
 extern "C" TSLanguage* tree_sitter_julia();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_julia(JNIEnv* env, jclass self) {
