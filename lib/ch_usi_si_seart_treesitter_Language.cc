@@ -124,6 +124,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go(JNIEnv* env,
 }
 #endif
 
+#ifdef TS_LANGUAGE_GRAPHQL
+extern "C" TSLanguage* tree_sitter_graphql();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_graphql();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_HASKELL
 extern "C" TSLanguage* tree_sitter_haskell();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_haskell(JNIEnv* env, jclass self) {

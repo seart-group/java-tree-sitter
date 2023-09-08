@@ -102,6 +102,13 @@ public enum Language {
     GO(go()),
 
     /**
+     * GraphQL language mapping.
+     *
+     * @see <a href="https://github.com/bkegley/tree-sitter-graphql">tree-sitter-graphql</a>
+     */
+    GRAPHQL(graphQl()),
+
+    /**
      * Haskell language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter-haskell</a>
@@ -306,6 +313,7 @@ public enum Language {
     private static native long embeddedTemplate();
     private static native long eno();
     private static native long go();
+    private static native long graphQl();
     private static native long haskell();
     private static native long html();
     private static native long java();
@@ -395,6 +403,7 @@ public enum Language {
             case CSHARP: return "C#";
             case CPP: return "C++";
             case EMBEDDED_TEMPLATE: return "Embedded Template";
+            case GRAPHQL: return "GraphQL";
             case JAVASCRIPT: return "JavaScript";
             case OBJECTIVE_C: return "Objective-C";
             case OCAML: return "OCaml";

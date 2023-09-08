@@ -99,6 +99,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    graphQl
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    haskell
  * Signature: ()J
  */
