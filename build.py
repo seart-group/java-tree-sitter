@@ -51,6 +51,8 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             src_path = path(repository, repository, "src")
         elif repository == "tree-sitter-ocaml":
             src_path = path(repository, "ocaml", "src")
+        elif repository == "tree-sitter-tsx":
+            src_path = path(repository, "tsx", "src")
         elif repository == "tree-sitter-typescript":
             src_path = path(repository, "typescript", "src")
         else:
