@@ -214,6 +214,13 @@ public enum Language {
     SCSS(scss()),
 
     /**
+     * Svelte language mapping.
+     *
+     * @see <a href="https://github.com/Himujjal/tree-sitter-svelte">tree-sitter-svelte</a>
+     */
+    SVELTE(svelte()),
+
+    /**
      * Swift language mapping.
      *
      * @see <a href="https://github.com/alex-pinkus/tree-sitter-swift">tree-sitter-swift</a>
@@ -287,6 +294,7 @@ public enum Language {
     private static native long rust();
     private static native long scala();
     private static native long scss();
+    private static native long svelte();
     private static native long swift();
     private static native long toml();
     private static native long tsx();
@@ -343,6 +351,7 @@ public enum Language {
             case RUBY:
             case RUST:
             case SCALA:
+            case SVELTE:
             case SWIFT:
             case VUE:
                 return name().charAt(0) + name().substring(1).toLowerCase();

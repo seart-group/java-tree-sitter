@@ -76,6 +76,9 @@
 [submodule "tree-sitter-scss"]
 	path = tree-sitter-scss
 	url = https://github.com/serenadeai/tree-sitter-scss.git
+[submodule "tree-sitter-svelte"]
+	path = tree-sitter-svelte
+	url = https://github.com/Himujjal/tree-sitter-svelte.git
 [submodule "tree-sitter-swift"]
 	path = tree-sitter-swift
 	url = https://github.com/alex-pinkus/tree-sitter-swift.git

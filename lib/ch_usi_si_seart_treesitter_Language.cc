@@ -300,6 +300,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scss(JNIEnv* en
 }
 #endif
 
+#ifdef TS_LANGUAGE_SVELTE
+extern "C" TSLanguage* tree_sitter_svelte();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_svelte(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_svelte();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_svelte(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_SWIFT
 extern "C" TSLanguage* tree_sitter_swift();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_swift(JNIEnv* env, jclass self) {
