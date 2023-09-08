@@ -67,3 +67,6 @@
 [submodule "tree-sitter-scala"]
 	path = tree-sitter-scala
 	url = https://github.com/tree-sitter/tree-sitter-scala.git
+[submodule "tree-sitter-scss"]
+	path = tree-sitter-scss
+	url = https://github.com/serenadeai/tree-sitter-scss.git
