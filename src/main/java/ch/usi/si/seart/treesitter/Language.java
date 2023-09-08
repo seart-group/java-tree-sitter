@@ -207,6 +207,13 @@ public enum Language {
     SCALA(scala()),
 
     /**
+     * Scheme language mapping.
+     *
+     * @see <a href="https://github.com/6cdh/tree-sitter-scheme">tree-sitter-scheme</a>
+     */
+    SCHEME(scheme()),
+
+    /**
      * SCSS language mapping.
      *
      * @see <a href="https://github.com/serenadeai/tree-sitter-scss">tree-sitter-scss</a>
@@ -293,6 +300,7 @@ public enum Language {
     private static native long r();
     private static native long rust();
     private static native long scala();
+    private static native long scheme();
     private static native long scss();
     private static native long svelte();
     private static native long swift();
@@ -351,6 +359,7 @@ public enum Language {
             case RUBY:
             case RUST:
             case SCALA:
+            case SCHEME:
             case SVELTE:
             case SWIFT:
             case VUE:

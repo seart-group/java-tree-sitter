@@ -219,6 +219,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scala
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    scheme
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scheme
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    scss
  * Signature: ()J
  */
