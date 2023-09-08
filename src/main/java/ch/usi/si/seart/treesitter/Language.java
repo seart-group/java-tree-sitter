@@ -158,6 +158,13 @@ public enum Language {
     MARKDOWN(markdown()),
 
     /**
+     * Nix language mapping.
+     *
+     * @see <a href="https://github.com/nix-community/tree-sitter-nix">tree-sitter-nix</a>
+     */
+    NIX(nix()),
+
+    /**
      * Objective-C language mapping.
      *
      * @see <a href="https://github.com/jiyee/tree-sitter-objc">tree-sitter-objc</a>
@@ -300,6 +307,7 @@ public enum Language {
     private static native long kotlin();
     private static native long lua();
     private static native long markdown();
+    private static native long nix();
     private static native long objectiveC();
     private static native long ocaml();
     private static native long php();
@@ -363,6 +371,7 @@ public enum Language {
             case KOTLIN:
             case LUA:
             case MARKDOWN:
+            case NIX:
             case PYTHON:
             case RUBY:
             case RUST:
