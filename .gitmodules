@@ -61,6 +61,9 @@
 [submodule "tree-sitter-python"]
 	path = tree-sitter-python
 	url = https://github.com/tree-sitter/tree-sitter-python.git
+[submodule "tree-sitter-r"]
+	path = tree-sitter-r
+	url = https://github.com/r-lib/tree-sitter-r.git
 [submodule "tree-sitter-ruby"]
 	path = tree-sitter-ruby
 	url = https://github.com/tree-sitter/tree-sitter-ruby.git

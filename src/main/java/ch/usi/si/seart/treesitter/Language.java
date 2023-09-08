@@ -179,6 +179,13 @@ public enum Language {
     PYTHON(python()),
 
     /**
+     * R language mapping.
+     *
+     * @see <a href="https://github.com/r-lib/tree-sitter-r">tree-sitter-r</a>
+     */
+    R(r()),
+
+    /**
      * Ruby language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter-ruby</a>
@@ -276,6 +283,7 @@ public enum Language {
     private static native long php();
     private static native long python();
     private static native long ruby();
+    private static native long r();
     private static native long rust();
     private static native long scala();
     private static native long scss();
@@ -311,6 +319,7 @@ public enum Language {
             case CSS:
             case HTML:
             case PHP:
+            case R:
             case SCSS:
             case TOML:
             case TSX:
