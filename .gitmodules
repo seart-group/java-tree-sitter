@@ -16,6 +16,9 @@
 [submodule "tree-sitter-css"]
 	path = tree-sitter-css
 	url = https://github.com/tree-sitter/tree-sitter-css.git
+[submodule "tree-sitter-dart"]
+	path = tree-sitter-dart
+	url = https://github.com/UserNobody14/tree-sitter-dart.git
 [submodule "tree-sitter-go"]
 	path = tree-sitter-go
 	url = https://github.com/tree-sitter/tree-sitter-go.git
