@@ -85,3 +85,6 @@
 [submodule "tree-sitter-typescript"]
 	path = tree-sitter-typescript
 	url = https://github.com/tree-sitter/tree-sitter-typescript.git
+[submodule "tree-sitter-yaml"]
+	path = tree-sitter-yaml
+	url = https://github.com/ikatyang/tree-sitter-yaml.git
