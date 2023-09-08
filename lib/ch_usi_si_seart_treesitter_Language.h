@@ -163,6 +163,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_markdown
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    objectiveC
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_objectiveC
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    ocaml
  * Signature: ()J
  */

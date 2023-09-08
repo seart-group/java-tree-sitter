@@ -158,6 +158,13 @@ public enum Language {
     MARKDOWN(markdown()),
 
     /**
+     * Objective-C language mapping.
+     *
+     * @see <a href="https://github.com/jiyee/tree-sitter-objc">tree-sitter-objc</a>
+     */
+    OBJECTIVE_C(objectiveC()),
+
+    /**
      * OCaml language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter-ocaml</a>
@@ -293,6 +300,7 @@ public enum Language {
     private static native long kotlin();
     private static native long lua();
     private static native long markdown();
+    private static native long objectiveC();
     private static native long ocaml();
     private static native long php();
     private static native long python();
@@ -370,6 +378,7 @@ public enum Language {
             case CPP: return "C++";
             case EMBEDDED_TEMPLATE: return "Embedded Template";
             case JAVASCRIPT: return "JavaScript";
+            case OBJECTIVE_C: return "Objective-C";
             case OCAML: return "OCaml";
             case TYPESCRIPT: return "TypeScript";
             case WASM: return "WebAssembly";
