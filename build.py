@@ -47,7 +47,10 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     compiler = new_c_compiler()
     for repository in repositories:
-        src_path = path(repository, "src")
+        if repository == "tree-sitter-markdown":
+            src_path = path(repository, repository, "src")
+        else:
+            src_path = path(repository, "src")
         source_paths.append(path(src_path, "parser.c"))
         scanner_c = path(src_path, "scanner.c")
         scanner_cc = path(src_path, "scanner.cc")
