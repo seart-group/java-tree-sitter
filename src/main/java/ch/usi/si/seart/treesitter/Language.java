@@ -74,6 +74,13 @@ public enum Language {
     DART(dart()),
 
     /**
+     * Dockerfile language mapping.
+     *
+     * @see <a href="https://github.com/camdencheek/tree-sitter-dockerfile">tree-sitter-dockerfile</a>
+     */
+    DOCKERFILE(dockerfile()),
+
+    /**
      * DOT language mapping.
      *
      * @see <a href="https://github.com/rydesun/tree-sitter-dot">tree-sitter-dot</a>
@@ -316,6 +323,7 @@ public enum Language {
     private static native long cpp();
     private static native long css();
     private static native long dart();
+    private static native long dockerfile();
     private static native long dot();
     private static native long elm();
     private static native long embeddedTemplate();
@@ -388,6 +396,7 @@ public enum Language {
             case AGDA:
             case BASH:
             case DART:
+            case DOCKERFILE:
             case ELM:
             case ENO:
             case GO:
