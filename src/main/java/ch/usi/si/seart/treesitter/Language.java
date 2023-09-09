@@ -46,6 +46,13 @@ public enum Language {
     C(c()),
 
     /**
+     * Clojure language mapping.
+     *
+     * @see <a href="https://github.com/sogaiu/tree-sitter-clojure">tree-sitter-clojure</a>
+     */
+    CLOJURE(clojure()),
+
+    /**
      * C# language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
@@ -319,6 +326,7 @@ public enum Language {
     private static native long agda();
     private static native long bash();
     private static native long c();
+    private static native long clojure();
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
@@ -395,6 +403,7 @@ public enum Language {
             // Capital Case
             case AGDA:
             case BASH:
+            case CLOJURE:
             case DART:
             case DOCKERFILE:
             case ELM:
