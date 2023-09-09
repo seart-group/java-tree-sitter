@@ -74,6 +74,13 @@ public enum Language {
     DART(dart()),
 
     /**
+     * DOT language mapping.
+     *
+     * @see <a href="https://github.com/rydesun/tree-sitter-dot">tree-sitter-dot</a>
+     */
+    DOT(dot()),
+
+    /**
      * Elm language mapping.
      *
      * @see <a href="https://github.com/elm-tooling/tree-sitter-elm">tree-sitter-elm</a>
@@ -309,6 +316,7 @@ public enum Language {
     private static native long cpp();
     private static native long css();
     private static native long dart();
+    private static native long dot();
     private static native long elm();
     private static native long embeddedTemplate();
     private static native long eno();
@@ -365,6 +373,7 @@ public enum Language {
             // Unmodified
             case C:
             case CSS:
+            case DOT:
             case HTML:
             case JSON:
             case PHP:

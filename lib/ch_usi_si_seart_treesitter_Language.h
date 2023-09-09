@@ -67,6 +67,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dart
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    dot
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    elm
  * Signature: ()J
  */

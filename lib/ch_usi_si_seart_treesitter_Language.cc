@@ -80,6 +80,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dart(JNIEnv* en
 }
 #endif
 
+#ifdef TS_LANGUAGE_DOT
+extern "C" TSLanguage* tree_sitter_dot();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_dot();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_ELM
 extern "C" TSLanguage* tree_sitter_elm();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_elm(JNIEnv* env, jclass self) {
