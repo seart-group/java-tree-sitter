@@ -228,6 +228,13 @@ public enum Language {
     OCAML(ocaml()),
 
     /**
+     * Pascal language mapping.
+     *
+     * @see <a href="https://github.com/Isopod/tree-sitter-pascal">tree-sitter-pascal</a>
+     */
+    PASCAL(pascal()),
+
+    /**
      * PHP language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-php">tree-sitter-php</a>
@@ -366,6 +373,7 @@ public enum Language {
     private static native long nix();
     private static native long objectiveC();
     private static native long ocaml();
+    private static native long pascal();
     private static native long php();
     private static native long python();
     private static native long ruby();
@@ -432,6 +440,7 @@ public enum Language {
             case LUA:
             case MARKDOWN:
             case NIX:
+            case PASCAL:
             case PYTHON:
             case RUBY:
             case RUST:

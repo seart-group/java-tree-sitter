@@ -124,3 +124,6 @@
 [submodule "tree-sitter-yaml"]
 	path = tree-sitter-yaml
 	url = https://github.com/ikatyang/tree-sitter-yaml.git
+[submodule "tree-sitter-pascal"]
+	path = tree-sitter-pascal
+	url = https://github.com/Isopod/tree-sitter-pascal.git

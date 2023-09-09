@@ -322,6 +322,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ocaml(JNIEnv* e
 }
 #endif
 
+#ifdef TS_LANGUAGE_PASCAL
+extern "C" TSLanguage* tree_sitter_pascal();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_pascal(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_pascal();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_pascal(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_PHP
 extern "C" TSLanguage* tree_sitter_php();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_php(JNIEnv* env, jclass self) {

@@ -243,6 +243,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ocaml
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    pascal
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_pascal
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    php
  * Signature: ()J
  */
