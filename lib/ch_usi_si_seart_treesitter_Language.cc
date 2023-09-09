@@ -69,6 +69,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cMake(JNIEnv* e
 }
 #endif
 
+#ifdef TS_LANGUAGE_COMMON_LISP
+extern "C" TSLanguage* tree_sitter_commonlisp();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_commonLisp(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_commonlisp();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_commonLisp(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_CPP
 extern "C" TSLanguage* tree_sitter_cpp();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cpp(JNIEnv* env, jclass self) {

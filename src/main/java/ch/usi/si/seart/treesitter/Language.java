@@ -60,6 +60,13 @@ public enum Language {
     CMAKE(cMake()),
 
     /**
+     * Common Lisp language mapping.
+     *
+     * @see <a href="https://github.com/theHamsta/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
+     */
+    COMMON_LISP(commonLisp()),
+
+    /**
      * C# language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
@@ -334,6 +341,7 @@ public enum Language {
     private static native long bash();
     private static native long c();
     private static native long clojure();
+    private static native long commonLisp();
     private static native long cMake();
     private static native long cSharp();
     private static native long cpp();
@@ -436,6 +444,7 @@ public enum Language {
 
             // Special Cases
             case CMAKE: return "CMake";
+            case COMMON_LISP: return "Common Lisp";
             case CSHARP: return "C#";
             case CPP: return "C++";
             case EMBEDDED_TEMPLATE: return "Embedded Template";
