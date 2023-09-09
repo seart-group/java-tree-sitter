@@ -43,6 +43,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_clojure
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    cMake
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cMake
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    cSharp
  * Signature: ()J
  */

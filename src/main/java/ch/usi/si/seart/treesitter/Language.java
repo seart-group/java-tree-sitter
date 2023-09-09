@@ -53,6 +53,13 @@ public enum Language {
     CLOJURE(clojure()),
 
     /**
+     * CMake language mapping.
+     *
+     * @see <a href="https://github.com/uyha/tree-sitter-cmake">tree-sitter-cmake</a>
+     */
+    CMAKE(cMake()),
+
+    /**
      * C# language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
@@ -327,6 +334,7 @@ public enum Language {
     private static native long bash();
     private static native long c();
     private static native long clojure();
+    private static native long cMake();
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
@@ -427,6 +435,7 @@ public enum Language {
                 return name().charAt(0) + name().substring(1).toLowerCase();
 
             // Special Cases
+            case CMAKE: return "CMake";
             case CSHARP: return "C#";
             case CPP: return "C++";
             case EMBEDDED_TEMPLATE: return "Embedded Template";
