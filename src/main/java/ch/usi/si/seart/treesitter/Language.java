@@ -439,7 +439,9 @@ public enum Language {
     @Override
     public String toString() {
         switch (this) {
-            // Unmodified
+            /*
+             * Uppercase
+             */
             case C:
             case CSS:
             case DOT:
@@ -452,8 +454,9 @@ public enum Language {
             case TSX:
             case YAML:
                 return name();
-
-            // Capital Case
+            /*
+             * Capital Case
+             */
             case ADA:
             case BASH:
             case CLOJURE:
@@ -481,15 +484,18 @@ public enum Language {
             case SVELTE:
             case SWIFT:
                 return capitalize(name());
-
+            /*
+             * Space-Delimited Capital Case
+             */
             case COMMON_LISP:
             case EMBEDDED_TEMPLATE:
                 String[] parts = name().split("_");
                 return Stream.of(parts)
                         .map(Language::capitalize)
                         .collect(Collectors.joining(" "));
-
-            // Special Cases
+            /*
+             * Special Cases
+             */
             case CMAKE: return "CMake";
             case CSHARP: return "C#";
             case CPP: return "C++";
@@ -499,8 +505,9 @@ public enum Language {
             case OBJECTIVE_C: return "Objective-C";
             case OCAML: return "OCaml";
             case TYPESCRIPT: return "TypeScript";
-
-            // Default / Undefined
+            /*
+             * Fallback
+             */
             default:
                 return "???";
         }
