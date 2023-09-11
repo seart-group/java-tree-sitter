@@ -467,7 +467,7 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
-                return name().charAt(0) + name().substring(1).toLowerCase();
+                return capitalize(name());
 
             // Special Cases
             case CMAKE: return "CMake";
@@ -486,5 +486,9 @@ public enum Language {
             default:
                 return "???";
         }
+    }
+
+    private static String capitalize(String name) {
+        return name.charAt(0) + name.substring(1).toLowerCase();
     }
 }
