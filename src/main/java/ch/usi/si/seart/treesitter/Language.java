@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ public enum Language {
      * Represents an invalid language.
      * Used primarily for testing.
      */
+    @TestOnly
     _INVALID_(),
 
     /**
