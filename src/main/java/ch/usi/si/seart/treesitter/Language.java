@@ -116,6 +116,13 @@ public enum Language {
     DOT(dot()),
 
     /**
+     * Elixir language mapping.
+     *
+     * @see <a href="https://github.com/elixir-lang/tree-sitter-elixir">tree-sitter-elixir</a>
+     */
+    ELIXIR(elixir()),
+
+    /**
      * Elm language mapping.
      *
      * @see <a href="https://github.com/elm-tooling/tree-sitter-elm">tree-sitter-elm</a>
@@ -364,6 +371,7 @@ public enum Language {
     private static native long dart();
     private static native long dockerfile();
     private static native long dot();
+    private static native long elixir();
     private static native long elm();
     private static native long embeddedTemplate();
     private static native long eno();
@@ -439,6 +447,7 @@ public enum Language {
             case CLOJURE:
             case DART:
             case DOCKERFILE:
+            case ELIXIR:
             case ELM:
             case ENO:
             case GO:

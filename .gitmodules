@@ -37,6 +37,9 @@
 [submodule "tree-sitter-dot"]
 	path = tree-sitter-dot
 	url = https://github.com/rydesun/tree-sitter-dot.git
+[submodule "tree-sitter-elixir"]
+	path = tree-sitter-elixir
+	url = https://github.com/elixir-lang/tree-sitter-elixir.git
 [submodule "tree-sitter-elm"]
 	path = tree-sitter-elm
 	url = https://github.com/elm-tooling/tree-sitter-elm.git

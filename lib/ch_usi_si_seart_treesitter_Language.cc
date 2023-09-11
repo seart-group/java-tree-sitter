@@ -146,6 +146,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot(JNIEnv* env
 }
 #endif
 
+#ifdef TS_LANGUAGE_ELIXIR
+extern "C" TSLanguage* tree_sitter_elixir();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_elixir(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_elixir();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_elixir(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_ELM
 extern "C" TSLanguage* tree_sitter_elm();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_elm(JNIEnv* env, jclass self) {
