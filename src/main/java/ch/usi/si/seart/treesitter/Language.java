@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.Objects;
@@ -420,7 +421,7 @@ public enum Language {
     private static native long typescript();
     private static native long yaml();
 
-    public static void validate(Language language) {
+    public static void validate(@NotNull Language language) {
         Objects.requireNonNull(language, "Language must not be null!");
         long id = language.getId();
         if (id == Language.INVALID) throw new UnsatisfiedLinkError(
