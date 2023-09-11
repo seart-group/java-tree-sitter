@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Enum that consists of all the officially recognized programming language mappings.
@@ -469,12 +471,17 @@ public enum Language {
             case SWIFT:
                 return capitalize(name());
 
+            case COMMON_LISP:
+            case EMBEDDED_TEMPLATE:
+                String[] parts = name().split("_");
+                return Stream.of(parts)
+                        .map(Language::capitalize)
+                        .collect(Collectors.joining(" "));
+
             // Special Cases
             case CMAKE: return "CMake";
-            case COMMON_LISP: return "Common Lisp";
             case CSHARP: return "C#";
             case CPP: return "C++";
-            case EMBEDDED_TEMPLATE: return "Embedded Template";
             case GRAPHQL: return "GraphQL";
             case JAVASCRIPT: return "JavaScript";
             case LATEX: return "LaTeX";
