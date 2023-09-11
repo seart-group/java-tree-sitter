@@ -520,17 +520,6 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript(JNIE
 }
 #endif
 
-#ifdef TS_LANGUAGE_VUE
-extern "C" TSLanguage* tree_sitter_vue();
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_vue(JNIEnv* env, jclass self) {
-  return (jlong)tree_sitter_vue();
-}
-#else
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_vue(JNIEnv* env, jclass self) {
-  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
-}
-#endif
-
 #ifdef TS_LANGUAGE_YAML
 extern "C" TSLanguage* tree_sitter_yaml();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml(JNIEnv* env, jclass self) {

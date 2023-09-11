@@ -352,13 +352,6 @@ public enum Language {
     TYPESCRIPT(typescript()),
 
     /**
-     * Vue language mapping.
-     *
-     * @see <a href="https://github.com/ikatyang/tree-sitter-vue">tree-sitter-vue</a>
-     */
-    VUE(vue()),
-
-    /**
      * YAML language mapping.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
@@ -419,7 +412,6 @@ public enum Language {
     private static native long toml();
     private static native long tsx();
     private static native long typescript();
-    private static native long vue();
     private static native long yaml();
     private static native long wasm();
 
@@ -483,7 +475,6 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
-            case VUE:
                 return name().charAt(0) + name().substring(1).toLowerCase();
 
             // Special Cases
