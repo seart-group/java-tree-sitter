@@ -3,6 +3,17 @@
 #include <string.h>
 #include <tree_sitter/api.h>
 
+#ifdef TS_LANGUAGE_ADA
+extern "C" TSLanguage* tree_sitter_ada();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_ada();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_AGDA
 extern "C" TSLanguage* tree_sitter_agda();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_agda(JNIEnv* env, jclass self) {

@@ -25,6 +25,13 @@ public enum Language {
     _INVALID_(),
 
     /**
+     * Ada language mapping.
+     *
+     * @see <a href="https://github.com/briot/tree-sitter-ada">tree-sitter-ada</a>
+     */
+    ADA(ada()),
+
+    /**
      * Agda language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-agda">tree-sitter-agda</a>
@@ -344,6 +351,7 @@ public enum Language {
      */
     WASM(wasm());
 
+    private static native long ada();
     private static native long agda();
     private static native long bash();
     private static native long c();
@@ -425,6 +433,7 @@ public enum Language {
                 return name();
 
             // Capital Case
+            case ADA:
             case AGDA:
             case BASH:
             case CLOJURE:

@@ -11,6 +11,14 @@ extern "C" {
 #define ch_usi_si_seart_treesitter_Language_INVALID 0LL
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    ada
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    agda
  * Signature: ()J
  */
