@@ -151,6 +151,13 @@ public enum Language {
     ENO(eno()),
 
     /**
+     * Fortran language mapping.
+     *
+     * @see <a href="https://github.com/stadelmanma/tree-sitter-fortran">tree-sitter-fortran</a>
+     */
+    FORTRAN(fortran()),
+
+    /**
      * Go language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter-go</a>
@@ -383,6 +390,7 @@ public enum Language {
     private static native long embeddedTemplate();
     private static native long erlang();
     private static native long eno();
+    private static native long fortran();
     private static native long go();
     private static native long graphQl();
     private static native long haskell();
@@ -459,6 +467,7 @@ public enum Language {
             case ELM:
             case ENO:
             case ERLANG:
+            case FORTRAN:
             case GO:
             case HASKELL:
             case JAVA:
