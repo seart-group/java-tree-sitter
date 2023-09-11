@@ -137,13 +137,6 @@ public enum Language {
     ERLANG(erlang()),
 
     /**
-     * Eno language mapping.
-     *
-     * @see <a href="https://github.com/eno-lang/tree-sitter-eno">tree-sitter-eno</a>
-     */
-    ENO(eno()),
-
-    /**
      * Fortran language mapping.
      *
      * @see <a href="https://github.com/stadelmanma/tree-sitter-fortran">tree-sitter-fortran</a>
@@ -395,7 +388,6 @@ public enum Language {
     private static native long elm();
     private static native long embeddedTemplate();
     private static native long erlang();
-    private static native long eno();
     private static native long fortran();
     private static native long go();
     private static native long graphQl();
@@ -472,7 +464,6 @@ public enum Language {
             case DOCKERFILE:
             case ELIXIR:
             case ELM:
-            case ENO:
             case ERLANG:
             case FORTRAN:
             case GO:
