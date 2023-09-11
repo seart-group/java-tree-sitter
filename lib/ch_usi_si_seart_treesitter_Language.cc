@@ -190,6 +190,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_eno(JNIEnv* env
 }
 #endif
 
+#ifdef TS_LANGUAGE_ERLANG
+extern "C" TSLanguage* tree_sitter_erlang();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_erlang();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_GO
 extern "C" TSLanguage* tree_sitter_go();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go(JNIEnv* env, jclass self) {

@@ -139,6 +139,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_embeddedTemplat
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    erlang
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    eno
  * Signature: ()J
  */
