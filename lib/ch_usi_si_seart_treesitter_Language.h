@@ -235,6 +235,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_kotlin
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    latex
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_latex
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    lua
  * Signature: ()J
  */

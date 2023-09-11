@@ -311,6 +311,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_kotlin(JNIEnv* 
 }
 #endif
 
+#ifdef TS_LANGUAGE_LATEX
+extern "C" TSLanguage* tree_sitter_latex();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_latex(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_latex();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_latex(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_LUA
 extern "C" TSLanguage* tree_sitter_lua();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_lua(JNIEnv* env, jclass self) {

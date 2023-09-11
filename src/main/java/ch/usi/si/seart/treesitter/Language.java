@@ -221,6 +221,13 @@ public enum Language {
     KOTLIN(kotlin()),
 
     /**
+     * LaTeX language mapping.
+     *
+     * @see <a href="https://github.com/latex-lsp/tree-sitter-latex">tree-sitter-latex</a>
+     */
+    LATEX(latex()),
+
+    /**
      * Lua language mapping.
      *
      * @see <a href="https://github.com/Azganoth/tree-sitter-lua">tree-sitter-lua</a>
@@ -400,6 +407,7 @@ public enum Language {
     private static native long json();
     private static native long julia();
     private static native long kotlin();
+    private static native long latex();
     private static native long lua();
     private static native long markdown();
     private static native long nix();
@@ -495,6 +503,7 @@ public enum Language {
             case EMBEDDED_TEMPLATE: return "Embedded Template";
             case GRAPHQL: return "GraphQL";
             case JAVASCRIPT: return "JavaScript";
+            case LATEX: return "LaTeX";
             case OBJECTIVE_C: return "Objective-C";
             case OCAML: return "OCaml";
             case TYPESCRIPT: return "TypeScript";

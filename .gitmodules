@@ -79,6 +79,9 @@
 [submodule "tree-sitter-kotlin"]
 	path = tree-sitter-kotlin
 	url = https://github.com/fwcd/tree-sitter-kotlin.git
+[submodule "tree-sitter-latex"]
+	path = tree-sitter-latex
+	url = https://github.com/latex-lsp/tree-sitter-latex.git
 [submodule "tree-sitter-lua"]
 	path = tree-sitter-lua
 	url = https://github.com/Azganoth/tree-sitter-lua.git
