@@ -393,14 +393,6 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml
   (JNIEnv *, jclass);
 
-/*
- * Class:     ch_usi_si_seart_treesitter_Language
- * Method:    wasm
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_wasm
-  (JNIEnv *, jclass);
-
 #ifdef __cplusplus
 }
 #endif

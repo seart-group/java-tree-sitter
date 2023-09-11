@@ -356,14 +356,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
      */
-    YAML(yaml()),
-
-    /**
-     * WebAssembly language mapping.
-     *
-     * @see <a href="https://github.com/wasm-lsp/tree-sitter-wasm">tree-sitter-wasm</a>
-     */
-    WASM(wasm());
+    YAML(yaml());
 
     private static native long ada();
     private static native long bash();
@@ -413,7 +406,6 @@ public enum Language {
     private static native long tsx();
     private static native long typescript();
     private static native long yaml();
-    private static native long wasm();
 
     public static void validate(Language language) {
         Objects.requireNonNull(language, "Language must not be null!");
@@ -489,7 +481,6 @@ public enum Language {
             case OBJECTIVE_C: return "Objective-C";
             case OCAML: return "OCaml";
             case TYPESCRIPT: return "TypeScript";
-            case WASM: return "WebAssembly";
 
             // Default / Undefined
             default:

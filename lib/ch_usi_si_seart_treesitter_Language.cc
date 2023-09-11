@@ -530,14 +530,3 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml(JNIEnv* en
   return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
 }
 #endif
-
-#ifdef TS_LANGUAGE_WASM
-extern "C" TSLanguage* tree_sitter_wasm();
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_wasm(JNIEnv* env, jclass self) {
-  return (jlong)tree_sitter_wasm();
-}
-#else
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_wasm(JNIEnv* env, jclass self) {
-  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
-}
-#endif
