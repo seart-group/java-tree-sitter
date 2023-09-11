@@ -291,6 +291,13 @@ public enum Language {
     R(r()),
 
     /**
+     * Racket language mapping.
+     *
+     * @see <a href="https://github.com/6cdh/tree-sitter-racket">tree-sitter-racket</a>
+     */
+    RACKET(racket()),
+
+    /**
      * Ruby language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter-ruby</a>
@@ -418,6 +425,7 @@ public enum Language {
     private static native long python();
     private static native long ruby();
     private static native long r();
+    private static native long racket();
     private static native long rust();
     private static native long scala();
     private static native long scheme();
@@ -486,6 +494,7 @@ public enum Language {
             case NIX:
             case PASCAL:
             case PYTHON:
+            case RACKET:
             case RUBY:
             case RUST:
             case SCALA:

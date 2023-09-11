@@ -421,6 +421,17 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_r(JNIEnv* env, 
 }
 #endif
 
+#ifdef TS_LANGUAGE_RACKET
+extern "C" TSLanguage* tree_sitter_racket();
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_racket(JNIEnv* env, jclass self) {
+  return (jlong)tree_sitter_racket();
+}
+#else
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_racket(JNIEnv* env, jclass self) {
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+}
+#endif
+
 #ifdef TS_LANGUAGE_RUBY
 extern "C" TSLanguage* tree_sitter_ruby();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ruby(JNIEnv* env, jclass self) {
