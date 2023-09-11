@@ -32,13 +32,6 @@ public enum Language {
     ADA(ada()),
 
     /**
-     * Agda language mapping.
-     *
-     * @see <a href="https://github.com/tree-sitter/tree-sitter-agda">tree-sitter-agda</a>
-     */
-    AGDA(agda()),
-
-    /**
      * Bash language mapping.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter-bash</a>
@@ -387,7 +380,6 @@ public enum Language {
     WASM(wasm());
 
     private static native long ada();
-    private static native long agda();
     private static native long bash();
     private static native long c();
     private static native long clojure();
@@ -474,7 +466,6 @@ public enum Language {
 
             // Capital Case
             case ADA:
-            case AGDA:
             case BASH:
             case CLOJURE:
             case DART:

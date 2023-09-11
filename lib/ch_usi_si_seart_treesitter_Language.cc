@@ -14,17 +14,6 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada(JNIEnv* env
 }
 #endif
 
-#ifdef TS_LANGUAGE_AGDA
-extern "C" TSLanguage* tree_sitter_agda();
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_agda(JNIEnv* env, jclass self) {
-  return (jlong)tree_sitter_agda();
-}
-#else
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_agda(JNIEnv* env, jclass self) {
-  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
-}
-#endif
-
 #ifdef TS_LANGUAGE_BASH
 extern "C" TSLanguage* tree_sitter_bash();
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_bash(JNIEnv* env, jclass self) {
