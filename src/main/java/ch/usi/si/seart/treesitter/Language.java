@@ -449,7 +449,7 @@ public enum Language {
      * Returns an empty collection if no associations can be made to a file.
      *
      * @param path location of the file whose language associations we want to determine
-     * @return A collection of languages associated with the file (never null)
+     * @return An immutable collection of languages associated with the file (never null)
      * @throws NullPointerException if {@code path} is null
      * @throws IllegalArgumentException if {@code path} is a directory
      * @since 1.5.0
@@ -479,7 +479,7 @@ public enum Language {
                     Map.Entry::getKey,
                     Collectors.mapping(
                             Map.Entry::getValue,
-                            Collectors.toList()
+                            Collectors.toUnmodifiableList()
                     )
             ));
 

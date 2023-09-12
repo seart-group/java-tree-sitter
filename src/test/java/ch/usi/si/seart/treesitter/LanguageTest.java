@@ -79,6 +79,7 @@ class LanguageTest extends TestBase {
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(expected.size(), actual.size());
         Assertions.assertEquals(expected, actual);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> actual.add(null));
     }
 
     private static class AssociatedWithExceptionProvider implements ArgumentsProvider {
