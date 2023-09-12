@@ -1,13 +1,16 @@
 package ch.usi.si.seart.treesitter;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -16,57 +19,81 @@ class LanguageTest extends TestBase {
     @TempDir
     private static Path tmp;
 
-    @Test
-    void testValidate() {
-        Stream.of(Language.values())
-                .filter(Predicate.not(Language._INVALID_::equals))
-                .map(language -> (Executable) () -> Language.validate(language))
-                .forEach(Assertions::assertDoesNotThrow);
+    private static class ValidateProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            Predicate<Language> notInvalid = Predicate.not(Language._INVALID_::equals);
+            return Stream.of(Language.values())
+                    .filter(notInvalid)
+                    .map(Arguments::of);
+        }
     }
 
-    @Test
-    void testValidateThrows() {
-        Assertions.assertThrows(NullPointerException.class, () -> Language.validate(null));
-        Assertions.assertThrows(UnsatisfiedLinkError.class, () -> Language.validate(Language._INVALID_));
+    @ParameterizedTest
+    @ArgumentsSource(ValidateProvider.class)
+    void testValidate(Language language) {
+        Assertions.assertDoesNotThrow(() -> Language.validate(language));
     }
 
-    @Test
-    void testAssociatedWithCandidates() {
-        Path path;
-        Collection<Language> candidates;
+    private static class ValidateExceptionProvider implements ArgumentsProvider {
 
-        path = Path.of(tmp.toString(), "Dockerfile");
-        candidates = Language.associatedWith(path);
-        Assertions.assertNotNull(candidates);
-        Assertions.assertEquals(1, candidates.size());
-        Assertions.assertTrue(candidates.contains(Language.DOCKERFILE));
-
-        path = Path.of(tmp.toString(), "__init__.py");
-        candidates = Language.associatedWith(path);
-        Assertions.assertNotNull(candidates);
-        Assertions.assertEquals(1, candidates.size());
-        Assertions.assertTrue(candidates.contains(Language.PYTHON));
-
-        path = Path.of(tmp.toString(), "Main.java");
-        candidates = Language.associatedWith(path);
-        Assertions.assertNotNull(candidates);
-        Assertions.assertEquals(1, candidates.size());
-        Assertions.assertTrue(candidates.contains(Language.JAVA));
-
-        path = Path.of(tmp.toString(), "example.h");
-        candidates = Language.associatedWith(path);
-        Assertions.assertNotNull(candidates);
-        Assertions.assertEquals(3, candidates.size());
-        Assertions.assertTrue(candidates.containsAll(Set.of(
-                Language.C,
-                Language.CPP,
-                Language.OBJECTIVE_C
-        )));
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, null),
+                    Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_)
+            );
+        }
     }
 
-    @Test
-    void testAssociatedWithThrows() {
-        Assertions.assertThrows(NullPointerException.class, () -> Language.associatedWith(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Language.associatedWith(tmp));
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(ValidateExceptionProvider.class)
+    void testValidateThrows(Class<Throwable> throwableType, Language language) {
+        Assertions.assertThrows(throwableType, () -> Language.validate(language));
+    }
+
+    private static class AssociatedWithProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of("Dockerfile", List.of(Language.DOCKERFILE)),
+                    Arguments.of("__init__.py", List.of(Language.PYTHON)),
+                    Arguments.of("Main.java", List.of(Language.JAVA)),
+                    Arguments.of("example.h", List.of(
+                            Language.C,
+                            Language.CPP,
+                            Language.OBJECTIVE_C
+                    ))
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(AssociatedWithProvider.class)
+    void testAssociatedWith(String name, List<Language> expected) {
+        Path path = Path.of(tmp.toString(), name);
+        Collection<Language> actual = Language.associatedWith(path);
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(expected.size(), actual.size());
+        Assertions.assertEquals(expected, actual);
+    }
+
+    private static class AssociatedWithExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, null),
+                    Arguments.of(IllegalArgumentException.class, tmp)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(AssociatedWithExceptionProvider.class)
+    void testAssociatedWithThrows(Class<Throwable> throwableType, Path path) {
+        Assertions.assertThrows(throwableType, () -> Language.associatedWith(path));
     }
 }
