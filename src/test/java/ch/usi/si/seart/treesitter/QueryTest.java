@@ -10,6 +10,13 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.stream.Stream;
 
 class QueryTest extends TestBase {
 
@@ -26,18 +33,33 @@ class QueryTest extends TestBase {
     }
 
     @Test
-    @SuppressWarnings("resource")
     void testQuery() {
         Assertions.assertNotNull(query, "Query is not null");
-        Assertions.assertThrows(NullPointerException.class, () -> new Query(null, null));
-        Assertions.assertThrows(NullPointerException.class, () -> new Query(Language.JAVA, null));
-        Assertions.assertThrows(NullPointerException.class, () -> new Query(null, "(_)"));
-        Assertions.assertThrows(UnsatisfiedLinkError.class, () -> new Query(Language._INVALID_, "(_)"));
-        Assertions.assertThrows(QueryCaptureException.class, () -> new Query(Language.JAVA, "(#eq? @key @value)"));
-        Assertions.assertThrows(QueryFieldException.class, () -> new Query(Language.JAVA, "(program unknown: (_))"));
-        Assertions.assertThrows(QueryNodeTypeException.class, () -> new Query(Language.JAVA, "(null)"));
-        Assertions.assertThrows(QueryStructureException.class, () -> new Query(Language.JAVA, "(program (program))"));
-        Assertions.assertThrows(QuerySyntaxException.class, () -> new Query(Language.JAVA, "()"));
+    }
+
+    private static class QueryExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, null, null),
+                    Arguments.of(NullPointerException.class, Language.JAVA, null),
+                    Arguments.of(NullPointerException.class, null, "(_)"),
+                    Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_, "(_)"),
+                    Arguments.of(QueryCaptureException.class, Language.JAVA, "(#eq? @key @value)"),
+                    Arguments.of(QueryFieldException.class, Language.JAVA, "(program unknown: (_))"),
+                    Arguments.of(QueryNodeTypeException.class, Language.JAVA, "(null)"),
+                    Arguments.of(QueryStructureException.class, Language.JAVA, "(program (program))"),
+                    Arguments.of(QuerySyntaxException.class, Language.JAVA, "()")
+            );
+        }
+    }
+
+    @SuppressWarnings("resource")
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(QueryExceptionProvider.class)
+    void testQueryException(Class<Throwable> throwableType, Language language, String pattern) {
+        Assertions.assertThrows(throwableType, () -> new Query(language, pattern));
     }
 
     @Test
