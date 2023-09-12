@@ -7,8 +7,12 @@ import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -438,10 +442,48 @@ public enum Language {
         );
     }
 
+    /**
+     * Selects enum values <em>potentially</em> associated with a file at a given path.
+     * This method checks the file's extension or name to determine the candidate language(s).
+     * Returns an empty collection if no associations can be made to a file.
+     *
+     * @param path location of the file whose language associations we want to determine
+     * @return A collection of languages associated with the file (never null)
+     * @throws NullPointerException if {@code path} is null
+     * @throws IllegalArgumentException if {@code path} is a directory
+     * @since 1.5.0
+     */
+    public static @NotNull Collection<Language> associatedWith(@NotNull Path path) {
+        Objects.requireNonNull(path, "Path argument must not be null!");
+        if (Files.isDirectory(path)) throw new IllegalArgumentException(
+                "Path argument must not be a directory!"
+        );
+        String name = path.getFileName().toString();
+        if (name.equals(DOCKERFILE.toString()))
+            return List.of(DOCKERFILE);
+        int i = name.lastIndexOf('.');
+        if (i > 0) {
+            String extension = name.substring(i + 1);
+            return EXTENSION_LOOKUP.get(extension);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
     long id;
     List<String> extensions;
 
     private static final long INVALID = 0L;
+
+    private static final Map<String, List<Language>> EXTENSION_LOOKUP = Stream.of(Language.values())
+            .flatMap(language -> language.getExtensions().stream().map(extension -> Map.entry(extension, language)))
+            .collect(Collectors.groupingBy(
+                    Map.Entry::getKey,
+                    Collectors.mapping(
+                            Map.Entry::getValue,
+                            Collectors.toList()
+                    )
+            ));
 
     Language() {
         this(INVALID);
