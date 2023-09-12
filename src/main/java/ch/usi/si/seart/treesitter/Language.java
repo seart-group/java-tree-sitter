@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,70 +43,70 @@ public enum Language {
      *
      * @see <a href="https://github.com/briot/tree-sitter-ada">tree-sitter-ada</a>
      */
-    ADA(ada()),
+    ADA(ada(), "adb", "ads"),
 
     /**
      * Bash: Bourne Again SHell.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter-bash</a>
      */
-    BASH(bash()),
+    BASH(bash(), "sh", "bash"),
 
     /**
      * C programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c">tree-sitter-c</a>
      */
-    C(c()),
+    C(c(), "c", "h"),
 
     /**
      * Clojure programming language.
      *
      * @see <a href="https://github.com/sogaiu/tree-sitter-clojure">tree-sitter-clojure</a>
      */
-    CLOJURE(clojure()),
+    CLOJURE(clojure(), "bb", "clj", "cljc", "cljs"),
 
     /**
      * The CMake language.
      *
      * @see <a href="https://github.com/uyha/tree-sitter-cmake">tree-sitter-cmake</a>
      */
-    CMAKE(cMake()),
+    CMAKE(cMake(), "cmake"),
 
     /**
      * Common Lisp programming language.
      *
      * @see <a href="https://github.com/theHamsta/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
      */
-    COMMON_LISP(commonLisp()),
+    COMMON_LISP(commonLisp(), "lisp"),
 
     /**
      * C# programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
      */
-    CSHARP(cSharp()),
+    CSHARP(cSharp(), "cs"),
 
     /**
      * C++ programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-cpp">tree-sitter-cpp</a>
      */
-    CPP(cpp()),
+    CPP(cpp(), "cc", "cpp", "cxx", "hpp", "hxx", "h"),
 
     /**
      * CSS: Cascading Style Sheets.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter-css</a>
      */
-    CSS(css()),
+    CSS(css(), "css"),
 
     /**
      * Dart programming language.
      *
      * @see <a href="https://github.com/UserNobody14/tree-sitter-dart">tree-sitter-dart</a>
      */
-    DART(dart()),
+    DART(dart(), "dart"),
 
     /**
      * Docker image specifications.
@@ -118,259 +120,259 @@ public enum Language {
      *
      * @see <a href="https://github.com/rydesun/tree-sitter-dot">tree-sitter-dot</a>
      */
-    DOT(dot()),
+    DOT(dot(), "dot", "gv"),
 
     /**
      * Elixir programming language.
      *
      * @see <a href="https://github.com/elixir-lang/tree-sitter-elixir">tree-sitter-elixir</a>
      */
-    ELIXIR(elixir()),
+    ELIXIR(elixir(), "ex", "exs"),
 
     /**
      * Elm programming language.
      *
      * @see <a href="https://github.com/elm-tooling/tree-sitter-elm">tree-sitter-elm</a>
      */
-    ELM(elm()),
+    ELM(elm(), "elm"),
 
     /**
      * Embedded HTML templates: EJS &amp; ERS.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-embedded-template">tree-sitter-embedded-template</a>
      */
-    EMBEDDED_TEMPLATE(embeddedTemplate()),
+    EMBEDDED_TEMPLATE(embeddedTemplate(), "ejs", "erb"),
 
     /**
      * Erlang programming language.
      *
      * @see <a href="https://github.com/WhatsApp/tree-sitter-erlang">tree-sitter-erlang</a>
      */
-    ERLANG(erlang()),
+    ERLANG(erlang(), "erl", "hrl"),
 
     /**
      * Fortran programming language.
      *
      * @see <a href="https://github.com/stadelmanma/tree-sitter-fortran">tree-sitter-fortran</a>
      */
-    FORTRAN(fortran()),
+    FORTRAN(fortran(), "f", "F90", "f77", "f90", "f95"),
 
     /**
      * Go programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter-go</a>
      */
-    GO(go()),
+    GO(go(), "go"),
 
     /**
      * GraphQL: Graph Query Language.
      *
      * @see <a href="https://github.com/bkegley/tree-sitter-graphql">tree-sitter-graphql</a>
      */
-    GRAPHQL(graphQl()),
+    GRAPHQL(graphQl(), "graphql"),
 
     /**
      * Haskell programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter-haskell</a>
      */
-    HASKELL(haskell()),
+    HASKELL(haskell(), "hs"),
 
     /**
      * HTML: HyperText Markup Language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-html">tree-sitter-html</a>
      */
-    HTML(html()),
+    HTML(html(), "html"),
 
     /**
      * Java programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-java">tree-sitter-java</a>
      */
-    JAVA(java()),
+    JAVA(java(), "java"),
 
     /**
      * JavaScript programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-javascript">tree-sitter-javascript</a>
      */
-    JAVASCRIPT(javascript()),
+    JAVASCRIPT(javascript(), "js"),
 
     /**
      * JSON: JavaScript Object Notation.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a>
      */
-    JSON(json()),
+    JSON(json(), "json"),
 
     /**
      * Julia programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-julia">tree-sitter-julia</a>
      */
-    JULIA(julia()),
+    JULIA(julia(), "jl"),
 
     /**
      * Kotlin programming language.
      *
      * @see <a href="https://github.com/fwcd/tree-sitter-kotlin">tree-sitter-kotlin</a>
      */
-    KOTLIN(kotlin()),
+    KOTLIN(kotlin(), "kt", "kts"),
 
     /**
      * LaTeX markup language for document typesetting.
      *
      * @see <a href="https://github.com/latex-lsp/tree-sitter-latex">tree-sitter-latex</a>
      */
-    LATEX(latex()),
+    LATEX(latex(), "tex", "sty", "cls", "aux"),
 
     /**
      * Lua programming language.
      *
      * @see <a href="https://github.com/Azganoth/tree-sitter-lua">tree-sitter-lua</a>
      */
-    LUA(lua()),
+    LUA(lua(), "lua"),
 
     /**
      * Markdown markup language for creating formatted text.
      *
      * @see <a href="https://github.com/MDeiml/tree-sitter-markdown">tree-sitter-markdown</a>
      */
-    MARKDOWN(markdown()),
+    MARKDOWN(markdown(), "md"),
 
     /**
      * Nix programming language.
      *
      * @see <a href="https://github.com/nix-community/tree-sitter-nix">tree-sitter-nix</a>
      */
-    NIX(nix()),
+    NIX(nix(), "nix"),
 
     /**
      * Objective-C programming language.
      *
      * @see <a href="https://github.com/jiyee/tree-sitter-objc">tree-sitter-objc</a>
      */
-    OBJECTIVE_C(objectiveC()),
+    OBJECTIVE_C(objectiveC(), "h", "m"),
 
     /**
      * OCaml programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter-ocaml</a>
      */
-    OCAML(ocaml()),
+    OCAML(ocaml(), "ml", "mli"),
 
     /**
      * Pascal programming language.
      *
      * @see <a href="https://github.com/Isopod/tree-sitter-pascal">tree-sitter-pascal</a>
      */
-    PASCAL(pascal()),
+    PASCAL(pascal(), "pas", "pp", "lpr"),
 
     /**
      * PHP: Hypertext Preprocessor.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-php">tree-sitter-php</a>
      */
-    PHP(php()),
+    PHP(php(), "php"),
 
     /**
      * Python programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter-python</a>
      */
-    PYTHON(python()),
+    PYTHON(python(), "py"),
 
     /**
      * R programming language.
      *
      * @see <a href="https://github.com/r-lib/tree-sitter-r">tree-sitter-r</a>
      */
-    R(r()),
+    R(r(), "R", "r"),
 
     /**
      * Racket programming language.
      *
      * @see <a href="https://github.com/6cdh/tree-sitter-racket">tree-sitter-racket</a>
      */
-    RACKET(racket()),
+    RACKET(racket(), "rkt"),
 
     /**
      * Ruby programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter-ruby</a>
      */
-    RUBY(ruby()),
+    RUBY(ruby(), "rb"),
 
     /**
      * Rust programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-rust">tree-sitter-rust</a>
      */
-    RUST(rust()),
+    RUST(rust(), "rs"),
 
     /**
      * Scala programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-scala">tree-sitter-scala</a>
      */
-    SCALA(scala()),
+    SCALA(scala(), "scala", "sbt"),
 
     /**
      * Scheme programming language.
      *
      * @see <a href="https://github.com/6cdh/tree-sitter-scheme">tree-sitter-scheme</a>
      */
-    SCHEME(scheme()),
+    SCHEME(scheme(), "scm", "ss"),
 
     /**
      * SCSS: Sassy CSS.
      *
      * @see <a href="https://github.com/serenadeai/tree-sitter-scss">tree-sitter-scss</a>
      */
-    SCSS(scss()),
+    SCSS(scss(), "scss"),
 
     /**
      * Svelte front-end component framework.
      *
      * @see <a href="https://github.com/Himujjal/tree-sitter-svelte">tree-sitter-svelte</a>
      */
-    SVELTE(svelte()),
+    SVELTE(svelte(), "svelte"),
 
     /**
      * Swift programming language.
      *
      * @see <a href="https://github.com/alex-pinkus/tree-sitter-swift">tree-sitter-swift</a>
      */
-    SWIFT(swift()),
+    SWIFT(swift(), "swift"),
 
     /**
      * TOML: Tom's Obvious Minimal Language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-toml">tree-sitter-toml</a>
      */
-    TOML(toml()),
+    TOML(toml(), "toml"),
 
     /**
      * JSX-enhanced TypeScript.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
      */
-    TSX(tsx()),
+    TSX(tsx(), "tsx"),
 
     /**
      * TypeScript programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
      */
-    TYPESCRIPT(typescript()),
+    TYPESCRIPT(typescript(), "ts"),
 
     /**
      * YAML: YAML Ain't Markup Language.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
      */
-    YAML(yaml());
+    YAML(yaml(), "yaml", "yml");
 
     private static native long ada();
     private static native long bash();
@@ -430,11 +432,20 @@ public enum Language {
     }
 
     long id;
+    List<String> extensions;
 
     private static final long INVALID = 0L;
 
     Language() {
         this(INVALID);
+    }
+
+    Language(long id) {
+        this(id, Collections.emptyList());
+    }
+
+    Language(long id, String... extensions) {
+        this(id, List.of(extensions));
     }
 
     @Override
