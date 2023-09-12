@@ -423,6 +423,13 @@ public enum Language {
     private static native long typescript();
     private static native long yaml();
 
+    /**
+     * Validates an enum value to ensure it is not null and has a valid (nonzero) identifier.
+     *
+     * @param language the instance to validate
+     * @throws NullPointerException if {@code language} is null
+     * @throws UnsatisfiedLinkError if {@code language} was not linked to native code
+     */
     public static void validate(@NotNull Language language) {
         Objects.requireNonNull(language, "Language must not be null!");
         long id = language.getId();
