@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -462,12 +463,9 @@ public enum Language {
         if (name.equals(DOCKERFILE.toString()))
             return List.of(DOCKERFILE);
         int i = name.lastIndexOf('.');
-        if (i > 0) {
-            String extension = name.substring(i + 1);
-            return EXTENSION_LOOKUP.get(extension);
-        } else {
-            return Collections.emptyList();
-        }
+        return Optional.ofNullable((i > 0) ? name.substring(i + 1) : null)
+                .map(EXTENSION_LOOKUP::get)
+                .orElseGet(Collections::emptyList);
     }
 
     long id;

@@ -58,6 +58,7 @@ class LanguageTest extends TestBase {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
+                    Arguments.of("requirements.txt", List.of()),
                     Arguments.of("Dockerfile", List.of(Language.DOCKERFILE)),
                     Arguments.of("__init__.py", List.of(Language.PYTHON)),
                     Arguments.of("Main.java", List.of(Language.JAVA)),
