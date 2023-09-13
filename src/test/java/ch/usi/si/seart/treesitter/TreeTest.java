@@ -7,6 +7,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.stream.Stream;
 
 class TreeTest extends TestBase {
 
@@ -41,18 +48,33 @@ class TreeTest extends TestBase {
         Assertions.assertEquals(source, tree.getSource());
     }
 
-    @Test
-    void testGetSourceStartEnd() {
-        Node name = root.getChild(0).getChildByFieldName("name");
-        Node body = root.getChild(0).getChildByFieldName("body");
-        Node leftCurly = body.getChild(0);
-        Node comment = body.getChild(1);
-        Node rightCurly = body.getChild(2);
-        Assertions.assertEquals(source.substring(0, 45), tree.getSource(root.getStartByte(), root.getEndByte()));
-        Assertions.assertEquals(source.substring(6, 10), tree.getSource(name.getStartByte(), name.getEndByte()));
-        Assertions.assertEquals(source.substring(11, 12), tree.getSource(leftCurly.getStartByte(), leftCurly.getEndByte()));
-        Assertions.assertEquals(source.substring(17, 42), tree.getSource(comment.getStartByte(), comment.getEndByte()));
-        Assertions.assertEquals(source.substring(43, 44), tree.getSource(rightCurly.getStartByte(), rightCurly.getEndByte()));
+    private static class ByteRangeContentProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            Tree tree = parser.parse(source);
+            Node root = tree.getRootNode();
+            Node name = root.getChild(0).getChildByFieldName("name");
+            Node body = root.getChild(0).getChildByFieldName("body");
+            Node leftCurly = body.getChild(0);
+            Node comment = body.getChild(1);
+            Node rightCurly = body.getChild(2);
+            return Stream.of(
+                    Arguments.of(0, 45, root),
+                    Arguments.of(6, 10, name),
+                    Arguments.of(11, 12, leftCurly),
+                    Arguments.of(17, 42, comment),
+                    Arguments.of(43, 44, rightCurly)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0} - {1}")
+    @ArgumentsSource(ByteRangeContentProvider.class)
+    void testGetSourceStartEnd(int beginIndex, int endIndex, Node node) {
+        String expected = source.substring(beginIndex, endIndex);
+        String actual = tree.getSource(node.getStartByte(), node.getEndByte());
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
