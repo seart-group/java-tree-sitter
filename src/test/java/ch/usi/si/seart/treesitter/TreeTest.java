@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 
 class TreeTest extends TestBase {
 
+    private static final String source = "class Main {\n    // This is a line comment\n}\n";
+
     @Test
     void testTreeGetSource() {
-        String source = "class Main {\n    // This is a line comment\n}\n";
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Tree tree = parser.parse(source);
         Assertions.assertEquals(source, tree.getSource());
@@ -16,7 +17,6 @@ class TreeTest extends TestBase {
 
     @Test
     void testTreeGetSourceStartEnd() {
-        String source = "class Main {\n    // This is a line comment\n}\n";
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Tree tree = parser.parse(source);
         Node root = tree.getRootNode();
@@ -35,7 +35,7 @@ class TreeTest extends TestBase {
     @Test
     void testTreeEdit() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
-        Tree tree = parser.parse("class Main {\n    // This is a line comment\n}\n");
+        Tree tree = parser.parse(source);
         Node root = tree.getRootNode();
         Assertions.assertEquals("program", root.getType());
         Range range = root.getRange();
