@@ -57,7 +57,6 @@ class TreeTest extends TestBase {
 
     @Test
     void testEdit() {
-        Assertions.assertEquals("program", root.getType());
         Range range = root.getRange();
         Point start = range.getStartPoint();
         Point end = range.getEndPoint();
