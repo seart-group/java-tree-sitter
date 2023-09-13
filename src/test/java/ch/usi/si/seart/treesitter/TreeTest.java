@@ -9,14 +9,14 @@ class TreeTest extends TestBase {
     private static final String source = "class Main {\n    // This is a line comment\n}\n";
 
     @Test
-    void testTreeGetSource() {
+    void testGetSource() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Tree tree = parser.parse(source);
         Assertions.assertEquals(source, tree.getSource());
     }
 
     @Test
-    void testTreeGetSourceStartEnd() {
+    void testGetSourceStartEnd() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Tree tree = parser.parse(source);
         Node root = tree.getRootNode();
@@ -33,7 +33,7 @@ class TreeTest extends TestBase {
     }
 
     @Test
-    void testTreeEdit() {
+    void testEdit() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Tree tree = parser.parse(source);
         Node root = tree.getRootNode();
@@ -66,7 +66,7 @@ class TreeTest extends TestBase {
     }
 
     @Test
-    void testTreeThrows() {
+    void testConstructorThrows() {
         @Cleanup Tree tree = new Tree(0L, Language.JAVA, "");
         Assertions.assertThrows(NullPointerException.class, () -> tree.edit(null));
     }
