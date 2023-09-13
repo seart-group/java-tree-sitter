@@ -1,25 +1,48 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.Cleanup;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TreeTest extends TestBase {
 
     private static final String source = "class Main {\n    // This is a line comment\n}\n";
+    private static Parser parser;
+    private Tree tree;
+    private Node root;
+
+    @BeforeAll
+    static void beforeAll() {
+        parser = new Parser(Language.JAVA);
+    }
+
+    @BeforeEach
+    void setUp() {
+        tree = parser.parse(source);
+        root = tree.getRootNode();
+    }
+
+    @AfterEach
+    void tearDown() {
+        tree.close();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        parser.close();
+    }
 
     @Test
     void testGetSource() {
-        @Cleanup Parser parser = new Parser(Language.JAVA);
-        Tree tree = parser.parse(source);
         Assertions.assertEquals(source, tree.getSource());
     }
 
     @Test
     void testGetSourceStartEnd() {
-        @Cleanup Parser parser = new Parser(Language.JAVA);
-        Tree tree = parser.parse(source);
-        Node root = tree.getRootNode();
         Node name = root.getChild(0).getChildByFieldName("name");
         Node body = root.getChild(0).getChildByFieldName("body");
         Node leftCurly = body.getChild(0);
@@ -34,9 +57,6 @@ class TreeTest extends TestBase {
 
     @Test
     void testEdit() {
-        @Cleanup Parser parser = new Parser(Language.JAVA);
-        Tree tree = parser.parse(source);
-        Node root = tree.getRootNode();
         Assertions.assertEquals("program", root.getType());
         Range range = root.getRange();
         Point start = range.getStartPoint();
