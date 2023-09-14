@@ -3,11 +3,181 @@
 
 static jint JNI_VERSION = JNI_VERSION_10;
 
+jclass _nodeClass;
+jmethodID _nodeConstructor;
+jfieldID _nodeContext0Field;
+jfieldID _nodeContext1Field;
+jfieldID _nodeContext2Field;
+jfieldID _nodeContext3Field;
+jfieldID _nodeIdField;
+jfieldID _nodeTreeField;
+
+jclass _pointClass;
+jmethodID _pointConstructor;
+jfieldID _pointRowField;
+jfieldID _pointColumnField;
+
+jclass _queryCaptureClass;
+jmethodID _queryCaptureConstructor;
+jfieldID _queryCaptureNodeField;
+jfieldID _queryCaptureIndexField;
+
+jclass _queryMatchClass;
+jmethodID _queryMatchConstructor;
+jfieldID _queryMatchIdField;
+jfieldID _queryMatchPatternIndexField;
+jfieldID _queryMatchCapturesField;
+
+jclass _inputEditClass;
+jmethodID _inputEditConstructor;
+jfieldID _inputEditStartByteField;
+jfieldID _inputEditOldEndByteField;
+jfieldID _inputEditNewEndByteField;
+jfieldID _inputEditStartPointField;
+jfieldID _inputEditOldEndPointField;
+jfieldID _inputEditNewEndPointField;
+
+jclass _treeCursorNodeClass;
+jmethodID _treeCursorNodeConstructor;
+jfieldID _treeCursorNodeTypeField;
+jfieldID _treeCursorNodeNameField;
+jfieldID _treeCursorNodeStartByteField;
+jfieldID _treeCursorNodeEndByteField;
+jfieldID _treeCursorNodeStartPointField;
+jfieldID _treeCursorNodeEndPointField;
+jfieldID _treeCursorNodeIsNamed;
+
+jclass _parserClass;
+jfieldID _parserLanguageField;
+
+jclass _treeClass;
+jmethodID _treeConstructor;
+
+jclass _dotGraphPrinterClass;
+jfieldID _dotGraphPrinterTreeField;
+
+jclass _queryClass;
+
+jclass _queryCursorClass;
+jfieldID _queryCursorNodeField;
+jfieldID _queryCursorQueryField;
+jfieldID _queryCursorExecutedField;
+
+jclass _treeCursorClass;
+
+jclass _nullPointerExceptionClass;
+jclass _illegalArgumentExceptionClass;
+jclass _illegalStateExceptionClass;
+jclass _ioExceptionClass;
+
+jclass _timeoutExceptionClass;
+jmethodID _timeoutExceptionConstructor;
+
+jclass _indexOutOfBoundsExceptionClass;
+jmethodID _indexOutOfBoundsExceptionConstructor;
+
+jclass _treeSitterExceptionClass;
+
+jclass _querySyntaxExceptionClass;
+jclass _queryNodeTypeExceptionClass;
+jclass _queryFieldExceptionClass;
+jclass _queryCaptureExceptionClass;
+jclass _queryStructureExceptionClass;
+
+jclass _parsingExceptionClass;
+jmethodID _parsingExceptionConstructor;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
   }
+
+  _loadClass(_nodeClass, "ch/usi/si/seart/treesitter/Node");
+  _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJJ)V");
+  _loadField(_nodeContext0Field, _nodeClass, "context0", "I");
+  _loadField(_nodeContext1Field, _nodeClass, "context1", "I");
+  _loadField(_nodeContext2Field, _nodeClass, "context2", "I");
+  _loadField(_nodeContext3Field, _nodeClass, "context3", "I");
+  _loadField(_nodeIdField, _nodeClass, "id", "J");
+  _loadField(_nodeTreeField, _nodeClass, "tree", "J");
+
+  _loadClass(_pointClass, "ch/usi/si/seart/treesitter/Point");
+  _loadConstructor(_pointConstructor, _pointClass, "(II)V");
+  _loadField(_pointRowField, _pointClass, "row", "I");
+  _loadField(_pointColumnField, _pointClass, "column", "I");
+
+  _loadClass(_queryCaptureClass, "ch/usi/si/seart/treesitter/QueryCapture");
+  _loadConstructor(_queryCaptureConstructor, _queryCaptureClass, "(Lch/usi/si/seart/treesitter/Node;I)V");
+  _loadField(_queryCaptureNodeField, _queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;");
+  _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I");
+
+  _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch");
+  _loadConstructor(_queryMatchConstructor, _queryMatchClass, "(II[Lch/usi/si/seart/treesitter/QueryCapture;)V");
+  _loadField(_queryMatchIdField, _queryMatchClass, "id", "I");
+  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I");
+  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
+  
+  _loadClass(_inputEditClass, "ch/usi/si/seart/treesitter/InputEdit");
+  _loadConstructor(_inputEditConstructor, _inputEditClass,
+    "(IIILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V");
+  _loadField(_inputEditStartByteField, _inputEditClass, "startByte", "I");
+  _loadField(_inputEditOldEndByteField, _inputEditClass, "oldEndByte", "I");
+  _loadField(_inputEditNewEndByteField, _inputEditClass, "newEndByte", "I");
+  _loadField(_inputEditStartPointField, _inputEditClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
+  _loadField(_inputEditOldEndPointField, _inputEditClass, "oldEndPoint", "Lch/usi/si/seart/treesitter/Point;");
+  _loadField(_inputEditNewEndPointField, _inputEditClass, "newEndPoint", "Lch/usi/si/seart/treesitter/Point;");
+
+  _loadClass(_treeCursorNodeClass, "ch/usi/si/seart/treesitter/TreeCursorNode");
+  _loadConstructor(_treeCursorNodeConstructor, _treeCursorNodeClass,
+      "(Ljava/lang/String;Ljava/lang/String;IILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Z)V");
+  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type", "Ljava/lang/String;");
+  _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name", "Ljava/lang/String;");
+  _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I");
+  _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I");
+  _loadField(_treeCursorNodeStartPointField, _treeCursorNodeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
+  _loadField(_treeCursorNodeEndPointField, _treeCursorNodeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;");
+  _loadField(_treeCursorNodeIsNamed, _treeCursorNodeClass, "isNamed", "Z");
+
+  _loadClass(_parserClass, "ch/usi/si/seart/treesitter/Parser");
+  _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;");
+
+  _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree");
+  _loadConstructor(_treeConstructor, _treeClass, "(JLch/usi/si/seart/treesitter/Language;)V");
+
+  _loadClass(_dotGraphPrinterClass, "ch/usi/si/seart/treesitter/printer/DotGraphPrinter");
+  _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;");
+
+  _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query");
+
+  _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor");
+  _loadField(_queryCursorNodeField, _queryCursorClass, "node", "Lch/usi/si/seart/treesitter/Node;");
+  _loadField(_queryCursorQueryField, _queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;");
+  _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z");
+
+  _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor");
+
+  _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException");
+  _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException");
+  _loadClass(_illegalStateExceptionClass, "java/lang/IllegalStateException");
+  _loadClass(_ioExceptionClass, "java/io/IOException");
+
+  _loadClass(_timeoutExceptionClass, "java/util/concurrent/TimeoutException");
+  _loadConstructor(_timeoutExceptionConstructor, _timeoutExceptionClass, "()V");
+
+  _loadClass(_indexOutOfBoundsExceptionClass, "java/lang/IndexOutOfBoundsException");
+  _loadConstructor(_indexOutOfBoundsExceptionConstructor, _indexOutOfBoundsExceptionClass, "(I)V");
+
+  _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException");
+
+  _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException");
+  _loadClass(_queryNodeTypeExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException");
+  _loadClass(_queryFieldExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryFieldException");
+  _loadClass(_queryCaptureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryCaptureException");
+  _loadClass(_queryStructureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryStructureException");
+
+  _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/ParsingException");
+  _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V");
 
   return JNI_VERSION;
 }
@@ -15,6 +185,31 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
+  _unloadClass(_nodeClass);
+  _unloadClass(_pointClass);
+  _unloadClass(_queryCaptureClass);
+  _unloadClass(_queryMatchClass);
+  _unloadClass(_inputEditClass);
+  _unloadClass(_treeCursorNodeClass);
+  _unloadClass(_parserClass);
+  _unloadClass(_treeClass);
+  _unloadClass(_dotGraphPrinterClass);
+  _unloadClass(_queryClass);
+  _unloadClass(_queryCursorClass);
+  _unloadClass(_treeCursorClass);
+  _unloadClass(_nullPointerExceptionClass);
+  _unloadClass(_illegalArgumentExceptionClass);
+  _unloadClass(_illegalStateExceptionClass);
+  _unloadClass(_ioExceptionClass);
+  _unloadClass(_timeoutExceptionClass);
+  _unloadClass(_indexOutOfBoundsExceptionClass);
+  _unloadClass(_treeSitterExceptionClass);
+  _unloadClass(_querySyntaxExceptionClass);
+  _unloadClass(_queryNodeTypeExceptionClass);
+  _unloadClass(_queryFieldExceptionClass);
+  _unloadClass(_queryCaptureExceptionClass);
+  _unloadClass(_queryStructureExceptionClass);
+  _unloadClass(_parsingExceptionClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
@@ -23,127 +218,99 @@ jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
 }
 
 jobject __marshalNode(JNIEnv* env, TSNode node) {
-  if (node.id == 0) return NULL;
-  jclass nodeClass = _getClass("ch/usi/si/seart/treesitter/Node");
-  jfieldID nodeContext0Field = _getField(nodeClass, "context0", "I");
-  jfieldID nodeContext1Field = _getField(nodeClass, "context1", "I");
-  jfieldID nodeContext2Field = _getField(nodeClass, "context2", "I");
-  jfieldID nodeContext3Field = _getField(nodeClass, "context3", "I");
-  jfieldID nodeIdField = _getField(nodeClass, "id", "J");
-  jfieldID nodeTreeField = _getField(nodeClass, "tree", "J");
-  jobject nodeObject = env->AllocObject(nodeClass);
-  env->SetIntField(nodeObject, nodeContext0Field, node.context[0]);
-  env->SetIntField(nodeObject, nodeContext1Field, node.context[1]);
-  env->SetIntField(nodeObject, nodeContext2Field, node.context[2]);
-  env->SetIntField(nodeObject, nodeContext3Field, node.context[3]);
-  env->SetLongField(nodeObject, nodeIdField, (jlong)node.id);
-  env->SetLongField(nodeObject, nodeTreeField, (jlong)node.tree);
-  return nodeObject;
+  if (node.id == 0) {
+    return NULL;
+  } else {
+    return env->NewObject(
+      _nodeClass,
+      _nodeConstructor,
+      node.context[0],
+      node.context[1],
+      node.context[2],
+      node.context[3],
+      (jlong)node.id,
+      (jlong)node.tree
+    );
+  }
 }
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject) {
-  jclass nodeClass = _getClass("ch/usi/si/seart/treesitter/Node");
-  jfieldID nodeContext0Field = _getField(nodeClass, "context0", "I");
-  jfieldID nodeContext1Field = _getField(nodeClass, "context1", "I");
-  jfieldID nodeContext2Field = _getField(nodeClass, "context2", "I");
-  jfieldID nodeContext3Field = _getField(nodeClass, "context3", "I");
-  jfieldID nodeIdField = _getField(nodeClass, "id", "J");
-  jfieldID nodeTreeField = _getField(nodeClass, "tree", "J");
   return (TSNode){
       {
-          (uint32_t)env->GetIntField(nodeObject, nodeContext0Field),
-          (uint32_t)env->GetIntField(nodeObject, nodeContext1Field),
-          (uint32_t)env->GetIntField(nodeObject, nodeContext2Field),
-          (uint32_t)env->GetIntField(nodeObject, nodeContext3Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext0Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext1Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext2Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext3Field),
       },
-      (const void*)env->GetLongField(nodeObject, nodeIdField),
-      (const TSTree*)env->GetLongField(nodeObject, nodeTreeField)};
+      (const void*)env->GetLongField(nodeObject, _nodeIdField),
+      (const TSTree*)env->GetLongField(nodeObject, _nodeTreeField)};
 }
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
-  jclass pointClass = _getClass("ch/usi/si/seart/treesitter/Point");
-  jfieldID pointRowField = _getField(pointClass, "row", "I");
-  jfieldID pointColumnField = _getField(pointClass, "column", "I");
-  jobject pointObject = env->AllocObject(pointClass);
-  env->SetIntField(pointObject, pointRowField, point.row);
-  env->SetIntField(pointObject, pointColumnField, point.column / 2);
   // Not sure why I need to divide by two, probably because of utf-16
-  return pointObject;
+  return env->NewObject(
+    _pointClass,
+    _pointConstructor,
+    point.row,
+    point.column / 2
+  );
 }
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
-  jclass pointClass = _getClass("ch/usi/si/seart/treesitter/Point");
-  jfieldID pointRowField = _getField(pointClass, "row", "I");
-  jfieldID pointColumnField = _getField(pointClass, "column", "I");
   return (TSPoint) {
-    (uint32_t)env->GetIntField(pointObject, pointRowField),
-    (uint32_t)env->GetIntField(pointObject, pointColumnField),
+    (uint32_t)env->GetIntField(pointObject, _pointRowField),
+    (uint32_t)env->GetIntField(pointObject, _pointColumnField),
   };
 }
 
 jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
-  jclass queryCaptureClass = _getClass("ch/usi/si/seart/treesitter/QueryCapture");
-  jfieldID queryCaptureIndex = _getField(queryCaptureClass, "index", "I");
-  jfieldID queryCaptureNode = _getField(queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;");
-  jobject captureInstance = env->AllocObject(queryCaptureClass);
-  env->SetIntField(captureInstance, queryCaptureIndex, capture.index);
-  env->SetObjectField(captureInstance, queryCaptureNode, __marshalNode(env, capture.node));
-  return captureInstance;
+  jobject nodeObject = __marshalNode(env, capture.node);
+  return env->NewObject(
+    _queryCaptureClass,
+    _queryCaptureConstructor,
+    capture.index,
+    nodeObject
+  );
 }
 
 jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
-  jclass queryMatchClass = _getClass("ch/usi/si/seart/treesitter/QueryMatch");
-  jclass queryCaptureClass = _getClass("ch/usi/si/seart/treesitter/QueryCapture");
-  jfieldID queryMatchIdField = _getField(queryMatchClass, "id", "I");
-  jfieldID queryMatchPatternIndexField = _getField(queryMatchClass, "patternIndex", "I");
-  jfieldID queryMatchCapturesField = _getField(queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
-  jobject matchInstance = env->AllocObject(queryMatchClass);
-  env->SetIntField(matchInstance, queryMatchIdField, match.id);
-  env->SetIntField(matchInstance, queryMatchPatternIndexField, match.pattern_index);
-
-  jobjectArray captures = (*env).NewObjectArray(match.capture_count, queryCaptureClass, NULL);
+  jobjectArray captures = (*env).NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
   for (int i = 0; i < match.capture_count; i++) {
-    env->SetObjectArrayElement(captures, i, __marshalQueryCapture(env, match.captures[i]));
+    jobject capture = __marshalQueryCapture(env, match.captures[i]);
+    env->SetObjectArrayElement(captures, i, capture);
   }
-  env->SetObjectField(matchInstance, queryMatchCapturesField, captures);
-
-  return matchInstance;
+  return env->NewObject(
+    _queryMatchClass,
+    _queryMatchConstructor,
+    match.id,
+    match.pattern_index,
+    captures
+  );
 }
 
-TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit) {
-  jclass inputEditClass = _getClass("ch/usi/si/seart/treesitter/InputEdit");
-  jfieldID inputEditStartByteField = _getField(inputEditClass, "startByte", "I");
-  jfieldID inputEditOldEndByteField = _getField(inputEditClass, "oldEndByte", "I");
-  jfieldID inputEditNewEndByteField = _getField(inputEditClass, "newEndByte", "I");
-  jfieldID inputEditStartPointField = _getField(inputEditClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
-  jfieldID inputEditOldEndPointField = _getField(inputEditClass, "oldEndPoint", "Lch/usi/si/seart/treesitter/Point;");
-  jfieldID inputEditNewEndPointField = _getField(inputEditClass, "newEndPoint", "Lch/usi/si/seart/treesitter/Point;");
+TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
   return (TSInputEdit) {
-    (uint32_t)env->GetIntField(inputEdit, inputEditStartByteField),
-    (uint32_t)env->GetIntField(inputEdit, inputEditOldEndByteField),
-    (uint32_t)env->GetIntField(inputEdit, inputEditNewEndByteField),
-    __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditStartPointField)),
-    __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditOldEndPointField)),
-    __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditNewEndPointField)),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditOldEndByteField),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditNewEndByteField),
+    __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditStartPointField)),
+    __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditOldEndPointField)),
+    __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
   };
 }
 
 jobject __marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node) {
-  jclass treeCursorNodeClass = _getClass("ch/usi/si/seart/treesitter/TreeCursorNode");
-  jfieldID treeCursorNodeTypeField = _getField(treeCursorNodeClass, "type", "Ljava/lang/String;");
-  jfieldID treeCursorNodeNameField = _getField(treeCursorNodeClass, "name", "Ljava/lang/String;");
-  jfieldID treeCursorNodeStartByteField = _getField(treeCursorNodeClass, "startByte", "I");
-  jfieldID treeCursorNodeEndByteField = _getField(treeCursorNodeClass, "endByte", "I");
-  jfieldID treeCursorNodeStartPointField = _getField(treeCursorNodeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
-  jfieldID treeCursorNodeEndPointField = _getField(treeCursorNodeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;");
-  jfieldID treeCursorNodeIsNamed = _getField(treeCursorNodeClass, "isNamed", "Z");
-  jobject treeCursorNodeInstance = env->AllocObject(treeCursorNodeClass);
-  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeTypeField, env->NewStringUTF(node.type));
-  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeNameField, env->NewStringUTF(node.name));
-  env->SetIntField(treeCursorNodeInstance, treeCursorNodeStartByteField, node.startByte);
-  env->SetIntField(treeCursorNodeInstance, treeCursorNodeEndByteField, node.endByte);
-  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeStartPointField, __marshalPoint(env, node.startPoint));
-  env->SetObjectField(treeCursorNodeInstance, treeCursorNodeEndPointField, __marshalPoint(env, node.endPoint));
-  env->SetBooleanField(treeCursorNodeInstance, treeCursorNodeIsNamed, node.isNamed);
-  return treeCursorNodeInstance;
+  jobject startPointObject = __marshalPoint(env, node.startPoint);
+  jobject endPointObject = __marshalPoint(env, node.endPoint);
+  return env->NewObject(
+    _treeCursorNodeClass,
+    _treeCursorNodeConstructor,
+    env->NewStringUTF(node.type),
+    env->NewStringUTF(node.name),
+    node.startByte,
+    node.endByte,
+    startPointObject,
+    endPointObject,
+    node.isNamed
+  );
 }

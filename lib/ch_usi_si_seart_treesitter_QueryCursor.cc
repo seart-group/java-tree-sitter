@@ -10,39 +10,32 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_malloc(
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_close(
   JNIEnv* env, jobject thisObject) {
-  jclass queryCursorClass = _getClass("ch/usi/si/seart/treesitter/QueryCursor");
-  jlong queryCursor = __getPointer(env, queryCursorClass, thisObject);
+  jlong queryCursor = __getPointer(env, _queryCursorClass, thisObject);
   ts_query_cursor_delete((TSQueryCursor*)queryCursor);
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute(
   JNIEnv* env, jobject thisObject) {
-  jclass queryCursorClass = _getClass("ch/usi/si/seart/treesitter/QueryCursor");
-  jfieldID executedField = _getField(queryCursorClass, "executed", "Z");
-  bool executed = (bool)env->GetBooleanField(thisObject, executedField);
+  bool executed = (bool)env->GetBooleanField(thisObject, _queryCursorExecutedField);
   if (executed) return;
-  jlong queryCursor = __getPointer(env, queryCursorClass, thisObject);
-  jfieldID nodeField = _getField(queryCursorClass, "node", "Lch/usi/si/seart/treesitter/Node;");
-  jobject node = env->GetObjectField(thisObject, nodeField);
-  jfieldID queryField = _getField(queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;");
-  jclass queryClass = _getClass("ch/usi/si/seart/treesitter/Query");
-  jlong query = __getPointer(env, queryClass, env->GetObjectField(thisObject, queryField));
-  ts_query_cursor_exec((TSQueryCursor*) queryCursor, (TSQuery*) query, __unmarshalNode(env,node));
-  env->SetBooleanField(thisObject, executedField, JNI_TRUE);
+  jlong queryCursor = __getPointer(env, _queryCursorClass, thisObject);
+  jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
+  jobject queryObject = env->GetObjectField(thisObject, _queryCursorQueryField);
+  jlong query = __getPointer(env, _queryClass, queryObject);
+  TSNode node = __unmarshalNode(env, nodeObject);
+  ts_query_cursor_exec((TSQueryCursor*)queryCursor, (TSQuery*)query, node);
+  env->SetBooleanField(thisObject, _queryCursorExecutedField, JNI_TRUE);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
   JNIEnv* env, jobject thisObject) {
-  jclass queryCursorClass = _getClass("ch/usi/si/seart/treesitter/QueryCursor");
-  jfieldID executedField = _getField(queryCursorClass, "executed", "Z");
-  bool executed = (bool)env->GetBooleanField(thisObject, executedField);
+  bool executed = (bool)env->GetBooleanField(thisObject, _queryCursorExecutedField);
   bool found = false;
   TSQueryMatch queryMatch;
   if (!executed) {
-    jclass exceptionClass = _getClass("java/lang/IllegalStateException");
-    env->ThrowNew(exceptionClass, "Query was not executed on node!");
+    env->ThrowNew(_illegalStateExceptionClass, "Query was not executed on node!");
   } else {
-    jlong queryCursor = __getPointer(env, queryCursorClass, thisObject);
+    jlong queryCursor = __getPointer(env, _queryCursorClass, thisObject);
     found = ts_query_cursor_next_match((TSQueryCursor*)queryCursor, &queryMatch);
   }
   return (!found) ? NULL : __marshalQueryMatch(env, queryMatch);

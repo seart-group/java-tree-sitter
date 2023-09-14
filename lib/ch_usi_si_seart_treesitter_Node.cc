@@ -9,9 +9,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
   TSNode node = __unmarshalNode(env, thisObject);
   uint32_t childIndex = (uint32_t)index;
   if ((childIndex < 0) || (childIndex >= ts_node_child_count(node))) {
-    jclass exceptionClass = _getClass("java/lang/IndexOutOfBoundsException");
-    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(I)V");
-    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, index);
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      index
+    );
     env->Throw((jthrowable)exception);
     return NULL;
   }
@@ -22,8 +24,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldName(
   JNIEnv* env, jobject thisObject, jstring name) {
   if (name == NULL) {
-    jclass exceptionClass = _getClass("java/lang/NullPointerException");
-    env->ThrowNew(exceptionClass, "Field name must not be null!");
+    env->ThrowNew(_nullPointerExceptionClass, "Field name must not be null!");
     return NULL;
   }
   const char* childName;
@@ -45,8 +46,10 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange(
   JNIEnv* env, jobject thisObject, jint start, jint end) {
   if (start > end) {
-    jclass exceptionClass = _getClass("java/lang/IllegalArgumentException");
-    env->ThrowNew(exceptionClass, "The starting byte of the range must not be greater than the ending byte!");
+    env->ThrowNew(
+      _illegalArgumentExceptionClass,
+      "The starting byte of the range must not be greater than the ending byte!"
+    );
     return NULL;
   }
   TSNode node = __unmarshalNode(env, thisObject);
@@ -75,9 +78,11 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getFieldNameForCh
   TSNode node = __unmarshalNode(env, thisObject);
   uint32_t childIndex = (uint32_t)index;
   if ((childIndex < 0) || (childIndex >= ts_node_child_count(node))) {
-    jclass exceptionClass = _getClass("java/lang/IndexOutOfBoundsException");
-    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(I)V");
-    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, index);
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      index
+    );
     env->Throw((jthrowable)exception);
     return NULL;
   }
@@ -93,9 +98,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
   if ((position < nodeStart) || (position > nodeEnd)) {
-    jclass exceptionClass = _getClass("java/lang/IndexOutOfBoundsException");
-    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(I)V");
-    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, offset);
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      index
+    );
     env->Throw((jthrowable)exception);
     return NULL;
   }
@@ -110,9 +117,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChil
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
   if ((position < nodeStart) || (position > nodeEnd)) {
-    jclass exceptionClass = _getClass("java/lang/IndexOutOfBoundsException");
-    jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(I)V");
-    jobject exception = env->NewObject(exceptionClass, exceptionConstructor, offset);
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      offset
+    );
     env->Throw((jthrowable)exception);
     return NULL;
   }
