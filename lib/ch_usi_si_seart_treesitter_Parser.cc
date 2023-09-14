@@ -31,8 +31,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
       jlong parser = __getPointer(env, _parserClass, thisObject);
       ts_parser_set_timeout_micros((TSParser*)parser, (uint64_t)timeout);
   } else {
-      jclass exceptionClass = _getClass("java/lang/IllegalArgumentException");
-      env->ThrowNew(exceptionClass, "Timeout can not be negative!");
+      env->ThrowNew(_illegalArgumentExceptionClass, "Timeout can not be negative!");
   }
 }
 

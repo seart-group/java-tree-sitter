@@ -12,8 +12,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_malloc(
   }
   TSNode node = __unmarshalNode(env, nodeInstance);
   if (ts_node_is_null(node)) {
-    jclass exceptionClass = _getClass("java/lang/IllegalArgumentException");
-    env->ThrowNew(exceptionClass, "Cannot construct a TreeCursor instance from a `null` Node!");
+    env->ThrowNew(_illegalArgumentExceptionClass, "Cannot construct a TreeCursor instance from a `null` Node!");
     return (jlong)0;
   }
   TSTreeCursor* cursor = new TSTreeCursor(ts_tree_cursor_new(node));

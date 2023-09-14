@@ -44,8 +44,10 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange(
   JNIEnv* env, jobject thisObject, jint start, jint end) {
   if (start > end) {
-    jclass exceptionClass = _getClass("java/lang/IllegalArgumentException");
-    env->ThrowNew(exceptionClass, "The starting byte of the range must not be greater than the ending byte!");
+    env->ThrowNew(
+      _illegalArgumentExceptionClass,
+      "The starting byte of the range must not be greater than the ending byte!"
+    );
     return NULL;
   }
   TSNode node = __unmarshalNode(env, thisObject);
