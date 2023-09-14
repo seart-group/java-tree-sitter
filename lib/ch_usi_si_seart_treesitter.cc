@@ -65,6 +65,8 @@ jfieldID _queryCursorExecutedField;
 
 jclass _treeCursorClass;
 
+jclass _treeSitterExceptionClass;
+
 jclass _parsingExceptionClass;
 jmethodID _parsingExceptionConstructor;
 
@@ -138,6 +140,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor");
 
+  _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException");
+
   _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/ParsingException");
   _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V");
 
@@ -159,6 +163,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_queryClass);
   _unloadClass(_queryCursorClass);
   _unloadClass(_treeCursorClass);
+  _unloadClass(_treeSitterExceptionClass);
   _unloadClass(_parsingExceptionClass);
 }
 

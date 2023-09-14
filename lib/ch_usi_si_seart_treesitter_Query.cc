@@ -32,8 +32,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Query_malloc(
       exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/query/QueryStructureException");
       break;
     default:
-      exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/TreeSitterException");
-      return env->ThrowNew(exceptionClass, NULL);
+      return env->ThrowNew(_treeSitterExceptionClass, NULL);
   }
   jmethodID exceptionConstructor = _getConstructor(exceptionClass, "(I)V");
   jobject exception = env->NewObject(exceptionClass, exceptionConstructor, *error_offset);
