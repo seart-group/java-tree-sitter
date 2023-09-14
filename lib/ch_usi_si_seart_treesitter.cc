@@ -50,6 +50,9 @@ jfieldID _treeCursorNodeIsNamed;
 jclass _parserClass;
 jfieldID _parserLanguageField;
 
+jclass _treeClass;
+jmethodID _treeConstructor;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -105,6 +108,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_parserClass, "ch/usi/si/seart/treesitter/Parser");
   _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;");
 
+  _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree");
+  _loadConstructor(_treeConstructor, _treeClass, "(JLch/usi/si/seart/treesitter/Language;)V");
+
   return JNI_VERSION;
 }
 
@@ -118,6 +124,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_inputEditClass);
   _unloadClass(_treeCursorNodeClass);
   _unloadClass(_parserClass);
+  _unloadClass(_treeClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {

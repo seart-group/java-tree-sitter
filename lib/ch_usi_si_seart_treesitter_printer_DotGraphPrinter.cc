@@ -13,8 +13,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_printer_DotGraphPrinter_w
       env->ThrowNew(exceptionClass, "Tree must not be null!");
       return;
   }
-  jclass treeClass = _getClass("ch/usi/si/seart/treesitter/Tree");
-  jlong tree = __getPointer(env, treeClass, treeObject);
+  jlong tree = __getPointer(env, _treeClass, treeObject);
   if (tree == 0) {
       jclass exceptionClass = _getClass("java/lang/IllegalArgumentException");
       env->ThrowNew(exceptionClass, "Can not export an invalid tree!");

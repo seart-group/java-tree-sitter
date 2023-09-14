@@ -38,9 +38,8 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
   JNIEnv* env, jobject thisObject, jbyteArray bytes, jint length, jobject oldTree) {
-  jclass treeClass = _getClass("ch/usi/si/seart/treesitter/Tree");
   TSParser* parser = (TSParser*)__getPointer(env, _parserClass, thisObject);
-  TSTree* old = (oldTree != NULL) ? (TSTree*)__getPointer(env, treeClass, oldTree) : NULL;
+  TSTree* old = (oldTree != NULL) ? (TSTree*)__getPointer(env, _treeClass, oldTree) : NULL;
   jbyte* source = env->GetByteArrayElements(bytes, NULL);
   TSTree* result = ts_parser_parse_string_encoding(
       parser, old, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
@@ -58,7 +57,5 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
       return NULL;
   }
   jobject language = env->GetObjectField(thisObject, _parserLanguageField);
-  jmethodID treeConstructor = _getConstructor(treeClass, "(JLch/usi/si/seart/treesitter/Language;)V");
-  jobject tree = env->NewObject(treeClass, treeConstructor, (jlong)result, language);
-  return tree;
+  return env->NewObject(_treeClass, _treeConstructor, (jlong)result, language);
 }
