@@ -29,6 +29,15 @@ extern jfieldID _queryMatchIdField;
 extern jfieldID _queryMatchPatternIndexField;
 extern jfieldID _queryMatchCapturesField;
 
+extern jclass _inputEditClass;
+extern jmethodID _inputEditConstructor;
+extern jfieldID _inputEditStartByteField;
+extern jfieldID _inputEditOldEndByteField;
+extern jfieldID _inputEditNewEndByteField;
+extern jfieldID _inputEditStartPointField;
+extern jfieldID _inputEditOldEndPointField;
+extern jfieldID _inputEditNewEndPointField;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -28,6 +28,15 @@ jfieldID _queryMatchIdField;
 jfieldID _queryMatchPatternIndexField;
 jfieldID _queryMatchCapturesField;
 
+jclass _inputEditClass;
+jmethodID _inputEditConstructor;
+jfieldID _inputEditStartByteField;
+jfieldID _inputEditOldEndByteField;
+jfieldID _inputEditNewEndByteField;
+jfieldID _inputEditStartPointField;
+jfieldID _inputEditOldEndPointField;
+jfieldID _inputEditNewEndPointField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -58,6 +67,16 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_queryMatchIdField, _queryMatchClass, "id", "I");
   _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I");
   _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
+  
+  _loadClass(_inputEditClass, "ch/usi/si/seart/treesitter/InputEdit");
+  _loadConstructor(_inputEditConstructor, _inputEditClass,
+    "(IIILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V");
+  _loadField(_inputEditStartByteField, _inputEditClass, "startByte", "I");
+  _loadField(_inputEditOldEndByteField, _inputEditClass, "oldEndByte", "I");
+  _loadField(_inputEditNewEndByteField, _inputEditClass, "newEndByte", "I");
+  _loadField(_inputEditStartPointField, _inputEditClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
+  _loadField(_inputEditOldEndPointField, _inputEditClass, "oldEndPoint", "Lch/usi/si/seart/treesitter/Point;");
+  _loadField(_inputEditNewEndPointField, _inputEditClass, "newEndPoint", "Lch/usi/si/seart/treesitter/Point;");
 
   return JNI_VERSION;
 }
@@ -69,6 +88,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_pointClass);
   _unloadClass(_queryCaptureClass);
   _unloadClass(_queryMatchClass);
+  _unloadClass(_inputEditClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
@@ -147,21 +167,14 @@ jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
   );
 }
 
-TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit) {
-  jclass inputEditClass = _getClass("ch/usi/si/seart/treesitter/InputEdit");
-  jfieldID inputEditStartByteField = _getField(inputEditClass, "startByte", "I");
-  jfieldID inputEditOldEndByteField = _getField(inputEditClass, "oldEndByte", "I");
-  jfieldID inputEditNewEndByteField = _getField(inputEditClass, "newEndByte", "I");
-  jfieldID inputEditStartPointField = _getField(inputEditClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
-  jfieldID inputEditOldEndPointField = _getField(inputEditClass, "oldEndPoint", "Lch/usi/si/seart/treesitter/Point;");
-  jfieldID inputEditNewEndPointField = _getField(inputEditClass, "newEndPoint", "Lch/usi/si/seart/treesitter/Point;");
+TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
   return (TSInputEdit) {
-    (uint32_t)env->GetIntField(inputEdit, inputEditStartByteField),
-    (uint32_t)env->GetIntField(inputEdit, inputEditOldEndByteField),
-    (uint32_t)env->GetIntField(inputEdit, inputEditNewEndByteField),
-    __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditStartPointField)),
-    __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditOldEndPointField)),
-    __unmarshalPoint(env, env->GetObjectField(inputEdit, inputEditNewEndPointField)),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditOldEndByteField),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditNewEndByteField),
+    __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditStartPointField)),
+    __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditOldEndPointField)),
+    __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
   };
 }
 
