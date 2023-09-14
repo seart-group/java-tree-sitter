@@ -46,9 +46,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
   env->ReleaseByteArrayElements(bytes, source, JNI_ABORT);
   ts_parser_reset(parser);
   if (result == 0) {
-      jclass causeClass = _getClass("java/util/concurrent/TimeoutException");
-      jmethodID causeConstructor = _getConstructor(causeClass, "()V");
-      jobject cause = env->NewObject(causeClass, causeConstructor);
+      jobject cause = env->NewObject(
+        _timeoutExceptionClass,
+        _timeoutExceptionConstructor
+      );
       jobject exception = env->NewObject(
         _parsingExceptionClass,
         _parsingExceptionConstructor,
