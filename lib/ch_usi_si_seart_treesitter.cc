@@ -47,6 +47,9 @@ jfieldID _treeCursorNodeStartPointField;
 jfieldID _treeCursorNodeEndPointField;
 jfieldID _treeCursorNodeIsNamed;
 
+jclass _parserClass;
+jfieldID _parserLanguageField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -99,6 +102,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_treeCursorNodeEndPointField, _treeCursorNodeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;");
   _loadField(_treeCursorNodeIsNamed, _treeCursorNodeClass, "isNamed", "Z");
 
+  _loadClass(_parserClass, "ch/usi/si/seart/treesitter/Parser");
+  _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;");
+
   return JNI_VERSION;
 }
 
@@ -111,6 +117,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_queryMatchClass);
   _unloadClass(_inputEditClass);
   _unloadClass(_treeCursorNodeClass);
+  _unloadClass(_parserClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {

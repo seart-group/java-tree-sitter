@@ -48,6 +48,9 @@ extern jfieldID _treeCursorNodeStartPointField;
 extern jfieldID _treeCursorNodeEndPointField;
 extern jfieldID _treeCursorNodeIsNamed;
 
+extern jclass _parserClass;
+extern jfieldID _parserLanguageField;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
