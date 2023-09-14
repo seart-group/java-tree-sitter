@@ -23,6 +23,12 @@ extern jmethodID _queryCaptureConstructor;
 extern jfieldID _queryCaptureNodeField;
 extern jfieldID _queryCaptureIndexField;
 
+extern jclass _queryMatchClass;
+extern jmethodID _queryMatchConstructor;
+extern jfieldID _queryMatchIdField;
+extern jfieldID _queryMatchPatternIndexField;
+extern jfieldID _queryMatchCapturesField;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

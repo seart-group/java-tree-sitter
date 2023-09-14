@@ -22,6 +22,12 @@ jmethodID _queryCaptureConstructor;
 jfieldID _queryCaptureNodeField;
 jfieldID _queryCaptureIndexField;
 
+jclass _queryMatchClass;
+jmethodID _queryMatchConstructor;
+jfieldID _queryMatchIdField;
+jfieldID _queryMatchPatternIndexField;
+jfieldID _queryMatchCapturesField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -47,6 +53,12 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_queryCaptureNodeField, _queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;");
   _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I");
 
+  _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch");
+  _loadConstructor(_queryMatchConstructor, _queryMatchClass, "(II[Lch/usi/si/seart/treesitter/QueryCapture;)V");
+  _loadField(_queryMatchIdField, _queryMatchClass, "id", "I");
+  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I");
+  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
+
   return JNI_VERSION;
 }
 
@@ -56,6 +68,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_nodeClass);
   _unloadClass(_pointClass);
   _unloadClass(_queryCaptureClass);
+  _unloadClass(_queryMatchClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
@@ -120,21 +133,18 @@ jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
 }
 
 jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
-  jclass queryMatchClass = _getClass("ch/usi/si/seart/treesitter/QueryMatch");
-  jfieldID queryMatchIdField = _getField(queryMatchClass, "id", "I");
-  jfieldID queryMatchPatternIndexField = _getField(queryMatchClass, "patternIndex", "I");
-  jfieldID queryMatchCapturesField = _getField(queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
-  jobject matchInstance = env->AllocObject(queryMatchClass);
-  env->SetIntField(matchInstance, queryMatchIdField, match.id);
-  env->SetIntField(matchInstance, queryMatchPatternIndexField, match.pattern_index);
-
   jobjectArray captures = (*env).NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
   for (int i = 0; i < match.capture_count; i++) {
-    env->SetObjectArrayElement(captures, i, __marshalQueryCapture(env, match.captures[i]));
+    jobject capture = __marshalQueryCapture(env, match.captures[i]);
+    env->SetObjectArrayElement(captures, i, capture);
   }
-  env->SetObjectField(matchInstance, queryMatchCapturesField, captures);
-
-  return matchInstance;
+  return env->NewObject(
+    _queryMatchClass,
+    _queryMatchConstructor,
+    match.id,
+    match.pattern_index,
+    captures
+  );
 }
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit) {
