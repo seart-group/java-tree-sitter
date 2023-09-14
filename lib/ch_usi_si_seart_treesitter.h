@@ -66,6 +66,9 @@ extern jfieldID _queryCursorExecutedField;
 
 extern jclass _treeCursorClass;
 
+extern jclass _parsingExceptionClass;
+extern jmethodID _parsingExceptionConstructor;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
