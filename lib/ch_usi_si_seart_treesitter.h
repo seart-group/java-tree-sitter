@@ -38,6 +38,16 @@ extern jfieldID _inputEditStartPointField;
 extern jfieldID _inputEditOldEndPointField;
 extern jfieldID _inputEditNewEndPointField;
 
+extern jclass _treeCursorNodeClass;
+extern jmethodID _treeCursorNodeConstructor;
+extern jfieldID _treeCursorNodeTypeField;
+extern jfieldID _treeCursorNodeNameField;
+extern jfieldID _treeCursorNodeStartByteField;
+extern jfieldID _treeCursorNodeEndByteField;
+extern jfieldID _treeCursorNodeStartPointField;
+extern jfieldID _treeCursorNodeEndPointField;
+extern jfieldID _treeCursorNodeIsNamed;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
