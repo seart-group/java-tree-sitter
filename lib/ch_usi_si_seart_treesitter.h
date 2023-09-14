@@ -12,6 +12,9 @@ extern jclass _ioExceptionClass;
 extern jclass _timeoutExceptionClass;
 extern jmethodID _timeoutExceptionConstructor;
 
+extern jclass _indexOutOfBoundsExceptionClass;
+extern jmethodID _indexOutOfBoundsExceptionConstructor;
+
 extern jclass _nodeClass;
 extern jmethodID _nodeConstructor;
 extern jfieldID _nodeContext0Field;

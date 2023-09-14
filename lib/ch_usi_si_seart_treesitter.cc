@@ -73,6 +73,9 @@ jclass _ioExceptionClass;
 jclass _timeoutExceptionClass;
 jmethodID _timeoutExceptionConstructor;
 
+jclass _indexOutOfBoundsExceptionClass;
+jmethodID _indexOutOfBoundsExceptionConstructor;
+
 jclass _treeSitterExceptionClass;
 
 jclass _querySyntaxExceptionClass;
@@ -162,6 +165,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_timeoutExceptionClass, "java/util/concurrent/TimeoutException");
   _loadConstructor(_timeoutExceptionConstructor, _timeoutExceptionClass, "()V");
 
+  _loadClass(_indexOutOfBoundsExceptionClass, "java/lang/IndexOutOfBoundsException");
+  _loadConstructor(_indexOutOfBoundsExceptionConstructor, _indexOutOfBoundsExceptionClass, "(I)V");
+
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException");
 
   _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException");
@@ -196,6 +202,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_illegalStateExceptionClass);
   _unloadClass(_ioExceptionClass);
   _unloadClass(_timeoutExceptionClass);
+  _unloadClass(_indexOutOfBoundsExceptionClass);
   _unloadClass(_treeSitterExceptionClass);
   _unloadClass(_querySyntaxExceptionClass);
   _unloadClass(_queryNodeTypeExceptionClass);
