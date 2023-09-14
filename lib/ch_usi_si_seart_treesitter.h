@@ -59,6 +59,11 @@ extern jfieldID _dotGraphPrinterTreeField;
 
 extern jclass _queryClass;
 
+extern jclass _queryCursorClass;
+extern jfieldID _queryCursorNodeField;
+extern jfieldID _queryCursorQueryField;
+extern jfieldID _queryCursorExecutedField;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
