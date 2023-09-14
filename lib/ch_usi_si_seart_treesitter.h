@@ -6,6 +6,7 @@
 
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
+extern jclass _ioExceptionClass;
 
 extern jclass _nodeClass;
 extern jmethodID _nodeConstructor;

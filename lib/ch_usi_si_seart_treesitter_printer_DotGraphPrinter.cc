@@ -22,8 +22,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_printer_DotGraphPrinter_w
   FILE* file = fopen(pathPtr, "w");
   if (file == NULL) {
       env->ReleaseStringUTFChars(path, pathPtr);
-      jclass exceptionClass = _getClass("java/io/IOException");
-      env->ThrowNew(exceptionClass, NULL);
+      env->ThrowNew(_ioExceptionClass, NULL);
   } else {
       ts_tree_print_dot_graph((TSTree*)tree, file);
       fclose(file);

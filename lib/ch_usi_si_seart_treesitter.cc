@@ -67,6 +67,7 @@ jclass _treeCursorClass;
 
 jclass _nullPointerExceptionClass;
 jclass _illegalArgumentExceptionClass;
+jclass _ioExceptionClass;
 
 jclass _treeSitterExceptionClass;
 
@@ -151,6 +152,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException");
   _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException");
+  _loadClass(_ioExceptionClass, "java/io/IOException");
 
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException");
 
@@ -183,6 +185,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_treeCursorClass);
   _unloadClass(_nullPointerExceptionClass);
   _unloadClass(_illegalArgumentExceptionClass);
+  _unloadClass(_ioExceptionClass);
   _unloadClass(_treeSitterExceptionClass);
   _unloadClass(_querySyntaxExceptionClass);
   _unloadClass(_queryNodeTypeExceptionClass);
