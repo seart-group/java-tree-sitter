@@ -3,11 +3,29 @@
 
 static jint JNI_VERSION = JNI_VERSION_10;
 
+jclass _nodeClass;
+jmethodID _nodeConstructor;
+jfieldID _nodeContext0Field;
+jfieldID _nodeContext1Field;
+jfieldID _nodeContext2Field;
+jfieldID _nodeContext3Field;
+jfieldID _nodeIdField;
+jfieldID _nodeTreeField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
   }
+
+  _loadClass(_nodeClass, "ch/usi/si/seart/treesitter/Node");
+  _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJJ)V");
+  _loadField(_nodeContext0Field, _nodeClass, "context0", "I");
+  _loadField(_nodeContext1Field, _nodeClass, "context1", "I");
+  _loadField(_nodeContext2Field, _nodeClass, "context2", "I");
+  _loadField(_nodeContext3Field, _nodeClass, "context3", "I");
+  _loadField(_nodeIdField, _nodeClass, "id", "J");
+  _loadField(_nodeTreeField, _nodeClass, "tree", "J");
 
   return JNI_VERSION;
 }
@@ -15,6 +33,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
+  _unloadClass(_nodeClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
@@ -23,41 +42,32 @@ jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
 }
 
 jobject __marshalNode(JNIEnv* env, TSNode node) {
-  if (node.id == 0) return NULL;
-  jclass nodeClass = _getClass("ch/usi/si/seart/treesitter/Node");
-  jfieldID nodeContext0Field = _getField(nodeClass, "context0", "I");
-  jfieldID nodeContext1Field = _getField(nodeClass, "context1", "I");
-  jfieldID nodeContext2Field = _getField(nodeClass, "context2", "I");
-  jfieldID nodeContext3Field = _getField(nodeClass, "context3", "I");
-  jfieldID nodeIdField = _getField(nodeClass, "id", "J");
-  jfieldID nodeTreeField = _getField(nodeClass, "tree", "J");
-  jobject nodeObject = env->AllocObject(nodeClass);
-  env->SetIntField(nodeObject, nodeContext0Field, node.context[0]);
-  env->SetIntField(nodeObject, nodeContext1Field, node.context[1]);
-  env->SetIntField(nodeObject, nodeContext2Field, node.context[2]);
-  env->SetIntField(nodeObject, nodeContext3Field, node.context[3]);
-  env->SetLongField(nodeObject, nodeIdField, (jlong)node.id);
-  env->SetLongField(nodeObject, nodeTreeField, (jlong)node.tree);
-  return nodeObject;
+  if (node.id == 0) {
+    return NULL;
+  } else {
+    return env->NewObject(
+      _nodeClass,
+      _nodeConstructor,
+      node.context[0],
+      node.context[1],
+      node.context[2],
+      node.context[3],
+      (jlong)node.id,
+      (jlong)node.tree
+    );
+  }
 }
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject) {
-  jclass nodeClass = _getClass("ch/usi/si/seart/treesitter/Node");
-  jfieldID nodeContext0Field = _getField(nodeClass, "context0", "I");
-  jfieldID nodeContext1Field = _getField(nodeClass, "context1", "I");
-  jfieldID nodeContext2Field = _getField(nodeClass, "context2", "I");
-  jfieldID nodeContext3Field = _getField(nodeClass, "context3", "I");
-  jfieldID nodeIdField = _getField(nodeClass, "id", "J");
-  jfieldID nodeTreeField = _getField(nodeClass, "tree", "J");
   return (TSNode){
       {
-          (uint32_t)env->GetIntField(nodeObject, nodeContext0Field),
-          (uint32_t)env->GetIntField(nodeObject, nodeContext1Field),
-          (uint32_t)env->GetIntField(nodeObject, nodeContext2Field),
-          (uint32_t)env->GetIntField(nodeObject, nodeContext3Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext0Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext1Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext2Field),
+          (uint32_t)env->GetIntField(nodeObject, _nodeContext3Field),
       },
-      (const void*)env->GetLongField(nodeObject, nodeIdField),
-      (const TSTree*)env->GetLongField(nodeObject, nodeTreeField)};
+      (const void*)env->GetLongField(nodeObject, _nodeIdField),
+      (const TSTree*)env->GetLongField(nodeObject, _nodeTreeField)};
 }
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
