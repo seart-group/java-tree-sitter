@@ -67,6 +67,12 @@ jclass _treeCursorClass;
 
 jclass _treeSitterExceptionClass;
 
+jclass _querySyntaxExceptionClass;
+jclass _queryNodeTypeExceptionClass;
+jclass _queryFieldExceptionClass;
+jclass _queryCaptureExceptionClass;
+jclass _queryStructureExceptionClass;
+
 jclass _parsingExceptionClass;
 jmethodID _parsingExceptionConstructor;
 
@@ -142,6 +148,12 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException");
 
+  _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException");
+  _loadClass(_queryNodeTypeExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException");
+  _loadClass(_queryFieldExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryFieldException");
+  _loadClass(_queryCaptureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryCaptureException");
+  _loadClass(_queryStructureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryStructureException");
+
   _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/ParsingException");
   _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V");
 
@@ -164,6 +176,11 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_queryCursorClass);
   _unloadClass(_treeCursorClass);
   _unloadClass(_treeSitterExceptionClass);
+  _unloadClass(_querySyntaxExceptionClass);
+  _unloadClass(_queryNodeTypeExceptionClass);
+  _unloadClass(_queryFieldExceptionClass);
+  _unloadClass(_queryCaptureExceptionClass);
+  _unloadClass(_queryStructureExceptionClass);
   _unloadClass(_parsingExceptionClass);
 }
 

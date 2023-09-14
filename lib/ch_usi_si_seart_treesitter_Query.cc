@@ -17,19 +17,19 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Query_malloc(
     case TSQueryErrorNone:
       return (jlong)query;
     case TSQueryErrorSyntax:
-      exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException");
+      exceptionClass = _querySyntaxExceptionClass;
       break;
     case TSQueryErrorNodeType:
-      exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException");
+      exceptionClass = _queryNodeTypeExceptionClass;
       break;
     case TSQueryErrorField:
-      exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/query/QueryFieldException");
+      exceptionClass = _queryFieldExceptionClass;
       break;
     case TSQueryErrorCapture:
-      exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/query/QueryCaptureException");
+      exceptionClass = _queryCaptureExceptionClass;
       break;
     case TSQueryErrorStructure:
-      exceptionClass = _getClass("ch/usi/si/seart/treesitter/exception/query/QueryStructureException");
+      exceptionClass = _queryStructureExceptionClass;
       break;
     default:
       return env->ThrowNew(_treeSitterExceptionClass, NULL);
