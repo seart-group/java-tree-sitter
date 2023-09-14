@@ -33,8 +33,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
   bool found = false;
   TSQueryMatch queryMatch;
   if (!executed) {
-    jclass exceptionClass = _getClass("java/lang/IllegalStateException");
-    env->ThrowNew(exceptionClass, "Query was not executed on node!");
+    env->ThrowNew(_illegalStateExceptionClass, "Query was not executed on node!");
   } else {
     jlong queryCursor = __getPointer(env, _queryCursorClass, thisObject);
     found = ts_query_cursor_next_match((TSQueryCursor*)queryCursor, &queryMatch);

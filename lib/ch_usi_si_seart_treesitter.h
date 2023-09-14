@@ -6,6 +6,7 @@
 
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
+extern jclass _illegalStateExceptionClass;
 extern jclass _ioExceptionClass;
 
 extern jclass _nodeClass;
