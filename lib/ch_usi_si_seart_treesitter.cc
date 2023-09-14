@@ -56,6 +56,8 @@ jmethodID _treeConstructor;
 jclass _dotGraphPrinterClass;
 jfieldID _dotGraphPrinterTreeField;
 
+jclass _queryClass;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -117,6 +119,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_dotGraphPrinterClass, "ch/usi/si/seart/treesitter/printer/DotGraphPrinter");
   _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;");
 
+  _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query");
+
   return JNI_VERSION;
 }
 
@@ -132,6 +136,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_parserClass);
   _unloadClass(_treeClass);
   _unloadClass(_dotGraphPrinterClass);
+  _unloadClass(_queryClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {

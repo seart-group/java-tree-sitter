@@ -57,6 +57,8 @@ extern jmethodID _treeConstructor;
 extern jclass _dotGraphPrinterClass;
 extern jfieldID _dotGraphPrinterTreeField;
 
+extern jclass _queryClass;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

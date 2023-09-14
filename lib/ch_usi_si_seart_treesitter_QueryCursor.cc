@@ -25,8 +25,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute(
   jfieldID nodeField = _getField(queryCursorClass, "node", "Lch/usi/si/seart/treesitter/Node;");
   jobject node = env->GetObjectField(thisObject, nodeField);
   jfieldID queryField = _getField(queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;");
-  jclass queryClass = _getClass("ch/usi/si/seart/treesitter/Query");
-  jlong query = __getPointer(env, queryClass, env->GetObjectField(thisObject, queryField));
+  jlong query = __getPointer(env, _queryClass, env->GetObjectField(thisObject, queryField));
   ts_query_cursor_exec((TSQueryCursor*) queryCursor, (TSQuery*) query, __unmarshalNode(env,node));
   env->SetBooleanField(thisObject, executedField, JNI_TRUE);
 }

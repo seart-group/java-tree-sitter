@@ -42,22 +42,19 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Query_malloc(
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_close(
   JNIEnv* env, jobject thisObject) {
-  jclass queryClass = _getClass("ch/usi/si/seart/treesitter/Query");
-  jlong query = __getPointer(env, queryClass, thisObject);
+  jlong query = __getPointer(env, _queryClass, thisObject);
   ts_query_delete((TSQuery*)query);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countStrings(
   JNIEnv* env, jobject thisObject) {
-  jclass queryClass = _getClass("ch/usi/si/seart/treesitter/Query");
-  jlong query = __getPointer(env, queryClass, thisObject);
+  jlong query = __getPointer(env, _queryClass, thisObject);
   return (jint)ts_query_string_count((TSQuery*)query);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures__(
   JNIEnv* env, jobject thisObject) {
-  jclass queryClass = _getClass("ch/usi/si/seart/treesitter/Query");
-  jlong query = __getPointer(env, queryClass, thisObject);
+  jlong query = __getPointer(env, _queryClass, thisObject);
   return (jint)ts_query_capture_count((TSQuery*)query);
 }
 
@@ -68,8 +65,7 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures__J(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countPatterns(
   JNIEnv* env, jobject thisObject) {
-  jclass queryClass = _getClass("ch/usi/si/seart/treesitter/Query");
-  jlong query = __getPointer(env, queryClass, thisObject);
+  jlong query = __getPointer(env, _queryClass, thisObject);
   return (jint)ts_query_pattern_count((TSQuery*)query);
 }
 
@@ -77,6 +73,5 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Query_getCaptureName(
   JNIEnv* env, jclass self, jlong query, jint index) {
   uint32_t* length = new uint32_t;
   const char* nameForIndex = ts_query_capture_name_for_id((TSQuery*)query, index, length);
-  jstring result = env->NewStringUTF(nameForIndex);
-  return result;
+  return env->NewStringUTF(nameForIndex);
 }
