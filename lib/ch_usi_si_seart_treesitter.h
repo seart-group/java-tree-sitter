@@ -64,6 +64,8 @@ extern jfieldID _queryCursorNodeField;
 extern jfieldID _queryCursorQueryField;
 extern jfieldID _queryCursorExecutedField;
 
+extern jclass _treeCursorClass;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

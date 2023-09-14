@@ -63,6 +63,8 @@ jfieldID _queryCursorNodeField;
 jfieldID _queryCursorQueryField;
 jfieldID _queryCursorExecutedField;
 
+jclass _treeCursorClass;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -131,6 +133,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_queryCursorQueryField, _queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;");
   _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z");
 
+  _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor");
+
   return JNI_VERSION;
 }
 
@@ -148,6 +152,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_dotGraphPrinterClass);
   _unloadClass(_queryClass);
   _unloadClass(_queryCursorClass);
+  _unloadClass(_treeCursorClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
