@@ -17,6 +17,11 @@ jmethodID _pointConstructor;
 jfieldID _pointRowField;
 jfieldID _pointColumnField;
 
+jclass _queryCaptureClass;
+jmethodID _queryCaptureConstructor;
+jfieldID _queryCaptureNodeField;
+jfieldID _queryCaptureIndexField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -37,6 +42,11 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_pointRowField, _pointClass, "row", "I");
   _loadField(_pointColumnField, _pointClass, "column", "I");
 
+  _loadClass(_queryCaptureClass, "ch/usi/si/seart/treesitter/QueryCapture");
+  _loadConstructor(_queryCaptureConstructor, _queryCaptureClass, "(Lch/usi/si/seart/treesitter/Node;I)V");
+  _loadField(_queryCaptureNodeField, _queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;");
+  _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I");
+
   return JNI_VERSION;
 }
 
@@ -45,6 +55,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
   _unloadClass(_nodeClass);
   _unloadClass(_pointClass);
+  _unloadClass(_queryCaptureClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
@@ -99,18 +110,17 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
 }
 
 jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
-  jclass queryCaptureClass = _getClass("ch/usi/si/seart/treesitter/QueryCapture");
-  jfieldID queryCaptureIndex = _getField(queryCaptureClass, "index", "I");
-  jfieldID queryCaptureNode = _getField(queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;");
-  jobject captureInstance = env->AllocObject(queryCaptureClass);
-  env->SetIntField(captureInstance, queryCaptureIndex, capture.index);
-  env->SetObjectField(captureInstance, queryCaptureNode, __marshalNode(env, capture.node));
-  return captureInstance;
+  jobject nodeObject = __marshalNode(env, capture.node);
+  return env->NewObject(
+    _queryCaptureClass,
+    _queryCaptureConstructor,
+    capture.index,
+    nodeObject
+  );
 }
 
 jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
   jclass queryMatchClass = _getClass("ch/usi/si/seart/treesitter/QueryMatch");
-  jclass queryCaptureClass = _getClass("ch/usi/si/seart/treesitter/QueryCapture");
   jfieldID queryMatchIdField = _getField(queryMatchClass, "id", "I");
   jfieldID queryMatchPatternIndexField = _getField(queryMatchClass, "patternIndex", "I");
   jfieldID queryMatchCapturesField = _getField(queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
@@ -118,7 +128,7 @@ jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
   env->SetIntField(matchInstance, queryMatchIdField, match.id);
   env->SetIntField(matchInstance, queryMatchPatternIndexField, match.pattern_index);
 
-  jobjectArray captures = (*env).NewObjectArray(match.capture_count, queryCaptureClass, NULL);
+  jobjectArray captures = (*env).NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
   for (int i = 0; i < match.capture_count; i++) {
     env->SetObjectArrayElement(captures, i, __marshalQueryCapture(env, match.captures[i]));
   }

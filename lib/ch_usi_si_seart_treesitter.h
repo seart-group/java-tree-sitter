@@ -18,6 +18,11 @@ extern jmethodID _pointConstructor;
 extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
 
+extern jclass _queryCaptureClass;
+extern jmethodID _queryCaptureConstructor;
+extern jfieldID _queryCaptureNodeField;
+extern jfieldID _queryCaptureIndexField;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
