@@ -13,6 +13,11 @@ extern jfieldID _nodeContext3Field;
 extern jfieldID _nodeIdField;
 extern jfieldID _nodeTreeField;
 
+extern jclass _pointClass;
+extern jmethodID _pointConstructor;
+extern jfieldID _pointRowField;
+extern jfieldID _pointColumnField;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -12,6 +12,11 @@ jfieldID _nodeContext3Field;
 jfieldID _nodeIdField;
 jfieldID _nodeTreeField;
 
+jclass _pointClass;
+jmethodID _pointConstructor;
+jfieldID _pointRowField;
+jfieldID _pointColumnField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -27,6 +32,11 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_nodeIdField, _nodeClass, "id", "J");
   _loadField(_nodeTreeField, _nodeClass, "tree", "J");
 
+  _loadClass(_pointClass, "ch/usi/si/seart/treesitter/Point");
+  _loadConstructor(_pointConstructor, _pointClass, "(II)V");
+  _loadField(_pointRowField, _pointClass, "row", "I");
+  _loadField(_pointColumnField, _pointClass, "column", "I");
+
   return JNI_VERSION;
 }
 
@@ -34,6 +44,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
   _unloadClass(_nodeClass);
+  _unloadClass(_pointClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
@@ -71,23 +82,19 @@ TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject) {
 }
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
-  jclass pointClass = _getClass("ch/usi/si/seart/treesitter/Point");
-  jfieldID pointRowField = _getField(pointClass, "row", "I");
-  jfieldID pointColumnField = _getField(pointClass, "column", "I");
-  jobject pointObject = env->AllocObject(pointClass);
-  env->SetIntField(pointObject, pointRowField, point.row);
-  env->SetIntField(pointObject, pointColumnField, point.column / 2);
   // Not sure why I need to divide by two, probably because of utf-16
-  return pointObject;
+  return env->NewObject(
+    _pointClass,
+    _pointConstructor,
+    point.row,
+    point.column / 2
+  );
 }
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
-  jclass pointClass = _getClass("ch/usi/si/seart/treesitter/Point");
-  jfieldID pointRowField = _getField(pointClass, "row", "I");
-  jfieldID pointColumnField = _getField(pointClass, "column", "I");
   return (TSPoint) {
-    (uint32_t)env->GetIntField(pointObject, pointRowField),
-    (uint32_t)env->GetIntField(pointObject, pointColumnField),
+    (uint32_t)env->GetIntField(pointObject, _pointRowField),
+    (uint32_t)env->GetIntField(pointObject, _pointColumnField),
   };
 }
 
