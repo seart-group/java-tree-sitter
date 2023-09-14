@@ -7,8 +7,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_printer_DotGraphPrinter_w
   JNIEnv* env, jobject thisObject, jobject fileObject) {
   jobject treeObject = env->GetObjectField(thisObject, _dotGraphPrinterTreeField);
   if (treeObject == NULL) {
-      jclass exceptionClass = _getClass("java/lang/NullPointerException");
-      env->ThrowNew(exceptionClass, "Tree must not be null!");
+      env->ThrowNew(_nullPointerExceptionClass, "Tree must not be null!");
       return;
   }
   jlong tree = __getPointer(env, _treeClass, treeObject);

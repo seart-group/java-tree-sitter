@@ -22,8 +22,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldName(
   JNIEnv* env, jobject thisObject, jstring name) {
   if (name == NULL) {
-    jclass exceptionClass = _getClass("java/lang/NullPointerException");
-    env->ThrowNew(exceptionClass, "Field name must not be null!");
+    env->ThrowNew(_nullPointerExceptionClass, "Field name must not be null!");
     return NULL;
   }
   const char* childName;

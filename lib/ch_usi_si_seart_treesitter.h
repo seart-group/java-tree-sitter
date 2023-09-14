@@ -4,6 +4,8 @@
 #ifndef _Included_ch_usi_si_seart_treesitter
 #define _Included_ch_usi_si_seart_treesitter
 
+extern jclass _nullPointerExceptionClass;
+
 extern jclass _nodeClass;
 extern jmethodID _nodeConstructor;
 extern jfieldID _nodeContext0Field;

@@ -7,8 +7,7 @@
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_malloc(
   JNIEnv* env, jclass self, jobject nodeInstance) {
   if (nodeInstance == NULL) {
-    jclass exceptionClass = _getClass("java/lang/NullPointerException");
-    env->ThrowNew(exceptionClass, "Node must not be null!");
+    env->ThrowNew(_nullPointerExceptionClass, "Node must not be null!");
     return (jlong)0;
   }
   TSNode node = __unmarshalNode(env, nodeInstance);

@@ -13,8 +13,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit(
   JNIEnv* env, jobject thisObject, jobject inputEditObject) {
   jlong tree = __getPointer(env, _treeClass, thisObject);
   if (inputEditObject == NULL) {
-      jclass exceptionClass = _getClass("java/lang/NullPointerException");
-      env->ThrowNew(exceptionClass, "Input edit must not be null!");
+      env->ThrowNew(_nullPointerExceptionClass, "Input edit must not be null!");
       return;
   }
   TSInputEdit inputEdit = __unmarshalInputEdit(env, inputEditObject);
