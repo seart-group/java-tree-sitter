@@ -53,6 +53,9 @@ jfieldID _parserLanguageField;
 jclass _treeClass;
 jmethodID _treeConstructor;
 
+jclass _dotGraphPrinterClass;
+jfieldID _dotGraphPrinterTreeField;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -111,6 +114,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree");
   _loadConstructor(_treeConstructor, _treeClass, "(JLch/usi/si/seart/treesitter/Language;)V");
 
+  _loadClass(_dotGraphPrinterClass, "ch/usi/si/seart/treesitter/printer/DotGraphPrinter");
+  _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;");
+
   return JNI_VERSION;
 }
 
@@ -125,6 +131,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_treeCursorNodeClass);
   _unloadClass(_parserClass);
   _unloadClass(_treeClass);
+  _unloadClass(_dotGraphPrinterClass);
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
