@@ -264,12 +264,11 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
 }
 
 jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
-  jobject nodeObject = __marshalNode(env, capture.node);
   return env->NewObject(
     _queryCaptureClass,
     _queryCaptureConstructor,
-    capture.index,
-    nodeObject
+    __marshalNode(env, capture.node),
+    capture.index
   );
 }
 
