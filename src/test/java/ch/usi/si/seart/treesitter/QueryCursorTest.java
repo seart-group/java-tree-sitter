@@ -2,8 +2,10 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.Cleanup;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -16,16 +18,32 @@ import java.util.stream.StreamSupport;
 class QueryCursorTest extends TestBase {
 
     private static final String source = "class Hello { /* Comment 1 */ /* Comment 2 */ /* Comment 3 */ }";
+    private static final String pattern = "(block_comment) @comment";
     private static final Language language = Language.JAVA;
     private static Parser parser;
     private static Tree tree;
     private static Node root;
+
+    private Query query;
+    private QueryCursor cursor;
 
     @BeforeAll
     static void beforeAll() {
         parser = new Parser(language);
         tree = parser.parse(source);
         root = tree.getRootNode();
+    }
+
+    @BeforeEach
+    void setUp() {
+        query = new Query(language, pattern);
+        cursor = new QueryCursor(root, query);
+    }
+
+    @AfterEach
+    void tearDown() {
+        cursor.close();
+        query.close();
     }
 
     @AfterAll
@@ -36,8 +54,6 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testExecWithFor() {
-        @Cleanup Query query = new Query(language, "(block_comment) @comment");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         int count = 0;
         for (QueryMatch match: cursor) {
             check(match);
@@ -48,8 +64,6 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testExecWithWhile() {
-        @Cleanup Query query = new Query(language, "(block_comment) @comment");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         cursor.execute();
         int count = 0;
         QueryMatch match;
@@ -62,8 +76,6 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testExecWithIterator() {
-        @Cleanup Query query = new Query(language, "(block_comment) @comment");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         AtomicInteger count = new AtomicInteger();
         Iterator<QueryMatch> iterator = cursor.iterator();
         iterator.forEachRemaining(match -> {
@@ -75,8 +87,6 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testExecWithStream() {
-        @Cleanup Query query = new Query(language, "(block_comment) @comment");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         AtomicInteger count = new AtomicInteger();
         Spliterator<QueryMatch> spliterator = cursor.spliterator();
         StreamSupport.stream(spliterator, false).forEach(match -> {
