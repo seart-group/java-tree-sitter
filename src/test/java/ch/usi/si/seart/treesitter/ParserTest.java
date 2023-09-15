@@ -7,7 +7,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -15,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 class ParserTest extends TestBase {
 
@@ -104,14 +110,55 @@ class ParserTest extends TestBase {
         Assertions.assertEquals(0, parser.getTimeout());
     }
 
-    @Test
+    private static class ConstructorExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, null),
+                    Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_)
+            );
+        }
+    }
+
     @SuppressWarnings("resource")
-    void testParserThrows() {
-        Assertions.assertThrows(NullPointerException.class, () -> new Parser(null));
-        Assertions.assertThrows(UnsatisfiedLinkError.class, () -> new Parser(Language._INVALID_));
-        Assertions.assertThrows(NullPointerException.class, () -> parser.setTimeout(null));
-        Assertions.assertThrows(NullPointerException.class, () -> parser.setTimeout(100, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.setTimeout(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.setTimeout(-1, TimeUnit.MICROSECONDS));
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(ConstructorExceptionProvider.class)
+    void testConstructorThrows(Class<Throwable> throwableType, Language language) {
+        Assertions.assertThrows(throwableType, () -> new Parser(language));
+    }
+
+    private static class SetTimeoutExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, null),
+                    Arguments.of(IllegalArgumentException.class, -1L)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(SetTimeoutExceptionProvider.class)
+    void testSetTimeoutThrows(Class<Throwable> throwableType, Long timeout) {
+        Assertions.assertThrows(throwableType, () -> parser.setTimeout(timeout));
+    }
+
+    private static class SetTimeoutWitTimeUnitExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, 100L, null),
+                    Arguments.of(IllegalArgumentException.class, -1L, TimeUnit.MICROSECONDS)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(SetTimeoutWitTimeUnitExceptionProvider.class)
+    void testSetTimeoutThrows(Class<Throwable> throwableType, Long timeout, TimeUnit timeUnit) {
+        Assertions.assertThrows(throwableType, () -> parser.setTimeout(timeout, timeUnit));
     }
 }
