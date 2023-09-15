@@ -21,7 +21,6 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_printer_DotGraphPrinter_w
   const char* pathPtr = env->GetStringUTFChars(path, NULL);
   FILE* file = fopen(pathPtr, "w");
   if (file == NULL) {
-      env->ReleaseStringUTFChars(path, pathPtr);
       env->ThrowNew(_ioExceptionClass, NULL);
   } else {
       ts_tree_print_dot_graph((TSTree*)tree, file);
