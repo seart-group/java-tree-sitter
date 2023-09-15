@@ -6,8 +6,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 class TreeCursorTest extends TestBase {
 
@@ -73,11 +80,21 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals(17, count.get());
     }
 
-    @Test
-    @SuppressWarnings("resource")
-    void testWalkException() {
-        Node nullNode = new Node();
-        Assertions.assertThrows(NullPointerException.class, () -> new TreeCursor(null));
-        Assertions.assertThrows(IllegalArgumentException.class, nullNode::walk);
+    @SuppressWarnings({"resource", "DataFlowIssue"})
+    private static class WalkExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, (Executable) () -> new TreeCursor(null)),
+                    Arguments.of(IllegalArgumentException.class, (Executable) () -> new Node().walk())
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(WalkExceptionProvider.class)
+    void testWalkThrows(Class<Throwable> throwableType, Executable executable) {
+        Assertions.assertThrows(throwableType, executable);
     }
 }
