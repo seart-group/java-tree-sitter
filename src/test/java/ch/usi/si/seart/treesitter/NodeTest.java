@@ -5,10 +5,15 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 class NodeTest extends TestBase {
 
@@ -30,6 +35,13 @@ class NodeTest extends TestBase {
         parser.close();
     }
 
+    public static Stream<Arguments> provideOutOfBoundsIndexes() {
+        return Stream.of(
+                Arguments.of(-1),
+                Arguments.of(Integer.MAX_VALUE)
+        );
+    }
+
     @Test
     void testGetChild() {
         Node function = root.getChild(0);
@@ -39,8 +51,12 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(44, root.getEndByte());
         Assertions.assertEquals("function_definition", function.getType());
         Assertions.assertEquals(5, function.getChildCount());
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(-1));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(Integer.MAX_VALUE));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideOutOfBoundsIndexes")
+    void testGetChildThrows(int index) {
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(index));
     }
 
     @Test
@@ -60,7 +76,12 @@ class NodeTest extends TestBase {
         Node function = root.getChild(0);
         Node identifier = function.getChild(1);
         Assertions.assertEquals(identifier, function.getChildByFieldName("name"));
-        Assertions.assertThrows(NullPointerException.class, () -> root.getChildByFieldName(null));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    void testGetChildByFieldNameThrows(String name) {
+        Assertions.assertThrows(NullPointerException.class, () -> root.getChildByFieldName(name));
     }
 
     @Test
@@ -87,8 +108,12 @@ class NodeTest extends TestBase {
         Assertions.assertEquals("parameters", function.getFieldNameForChild(2));  // "parameters"
         Assertions.assertNull(function.getFieldNameForChild(3));                  // `:`
         Assertions.assertEquals("body", function.getFieldNameForChild(4));        // "body"
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFieldNameForChild(-1));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getChild(Integer.MAX_VALUE));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideOutOfBoundsIndexes")
+    void testGetFieldNameForChildThrows(int index) {
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFieldNameForChild(index));
     }
 
     @Test
@@ -104,8 +129,12 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(parameters, function.getFirstChildForByte(parameters.getStartByte()));
         Assertions.assertEquals(colon, function.getFirstChildForByte(colon.getStartByte()));
         Assertions.assertEquals(body, function.getFirstChildForByte(body.getStartByte()));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(-1));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(Integer.MAX_VALUE));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideOutOfBoundsIndexes")
+    void testGetFirstChildForByteThrows(int index) {
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(index));
     }
 
     @Test
@@ -121,8 +150,12 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(parameters, function.getFirstNamedChildForByte(parameters.getStartByte()));
         Assertions.assertEquals(body, function.getFirstNamedChildForByte(colon.getStartByte()));
         Assertions.assertEquals(body, function.getFirstNamedChildForByte(body.getStartByte()));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(-1));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(Integer.MAX_VALUE));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideOutOfBoundsIndexes")
+    void testGetFirstNamedChildForByteThrows(int index) {
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(index));
     }
 
     @Test
