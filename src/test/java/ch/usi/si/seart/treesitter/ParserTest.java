@@ -71,7 +71,7 @@ class ParserTest extends TestBase {
     }
 
     @Test
-    void testParserSetLanguage() {
+    void testSetLanguage() {
         @Cleanup Parser parser = new Parser(Language.PYTHON);
         parser.setLanguage(Language.JAVA);
         String source = "public class _ {}\n";
@@ -89,7 +89,7 @@ class ParserTest extends TestBase {
     @Test
     @SuppressWarnings("DataFlowIssue")
     @SneakyThrows(URISyntaxException.class)
-    void testParserTimeout() {
+    void testSetTimeout() {
         @Cleanup Parser parser = new Parser(Language.JAVA);
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(10);
