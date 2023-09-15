@@ -106,7 +106,7 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testMultipleExecCalls() {
-        @Cleanup Query query = new Query(language, "(class_body) @test");
+        @Cleanup Query query = new Query(language, "(class_body) @class");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         cursor.execute();
         cursor.execute();
