@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -37,9 +38,12 @@ class QueryCursorTest extends TestBase {
     void testExecWithFor() {
         @Cleanup Query query = new Query(language, "(block_comment) @comment");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
-        int numMatches = 0;
-        for (QueryMatch ignored: cursor) numMatches++;
-        Assertions.assertEquals(3, numMatches, "Must find three matches!");
+        int count = 0;
+        for (QueryMatch match: cursor) {
+            check(match);
+            count++;
+        }
+        Assertions.assertEquals(3, count, "Must find three matches!");
     }
 
     @Test
@@ -47,28 +51,49 @@ class QueryCursorTest extends TestBase {
         @Cleanup Query query = new Query(language, "(block_comment) @comment");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         cursor.execute();
-        int numMatches = 0;
-        while (cursor.nextMatch() != null) numMatches++;
-        Assertions.assertEquals(3, numMatches, "Must find three matches!");
+        int count = 0;
+        QueryMatch match;
+        while ((match = cursor.nextMatch()) != null) {
+            check(match);
+            count++;
+        }
+        Assertions.assertEquals(3, count, "Must find three matches!");
     }
 
     @Test
     void testExecWithIterator() {
         @Cleanup Query query = new Query(language, "(block_comment) @comment");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
-        AtomicInteger numMatches = new AtomicInteger();
+        AtomicInteger count = new AtomicInteger();
         Iterator<QueryMatch> iterator = cursor.iterator();
-        iterator.forEachRemaining(ignored -> numMatches.incrementAndGet());
-        Assertions.assertEquals(3, numMatches.get(), "Must find three matches!");
+        iterator.forEachRemaining(match -> {
+            check(match);
+            count.incrementAndGet();
+        });
+        Assertions.assertEquals(3, count.get(), "Must find three matches!");
     }
 
     @Test
     void testExecWithStream() {
         @Cleanup Query query = new Query(language, "(block_comment) @comment");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
+        AtomicInteger count = new AtomicInteger();
         Spliterator<QueryMatch> spliterator = cursor.spliterator();
-        Stream<QueryMatch> stream = StreamSupport.stream(spliterator, false);
-        Assertions.assertEquals(3, stream.count(), "Must find three matches!");
+        StreamSupport.stream(spliterator, false).forEach(match -> {
+            check(match);
+            count.incrementAndGet();
+        });
+        Assertions.assertEquals(3, count.get(), "Must find three matches!");
+    }
+
+    private static void check(QueryMatch match) {
+        QueryCapture[] captures = match.getCaptures();
+        Optional<QueryCapture> optional = Stream.of(captures).findFirst();
+        Assertions.assertTrue(optional.isPresent());
+        QueryCapture capture = optional.get();
+        Node node = capture.getNode();
+        Assertions.assertEquals(0, capture.getIndex());
+        Assertions.assertEquals("block_comment", node.getType());
     }
 
     @Test
