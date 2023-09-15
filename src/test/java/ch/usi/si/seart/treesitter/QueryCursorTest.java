@@ -43,7 +43,7 @@ class QueryCursorTest extends TestBase {
             check(match);
             count++;
         }
-        Assertions.assertEquals(3, count, "Must find three matches!");
+        Assertions.assertEquals(3, count);
     }
 
     @Test
@@ -57,7 +57,7 @@ class QueryCursorTest extends TestBase {
             check(match);
             count++;
         }
-        Assertions.assertEquals(3, count, "Must find three matches!");
+        Assertions.assertEquals(3, count);
     }
 
     @Test
@@ -70,7 +70,7 @@ class QueryCursorTest extends TestBase {
             check(match);
             count.incrementAndGet();
         });
-        Assertions.assertEquals(3, count.get(), "Must find three matches!");
+        Assertions.assertEquals(3, count.get());
     }
 
     @Test
@@ -83,7 +83,7 @@ class QueryCursorTest extends TestBase {
             check(match);
             count.incrementAndGet();
         });
-        Assertions.assertEquals(3, count.get(), "Must find three matches!");
+        Assertions.assertEquals(3, count.get());
     }
 
     private static void check(QueryMatch match) {
@@ -101,7 +101,7 @@ class QueryCursorTest extends TestBase {
         @Cleanup Query query = new Query(language, "(method_declaration) @method");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         cursor.execute();
-        Assertions.assertNull(cursor.nextMatch(), "Must find no matches!");
+        Assertions.assertNull(cursor.nextMatch());
     }
 
     @Test
