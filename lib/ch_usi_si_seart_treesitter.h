@@ -134,7 +134,7 @@ typedef struct {
   bool isNamed;
 } TreeCursorNode;
 
-jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance);
+jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
 

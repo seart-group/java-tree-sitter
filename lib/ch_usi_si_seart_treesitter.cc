@@ -219,7 +219,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_parsingExceptionClass);
 }
 
-jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
+jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }
 
