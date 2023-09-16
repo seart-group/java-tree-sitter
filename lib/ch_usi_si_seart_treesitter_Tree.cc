@@ -5,13 +5,13 @@
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_close(
   JNIEnv* env, jobject thisObject) {
-  jlong tree = __getPointer(env, _treeClass, thisObject);
+  jlong tree = __getPointer(env, thisObject);
   ts_tree_delete((TSTree*)tree);
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit(
   JNIEnv* env, jobject thisObject, jobject inputEditObject) {
-  jlong tree = __getPointer(env, _treeClass, thisObject);
+  jlong tree = __getPointer(env, thisObject);
   if (inputEditObject == NULL) {
       env->ThrowNew(_nullPointerExceptionClass, "Input edit must not be null!");
       return;
@@ -22,6 +22,6 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getRootNode(
   JNIEnv* env, jobject thisObject) {
-  jlong tree = __getPointer(env, _treeClass, thisObject);
+  jlong tree = __getPointer(env, thisObject);
   return __marshalNode(env, ts_tree_root_node((TSTree*)tree));
 }

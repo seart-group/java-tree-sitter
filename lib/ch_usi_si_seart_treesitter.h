@@ -15,6 +15,9 @@ extern jmethodID _timeoutExceptionConstructor;
 extern jclass _indexOutOfBoundsExceptionClass;
 extern jmethodID _indexOutOfBoundsExceptionConstructor;
 
+extern jclass _externalClass;
+extern jfieldID _externalPointerField;
+
 extern jclass _nodeClass;
 extern jmethodID _nodeConstructor;
 extern jfieldID _nodeContext0Field;
@@ -131,7 +134,7 @@ typedef struct {
   bool isNamed;
 } TreeCursorNode;
 
-jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance);
+jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
 

@@ -10,7 +10,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_malloc(
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
   JNIEnv* env, jobject thisObject) {
-  jlong parser = __getPointer(env, _parserClass, thisObject);
+  jlong parser = __getPointer(env, thisObject);
   ts_parser_delete((TSParser*)parser);
 }
 
@@ -21,14 +21,14 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
 
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
   JNIEnv* env, jobject thisObject) {
-  jlong parser = __getPointer(env, _parserClass, thisObject);
+  jlong parser = __getPointer(env, thisObject);
   return (jlong)ts_parser_timeout_micros((TSParser*)parser);
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
   JNIEnv* env, jobject thisObject, jlong timeout) {
   if (timeout >= 0) {
-      jlong parser = __getPointer(env, _parserClass, thisObject);
+      jlong parser = __getPointer(env, thisObject);
       ts_parser_set_timeout_micros((TSParser*)parser, (uint64_t)timeout);
   } else {
       env->ThrowNew(_illegalArgumentExceptionClass, "Timeout can not be negative!");
@@ -37,8 +37,8 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
   JNIEnv* env, jobject thisObject, jbyteArray bytes, jint length, jobject oldTree) {
-  TSParser* parser = (TSParser*)__getPointer(env, _parserClass, thisObject);
-  TSTree* old = (oldTree != NULL) ? (TSTree*)__getPointer(env, _treeClass, oldTree) : NULL;
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSTree* old = (oldTree != NULL) ? (TSTree*)__getPointer(env, oldTree) : NULL;
   jbyte* source = env->GetByteArrayElements(bytes, NULL);
   TSTree* result = ts_parser_parse_string_encoding(
       parser, old, reinterpret_cast<const char*>(source), length, TSInputEncodingUTF16
