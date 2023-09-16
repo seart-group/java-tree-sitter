@@ -220,8 +220,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
 }
 
 jlong __getPointer(JNIEnv* env, jclass objectClass, jobject objectInstance) {
-  jfieldID pointerField = _getField(objectClass, "pointer", "J");
-  return env->GetLongField(objectInstance, pointerField);
+  return env->GetLongField(objectInstance, _externalPointerField);
 }
 
 jobject __marshalNode(JNIEnv* env, TSNode node) {
