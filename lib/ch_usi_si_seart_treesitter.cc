@@ -3,6 +3,9 @@
 
 static jint JNI_VERSION = JNI_VERSION_10;
 
+jclass _externalClass;
+jfieldID _externalPointerField;
+
 jclass _nodeClass;
 jmethodID _nodeConstructor;
 jfieldID _nodeContext0Field;
@@ -92,6 +95,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
   }
+
+  _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External");
+  _loadField(_externalPointerField, _externalClass, "pointer", "J");
 
   _loadClass(_nodeClass, "ch/usi/si/seart/treesitter/Node");
   _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJJ)V");
@@ -185,6 +191,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
+  _unloadClass(_externalClass);
   _unloadClass(_nodeClass);
   _unloadClass(_pointClass);
   _unloadClass(_queryCaptureClass);
