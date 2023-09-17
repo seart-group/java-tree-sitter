@@ -107,7 +107,7 @@ extern "C" {
   }
 
 #define _unloadClass(VARIABLE) \
-  env->DeleteGlobalRef(VARIABLE)
+  { env->DeleteGlobalRef(VARIABLE); }
 
 #define _getField(CLASS, NAME, TYPE) \
   env->GetFieldID(CLASS, NAME, TYPE)
