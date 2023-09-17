@@ -101,7 +101,7 @@ extern "C" {
 #define _loadClass(VARIABLE, NAME)               \
   {                                              \
     jclass local;                                \
-    local = env->FindClass(NAME);                \
+    local = _getClass(NAME);                     \
     VARIABLE = (jclass)env->NewGlobalRef(local); \
     env->DeleteLocalRef(local);                  \
   }
@@ -109,26 +109,29 @@ extern "C" {
 #define _unloadClass(VARIABLE) \
   env->DeleteGlobalRef(VARIABLE)
 
-#define _loadField(VARIABLE, CLASS, NAME, TYPE) \
-  { VARIABLE = env->GetFieldID(CLASS, NAME, TYPE); }
-
-#define _loadStaticField(VARIABLE, CLASS, NAME, TYPE) \
-  { VARIABLE = env->GetStaticFieldID(CLASS, NAME, TYPE); }
-
 #define _getField(CLASS, NAME, TYPE) \
   env->GetFieldID(CLASS, NAME, TYPE)
 
 #define _getStaticField(CLASS, NAME, TYPE) \
   env->GetStaticFieldID(CLASS, NAME, TYPE)
 
+#define _loadField(VARIABLE, CLASS, NAME, TYPE) \
+  { VARIABLE = _getField(CLASS, NAME, TYPE); }
+
+#define _loadStaticField(VARIABLE, CLASS, NAME, TYPE) \
+  { VARIABLE = _getStaticField(CLASS, NAME, TYPE); }
+
+#define _getMethod(CLASS, NAME, SIGNATURE) \
+  env->GetMethodID(CLASS, NAME, SIGNATURE)
+
+#define _getConstructor(CLASS, SIGNATURE) \
+  _getMethod(CLASS, "<init>", SIGNATURE)
+
 #define _loadMethod(VARIABLE, CLASS, NAME, SIGNATURE) \
-  { VARIABLE = env->GetMethodID(CLASS, NAME, SIGNATURE); }
+  { VARIABLE = _getMethod(CLASS, NAME, SIGNATURE); }
 
 #define _loadConstructor(VARIABLE, CLASS, SIGNATURE) \
-  { _loadMethod(VARIABLE, CLASS, "<init>", SIGNATURE); }
-
-#define _getConstructor(CLASS, TYPE) \
-  env->GetMethodID(CLASS, "<init>", TYPE)
+  { VARIABLE = _getConstructor(CLASS, SIGNATURE); }
 
 typedef struct {
   const char* type;
