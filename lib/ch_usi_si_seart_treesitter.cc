@@ -96,94 +96,94 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     return JNI_ERR;
   }
 
-  _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External");
-  _loadField(_externalPointerField, _externalClass, "pointer", "J");
+  _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
+  _loadField(_externalPointerField, _externalClass, "pointer", "J")
 
-  _loadClass(_nodeClass, "ch/usi/si/seart/treesitter/Node");
-  _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJJ)V");
-  _loadField(_nodeContext0Field, _nodeClass, "context0", "I");
-  _loadField(_nodeContext1Field, _nodeClass, "context1", "I");
-  _loadField(_nodeContext2Field, _nodeClass, "context2", "I");
-  _loadField(_nodeContext3Field, _nodeClass, "context3", "I");
-  _loadField(_nodeIdField, _nodeClass, "id", "J");
-  _loadField(_nodeTreeField, _nodeClass, "tree", "J");
+  _loadClass(_nodeClass, "ch/usi/si/seart/treesitter/Node")
+  _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJJ)V")
+  _loadField(_nodeContext0Field, _nodeClass, "context0", "I")
+  _loadField(_nodeContext1Field, _nodeClass, "context1", "I")
+  _loadField(_nodeContext2Field, _nodeClass, "context2", "I")
+  _loadField(_nodeContext3Field, _nodeClass, "context3", "I")
+  _loadField(_nodeIdField, _nodeClass, "id", "J")
+  _loadField(_nodeTreeField, _nodeClass, "tree", "J")
 
-  _loadClass(_pointClass, "ch/usi/si/seart/treesitter/Point");
-  _loadConstructor(_pointConstructor, _pointClass, "(II)V");
-  _loadField(_pointRowField, _pointClass, "row", "I");
-  _loadField(_pointColumnField, _pointClass, "column", "I");
+  _loadClass(_pointClass, "ch/usi/si/seart/treesitter/Point")
+  _loadConstructor(_pointConstructor, _pointClass, "(II)V")
+  _loadField(_pointRowField, _pointClass, "row", "I")
+  _loadField(_pointColumnField, _pointClass, "column", "I")
 
-  _loadClass(_queryCaptureClass, "ch/usi/si/seart/treesitter/QueryCapture");
-  _loadConstructor(_queryCaptureConstructor, _queryCaptureClass, "(Lch/usi/si/seart/treesitter/Node;I)V");
-  _loadField(_queryCaptureNodeField, _queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;");
-  _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I");
+  _loadClass(_queryCaptureClass, "ch/usi/si/seart/treesitter/QueryCapture")
+  _loadConstructor(_queryCaptureConstructor, _queryCaptureClass, "(Lch/usi/si/seart/treesitter/Node;I)V")
+  _loadField(_queryCaptureNodeField, _queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;")
+  _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I")
 
-  _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch");
-  _loadConstructor(_queryMatchConstructor, _queryMatchClass, "(II[Lch/usi/si/seart/treesitter/QueryCapture;)V");
-  _loadField(_queryMatchIdField, _queryMatchClass, "id", "I");
-  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I");
-  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;");
+  _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch")
+  _loadConstructor(_queryMatchConstructor, _queryMatchClass, "(II[Lch/usi/si/seart/treesitter/QueryCapture;)V")
+  _loadField(_queryMatchIdField, _queryMatchClass, "id", "I")
+  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I")
+  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;")
   
-  _loadClass(_inputEditClass, "ch/usi/si/seart/treesitter/InputEdit");
+  _loadClass(_inputEditClass, "ch/usi/si/seart/treesitter/InputEdit")
   _loadConstructor(_inputEditConstructor, _inputEditClass,
-    "(IIILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V");
-  _loadField(_inputEditStartByteField, _inputEditClass, "startByte", "I");
-  _loadField(_inputEditOldEndByteField, _inputEditClass, "oldEndByte", "I");
-  _loadField(_inputEditNewEndByteField, _inputEditClass, "newEndByte", "I");
-  _loadField(_inputEditStartPointField, _inputEditClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
-  _loadField(_inputEditOldEndPointField, _inputEditClass, "oldEndPoint", "Lch/usi/si/seart/treesitter/Point;");
-  _loadField(_inputEditNewEndPointField, _inputEditClass, "newEndPoint", "Lch/usi/si/seart/treesitter/Point;");
+    "(IIILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V")
+  _loadField(_inputEditStartByteField, _inputEditClass, "startByte", "I")
+  _loadField(_inputEditOldEndByteField, _inputEditClass, "oldEndByte", "I")
+  _loadField(_inputEditNewEndByteField, _inputEditClass, "newEndByte", "I")
+  _loadField(_inputEditStartPointField, _inputEditClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;")
+  _loadField(_inputEditOldEndPointField, _inputEditClass, "oldEndPoint", "Lch/usi/si/seart/treesitter/Point;")
+  _loadField(_inputEditNewEndPointField, _inputEditClass, "newEndPoint", "Lch/usi/si/seart/treesitter/Point;")
 
-  _loadClass(_treeCursorNodeClass, "ch/usi/si/seart/treesitter/TreeCursorNode");
+  _loadClass(_treeCursorNodeClass, "ch/usi/si/seart/treesitter/TreeCursorNode")
   _loadConstructor(_treeCursorNodeConstructor, _treeCursorNodeClass,
-      "(Ljava/lang/String;Ljava/lang/String;IILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Z)V");
-  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type", "Ljava/lang/String;");
-  _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name", "Ljava/lang/String;");
-  _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I");
-  _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I");
-  _loadField(_treeCursorNodeStartPointField, _treeCursorNodeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;");
-  _loadField(_treeCursorNodeEndPointField, _treeCursorNodeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;");
-  _loadField(_treeCursorNodeIsNamed, _treeCursorNodeClass, "isNamed", "Z");
+      "(Ljava/lang/String;Ljava/lang/String;IILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Z)V")
+  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type", "Ljava/lang/String;")
+  _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name", "Ljava/lang/String;")
+  _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I")
+  _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I")
+  _loadField(_treeCursorNodeStartPointField, _treeCursorNodeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;")
+  _loadField(_treeCursorNodeEndPointField, _treeCursorNodeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;")
+  _loadField(_treeCursorNodeIsNamed, _treeCursorNodeClass, "isNamed", "Z")
 
-  _loadClass(_parserClass, "ch/usi/si/seart/treesitter/Parser");
-  _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;");
+  _loadClass(_parserClass, "ch/usi/si/seart/treesitter/Parser")
+  _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;")
 
-  _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree");
-  _loadConstructor(_treeConstructor, _treeClass, "(JLch/usi/si/seart/treesitter/Language;)V");
+  _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree")
+  _loadConstructor(_treeConstructor, _treeClass, "(JLch/usi/si/seart/treesitter/Language;)V")
 
-  _loadClass(_dotGraphPrinterClass, "ch/usi/si/seart/treesitter/printer/DotGraphPrinter");
-  _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;");
+  _loadClass(_dotGraphPrinterClass, "ch/usi/si/seart/treesitter/printer/DotGraphPrinter")
+  _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
 
-  _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query");
+  _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query")
 
-  _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor");
-  _loadField(_queryCursorNodeField, _queryCursorClass, "node", "Lch/usi/si/seart/treesitter/Node;");
-  _loadField(_queryCursorQueryField, _queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;");
-  _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z");
+  _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor")
+  _loadField(_queryCursorNodeField, _queryCursorClass, "node", "Lch/usi/si/seart/treesitter/Node;")
+  _loadField(_queryCursorQueryField, _queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;")
+  _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z")
 
-  _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor");
+  _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor")
 
-  _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException");
-  _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException");
-  _loadClass(_illegalStateExceptionClass, "java/lang/IllegalStateException");
-  _loadClass(_ioExceptionClass, "java/io/IOException");
+  _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException")
+  _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException")
+  _loadClass(_illegalStateExceptionClass, "java/lang/IllegalStateException")
+  _loadClass(_ioExceptionClass, "java/io/IOException")
 
-  _loadClass(_timeoutExceptionClass, "java/util/concurrent/TimeoutException");
-  _loadConstructor(_timeoutExceptionConstructor, _timeoutExceptionClass, "()V");
+  _loadClass(_timeoutExceptionClass, "java/util/concurrent/TimeoutException")
+  _loadConstructor(_timeoutExceptionConstructor, _timeoutExceptionClass, "()V")
 
-  _loadClass(_indexOutOfBoundsExceptionClass, "java/lang/IndexOutOfBoundsException");
-  _loadConstructor(_indexOutOfBoundsExceptionConstructor, _indexOutOfBoundsExceptionClass, "(I)V");
+  _loadClass(_indexOutOfBoundsExceptionClass, "java/lang/IndexOutOfBoundsException")
+  _loadConstructor(_indexOutOfBoundsExceptionConstructor, _indexOutOfBoundsExceptionClass, "(I)V")
 
-  _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException");
+  _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException")
 
-  _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException");
-  _loadClass(_queryNodeTypeExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException");
-  _loadClass(_queryFieldExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryFieldException");
-  _loadClass(_queryCaptureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryCaptureException");
-  _loadClass(_queryStructureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryStructureException");
+  _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException")
+  _loadClass(_queryNodeTypeExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException")
+  _loadClass(_queryFieldExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryFieldException")
+  _loadClass(_queryCaptureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryCaptureException")
+  _loadClass(_queryStructureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryStructureException")
 
-  _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/ParsingException");
-  _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V");
+  _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/ParsingException")
+  _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V")
 
   return JNI_VERSION;
 }
