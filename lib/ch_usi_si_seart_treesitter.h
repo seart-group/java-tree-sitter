@@ -112,8 +112,14 @@ extern "C" {
 #define _loadField(VARIABLE, CLASS, NAME, TYPE) \
   { VARIABLE = env->GetFieldID(CLASS, NAME, TYPE); }
 
+#define _loadStaticField(VARIABLE, CLASS, NAME, TYPE) \
+  { VARIABLE = env->GetStaticFieldID(CLASS, NAME, TYPE); }
+
 #define _getField(CLASS, NAME, TYPE) \
   env->GetFieldID(CLASS, NAME, TYPE)
+
+#define _getStaticField(CLASS, NAME, TYPE) \
+  env->GetStaticFieldID(CLASS, NAME, TYPE)
 
 #define _loadMethod(VARIABLE, CLASS, NAME, SIGNATURE) \
   { VARIABLE = env->GetMethodID(CLASS, NAME, SIGNATURE); }
