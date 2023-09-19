@@ -21,10 +21,12 @@ import java.util.Iterator;
 public class Tree extends External implements Iterable<Node> {
 
     Language language;
+    String source;
 
-    Tree(long pointer, @NotNull Language language) {
+    Tree(long pointer, @NotNull Language language, @NotNull String source) {
         super(pointer);
         this.language = language;
+        this.source = source;
     }
 
     /**
