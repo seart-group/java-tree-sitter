@@ -69,6 +69,7 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndPoint(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) return _pointOrigin;
   TSPoint point = ts_node_end_point(node);
   return __marshalPoint(env, point);
 }
@@ -187,6 +188,7 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartByte(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) return _pointOrigin;
   TSPoint point = ts_node_start_point(node);
   return __marshalPoint(env, point);
 }
