@@ -1,11 +1,13 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -32,42 +34,78 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OffsetTreeCursor extends TreeCursor {
 
+    TreeCursor cursor;
     Point offset;
 
-    public OffsetTreeCursor(Node node, Point offset) {
-        super(node);
+    public OffsetTreeCursor(@NotNull Node node, @NotNull Point offset) {
+        super();
+        Objects.requireNonNull(node, "Node must not be null!");
         Objects.requireNonNull(offset, "Offset must not be null!");
+        this.cursor = node.walk();
         this.offset = offset;
     }
 
     @Override
-    public Node getCurrentNode() {
-        return new OffsetNode(super.getCurrentNode());
+    public void close() {
+        cursor.close();
     }
 
+    @Override
+    public String getCurrentFieldName() {
+        return cursor.getCurrentFieldName();
+    }
+
+    @Override
+    public boolean gotoFirstChild() {
+        return cursor.gotoFirstChild();
+    }
+
+    @Override
+    public boolean gotoNextSibling() {
+        return cursor.gotoNextSibling();
+    }
+
+    @Override
+    public boolean gotoParent() {
+        return cursor.gotoParent();
+    }
+
+    @Override
+    public void preorderTraversal(@NotNull Consumer<Node> callback) {
+        cursor.preorderTraversal(callback);
+    }
+
+    @Override
+    public Node getCurrentNode() {
+        return new OffsetNode(cursor.getCurrentNode());
+    }
+
+    @AllArgsConstructor(access = AccessLevel.PACKAGE)
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     private class OffsetNode extends Node {
 
-        private final Node node;
-
-        OffsetNode(Node node) {
-            this.node = node;
-        }
+        Node node;
 
         @Override
         public Node getChild(int child) {
-            return new OffsetNode(super.getChild(child));
+            return new OffsetNode(node.getChild(child));
         }
 
         @Override
         public Node getChildByFieldName(@NotNull String name) {
-            return new OffsetNode(super.getChildByFieldName(name));
+            return new OffsetNode(node.getChildByFieldName(name));
         }
 
         @Override
         public List<Node> getChildren() {
-            return super.getChildren().stream()
+            return node.getChildren().stream()
                     .map(OffsetNode::new)
                     .collect(Collectors.toList());
+        }
+
+        @Override
+        public String getContent() {
+            return node.getContent();
         }
 
         @Override
@@ -109,27 +147,27 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Node getNextNamedSibling() {
-            return new OffsetNode(super.getNextNamedSibling());
+            return new OffsetNode(node.getNextNamedSibling());
         }
 
         @Override
         public Node getNextSibling() {
-            return new OffsetNode(super.getNextSibling());
+            return new OffsetNode(node.getNextSibling());
         }
 
         @Override
         public Node getPrevNamedSibling() {
-            return new OffsetNode(super.getPrevNamedSibling());
+            return new OffsetNode(node.getPrevNamedSibling());
         }
 
         @Override
         public Node getPrevSibling() {
-            return new OffsetNode(super.getPrevSibling());
+            return new OffsetNode(node.getPrevSibling());
         }
 
         @Override
         public Node getParent() {
-            return new OffsetNode(super.getParent());
+            return new OffsetNode(node.getParent());
         }
 
         @Override
@@ -161,7 +199,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
     @Override
     public TreeCursorNode getCurrentTreeCursorNode() {
-        return new OffsetTreeCursorNode(super.getCurrentTreeCursorNode(), offset);
+        return new OffsetTreeCursorNode(cursor.getCurrentTreeCursorNode(), offset);
     }
 
     /*

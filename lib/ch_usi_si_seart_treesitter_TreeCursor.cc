@@ -4,21 +4,6 @@
 #include <string.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_malloc(
-  JNIEnv* env, jclass self, jobject nodeInstance) {
-  if (nodeInstance == NULL) {
-    env->ThrowNew(_nullPointerExceptionClass, "Node must not be null!");
-    return (jlong)0;
-  }
-  TSNode node = __unmarshalNode(env, nodeInstance);
-  if (ts_node_is_null(node)) {
-    env->ThrowNew(_illegalArgumentExceptionClass, "Cannot construct a TreeCursor instance from a `null` Node!");
-    return (jlong)0;
-  }
-  TSTreeCursor* cursor = new TSTreeCursor(ts_tree_cursor_new(node));
-  return (jlong)cursor;
-}
-
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_close(
   JNIEnv* env, jobject thisObject) {
   jlong treeCursor = __getPointer(env, thisObject);

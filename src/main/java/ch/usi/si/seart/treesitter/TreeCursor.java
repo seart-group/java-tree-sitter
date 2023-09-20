@@ -27,6 +27,18 @@ public class TreeCursor extends External {
 
     Tree tree;
 
+    /*
+     * This is a workaround intended for OffsetTreeCursor.
+     * Should not be used under any other circumstances!
+     */
+    protected TreeCursor() {
+        super(0L);
+        this.context0 = 0;
+        this.context1 = 0;
+        this.id = 0L;
+        this.tree = null;
+    }
+
     @SuppressWarnings("unused")
     TreeCursor(long pointer, int context0, int context1, long id, @NotNull Tree tree) {
         super(pointer);
@@ -35,12 +47,6 @@ public class TreeCursor extends External {
         this.id = id;
         this.tree = tree;
     }
-
-    TreeCursor(@NotNull Node node) {
-        super(malloc(node));
-    }
-
-    private static native long malloc(Node node);
 
     /**
      * Delete the tree cursor, freeing all the memory that it used.
