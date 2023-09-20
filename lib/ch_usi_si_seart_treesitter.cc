@@ -330,19 +330,3 @@ TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
   };
 }
-
-jobject __marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node) {
-  jobject startPointObject = __marshalPoint(env, node.startPoint);
-  jobject endPointObject = __marshalPoint(env, node.endPoint);
-  return env->NewObject(
-    _treeCursorNodeClass,
-    _treeCursorNodeConstructor,
-    env->NewStringUTF(node.type),
-    env->NewStringUTF(node.name),
-    node.startByte,
-    node.endByte,
-    startPointObject,
-    endPointObject,
-    node.isNamed
-  );
-}

@@ -27,33 +27,34 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_close(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentNode(
   JNIEnv* env, jobject thisObject) {
-  jlong treeCursor = __getPointer(env, thisObject);
-  TSNode node = ts_tree_cursor_current_node((TSTreeCursor*)treeCursor);
-  return __marshalNode(env, node);
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  TSNode node = ts_tree_cursor_current_node(cursor);
+  jobject nodeObject = __marshalNode(env, node);
+  jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
+  _setNodeTreeField(nodeObject, treeObject);
+  return nodeObject;
 }
 
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentFieldName(
   JNIEnv* env, jobject thisObject) {
-  jlong treeCursor = __getPointer(env, thisObject);
-  const char* name = ts_tree_cursor_current_field_name((TSTreeCursor*)treeCursor);
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  const char* name = ts_tree_cursor_current_field_name(cursor);
   return env->NewStringUTF(name);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentTreeCursorNode(
   JNIEnv* env, jobject thisObject) {
-  jlong treeCursor = __getPointer(env, thisObject);
-  TSNode node = ts_tree_cursor_current_node((TSTreeCursor*)treeCursor);
-  return __marshalTreeCursorNode(
-      env,
-      (TreeCursorNode){
-        ts_node_type(node),
-        ts_tree_cursor_current_field_name((TSTreeCursor*)treeCursor),
-        ts_node_start_byte(node) / 2,
-        ts_node_end_byte(node) / 2,
-        ts_node_start_point(node),
-        ts_node_end_point(node),
-        ts_node_is_named(node)
-      }
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  const char* name = ts_tree_cursor_current_field_name(cursor);
+  TSNode node = ts_tree_cursor_current_node(cursor);
+  jobject nodeObject = __marshalNode(env, node);
+  jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
+  _setNodeTreeField(nodeObject, treeObject);
+  return env->NewObject(
+    _treeCursorNodeClass,
+    _treeCursorNodeConstructor,
+    env->NewStringUTF(name),
+    nodeObject
   );
 }
 
