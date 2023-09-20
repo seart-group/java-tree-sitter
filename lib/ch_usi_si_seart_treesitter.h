@@ -108,6 +108,14 @@ extern "C" {
     env->DeleteLocalRef(local);                  \
   }
 
+#define _loadStaticObject(VARIABLE, CLASS, FIELD)    \
+  {                                                  \
+    jobject local;                                   \
+    local = env->GetStaticObjectField(CLASS, FIELD); \
+    VARIABLE = env->NewGlobalRef(local);             \
+    env->DeleteLocalRef(local);                      \
+  }
+
 #define _unloadClass(VARIABLE) \
   { env->DeleteGlobalRef(VARIABLE); }
 

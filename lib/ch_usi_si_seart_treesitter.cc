@@ -115,7 +115,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_pointRowField, _pointClass, "row", "I")
   _loadField(_pointColumnField, _pointClass, "column", "I")
   _loadStaticField(_pointOriginStaticField, _pointClass, "ORIGIN", "Lch/usi/si/seart/treesitter/Point;")
-  _pointOrigin = env->GetStaticObjectField(_pointClass, _pointOriginStaticField);
+  _loadStaticObject(_pointOrigin, _pointClass, _pointOriginStaticField)
 
   _loadClass(_queryCaptureClass, "ch/usi/si/seart/treesitter/QueryCapture")
   _loadConstructor(_queryCaptureConstructor, _queryCaptureClass, "(Lch/usi/si/seart/treesitter/Node;I)V")
@@ -221,6 +221,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unloadClass(_queryCaptureExceptionClass)
   _unloadClass(_queryStructureExceptionClass)
   _unloadClass(_parsingExceptionClass)
+
+  _unloadClass(_pointOrigin)
 }
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
