@@ -223,11 +223,6 @@ public class Node implements Iterable<Node> {
     public native boolean isNull();
 
     /**
-     * A tree cursor allows you to walk a syntax tree more
-     * efficiently than is possible using the instance functions.
-     * It is a mutable object that is always on a certain syntax node,
-     * and can be moved imperatively to different nodes.
-     *
      * @return A new tree cursor starting from the given node
      */
     public TreeCursor walk() {

@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 
 /**
  * A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
+ * It allows you to walk a syntax tree more efficiently than is possible using the Node traversal functions.
+ * It is always on a certain syntax node, and can be moved imperatively to different nodes.
  *
  * @since 1.0.0
  * @author Tommy MacWilliam
