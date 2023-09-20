@@ -257,3 +257,33 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_equals(
   TSNode node_2 = __unmarshalNode(env, other);
   return ts_node_eq(node_1, node_2) ? JNI_TRUE : JNI_FALSE;
 }
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk(
+  JNIEnv* env, jobject thisObject) {
+  jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
+  if (treeObject == NULL) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a TreeCursor instance without a Tree!"
+    );
+    return NULL;
+  }
+  TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a TreeCursor instance from a `null` Node!"
+    );
+    return NULL;
+  }
+  TSTreeCursor cursor = ts_tree_cursor_new(node);
+  return env->NewObject(
+    _treeCursorClass,
+    _treeCursorConstructor,
+    new TSTreeCursor(cursor),
+    cursor.context[0],
+    cursor.context[1],
+    cursor.id,
+    treeObject
+  );
+}

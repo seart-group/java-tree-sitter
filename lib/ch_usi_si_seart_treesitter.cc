@@ -69,6 +69,11 @@ jfieldID _queryCursorQueryField;
 jfieldID _queryCursorExecutedField;
 
 jclass _treeCursorClass;
+jfieldID _treeCursorContext0Field;
+jfieldID _treeCursorContext1Field;
+jfieldID _treeCursorIdField;
+jfieldID _treeCursorTreeField;
+jmethodID _treeCursorConstructor;
 
 jclass _nullPointerExceptionClass;
 jclass _illegalArgumentExceptionClass;
@@ -166,6 +171,11 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z")
 
   _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor")
+  _loadField(_treeCursorContext0Field, _treeCursorClass, "context0", "I")
+  _loadField(_treeCursorContext1Field, _treeCursorClass, "context1", "I")
+  _loadField(_treeCursorIdField, _treeCursorClass, "id", "J")
+  _loadField(_treeCursorTreeField, _treeCursorClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
+  _loadConstructor(_treeCursorConstructor, _treeCursorClass, "(JIIJLch/usi/si/seart/treesitter/Tree;)V")
 
   _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException")
   _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException")

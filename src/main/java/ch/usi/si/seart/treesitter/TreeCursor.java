@@ -24,7 +24,17 @@ public class TreeCursor extends External {
     int context1;
 
     long id;
-    long tree;
+
+    Tree tree;
+
+    @SuppressWarnings("unused")
+    TreeCursor(long pointer, int context0, int context1, long id, @NotNull Tree tree) {
+        super(pointer);
+        this.context0 = context0;
+        this.context1 = context1;
+        this.id = id;
+        this.tree = tree;
+    }
 
     TreeCursor(@NotNull Node node) {
         super(malloc(node));
@@ -102,6 +112,6 @@ public class TreeCursor extends External {
     @Override
     @Generated
     public String toString() {
-        return String.format("TreeCursor(id: %d, tree: %d)", id, tree);
+        return String.format("TreeCursor(id: %d, tree: %d)", id, tree.pointer);
     }
 }

@@ -225,9 +225,7 @@ public class Node implements Iterable<Node> {
     /**
      * @return A new tree cursor starting from the given node
      */
-    public TreeCursor walk() {
-        return new TreeCursor(this);
-    }
+    public native TreeCursor walk();
 
     @Override
     public boolean equals(Object obj) {
