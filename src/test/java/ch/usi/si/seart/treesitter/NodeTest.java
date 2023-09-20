@@ -105,6 +105,7 @@ class NodeTest extends TestBase {
         Point endPoint = root.getEndPoint();
         Assertions.assertEquals(2, endPoint.getRow());
         Assertions.assertEquals(12, endPoint.getColumn());
+        Assertions.assertTrue(new Node().getEndPoint().isOrigin());
     }
 
     @Test
@@ -212,6 +213,7 @@ class NodeTest extends TestBase {
         Point startPoint = root.getStartPoint();
         Assertions.assertEquals(0, startPoint.getRow());
         Assertions.assertEquals(0, startPoint.getColumn());
+        Assertions.assertTrue(new Node().getStartPoint().isOrigin());
     }
 
     @Test
