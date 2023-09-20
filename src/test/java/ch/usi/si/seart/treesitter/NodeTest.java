@@ -47,8 +47,6 @@ class NodeTest extends TestBase {
         Node function = root.getChild(0);
         Assertions.assertEquals(1, root.getChildCount());
         Assertions.assertEquals("module", root.getType());
-        Assertions.assertEquals(0, root.getStartByte());
-        Assertions.assertEquals(44, root.getEndByte());
         Assertions.assertEquals("function_definition", function.getType());
         Assertions.assertEquals(5, function.getChildCount());
     }
@@ -98,6 +96,12 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
         Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
         Assertions.assertThrows(IllegalArgumentException.class, () -> root.getDescendantForByteRange(2, 0));
+    }
+
+    @Test
+    void testGetEndByte() {
+        Assertions.assertEquals(44, root.getEndByte());
+        Assertions.assertEquals(0, new Node().getEndByte());
     }
 
     @Test
@@ -206,6 +210,12 @@ class NodeTest extends TestBase {
         Node identifier = function.getChild(1);
         Assertions.assertNull(root.getPrevSibling());
         Assertions.assertEquals(def, identifier.getPrevSibling());
+    }
+
+    @Test
+    void testGetStartByte() {
+        Assertions.assertEquals(0, root.getStartByte());
+        Assertions.assertEquals(0, new Node().getStartByte());
     }
 
     @Test
