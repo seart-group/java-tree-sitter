@@ -135,6 +135,9 @@ extern "C" {
 #define _loadConstructor(VARIABLE, CLASS, SIGNATURE) \
   { VARIABLE = _getConstructor(CLASS, SIGNATURE); }
 
+#define _setNodeTreeField(NODE, TREE) \
+  env->SetObjectField(NODE, _nodeTreeField, TREE)
+
 typedef struct {
   const char* type;
   const char* name;
