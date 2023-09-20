@@ -122,7 +122,7 @@ extern "C" {
     env->DeleteLocalRef(local);                      \
   }
 
-#define _unloadClass(VARIABLE) \
+#define _unload(VARIABLE) \
   { env->DeleteGlobalRef(VARIABLE); }
 
 #define _getField(CLASS, NAME, TYPE) \
