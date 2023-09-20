@@ -56,8 +56,10 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals("def", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("name", cursor.getCurrentFieldName());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals("parameters", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("parameters", cursor.getCurrentFieldName());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals(":", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
