@@ -46,6 +46,7 @@ class NodeTest extends TestBase {
     void testGetChildCount() {
         Assertions.assertEquals(1, root.getChildCount());
         Assertions.assertEquals(5, root.getChild(0).getChildCount());
+        Assertions.assertEquals(0, new Node().getChildCount());
     }
 
     @ParameterizedTest
