@@ -101,6 +101,13 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetEndPoint() {
+        Point endPoint = root.getEndPoint();
+        Assertions.assertEquals(2, endPoint.getRow());
+        Assertions.assertEquals(12, endPoint.getColumn());
+    }
+
+    @Test
     void testGetFieldNameForChild() {
         Node function = root.getChild(0);
         Assertions.assertNull(function.getFieldNameForChild(0));                  // `def`
@@ -198,6 +205,13 @@ class NodeTest extends TestBase {
         Node identifier = function.getChild(1);
         Assertions.assertNull(root.getPrevSibling());
         Assertions.assertEquals(def, identifier.getPrevSibling());
+    }
+
+    @Test
+    void testGetStartPoint() {
+        Point startPoint = root.getStartPoint();
+        Assertions.assertEquals(0, startPoint.getRow());
+        Assertions.assertEquals(0, startPoint.getColumn());
     }
 
     @Test
