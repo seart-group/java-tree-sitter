@@ -256,6 +256,11 @@ TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject) {
       (const TSTree*)env->GetLongField(nodeObject, _nodeTreeField)};
 }
 
+void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject) {
+  jobject treeObject = env->GetObjectField(sourceNodeObject, _nodeTreeField);
+  _setNodeTreeField(targetNodeObject, treeObject);
+}
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
   // Not sure why I need to divide by two, probably because of utf-16
   return env->NewObject(

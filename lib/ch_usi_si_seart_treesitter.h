@@ -154,6 +154,8 @@ jobject __marshalNode(JNIEnv* env, TSNode node);
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
 
+void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject);
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
