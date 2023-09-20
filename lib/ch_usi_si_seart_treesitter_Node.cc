@@ -63,7 +63,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
-  return (jint)ts_node_end_byte(node) / 2;
+  return ts_node_is_null(node) ? (jint)0 : (jint)ts_node_end_byte(node) / 2;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndPoint(
@@ -182,7 +182,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
-  return (jint)ts_node_start_byte(node) / 2;
+  return ts_node_is_null(node) ? (jint)0 : (jint)ts_node_start_byte(node) / 2;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint(
