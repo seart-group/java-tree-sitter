@@ -1,11 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 /**
@@ -25,6 +20,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 public class Point {
+
+    private static final Point ORIGIN = new Point(0, 0);
 
     int row;
     int column;
@@ -51,6 +48,6 @@ public class Point {
      * @return true if this is an origin point, false otherwise
      */
     public boolean isOrigin() {
-        return row == 0 && column == 0;
+        return equals(ORIGIN);
     }
 }
