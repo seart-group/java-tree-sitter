@@ -102,13 +102,13 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
 
   _loadClass(_nodeClass, "ch/usi/si/seart/treesitter/Node")
-  _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJJ)V")
+  _loadConstructor(_nodeConstructor, _nodeClass, "(IIIIJLch/usi/si/seart/treesitter/Tree;)V")
   _loadField(_nodeContext0Field, _nodeClass, "context0", "I")
   _loadField(_nodeContext1Field, _nodeClass, "context1", "I")
   _loadField(_nodeContext2Field, _nodeClass, "context2", "I")
   _loadField(_nodeContext3Field, _nodeClass, "context3", "I")
   _loadField(_nodeIdField, _nodeClass, "id", "J")
-  _loadField(_nodeTreeField, _nodeClass, "tree", "J")
+  _loadField(_nodeTreeField, _nodeClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
 
   _loadClass(_pointClass, "ch/usi/si/seart/treesitter/Point")
   _loadConstructor(_pointConstructor, _pointClass, "(II)V")
@@ -239,21 +239,25 @@ jobject __marshalNode(JNIEnv* env, TSNode node) {
       node.context[2],
       node.context[3],
       (jlong)node.id,
-      (jlong)node.tree
+      NULL
     );
   }
 }
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject) {
-  return (TSNode){
+  jobject treeObject = env->GetObjectField(nodeObject, _nodeTreeField);
+  jlong tree = (treeObject == NULL) ? (jlong)0 : __getPointer(env, treeObject);
+  jlong node = env->GetLongField(nodeObject, _nodeIdField);
+  return (TSNode) {
       {
           (uint32_t)env->GetIntField(nodeObject, _nodeContext0Field),
           (uint32_t)env->GetIntField(nodeObject, _nodeContext1Field),
           (uint32_t)env->GetIntField(nodeObject, _nodeContext2Field),
           (uint32_t)env->GetIntField(nodeObject, _nodeContext3Field),
       },
-      (const void*)env->GetLongField(nodeObject, _nodeIdField),
-      (const TSTree*)env->GetLongField(nodeObject, _nodeTreeField)};
+      (const void*)node,
+      (const TSTree*)tree
+  };
 }
 
 void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject) {

@@ -18,7 +18,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
     return NULL;
   }
   TSNode child = ts_node_child(node, childIndex);
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldName(
@@ -27,13 +29,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
     env->ThrowNew(_nullPointerExceptionClass, "Field name must not be null!");
     return NULL;
   }
-  const char* childName;
   uint32_t length = env->GetStringLength(name);
-  childName = env->GetStringUTFChars(name, NULL);
+  const char* childName = env->GetStringUTFChars(name, NULL);
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode child = ts_node_child_by_field_name(node, childName, length);
   if (ts_node_is_null(child)) return NULL;
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
@@ -57,7 +60,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
     // Not sure why I need to multiply by two, again probably because of utf-16
     node, (uint32_t)start * 2, (uint32_t)end * 2
   );
-  return __marshalNode(env, descendant);
+  jobject descendantObject = __marshalNode(env, descendant);
+  __copyTree(env, thisObject, descendantObject);
+  return descendantObject;
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
@@ -108,7 +113,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
     return NULL;
   }
   TSNode child = ts_node_first_child_for_byte(node, position);
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChildForByte(
@@ -127,7 +134,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChil
     return NULL;
   }
   TSNode child = ts_node_first_named_child_for_byte(node, position);
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getNodeString(
@@ -144,7 +153,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextNamedSibli
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_next_named_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
@@ -152,7 +163,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_next_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibling(
@@ -160,7 +173,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibli
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_prev_named_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevSibling(
@@ -168,7 +183,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevSibling(
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_prev_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
@@ -176,7 +193,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode parent = ts_node_parent(node);
   if (ts_node_is_null(parent)) return NULL;
-  return __marshalNode(env, parent);
+  jobject parentObject = __marshalNode(env, parent);
+  __copyTree(env, thisObject, parentObject);
+  return parentObject;
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartByte(

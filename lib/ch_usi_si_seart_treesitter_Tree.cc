@@ -23,5 +23,8 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getRootNode(
   JNIEnv* env, jobject thisObject) {
   jlong tree = __getPointer(env, thisObject);
-  return __marshalNode(env, ts_tree_root_node((TSTree*)tree));
+  TSNode node = ts_tree_root_node((TSTree*)tree);
+  jobject nodeObject = __marshalNode(env, node);
+  _setNodeTreeField(nodeObject, thisObject);
+  return nodeObject;
 }

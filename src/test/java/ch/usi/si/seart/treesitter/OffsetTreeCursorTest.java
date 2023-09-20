@@ -14,7 +14,7 @@ class OffsetTreeCursorTest extends PrinterTestBase {
     void testCursorThrows() {
         Assertions.assertThrows(
                 NullPointerException.class,
-                () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, 1), null)
+                () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, null), null)
         );
     }
 

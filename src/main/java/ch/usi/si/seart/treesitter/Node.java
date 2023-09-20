@@ -6,11 +6,7 @@ import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,10 +29,11 @@ public class Node implements Iterable<Node> {
     int context2;
     int context3;
     long id;
-    long tree;
+
+    Tree tree;
 
     Node() {
-        this(0, 0, 0, 0, 0L, 0L);
+        this(0, 0, 0, 0, 0L, null);
     }
 
     /**
@@ -70,6 +67,14 @@ public class Node implements Iterable<Node> {
         return IntStream.range(0, getChildCount())
                 .mapToObj(this::getChild)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * @return The source code content encapsulated by this node
+     * @since 1.5.0
+     */
+    public String getContent() {
+        return (!isNull()) ? tree.getSource(getStartByte(), getEndByte()) : null;
     }
 
     /**
@@ -243,7 +248,7 @@ public class Node implements Iterable<Node> {
     @Override
     @Generated
     public String toString() {
-        return String.format("Node(id: %d, tree: %d)", id, tree);
+        return String.format("Node(id: %d, tree: %d)", id, tree.pointer);
     }
 
     /**
