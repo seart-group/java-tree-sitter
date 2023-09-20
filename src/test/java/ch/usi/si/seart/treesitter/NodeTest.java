@@ -46,8 +46,6 @@ class NodeTest extends TestBase {
     void testGetChild() {
         Node function = root.getChild(0);
         Assertions.assertEquals(1, root.getChildCount());
-        Assertions.assertEquals("module", root.getType());
-        Assertions.assertEquals("function_definition", function.getType());
         Assertions.assertEquals(5, function.getChildCount());
     }
 
@@ -224,6 +222,13 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(0, startPoint.getRow());
         Assertions.assertEquals(0, startPoint.getColumn());
         Assertions.assertTrue(new Node().getStartPoint().isOrigin());
+    }
+
+    @Test
+    void testGetType() {
+        Assertions.assertEquals("module", root.getType());
+        Assertions.assertEquals("function_definition", root.getChild(0).getType());
+        Assertions.assertNull(new Node().getType());
     }
 
     @Test
