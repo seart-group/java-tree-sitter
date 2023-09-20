@@ -44,8 +44,9 @@ jfieldID _inputEditNewEndPointField;
 
 jclass _treeCursorNodeClass;
 jmethodID _treeCursorNodeConstructor;
-jfieldID _treeCursorNodeTypeField;
 jfieldID _treeCursorNodeNameField;
+jfieldID _treeCursorNodeTypeField;
+jfieldID _treeCursorNodeContentField;
 jfieldID _treeCursorNodeStartByteField;
 jfieldID _treeCursorNodeEndByteField;
 jfieldID _treeCursorNodeStartPointField;
@@ -145,9 +146,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_treeCursorNodeClass, "ch/usi/si/seart/treesitter/TreeCursorNode")
   _loadConstructor(_treeCursorNodeConstructor, _treeCursorNodeClass,
-      "(Ljava/lang/String;Ljava/lang/String;IILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Z)V")
-  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type", "Ljava/lang/String;")
+    "(Ljava/lang/String;Lch/usi/si/seart/treesitter/Node;)V")
   _loadField(_treeCursorNodeNameField, _treeCursorNodeClass, "name", "Ljava/lang/String;")
+  _loadField(_treeCursorNodeTypeField, _treeCursorNodeClass, "type", "Ljava/lang/String;")
+  _loadField(_treeCursorNodeContentField, _treeCursorNodeClass, "content", "Ljava/lang/String;")
   _loadField(_treeCursorNodeStartByteField, _treeCursorNodeClass, "startByte", "I")
   _loadField(_treeCursorNodeEndByteField, _treeCursorNodeClass, "endByte", "I")
   _loadField(_treeCursorNodeStartPointField, _treeCursorNodeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;")

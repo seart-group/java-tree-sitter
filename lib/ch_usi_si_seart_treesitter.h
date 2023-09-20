@@ -56,8 +56,9 @@ extern jfieldID _inputEditNewEndPointField;
 
 extern jclass _treeCursorNodeClass;
 extern jmethodID _treeCursorNodeConstructor;
-extern jfieldID _treeCursorNodeTypeField;
 extern jfieldID _treeCursorNodeNameField;
+extern jfieldID _treeCursorNodeTypeField;
+extern jfieldID _treeCursorNodeContentField;
 extern jfieldID _treeCursorNodeStartByteField;
 extern jfieldID _treeCursorNodeEndByteField;
 extern jfieldID _treeCursorNodeStartPointField;

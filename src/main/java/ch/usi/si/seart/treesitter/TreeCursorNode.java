@@ -18,13 +18,28 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeCursorNode {
 
-    String type;
     String name;
+    String type;
+    String content;
     int startByte;
     int endByte;
     Point startPoint;
     Point endPoint;
     boolean isNamed;
+
+    @SuppressWarnings("unused")
+    TreeCursorNode(String name, Node node) {
+        this(
+                name,
+                node.getType(),
+                node.getContent(),
+                node.getStartByte(),
+                node.getEndByte(),
+                node.getStartPoint(),
+                node.getEndPoint(),
+                node.isNamed()
+        );
+    }
 
     @Override
     @Generated

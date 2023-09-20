@@ -173,8 +173,9 @@ public class OffsetTreeCursor extends TreeCursor {
 
         OffsetTreeCursorNode(TreeCursorNode cursorNode, Point offset) {
             this(
-                    cursorNode.getType(),
                     cursorNode.getName(),
+                    cursorNode.getType(),
+                    cursorNode.getContent(),
                     new Point(
                             cursorNode.getStartPoint().getRow() + offset.getRow(),
                             cursorNode.getStartPoint().getColumn() + offset.getColumn()
@@ -188,9 +189,9 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         OffsetTreeCursorNode(
-                String type, String name, Point startPoint, Point endPoint, boolean isNamed
+                String name, String type, String content, Point startPoint, Point endPoint, boolean isNamed
         ) {
-            super(type, name, Integer.MIN_VALUE, Integer.MAX_VALUE, startPoint, endPoint, isNamed);
+            super(name, type, content, Integer.MIN_VALUE, Integer.MAX_VALUE, startPoint, endPoint, isNamed);
         }
 
         @Override
