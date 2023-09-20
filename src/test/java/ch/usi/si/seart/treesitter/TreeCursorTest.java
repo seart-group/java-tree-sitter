@@ -43,6 +43,7 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("module", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
+        Assertions.assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
 
