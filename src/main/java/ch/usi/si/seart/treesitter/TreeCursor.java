@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TreeCursor extends External {
 
     int context0;
