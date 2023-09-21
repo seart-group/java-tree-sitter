@@ -31,6 +31,8 @@ extern jclass _pointClass;
 extern jmethodID _pointConstructor;
 extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
+extern jfieldID _pointOriginStaticField;
+extern jobject _pointOrigin;
 
 extern jclass _queryCaptureClass;
 extern jmethodID _queryCaptureConstructor;
@@ -54,8 +56,9 @@ extern jfieldID _inputEditNewEndPointField;
 
 extern jclass _treeCursorNodeClass;
 extern jmethodID _treeCursorNodeConstructor;
-extern jfieldID _treeCursorNodeTypeField;
 extern jfieldID _treeCursorNodeNameField;
+extern jfieldID _treeCursorNodeTypeField;
+extern jfieldID _treeCursorNodeContentField;
 extern jfieldID _treeCursorNodeStartByteField;
 extern jfieldID _treeCursorNodeEndByteField;
 extern jfieldID _treeCursorNodeStartPointField;
@@ -74,11 +77,17 @@ extern jfieldID _dotGraphPrinterTreeField;
 extern jclass _queryClass;
 
 extern jclass _queryCursorClass;
+extern jmethodID _queryCursorConstructor;
 extern jfieldID _queryCursorNodeField;
 extern jfieldID _queryCursorQueryField;
 extern jfieldID _queryCursorExecutedField;
 
 extern jclass _treeCursorClass;
+extern jfieldID _treeCursorContext0Field;
+extern jfieldID _treeCursorContext1Field;
+extern jfieldID _treeCursorIdField;
+extern jfieldID _treeCursorTreeField;
+extern jmethodID _treeCursorConstructor;
 
 extern jclass _treeSitterExceptionClass;
 
@@ -106,7 +115,15 @@ extern "C" {
     env->DeleteLocalRef(local);                  \
   }
 
-#define _unloadClass(VARIABLE) \
+#define _loadStaticObject(VARIABLE, CLASS, FIELD)    \
+  {                                                  \
+    jobject local;                                   \
+    local = env->GetStaticObjectField(CLASS, FIELD); \
+    VARIABLE = env->NewGlobalRef(local);             \
+    env->DeleteLocalRef(local);                      \
+  }
+
+#define _unload(VARIABLE) \
   { env->DeleteGlobalRef(VARIABLE); }
 
 #define _getField(CLASS, NAME, TYPE) \
@@ -133,15 +150,8 @@ extern "C" {
 #define _loadConstructor(VARIABLE, CLASS, SIGNATURE) \
   { VARIABLE = _getConstructor(CLASS, SIGNATURE); }
 
-typedef struct {
-  const char* type;
-  const char* name;
-  uint32_t startByte;
-  uint32_t endByte;
-  TSPoint startPoint;
-  TSPoint endPoint;
-  bool isNamed;
-} TreeCursorNode;
+#define _setNodeTreeField(NODE, TREE) \
+  env->SetObjectField(NODE, _nodeTreeField, TREE)
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
@@ -149,17 +159,13 @@ jobject __marshalNode(JNIEnv* env, TSNode node);
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
 
+void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject);
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
 
-jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture);
-
-jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match);
-
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
-
-jobject __marshalTreeCursorNode(JNIEnv* env, TreeCursorNode node);
 
 #ifdef __cplusplus
 }

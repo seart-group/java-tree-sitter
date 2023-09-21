@@ -8,6 +8,10 @@ abstract class External implements AutoCloseable {
 
     protected final long pointer;
 
+    protected External() {
+        this.pointer = 0L;
+    }
+
     public final boolean isNull() {
         return pointer == 0;
     }

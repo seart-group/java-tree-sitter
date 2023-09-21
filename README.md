@@ -14,8 +14,13 @@ Highlights include:
 - A wide range of languages [supported](.gitmodules) out of the box
 - Streamlined native library construction, packaging and runtime loading
 - Safer interop with native code to minimize risks of segmentation faults
-- Multiple AST export formats: DOT, XML, [symbolic expression](https://en.wikipedia.org/wiki/S-expression) and human-readable syntax trees
+- Direct mapping between the abstract syntax tree nodes and the source code contents
+- Multiple export formats: DOT, XML, [symbolic expression](https://en.wikipedia.org/wiki/S-expression) and human-readable syntax trees
 - Various other quality-of-life improvements
+
+Our end-goal is to offer all features that are available in the official tree-sitter bindings,
+features that one might expect from [py-tree-sitter](https://github.com/tree-sitter/py-tree-sitter) or
+[node-tree-sitter](https://github.com/tree-sitter/node-tree-sitter).
 
 ## Local development
 
@@ -59,7 +64,7 @@ To use in your own Maven project, include the following in your POM file:
 <dependency>
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.4.3</version>
+  <version>1.5.0</version>
 </dependency>
 ```
 

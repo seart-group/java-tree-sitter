@@ -37,7 +37,7 @@ class QueryCursorTest extends TestBase {
     @BeforeEach
     void setUp() {
         query = new Query(language, pattern);
-        cursor = new QueryCursor(root, query);
+        cursor = root.walk(query);
     }
 
     @AfterEach
@@ -53,18 +53,22 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithFor() {
+    void testExecuteWithFor() {
         int count = 0;
+        Assertions.assertFalse(cursor.isExecuted());
         for (QueryMatch match: cursor) {
             check(match);
             count++;
         }
+        Assertions.assertTrue(cursor.isExecuted());
         Assertions.assertEquals(3, count);
     }
 
     @Test
-    void testExecWithWhile() {
+    void testExecuteWithWhile() {
+        Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         int count = 0;
         QueryMatch match;
         while ((match = cursor.nextMatch()) != null) {
@@ -75,9 +79,11 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithIterator() {
+    void testExecuteWithIterator() {
         AtomicInteger count = new AtomicInteger();
+        Assertions.assertFalse(cursor.isExecuted());
         Iterator<QueryMatch> iterator = cursor.iterator();
+        Assertions.assertTrue(cursor.isExecuted());
         iterator.forEachRemaining(match -> {
             check(match);
             count.incrementAndGet();
@@ -86,9 +92,11 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithStream() {
+    void testExecuteWithStream() {
         AtomicInteger count = new AtomicInteger();
+        Assertions.assertFalse(cursor.isExecuted());
         Spliterator<QueryMatch> spliterator = cursor.spliterator();
+        Assertions.assertTrue(cursor.isExecuted());
         StreamSupport.stream(spliterator, false).forEach(match -> {
             check(match);
             count.incrementAndGet();
@@ -107,21 +115,34 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecNoResultQuery() {
+    void testExecuteNoResultQuery() {
         @Cleanup Query query = new Query(language, "(method_declaration) @method");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
+        @Cleanup QueryCursor cursor = root.walk(query);
+        Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         Assertions.assertNull(cursor.nextMatch());
     }
 
     @Test
-    void testMultipleExecCalls() {
+    void testMultipleExecuteCalls() {
         @Cleanup Query query = new Query(language, "(class_body) @class");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
+        @Cleanup QueryCursor cursor = root.walk(query);
+        Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         QueryMatch match = cursor.nextMatch();
         Assertions.assertNotNull(match);
         Assertions.assertNull(cursor.nextMatch());
+    }
+
+    @Test
+    @SuppressWarnings("resource")
+    void testConstructorThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> root.walk(null));
+        Assertions.assertThrows(IllegalStateException.class, () -> new Node().walk(query));
+        Assertions.assertThrows(IllegalStateException.class, () -> new Node(1, 1, 1, 1, 1L, null).walk(query));
     }
 }

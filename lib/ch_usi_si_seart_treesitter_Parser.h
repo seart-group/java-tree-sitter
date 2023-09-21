@@ -50,10 +50,10 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    parse
- * Signature: ([BILch/usi/si/seart/treesitter/Tree;)Lch/usi/si/seart/treesitter/Tree;
+ * Signature: (Ljava/lang/String;[BILch/usi/si/seart/treesitter/Tree;)Lch/usi/si/seart/treesitter/Tree;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse
-  (JNIEnv *, jobject, jbyteArray, jint, jobject);
+  (JNIEnv *, jobject, jstring, jbyteArray, jint, jobject);
 
 #ifdef __cplusplus
 }

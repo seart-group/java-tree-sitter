@@ -10,25 +10,43 @@ import java.util.function.Consumer;
 
 /**
  * A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
+ * It allows you to walk a syntax tree more efficiently than is possible using the Node traversal functions.
+ * It is always on a certain syntax node, and can be moved imperatively to different nodes.
  *
  * @since 1.0.0
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TreeCursor extends External {
 
     int context0;
     int context1;
 
     long id;
-    long tree;
 
-    TreeCursor(@NotNull Node node) {
-        super(malloc(node));
+    Tree tree;
+
+    /*
+     * This is a workaround intended for OffsetTreeCursor.
+     * Should not be used under any other circumstances!
+     */
+    protected TreeCursor() {
+        super();
+        this.context0 = 0;
+        this.context1 = 0;
+        this.id = 0L;
+        this.tree = null;
     }
 
-    private static native long malloc(Node node);
+    @SuppressWarnings("unused")
+    TreeCursor(long pointer, int context0, int context1, long id, @NotNull Tree tree) {
+        super(pointer);
+        this.context0 = context0;
+        this.context1 = context1;
+        this.id = id;
+        this.tree = tree;
+    }
 
     /**
      * Delete the tree cursor, freeing all the memory that it used.
@@ -100,6 +118,6 @@ public class TreeCursor extends External {
     @Override
     @Generated
     public String toString() {
-        return String.format("TreeCursor(id: %d, tree: %d)", id, tree);
+        return String.format("TreeCursor(id: %d, tree: %d)", id, tree.pointer);
     }
 }

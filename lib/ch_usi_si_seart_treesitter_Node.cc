@@ -18,7 +18,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
     return NULL;
   }
   TSNode child = ts_node_child(node, childIndex);
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldName(
@@ -27,13 +29,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
     env->ThrowNew(_nullPointerExceptionClass, "Field name must not be null!");
     return NULL;
   }
-  const char* childName;
   uint32_t length = env->GetStringLength(name);
-  childName = env->GetStringUTFChars(name, NULL);
+  const char* childName = env->GetStringUTFChars(name, NULL);
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode child = ts_node_child_by_field_name(node, childName, length);
   if (ts_node_is_null(child)) return NULL;
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
@@ -57,18 +60,21 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
     // Not sure why I need to multiply by two, again probably because of utf-16
     node, (uint32_t)start * 2, (uint32_t)end * 2
   );
-  return __marshalNode(env, descendant);
+  jobject descendantObject = __marshalNode(env, descendant);
+  __copyTree(env, thisObject, descendantObject);
+  return descendantObject;
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
-  return (jint)ts_node_end_byte(node) / 2;
+  return ts_node_is_null(node) ? (jint)0 : (jint)ts_node_end_byte(node) / 2;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndPoint(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) return _pointOrigin;
   TSPoint point = ts_node_end_point(node);
   return __marshalPoint(env, point);
 }
@@ -107,7 +113,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
     return NULL;
   }
   TSNode child = ts_node_first_child_for_byte(node, position);
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChildForByte(
@@ -126,7 +134,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChil
     return NULL;
   }
   TSNode child = ts_node_first_named_child_for_byte(node, position);
-  return __marshalNode(env, child);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
 }
 
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getNodeString(
@@ -143,7 +153,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextNamedSibli
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_next_named_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
@@ -151,7 +163,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_next_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibling(
@@ -159,7 +173,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibli
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_prev_named_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevSibling(
@@ -167,7 +183,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevSibling(
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode sibling = ts_node_prev_sibling(node);
   if (ts_node_is_null(sibling)) return NULL;
-  return __marshalNode(env, sibling);
+  jobject siblingObject = __marshalNode(env, sibling);
+  __copyTree(env, thisObject, siblingObject);
+  return siblingObject;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
@@ -175,18 +193,21 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode parent = ts_node_parent(node);
   if (ts_node_is_null(parent)) return NULL;
-  return __marshalNode(env, parent);
+  jobject parentObject = __marshalNode(env, parent);
+  __copyTree(env, thisObject, parentObject);
+  return parentObject;
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
-  return (jint)ts_node_start_byte(node) / 2;
+  return ts_node_is_null(node) ? (jint)0 : (jint)ts_node_start_byte(node) / 2;
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) return _pointOrigin;
   TSPoint point = ts_node_start_point(node);
   return __marshalPoint(env, point);
 }
@@ -194,6 +215,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint(
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) return NULL;
   const char* type = ts_node_type(node);
   jstring result = env->NewStringUTF(type);
   return result;
@@ -234,4 +256,69 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_equals(
   TSNode node_1 = __unmarshalNode(env, node);
   TSNode node_2 = __unmarshalNode(env, other);
   return ts_node_eq(node_1, node_2) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
+  JNIEnv* env, jobject thisObject) {
+  jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
+  if (treeObject == NULL) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a TreeCursor instance without a Tree!"
+    );
+    return NULL;
+  }
+  TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a TreeCursor instance from a `null` Node!"
+    );
+    return NULL;
+  }
+  TSTreeCursor cursor = ts_tree_cursor_new(node);
+  return env->NewObject(
+    _treeCursorClass,
+    _treeCursorConstructor,
+    new TSTreeCursor(cursor),
+    cursor.context[0],
+    cursor.context[1],
+    cursor.id,
+    treeObject
+  );
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_seart_treesitter_Query_2(
+  JNIEnv* env, jobject thisObject, jobject queryObject) {
+  if (queryObject == NULL) {
+    env->ThrowNew(
+      _nullPointerExceptionClass,
+      "Query must not be null!"
+    );
+    return NULL;
+  }
+  jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
+  if (treeObject == NULL) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a QueryCursor instance without a Tree!"
+    );
+    return NULL;
+  }
+  TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a QueryCursor instance from a `null` Node!"
+    );
+    return NULL;
+  }
+  TSQueryCursor* cursor = ts_query_cursor_new();
+  return env->NewObject(
+    _queryCursorClass,
+    _queryCursorConstructor,
+    cursor,
+    thisObject,
+    queryObject
+  );
 }

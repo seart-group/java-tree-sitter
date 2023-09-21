@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -21,10 +22,12 @@ import java.util.Iterator;
 public class Tree extends External implements Iterable<Node> {
 
     Language language;
+    String source;
 
-    Tree(long pointer, @NotNull Language language) {
+    Tree(long pointer, @NotNull Language language, @NotNull String source) {
         super(pointer);
         this.language = language;
+        this.source = source;
     }
 
     /**
@@ -57,5 +60,11 @@ public class Tree extends External implements Iterable<Node> {
     @Generated
     public String toString() {
         return String.format("Tree(id: %d, language: %s)", pointer, language);
+    }
+
+    String getSource(int startByte, int endByte) {
+        byte[] bytes = source.getBytes();
+        byte[] copy = Arrays.copyOfRange(bytes, startByte, endByte);
+        return new String(copy);
     }
 }

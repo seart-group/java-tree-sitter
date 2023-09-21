@@ -3,12 +3,10 @@ package ch.usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 /**
  * Cursor used for executing queries, carrying the state needed to process them.
@@ -24,23 +22,27 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     Node node;
     Query query;
 
-    @SuppressWarnings({"FieldMayBeFinal", "unused"})
-    @NonFinal
+    @SuppressWarnings("unused")
     boolean executed = false;
 
-    public QueryCursor(@NotNull Node node, @NotNull Query query) {
-        super(createIfValid(node, query));
+    @SuppressWarnings("unused")
+    QueryCursor(long pointer, @NotNull Node node, @NotNull Query query) {
+        super(pointer);
         this.node = node;
         this.query = query;
     }
 
-    private static long createIfValid(Node node, Query query) {
-        Objects.requireNonNull(node, "Node must not be null!");
-        Objects.requireNonNull(query, "Query must not be null!");
-        return malloc();
+    /**
+     * @deprecated Use {@link Node#walk(Query)} instead
+     * @throws UnsupportedOperationException when called
+     */
+    @Deprecated(since = "1.5.0", forRemoval = true)
+    public QueryCursor(@NotNull Node node, @NotNull Query query) {
+        super();
+        throw new UnsupportedOperationException(
+                "This constructor should no longer be used"
+        );
     }
-
-    private static native long malloc();
 
     /**
      * Delete the query cursor, freeing all the memory that it used.
@@ -55,11 +57,16 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     public native void execute();
 
     /**
+     * @return {@code true} if the query was executed, {@code false} otherwise
+     * @since 1.5.0
+     */
+    public native boolean isExecuted();
+
+    /**
      * Advance to the next match of the currently running query.
      *
      * @return A match if there is one, null otherwise
-     * @throws IllegalStateException
-     * if {@code queryExec()} was not called beforehand
+     * @throws IllegalStateException if {@link #execute()} was not called beforehand
      */
     public native QueryMatch nextMatch();
 

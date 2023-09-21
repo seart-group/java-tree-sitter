@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_QueryCursor
- * Method:    malloc
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_malloc
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_QueryCursor
  * Method:    close
  * Signature: ()V
  */
@@ -29,6 +21,14 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_close
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_QueryCursor
+ * Method:    isExecuted
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_isExecuted
   (JNIEnv *, jobject);
 
 /*

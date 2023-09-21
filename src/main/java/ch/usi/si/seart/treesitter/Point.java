@@ -26,6 +26,8 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode
 public class Point {
 
+    private static final Point ORIGIN = new Point(0, 0);
+
     int row;
     int column;
 
@@ -51,6 +53,6 @@ public class Point {
      * @return true if this is an origin point, false otherwise
      */
     public boolean isOrigin() {
-        return row == 0 && column == 0;
+        return equals(ORIGIN);
     }
 }

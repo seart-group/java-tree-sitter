@@ -33,10 +33,11 @@ public class Node implements Iterable<Node> {
     int context2;
     int context3;
     long id;
-    long tree;
+
+    Tree tree;
 
     Node() {
-        this(0, 0, 0, 0, 0L, 0L);
+        this(0, 0, 0, 0, 0L, null);
     }
 
     /**
@@ -70,6 +71,14 @@ public class Node implements Iterable<Node> {
         return IntStream.range(0, getChildCount())
                 .mapToObj(this::getChild)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * @return The source code content encapsulated by this node
+     * @since 1.5.0
+     */
+    public String getContent() {
+        return (!isNull()) ? tree.getSource(getStartByte(), getEndByte()) : null;
     }
 
     /**
@@ -214,16 +223,16 @@ public class Node implements Iterable<Node> {
     public native boolean isNull();
 
     /**
-     * A tree cursor allows you to walk a syntax tree more
-     * efficiently than is possible using the instance functions.
-     * It is a mutable object that is always on a certain syntax node,
-     * and can be moved imperatively to different nodes.
-     *
      * @return A new tree cursor starting from the given node
      */
-    public TreeCursor walk() {
-        return new TreeCursor(this);
-    }
+    public native TreeCursor walk();
+
+    /**
+     * @param query the query to run against this node's subtree
+     * @return A new query cursor starting from the given node
+     * @since 1.5.0
+     */
+    public native QueryCursor walk(@NotNull Query query);
 
     @Override
     public boolean equals(Object obj) {
@@ -243,7 +252,7 @@ public class Node implements Iterable<Node> {
     @Override
     @Generated
     public String toString() {
-        return String.format("Node(id: %d, tree: %d)", id, tree);
+        return String.format("Node(id: %d, tree: %d)", id, tree.pointer);
     }
 
     /**

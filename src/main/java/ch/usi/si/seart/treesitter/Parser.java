@@ -166,7 +166,7 @@ public class Parser extends External {
      */
     public Tree parse(@NotNull String source) throws ParsingException {
         byte[] bytes = source.getBytes(CHARSET);
-        return parse(bytes, bytes.length, null);
+        return parse(source, bytes, bytes.length, null);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Parser extends External {
      */
     public Tree parse(@NotNull String source, @NotNull Tree oldTree) throws ParsingException {
         byte[] bytes = source.getBytes(CHARSET);
-        return parse(bytes, bytes.length, oldTree);
+        return parse(source, bytes, bytes.length, oldTree);
     }
 
     /**
@@ -237,7 +237,7 @@ public class Parser extends External {
         }
     }
 
-    private native Tree parse(byte[] bytes, int length, Tree oldTree);
+    private native Tree parse(String source, byte[] bytes, int length, Tree oldTree);
 
     @Override
     @Generated

@@ -43,14 +43,10 @@ class NodeTest extends TestBase {
     }
 
     @Test
-    void testGetChild() {
-        Node function = root.getChild(0);
+    void testGetChildCount() {
         Assertions.assertEquals(1, root.getChildCount());
-        Assertions.assertEquals("module", root.getType());
-        Assertions.assertEquals(0, root.getStartByte());
-        Assertions.assertEquals(44, root.getEndByte());
-        Assertions.assertEquals("function_definition", function.getType());
-        Assertions.assertEquals(5, function.getChildCount());
+        Assertions.assertEquals(5, root.getChild(0).getChildCount());
+        Assertions.assertEquals(0, new Node().getChildCount());
     }
 
     @ParameterizedTest
@@ -98,6 +94,20 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
         Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
         Assertions.assertThrows(IllegalArgumentException.class, () -> root.getDescendantForByteRange(2, 0));
+    }
+
+    @Test
+    void testGetEndByte() {
+        Assertions.assertEquals(44, root.getEndByte());
+        Assertions.assertEquals(0, new Node().getEndByte());
+    }
+
+    @Test
+    void testGetEndPoint() {
+        Point endPoint = root.getEndPoint();
+        Assertions.assertEquals(2, endPoint.getRow());
+        Assertions.assertEquals(12, endPoint.getColumn());
+        Assertions.assertTrue(new Node().getEndPoint().isOrigin());
     }
 
     @Test
@@ -198,6 +208,27 @@ class NodeTest extends TestBase {
         Node identifier = function.getChild(1);
         Assertions.assertNull(root.getPrevSibling());
         Assertions.assertEquals(def, identifier.getPrevSibling());
+    }
+
+    @Test
+    void testGetStartByte() {
+        Assertions.assertEquals(0, root.getStartByte());
+        Assertions.assertEquals(0, new Node().getStartByte());
+    }
+
+    @Test
+    void testGetStartPoint() {
+        Point startPoint = root.getStartPoint();
+        Assertions.assertEquals(0, startPoint.getRow());
+        Assertions.assertEquals(0, startPoint.getColumn());
+        Assertions.assertTrue(new Node().getStartPoint().isOrigin());
+    }
+
+    @Test
+    void testGetType() {
+        Assertions.assertEquals("module", root.getType());
+        Assertions.assertEquals("function_definition", root.getChild(0).getType());
+        Assertions.assertNull(new Node().getType());
     }
 
     @Test

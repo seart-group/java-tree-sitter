@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
- * Method:    malloc
- * Signature: (Lch/usi/si/seart/treesitter/Node;)J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_malloc
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_TreeCursor
  * Method:    close
  * Signature: ()V
  */

@@ -6,15 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.function.Executable;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 class TreeCursorTest extends TestBase {
 
@@ -50,14 +43,17 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("module", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
+        Assertions.assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
 
         Assertions.assertEquals("def", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("name", cursor.getCurrentFieldName());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals("parameters", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("parameters", cursor.getCurrentFieldName());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals(":", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
@@ -80,21 +76,9 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals(17, count.get());
     }
 
-    @SuppressWarnings({"resource", "DataFlowIssue"})
-    private static class WalkExceptionProvider implements ArgumentsProvider {
-
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            return Stream.of(
-                    Arguments.of(NullPointerException.class, (Executable) () -> new TreeCursor(null)),
-                    Arguments.of(IllegalArgumentException.class, (Executable) () -> new Node().walk())
-            );
-        }
-    }
-
-    @ParameterizedTest(name = "[{index}] {0}")
-    @ArgumentsSource(WalkExceptionProvider.class)
-    void testWalkThrows(Class<Throwable> throwableType, Executable executable) {
-        Assertions.assertThrows(throwableType, executable);
+    @Test
+    @SuppressWarnings("resource")
+    void testWalkThrows() {
+        Assertions.assertThrows(IllegalStateException.class, () -> new Node().walk());
     }
 }
