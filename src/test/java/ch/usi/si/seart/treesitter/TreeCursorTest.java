@@ -1,5 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
+import lombok.Cleanup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -74,6 +75,12 @@ class TreeCursorTest extends TestBase {
                 count.incrementAndGet();
         });
         Assertions.assertEquals(17, count.get());
+    }
+
+    @Test
+    void testClone() {
+        @Cleanup TreeCursor copy = cursor.clone();
+        Assertions.assertNotEquals(cursor, copy);
     }
 
     @Test

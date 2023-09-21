@@ -69,3 +69,19 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoParent
   env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
   return result ? JNI_TRUE : JNI_FALSE;
 }
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_clone(
+  JNIEnv* env, jobject thisObject) {
+  jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
+  const TSTreeCursor* cursor = (const TSTreeCursor*)__getPointer(env, thisObject);
+  TSTreeCursor copy = ts_tree_cursor_copy(cursor);
+  return env->NewObject(
+    _treeCursorClass,
+    _treeCursorConstructor,
+    new TSTreeCursor(copy),
+    copy.context[0],
+    copy.context[1],
+    copy.id,
+    treeObject
+  );
+}
