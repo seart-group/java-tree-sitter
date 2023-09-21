@@ -195,6 +195,13 @@ public class OffsetTreeCursor extends TreeCursor {
         public TreeCursor walk() {
             return new OffsetTreeCursor(node, offset);
         }
+
+        @Override
+        public QueryCursor walk(@NotNull Query query) {
+            throw new UnsupportedOperationException(
+                    "Querying not available after node position has changed!"
+            );
+        }
     }
 
     @Override
