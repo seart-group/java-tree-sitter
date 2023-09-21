@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class TreeCursor extends External {
+public class TreeCursor extends External implements Cloneable {
 
     int context0;
     int context1;
@@ -120,4 +120,13 @@ public class TreeCursor extends External {
     public String toString() {
         return String.format("TreeCursor(id: %d, tree: %d)", id, tree.pointer);
     }
+
+    /**
+     * Clone this cursor, creating a separate, independent instance.
+     *
+     * @return a clone of this instance
+     * @since 1.5.1
+     */
+    @Override
+    public native TreeCursor clone();
 }
