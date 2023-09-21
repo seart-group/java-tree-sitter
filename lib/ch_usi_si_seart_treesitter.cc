@@ -65,6 +65,7 @@ jfieldID _dotGraphPrinterTreeField;
 jclass _queryClass;
 
 jclass _queryCursorClass;
+jmethodID _queryCursorConstructor;
 jfieldID _queryCursorNodeField;
 jfieldID _queryCursorQueryField;
 jfieldID _queryCursorExecutedField;
@@ -168,6 +169,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query")
 
   _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor")
+  _loadConstructor(_queryCursorConstructor, _queryCursorClass,
+    "(JLch/usi/si/seart/treesitter/Node;Lch/usi/si/seart/treesitter/Query;)V")
   _loadField(_queryCursorNodeField, _queryCursorClass, "node", "Lch/usi/si/seart/treesitter/Node;")
   _loadField(_queryCursorQueryField, _queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z")
@@ -293,30 +296,6 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
     (uint32_t)env->GetIntField(pointObject, _pointRowField),
     (uint32_t)env->GetIntField(pointObject, _pointColumnField),
   };
-}
-
-jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture) {
-  return env->NewObject(
-    _queryCaptureClass,
-    _queryCaptureConstructor,
-    __marshalNode(env, capture.node),
-    capture.index
-  );
-}
-
-jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match) {
-  jobjectArray captures = (*env).NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
-  for (int i = 0; i < match.capture_count; i++) {
-    jobject capture = __marshalQueryCapture(env, match.captures[i]);
-    env->SetObjectArrayElement(captures, i, capture);
-  }
-  return env->NewObject(
-    _queryMatchClass,
-    _queryMatchConstructor,
-    match.id,
-    match.pattern_index,
-    captures
-  );
 }
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {

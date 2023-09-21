@@ -37,7 +37,7 @@ class QueryCursorTest extends TestBase {
     @BeforeEach
     void setUp() {
         query = new Query(language, pattern);
-        cursor = new QueryCursor(root, query);
+        cursor = root.walk(query);
     }
 
     @AfterEach
@@ -109,7 +109,7 @@ class QueryCursorTest extends TestBase {
     @Test
     void testExecuteNoResultQuery() {
         @Cleanup Query query = new Query(language, "(method_declaration) @method");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
+        @Cleanup QueryCursor cursor = root.walk(query);
         cursor.execute();
         Assertions.assertNull(cursor.nextMatch());
     }
@@ -117,7 +117,7 @@ class QueryCursorTest extends TestBase {
     @Test
     void testMultipleExecuteCalls() {
         @Cleanup Query query = new Query(language, "(class_body) @class");
-        @Cleanup QueryCursor cursor = new QueryCursor(root, query);
+        @Cleanup QueryCursor cursor = root.walk(query);
         cursor.execute();
         cursor.execute();
         QueryMatch match = cursor.nextMatch();

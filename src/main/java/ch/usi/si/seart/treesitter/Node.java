@@ -227,6 +227,13 @@ public class Node implements Iterable<Node> {
      */
     public native TreeCursor walk();
 
+    /**
+     * @param query the query to run against this node's subtree
+     * @return A new query cursor starting from the given node
+     * @since 1.5.0
+     */
+    public native QueryCursor walk(@NotNull Query query);
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;

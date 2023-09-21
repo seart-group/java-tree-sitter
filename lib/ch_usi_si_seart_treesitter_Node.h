@@ -196,8 +196,16 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isNull
  * Method:    walk
  * Signature: ()Lch/usi/si/seart/treesitter/TreeCursor;
  */
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__
   (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    walk
+ * Signature: (Lch/usi/si/seart/treesitter/Query;)Lch/usi/si/seart/treesitter/QueryCursor;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_seart_treesitter_Query_2
+  (JNIEnv *, jobject, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node

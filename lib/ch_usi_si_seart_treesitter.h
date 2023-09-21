@@ -77,6 +77,7 @@ extern jfieldID _dotGraphPrinterTreeField;
 extern jclass _queryClass;
 
 extern jclass _queryCursorClass;
+extern jmethodID _queryCursorConstructor;
 extern jfieldID _queryCursorNodeField;
 extern jfieldID _queryCursorQueryField;
 extern jfieldID _queryCursorExecutedField;
@@ -163,10 +164,6 @@ void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject)
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
-
-jobject __marshalQueryCapture(JNIEnv* env, TSQueryCapture capture);
-
-jobject __marshalQueryMatch(JNIEnv* env, TSQueryMatch match);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 

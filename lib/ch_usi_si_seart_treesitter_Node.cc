@@ -258,7 +258,7 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_equals(
   return ts_node_eq(node_1, node_2) ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk(
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
   JNIEnv* env, jobject thisObject) {
   jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
   if (treeObject == NULL) {
@@ -285,5 +285,40 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk(
     cursor.context[1],
     cursor.id,
     treeObject
+  );
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_seart_treesitter_Query_2(
+  JNIEnv* env, jobject thisObject, jobject queryObject) {
+  jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
+  if (treeObject == NULL) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a QueryCursor instance without a Tree!"
+    );
+    return NULL;
+  }
+  TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) {
+    env->ThrowNew(
+      _illegalStateExceptionClass,
+      "Cannot construct a QueryCursor instance from a `null` Node!"
+    );
+    return NULL;
+  }
+  if (queryObject == NULL) {
+    env->ThrowNew(
+      _nullPointerExceptionClass,
+      "Query must not be null!"
+    );
+    return NULL;
+  }
+  TSQueryCursor* cursor = ts_query_cursor_new();
+  return env->NewObject(
+    _queryCursorClass,
+    _queryCursorConstructor,
+    cursor,
+    thisObject,
+    queryObject
   );
 }
