@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -20,6 +22,8 @@ import java.util.Iterator;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Tree extends External implements Iterable<Node> {
+
+    private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
     Language language;
     String source;
@@ -63,8 +67,8 @@ public class Tree extends External implements Iterable<Node> {
     }
 
     String getSource(int startByte, int endByte) {
-        byte[] bytes = source.getBytes();
-        byte[] copy = Arrays.copyOfRange(bytes, startByte, endByte);
-        return new String(copy);
+        byte[] bytes = source.getBytes(CHARSET);
+        byte[] copy = Arrays.copyOfRange(bytes, startByte * 2, endByte * 2);
+        return new String(copy, CHARSET);
     }
 }

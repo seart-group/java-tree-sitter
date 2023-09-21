@@ -81,6 +81,15 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetContent() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertEquals(source, root.getContent());
+        Assertions.assertEquals(source, function.getContent());
+        Assertions.assertEquals("foo", identifier.getContent());
+    }
+
+    @Test
     void testGetDescendantForByteRange() {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
