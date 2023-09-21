@@ -22,6 +22,11 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute(
   env->SetBooleanField(thisObject, _queryCursorExecutedField, JNI_TRUE);
 }
 
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_isExecuted(
+  JNIEnv* env, jobject thisObject) {
+  return env->GetBooleanField(thisObject, _queryCursorExecutedField);
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
   JNIEnv* env, jobject thisObject) {
   bool executed = (bool)env->GetBooleanField(thisObject, _queryCursorExecutedField);

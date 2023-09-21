@@ -2,7 +2,6 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.Generated;
-import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +22,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     Node node;
     Query query;
 
-    @Getter
+    @SuppressWarnings("unused")
     boolean executed = false;
 
     @SuppressWarnings("unused")
@@ -56,6 +55,12 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * Successive calls to this method are ignored.
      */
     public native void execute();
+
+    /**
+     * @return {@code true} if the query was executed, {@code false} otherwise
+     * @since 1.5.0
+     */
+    public native boolean isExecuted();
 
     /**
      * Advance to the next match of the currently running query.

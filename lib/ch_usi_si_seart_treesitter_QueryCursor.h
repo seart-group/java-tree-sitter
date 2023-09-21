@@ -25,6 +25,14 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute
 
 /*
  * Class:     ch_usi_si_seart_treesitter_QueryCursor
+ * Method:    isExecuted
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_isExecuted
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_QueryCursor
  * Method:    nextMatch
  * Signature: ()Lch/usi/si/seart/treesitter/QueryMatch;
  */

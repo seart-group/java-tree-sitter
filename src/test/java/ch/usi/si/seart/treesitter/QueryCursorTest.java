@@ -55,16 +55,20 @@ class QueryCursorTest extends TestBase {
     @Test
     void testExecuteWithFor() {
         int count = 0;
+        Assertions.assertFalse(cursor.isExecuted());
         for (QueryMatch match: cursor) {
             check(match);
             count++;
         }
+        Assertions.assertTrue(cursor.isExecuted());
         Assertions.assertEquals(3, count);
     }
 
     @Test
     void testExecuteWithWhile() {
+        Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         int count = 0;
         QueryMatch match;
         while ((match = cursor.nextMatch()) != null) {
@@ -77,7 +81,9 @@ class QueryCursorTest extends TestBase {
     @Test
     void testExecuteWithIterator() {
         AtomicInteger count = new AtomicInteger();
+        Assertions.assertFalse(cursor.isExecuted());
         Iterator<QueryMatch> iterator = cursor.iterator();
+        Assertions.assertTrue(cursor.isExecuted());
         iterator.forEachRemaining(match -> {
             check(match);
             count.incrementAndGet();
@@ -88,7 +94,9 @@ class QueryCursorTest extends TestBase {
     @Test
     void testExecuteWithStream() {
         AtomicInteger count = new AtomicInteger();
+        Assertions.assertFalse(cursor.isExecuted());
         Spliterator<QueryMatch> spliterator = cursor.spliterator();
+        Assertions.assertTrue(cursor.isExecuted());
         StreamSupport.stream(spliterator, false).forEach(match -> {
             check(match);
             count.incrementAndGet();
@@ -110,7 +118,9 @@ class QueryCursorTest extends TestBase {
     void testExecuteNoResultQuery() {
         @Cleanup Query query = new Query(language, "(method_declaration) @method");
         @Cleanup QueryCursor cursor = root.walk(query);
+        Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         Assertions.assertNull(cursor.nextMatch());
     }
 
@@ -118,8 +128,11 @@ class QueryCursorTest extends TestBase {
     void testMultipleExecuteCalls() {
         @Cleanup Query query = new Query(language, "(class_body) @class");
         @Cleanup QueryCursor cursor = root.walk(query);
+        Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         cursor.execute();
+        Assertions.assertTrue(cursor.isExecuted());
         QueryMatch match = cursor.nextMatch();
         Assertions.assertNotNull(match);
         Assertions.assertNull(cursor.nextMatch());
