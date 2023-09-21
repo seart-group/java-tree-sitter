@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a two-dimensional point with row and column coordinates.
@@ -22,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class Point {
+public class Point implements Comparable<Point> {
 
     private static final Point ORIGIN = new Point(0, 0);
 
@@ -52,6 +53,20 @@ public class Point {
      */
     public boolean isOrigin() {
         return equals(ORIGIN);
+    }
+  
+    /* Compares this point with another point for positional order.
+     * Points are compared by their row coordinates first,
+     * and if those are equal they are then compared by their column coordinates.
+     *
+     * @param other the object to be compared
+     * @return the row comparison result, or the column comparison result if the rows are equal
+     * @since 1.5.1
+     */
+    @Override
+    public int compareTo(@NotNull Point other) {
+        int comparison = Integer.compare(this.row, other.row);
+        return comparison != 0 ? comparison : Integer.compare(this.column, other.column);
     }
 
     /**
