@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,10 +20,9 @@ import org.jetbrains.annotations.NotNull;
  * @author Ozren Dabić
  */
 @Getter
-@Setter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Point implements Comparable<Point> {
 
     private static final Point ORIGIN = new Point(0, 0);
@@ -56,9 +54,8 @@ public class Point implements Comparable<Point> {
     public boolean isOrigin() {
         return equals(ORIGIN);
     }
-
-    /**
-     * Compares this point with another point for positional order.
+  
+    /* Compares this point with another point for positional order.
      * Points are compared by their row coordinates first,
      * and if those are equal they are then compared by their column coordinates.
      *
@@ -70,5 +67,53 @@ public class Point implements Comparable<Point> {
     public int compareTo(@NotNull Point other) {
         int comparison = Integer.compare(this.row, other.row);
         return comparison != 0 ? comparison : Integer.compare(this.column, other.column);
+    }
+
+    /**
+     * Adds another point to this point,
+     * resulting in a new point with coordinates
+     * equal to the sum of the coordinates
+     * of this point and the other point.
+     *
+     * @param other The point to be added to this point.
+     * @return A new point representing the sum of this point and the other point.
+     * @since 1.5.1
+     */
+    public Point add(Point other) {
+        if (isOrigin()) return other;
+        if (other.isOrigin()) return this;
+        if (equals(other)) return multiply(2);
+        return new Point(row + other.row, column + other.column);
+    }
+
+    /**
+     * Subtracts another point from this point,
+     * resulting in a new point with coordinates
+     * equal to the difference between the coordinates
+     * of this point and the other point.
+     *
+     * @param other The point to be subtracted from this point
+     * @return A new point representing the difference between this point and the other point
+     * @since 1.5.1
+     */
+    public Point subtract(Point other) {
+        if (isOrigin()) return other.multiply(-1);
+        if (other.isOrigin()) return this;
+        if (equals(other)) return ORIGIN;
+        return new Point(row - other.row, column - other.column);
+    }
+
+    /**
+     * Multiplies the coordinates of this point by a scalar value,
+     * resulting in a new point with scaled coordinates.
+     *
+     * @param value The scalar value by which to multiply the coordinates of this point
+     * @return A new point representing the scaled coordinates
+     * @since 1.5.1
+     */
+    public Point multiply(int value) {
+        if (value == 0) return ORIGIN;
+        if (value == 1) return this;
+        return new Point(row * value, column * value);
     }
 }
