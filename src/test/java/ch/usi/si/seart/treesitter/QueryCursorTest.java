@@ -53,7 +53,7 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithFor() {
+    void testExecuteWithFor() {
         int count = 0;
         for (QueryMatch match: cursor) {
             check(match);
@@ -63,7 +63,7 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithWhile() {
+    void testExecuteWithWhile() {
         cursor.execute();
         int count = 0;
         QueryMatch match;
@@ -75,7 +75,7 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithIterator() {
+    void testExecuteWithIterator() {
         AtomicInteger count = new AtomicInteger();
         Iterator<QueryMatch> iterator = cursor.iterator();
         iterator.forEachRemaining(match -> {
@@ -86,7 +86,7 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecWithStream() {
+    void testExecuteWithStream() {
         AtomicInteger count = new AtomicInteger();
         Spliterator<QueryMatch> spliterator = cursor.spliterator();
         StreamSupport.stream(spliterator, false).forEach(match -> {
@@ -107,7 +107,7 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testExecNoResultQuery() {
+    void testExecuteNoResultQuery() {
         @Cleanup Query query = new Query(language, "(method_declaration) @method");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         cursor.execute();
@@ -115,7 +115,7 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testMultipleExecCalls() {
+    void testMultipleExecuteCalls() {
         @Cleanup Query query = new Query(language, "(class_body) @class");
         @Cleanup QueryCursor cursor = new QueryCursor(root, query);
         cursor.execute();
