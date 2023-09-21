@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 /**
@@ -20,10 +19,9 @@ import lombok.experimental.FieldDefaults;
  * @author Ozren Dabić
  */
 @Getter
-@Setter(value = AccessLevel.PACKAGE)
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Point {
 
     private static final Point ORIGIN = new Point(0, 0);
