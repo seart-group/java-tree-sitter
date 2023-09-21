@@ -137,4 +137,12 @@ class QueryCursorTest extends TestBase {
         Assertions.assertNotNull(match);
         Assertions.assertNull(cursor.nextMatch());
     }
+
+    @Test
+    @SuppressWarnings("resource")
+    void testConstructorThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> root.walk(null));
+        Assertions.assertThrows(IllegalStateException.class, () -> new Node().walk(query));
+        Assertions.assertThrows(IllegalStateException.class, () -> new Node(1, 1, 1, 1, 1L, null).walk(query));
+    }
 }
