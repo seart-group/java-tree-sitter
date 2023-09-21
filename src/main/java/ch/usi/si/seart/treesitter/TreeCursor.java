@@ -32,7 +32,7 @@ public class TreeCursor extends External {
      * Should not be used under any other circumstances!
      */
     protected TreeCursor() {
-        super(0L);
+        super();
         this.context0 = 0;
         this.context1 = 0;
         this.id = 0L;
