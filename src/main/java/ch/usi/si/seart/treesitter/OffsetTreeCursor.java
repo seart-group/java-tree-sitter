@@ -124,11 +124,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Point getEndPoint() {
-            Point point = node.getEndPoint();
-            return new Point(
-                    point.getRow() + offset.getRow(),
-                    point.getColumn() + offset.getColumn()
-            );
+            return node.getEndPoint().add(offset);
         }
 
         @Override
@@ -184,11 +180,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Point getStartPoint() {
-            Point point = node.getStartPoint();
-            return new Point(
-                    point.getRow() + offset.getRow(),
-                    point.getColumn() + offset.getColumn()
-            );
+            return node.getStartPoint().add(offset);
         }
 
         @Override
@@ -221,14 +213,8 @@ public class OffsetTreeCursor extends TreeCursor {
                     cursorNode.getName(),
                     cursorNode.getType(),
                     cursorNode.getContent(),
-                    new Point(
-                            cursorNode.getStartPoint().getRow() + offset.getRow(),
-                            cursorNode.getStartPoint().getColumn() + offset.getColumn()
-                    ),
-                    new Point(
-                            cursorNode.getEndPoint().getRow() + offset.getRow(),
-                            cursorNode.getEndPoint().getColumn() + offset.getColumn()
-                    ),
+                    cursorNode.getStartPoint().add(offset),
+                    cursorNode.getEndPoint().add(offset),
                     cursorNode.isNamed()
             );
         }
