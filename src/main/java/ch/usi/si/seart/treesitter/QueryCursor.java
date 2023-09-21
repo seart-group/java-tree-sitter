@@ -26,7 +26,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     boolean executed = false;
 
     @SuppressWarnings("unused")
-    QueryCursor(long pointer, Node node, Query query) {
+    QueryCursor(long pointer, @NotNull Node node, @NotNull Query query) {
         super(pointer);
         this.node = node;
         this.query = query;
