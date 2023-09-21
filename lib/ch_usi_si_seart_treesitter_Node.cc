@@ -290,6 +290,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_seart_treesitter_Query_2(
   JNIEnv* env, jobject thisObject, jobject queryObject) {
+  if (queryObject == NULL) {
+    env->ThrowNew(
+      _nullPointerExceptionClass,
+      "Query must not be null!"
+    );
+    return NULL;
+  }
   jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
   if (treeObject == NULL) {
     env->ThrowNew(
@@ -303,13 +310,6 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_
     env->ThrowNew(
       _illegalStateExceptionClass,
       "Cannot construct a QueryCursor instance from a `null` Node!"
-    );
-    return NULL;
-  }
-  if (queryObject == NULL) {
-    env->ThrowNew(
-      _nullPointerExceptionClass,
-      "Query must not be null!"
     );
     return NULL;
   }
