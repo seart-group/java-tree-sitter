@@ -55,4 +55,52 @@ public class Point {
     public boolean isOrigin() {
         return equals(ORIGIN);
     }
+
+    /**
+     * Adds another point to this point,
+     * resulting in a new point with coordinates
+     * equal to the sum of the coordinates
+     * of this point and the other point.
+     *
+     * @param other The point to be added to this point.
+     * @return A new point representing the sum of this point and the other point.
+     * @since 1.5.1
+     */
+    public Point add(Point other) {
+        if (isOrigin()) return other;
+        if (other.isOrigin()) return this;
+        if (equals(other)) return multiply(2);
+        return new Point(row + other.row, column + other.column);
+    }
+
+    /**
+     * Subtracts another point from this point,
+     * resulting in a new point with coordinates
+     * equal to the difference between the coordinates
+     * of this point and the other point.
+     *
+     * @param other The point to be subtracted from this point
+     * @return A new point representing the difference between this point and the other point
+     * @since 1.5.1
+     */
+    public Point subtract(Point other) {
+        if (isOrigin()) return other.multiply(-1);
+        if (other.isOrigin()) return this;
+        if (equals(other)) return ORIGIN;
+        return new Point(row - other.row, column - other.column);
+    }
+
+    /**
+     * Multiplies the coordinates of this point by a scalar value,
+     * resulting in a new point with scaled coordinates.
+     *
+     * @param value The scalar value by which to multiply the coordinates of this point
+     * @return A new point representing the scaled coordinates
+     * @since 1.5.1
+     */
+    public Point multiply(int value) {
+        if (value == 0) return ORIGIN;
+        if (value == 1) return this;
+        return new Point(row * value, column * value);
+    }
 }

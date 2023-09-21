@@ -10,6 +10,9 @@ import java.util.stream.Stream;
 
 class PointTest {
 
+    private static final Point _0_0_ = new Point(0, 0);
+    private static final Point _1_1_ = new Point(1, 1);
+
     @Test
     void testIsOrigin() {
         Assertions.assertTrue(new Point(0, 0).isOrigin());
@@ -19,6 +22,30 @@ class PointTest {
     @MethodSource("provideNonOriginPoints")
     void testIsNotOrigin(Point point) {
         Assertions.assertFalse(point.isOrigin());
+    }
+
+    @Test
+    void testAdd() {
+        Assertions.assertEquals(_1_1_, _0_0_.add(_1_1_));
+        Assertions.assertEquals(_1_1_, _1_1_.add(_0_0_));
+        Assertions.assertEquals(_0_0_, new Point(-1, -1).add(_1_1_));
+        Assertions.assertEquals(new Point(2, 2), _1_1_.add(_1_1_));
+    }
+
+    @Test
+    void testSubtract() {
+        Assertions.assertEquals(_0_0_, _1_1_.subtract(_1_1_));
+        Assertions.assertEquals(_1_1_, _1_1_.subtract(_0_0_));
+        Assertions.assertEquals(new Point(-1, -1), _0_0_.subtract(_1_1_));
+        Assertions.assertEquals(new Point(-2, -2), new Point(-1, -1).subtract(_1_1_));
+    }
+
+    @Test
+    void testMultiply() {
+        Assertions.assertEquals(_0_0_, _0_0_.multiply(2));
+        Assertions.assertEquals(_0_0_, _1_1_.multiply(0));
+        Assertions.assertEquals(_1_1_, _1_1_.multiply(1));
+        Assertions.assertEquals(new Point(2, 2), _1_1_.multiply(2));
     }
 
     public static Stream<Arguments> provideNonOriginPoints() {
