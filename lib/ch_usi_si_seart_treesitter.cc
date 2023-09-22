@@ -57,6 +57,7 @@ jclass _parserClass;
 jfieldID _parserLanguageField;
 
 jclass _treeClass;
+jfieldID _treeLanguageField;
 jmethodID _treeConstructor;
 
 jclass _dotGraphPrinterClass;
@@ -164,6 +165,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;")
 
   _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree")
+  _loadField(_treeLanguageField, _treeClass, "language", "Lch/usi/si/seart/treesitter/Language;")
   _loadConstructor(_treeConstructor, _treeClass, "(JLch/usi/si/seart/treesitter/Language;Ljava/lang/String;)V")
 
   _loadClass(_dotGraphPrinterClass, "ch/usi/si/seart/treesitter/printer/DotGraphPrinter")

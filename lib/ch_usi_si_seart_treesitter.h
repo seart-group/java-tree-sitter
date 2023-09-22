@@ -69,6 +69,7 @@ extern jclass _parserClass;
 extern jfieldID _parserLanguageField;
 
 extern jclass _treeClass;
+extern jfieldID _treeLanguageField;
 extern jmethodID _treeConstructor;
 
 extern jclass _dotGraphPrinterClass;
