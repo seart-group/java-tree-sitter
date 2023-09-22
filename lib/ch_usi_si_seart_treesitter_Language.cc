@@ -437,6 +437,21 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_symbols(
   return (jint)ts_language_symbol_count((const TSLanguage *)id);
 }
 
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
+  JNIEnv* env, jclass self, jlong languageId, jint symbolId) {
+  TSSymbol symbol = (TSSymbol)symbolId;
+  const TSLanguage* language = (const TSLanguage*)languageId;
+  const char* name = ts_language_symbol_name(language, symbol);
+  TSSymbolType type = ts_language_symbol_type(language, symbol);
+  return env->NewObject(
+    _symbolClass,
+    _symbolConstructor,
+    (jint)symbol,
+    (jint)type,
+    env->NewStringUTF(name)
+  );
+}
+
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields(
   JNIEnv* env, jclass self, jlong id) {
   return (jint)ts_language_field_count((const TSLanguage *)id);

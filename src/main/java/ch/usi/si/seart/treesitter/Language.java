@@ -2,7 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.error.ABIVersionError;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -33,7 +34,6 @@ import java.util.stream.Stream;
  * @see <a href="https://tree-sitter.github.io/tree-sitter/#parsers">tree-sitter language list</a>
  */
 @Getter(value = AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
 
@@ -468,12 +468,13 @@ public enum Language {
 
     private static native int version(long id);
     private static native int symbols(long id);
+    private static native Symbol symbol(long languageId, int symbolId);
     private static native int fields(long id);
 
     long id;
     int version;
-    int totalSymbols;
     int totalFields;
+    Collection<Symbol> symbols;
     List<String> extensions;
 
     private static final long INVALID = 0L;
@@ -497,7 +498,23 @@ public enum Language {
     }
 
     Language(long id, String... extensions) {
-        this(id, version(id), symbols(id), fields(id), List.of(extensions));
+        this(id, version(id), fields(id), symbols(id), List.of(extensions));
+    }
+
+    Language(long id, int version, int totalFields, int totalSymbols, List<String> extensions) {
+        this.id = id;
+        this.version = version;
+        this.totalFields = totalFields;
+        this.symbols = IntStream.range(0, totalSymbols)
+                .mapToObj(symbolId -> symbol(id, symbolId))
+                .collect(Collectors.toList());
+        this.extensions = extensions;
+    }
+
+    @Generated
+    @SuppressWarnings("unused")
+    public int getTotalSymbols() {
+        return symbols.size();
     }
 
     @Override

@@ -403,6 +403,14 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_symbols
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    symbol
+ * Signature: (JI)Lch/usi/si/seart/treesitter/Symbol;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    fields
  * Signature: (J)I
  */
