@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -174,14 +173,6 @@ public class Parser extends External {
     public native void setTimeout(long timeout);
 
     /**
-     * @deprecated Use {@link #parse(String)} instead
-     */
-    @Deprecated(since = "1.3.0", forRemoval = true)
-    public Tree parseString(@NotNull String source) throws UnsupportedEncodingException {
-        return parse(source);
-    }
-
-    /**
      * Use the parser to parse some source code and create a syntax tree.
      *
      * @param source The source code string to be parsed
@@ -192,14 +183,6 @@ public class Parser extends External {
     public Tree parse(@NotNull String source) throws ParsingException {
         byte[] bytes = source.getBytes(CHARSET);
         return parse(source, bytes, bytes.length, null);
-    }
-
-    /**
-     * @deprecated Use {@link #parse(String, Tree)} instead
-     */
-    @Deprecated(since = "1.3.0", forRemoval = true)
-    public Tree parseString(@NotNull String source, @NotNull Tree oldTree) throws UnsupportedEncodingException {
-        return parse(source, oldTree);
     }
 
     /**
@@ -215,15 +198,6 @@ public class Parser extends External {
     public Tree parse(@NotNull String source, @NotNull Tree oldTree) throws ParsingException {
         byte[] bytes = source.getBytes(CHARSET);
         return parse(source, bytes, bytes.length, oldTree);
-    }
-
-    /**
-     * @deprecated Use {@link #parse(Path)} instead
-     */
-    @Deprecated(since = "1.3.0", forRemoval = true)
-    public Tree parseFile(@NotNull Path path) throws IOException {
-        String source = Files.readString(path);
-        return parseString(source);
     }
 
     /**
