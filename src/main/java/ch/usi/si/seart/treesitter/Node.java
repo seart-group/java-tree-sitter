@@ -176,6 +176,12 @@ public class Node implements Iterable<Node> {
     public native Point getStartPoint();
 
     /**
+     * @return The node's symbol
+     * @since 1.6.0
+     */
+    public native Symbol getSymbol();
+
+    /**
      * @return The node's type as a string
      */
     public native String getType();
