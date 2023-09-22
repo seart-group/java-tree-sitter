@@ -468,7 +468,14 @@ public enum Language {
                 .orElseGet(Collections::emptyList);
     }
 
+    private static native int version(long id);
+    private static native int symbols(long id);
+    private static native int fields(long id);
+
     long id;
+    int version;
+    int totalSymbols;
+    int totalFields;
     List<String> extensions;
 
     private static final long INVALID = 0L;
@@ -488,11 +495,11 @@ public enum Language {
     }
 
     Language(long id) {
-        this(id, Collections.emptyList());
+        this(id, 0, 0, 0, Collections.emptyList());
     }
 
     Language(long id, String... extensions) {
-        this(id, List.of(extensions));
+        this(id, version(id), symbols(id), fields(id), List.of(extensions));
     }
 
     @Override

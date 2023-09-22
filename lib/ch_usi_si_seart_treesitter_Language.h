@@ -393,6 +393,30 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    version
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_version
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    symbols
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_symbols
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    fields
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif
