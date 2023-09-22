@@ -452,7 +452,7 @@ public enum Language {
      * @return An immutable collection of languages associated with the file (never null)
      * @throws NullPointerException if {@code path} is null
      * @throws IllegalArgumentException if {@code path} is a directory
-     * @since 1.5.0
+     * @since 1.6.0
      */
     public static @NotNull Collection<Language> associatedWith(@NotNull Path path) {
         Objects.requireNonNull(path, "Path argument must not be null!");
