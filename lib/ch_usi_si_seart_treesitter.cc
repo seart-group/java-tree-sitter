@@ -70,6 +70,9 @@ jfieldID _queryCursorNodeField;
 jfieldID _queryCursorQueryField;
 jfieldID _queryCursorExecutedField;
 
+jclass _symbolClass;
+jmethodID _symbolConstructor;
+
 jclass _treeCursorClass;
 jfieldID _treeCursorContext0Field;
 jfieldID _treeCursorContext1Field;
@@ -175,6 +178,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_queryCursorQueryField, _queryCursorClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_queryCursorExecutedField, _queryCursorClass, "executed", "Z")
 
+  _loadClass(_symbolClass, "ch/usi/si/seart/treesitter/Symbol")
+  _loadConstructor(_symbolConstructor, _symbolClass, "(IILjava/lang/String;)V")
+
   _loadClass(_treeCursorClass, "ch/usi/si/seart/treesitter/TreeCursor")
   _loadField(_treeCursorContext0Field, _treeCursorClass, "context0", "I")
   _loadField(_treeCursorContext1Field, _treeCursorClass, "context1", "I")
@@ -223,6 +229,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_dotGraphPrinterClass)
   _unload(_queryClass)
   _unload(_queryCursorClass)
+  _unload(_symbolClass)
   _unload(_treeCursorClass)
   _unload(_nullPointerExceptionClass)
   _unload(_illegalArgumentExceptionClass)

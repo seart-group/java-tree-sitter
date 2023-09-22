@@ -82,6 +82,9 @@ extern jfieldID _queryCursorNodeField;
 extern jfieldID _queryCursorQueryField;
 extern jfieldID _queryCursorExecutedField;
 
+extern jclass _symbolClass;
+extern jmethodID _symbolConstructor;
+
 extern jclass _treeCursorClass;
 extern jfieldID _treeCursorContext0Field;
 extern jfieldID _treeCursorContext1Field;
