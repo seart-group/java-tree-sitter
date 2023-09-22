@@ -55,7 +55,8 @@ public class Point implements Comparable<Point> {
         return equals(ORIGIN);
     }
 
-    /* Compares this point with another point for positional order.
+    /**
+     * Compares this point with another point for positional order.
      * Points are compared by their row coordinates first,
      * and if those are equal they are then compared by their column coordinates.
      *
