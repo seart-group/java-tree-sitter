@@ -1,5 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
+import ch.usi.si.seart.treesitter.error.ABIVersionError;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -424,14 +425,21 @@ public enum Language {
      * Validates an enum value to ensure it is not null and has a valid (nonzero) identifier.
      *
      * @param language the instance to validate
-     * @throws NullPointerException if {@code language} is null
-     * @throws UnsatisfiedLinkError if {@code language} was not linked to native code
+     * @throws NullPointerException if the language is null
+     * @throws UnsatisfiedLinkError if the language was not linked to native code
+     * @throws ABIVersionError if the language version is incompatible with the parser
      */
     public static void validate(@NotNull Language language) {
         Objects.requireNonNull(language, "Language must not be null!");
         long id = language.getId();
         if (id == Language.INVALID) throw new UnsatisfiedLinkError(
                 "Language binding has not been defined for: " + language
+        );
+        int version = language.getVersion();
+        int minimum = Parser.getMinimumCompatibleLanguageVersion();
+        int maximum = Parser.getLanguageVersion();
+        if (version < minimum || version > maximum) throw new ABIVersionError(
+                "Incompatible language version: " + version
         );
     }
 
