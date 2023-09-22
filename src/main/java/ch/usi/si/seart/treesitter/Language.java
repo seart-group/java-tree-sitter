@@ -33,7 +33,7 @@ import java.util.stream.Stream;
  * @author Ozren Dabić
  * @see <a href="https://tree-sitter.github.io/tree-sitter/#parsers">tree-sitter language list</a>
  */
-@Getter(value = AccessLevel.PACKAGE)
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
 
