@@ -217,8 +217,7 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType(
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) return NULL;
   const char* type = ts_node_type(node);
-  jstring result = env->NewStringUTF(type);
-  return result;
+  return env->NewStringUTF(type);
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError(
