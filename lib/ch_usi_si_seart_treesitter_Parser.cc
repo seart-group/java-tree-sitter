@@ -8,6 +8,16 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_malloc(
   return (jlong)ts_parser_new();
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion(
+  JNIEnv *, jclass) {
+  return (jint)TREE_SITTER_LANGUAGE_VERSION;
+}
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatibleLanguageVersion(
+  JNIEnv *, jclass) {
+  return (jint)TREE_SITTER_MIN_COMPATIBLE_LANGUAGE_VERSION;
+}
+
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
   JNIEnv* env, jobject thisObject) {
   jlong parser = __getPointer(env, thisObject);
