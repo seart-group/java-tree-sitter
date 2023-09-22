@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -17,6 +18,12 @@ public class Symbol {
     @SuppressWarnings("unused")
     Symbol(int id, int ordinal, String name) {
         this(id, Type.get(ordinal), name);
+    }
+
+    @Override
+    @Generated
+    public String toString() {
+        return String.format("Symbol(id: %d, type: %s, name: '%s')", id, type, name);
     }
 
     public enum Type {
