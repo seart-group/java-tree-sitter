@@ -17,7 +17,7 @@ class OffsetTreeCursorTest extends PrinterTestBase {
         Assertions.assertThrows(IllegalStateException.class, () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, null), new Point(1, 1)));
     }
 
-    @Disabled
+    @Disabled("No need test the throw here")
     @Override
     protected void testPrinterThrows() {
     }
