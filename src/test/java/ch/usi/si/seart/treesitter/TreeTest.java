@@ -107,6 +107,12 @@ class TreeTest extends TestBase {
     }
 
     @Test
+    void testClone() {
+        @Cleanup Tree copy = tree.clone();
+        Assertions.assertNotEquals(tree, copy);
+    }
+
+    @Test
     void testConstructorThrows() {
         @Cleanup Tree tree = new Tree(0L, Language.JAVA, "");
         Assertions.assertThrows(NullPointerException.class, () -> tree.edit(null));
