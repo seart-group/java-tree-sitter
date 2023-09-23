@@ -104,6 +104,9 @@ extern jclass _queryStructureExceptionClass;
 extern jclass _parsingExceptionClass;
 extern jmethodID _parsingExceptionConstructor;
 
+extern jclass _incompatibleLanguageExceptionClass;
+extern jmethodID _incompatibleLanguageExceptionConstructor;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

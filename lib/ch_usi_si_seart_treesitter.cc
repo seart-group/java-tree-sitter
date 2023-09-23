@@ -103,6 +103,9 @@ jclass _queryStructureExceptionClass;
 jclass _parsingExceptionClass;
 jmethodID _parsingExceptionConstructor;
 
+jclass _incompatibleLanguageExceptionClass;
+jmethodID _incompatibleLanguageExceptionConstructor;
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -212,6 +215,11 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/parser/ParsingException")
   _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V")
 
+  _loadClass(_incompatibleLanguageExceptionClass,
+    "ch/usi/si/seart/treesitter/exception/parser/IncompatibleLanguageException")
+  _loadConstructor(_incompatibleLanguageExceptionConstructor, _incompatibleLanguageExceptionClass,
+    "(Lch/usi/si/seart/treesitter/Language;)V")
+
   return JNI_VERSION;
 }
 
@@ -246,6 +254,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_queryCaptureExceptionClass)
   _unload(_queryStructureExceptionClass)
   _unload(_parsingExceptionClass)
+  _unload(_incompatibleLanguageExceptionClass)
 }
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
