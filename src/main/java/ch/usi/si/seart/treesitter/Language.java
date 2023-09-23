@@ -427,7 +427,7 @@ public enum Language {
      * @param language the instance to validate
      * @throws NullPointerException if the language is null
      * @throws UnsatisfiedLinkError if the language was not linked to native code
-     * @throws ABIVersionError if the language version is incompatible with the parser
+     * @throws ABIVersionError if the language ABI version is outdated
      */
     public static void validate(@NotNull Language language) {
         Objects.requireNonNull(language, "Language must not be null!");
