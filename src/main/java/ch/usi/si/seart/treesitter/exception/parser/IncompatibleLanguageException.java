@@ -12,9 +12,9 @@ import lombok.experimental.StandardException;
 @StandardException
 public class IncompatibleLanguageException extends ParserException {
 
-    private static final String template = "Could not assign language to parser: %s";
+    private static final String TEMPLATE = "Could not assign language to parser: %s";
 
     public IncompatibleLanguageException(Language language) {
-        super(String.format(template, language));
+        super(String.format(TEMPLATE, language));
     }
 }
