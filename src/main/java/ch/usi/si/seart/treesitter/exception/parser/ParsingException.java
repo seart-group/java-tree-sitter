@@ -1,13 +1,13 @@
-package ch.usi.si.seart.treesitter.exception;
+package ch.usi.si.seart.treesitter.exception.parser;
 
 import lombok.experimental.StandardException;
 
 /**
  * Thrown when there is an error during parsing.
  *
- * @since 1.1.0
+ * @since 1.6.0
  * @author Ozren Dabić
  */
 @StandardException
-public class ParsingException extends TreeSitterException {
+public class ParsingException extends ParserException {
 }

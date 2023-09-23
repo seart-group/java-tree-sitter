@@ -1,6 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
-import ch.usi.si.seart.treesitter.exception.ParsingException;
+import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
