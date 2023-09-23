@@ -28,3 +28,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getRootNode(
   _setNodeTreeField(nodeObject, thisObject);
   return nodeObject;
 }
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_clone(
+  JNIEnv* env, jobject thisObject) {
+  jobject languageObject = env->GetObjectField(thisObject, _treeLanguageField);
+  jobject sourceObject = env->GetObjectField(thisObject, _treeSourceField);
+  jlong tree = __getPointer(env, thisObject);
+  jlong copy = (jlong)ts_tree_copy((const TSTree*)tree);
+  return env->NewObject(_treeClass, _treeConstructor, copy, languageObject, sourceObject);
+}

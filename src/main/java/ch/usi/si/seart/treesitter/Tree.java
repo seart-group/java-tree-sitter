@@ -21,7 +21,7 @@ import java.util.Iterator;
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class Tree extends External implements Iterable<Node> {
+public class Tree extends External implements Iterable<Node>, Cloneable {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
@@ -59,6 +59,15 @@ public class Tree extends External implements Iterable<Node> {
     public @NotNull Iterator<Node> iterator() {
         return getRootNode().iterator();
     }
+
+    /**
+     * Clone this tree, creating a separate, independent instance.
+     *
+     * @return a clone of this instance
+     * @since 1.6.0
+     */
+    @Override
+    public native Tree clone();
 
     @Override
     @Generated

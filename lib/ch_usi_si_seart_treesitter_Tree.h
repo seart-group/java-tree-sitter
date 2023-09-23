@@ -31,6 +31,14 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getRootNode
   (JNIEnv *, jobject);
 
+/*
+ * Class:     ch_usi_si_seart_treesitter_Tree
+ * Method:    clone
+ * Signature: ()Lch/usi/si/seart/treesitter/Tree;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_clone
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif
