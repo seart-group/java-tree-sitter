@@ -148,11 +148,17 @@ extern "C" {
 #define _getMethod(CLASS, NAME, SIGNATURE) \
   env->GetMethodID(CLASS, NAME, SIGNATURE)
 
+#define _getStaticMethod(CLASS, NAME, SIGNATURE) \
+  env->GetStaticMethodID(CLASS, NAME, SIGNATURE)
+
 #define _getConstructor(CLASS, SIGNATURE) \
   _getMethod(CLASS, "<init>", SIGNATURE)
 
 #define _loadMethod(VARIABLE, CLASS, NAME, SIGNATURE) \
   { VARIABLE = _getMethod(CLASS, NAME, SIGNATURE); }
+
+#define _loadStaticMethod(VARIABLE, CLASS, NAME, SIGNATURE) \
+  { VARIABLE = _getStaticMethod(CLASS, NAME, SIGNATURE); }
 
 #define _loadConstructor(VARIABLE, CLASS, SIGNATURE) \
   { VARIABLE = _getConstructor(CLASS, SIGNATURE); }
