@@ -71,7 +71,7 @@ class QueryTest extends TestBase {
 
     @Test
     void testQueryCaptureName() {
-        QueryCapture capture = new QueryCapture(new Node(), 0);
+        QueryCapture capture = new QueryCapture(empty, 0);
         Assertions.assertEquals("capture", query.getCaptureName(capture));
     }
 
