@@ -34,6 +34,11 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OffsetTreeCursor extends TreeCursor {
 
+    private static final String UOE_MESSAGE_1 = "Byte positions not available after node position has changed!";
+    private static final String UOE_MESSAGE_2 = "Byte position searches not supported after node position has changed!";
+    private static final String UOE_MESSAGE_3 = "Querying not available after node position has changed!";
+    private static final String UOE_MESSAGE_4 = "Byte positions not available!";
+
     TreeCursor cursor;
     Point offset;
 
@@ -115,16 +120,12 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Node getDescendantForByteRange(int startByte, int endByte) {
-            throw new UnsupportedOperationException(
-                    "Byte position searches not supported after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_2);
         }
 
         @Override
         public int getEndByte() {
-            throw new UnsupportedOperationException(
-                    "Byte positions not available after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_1);
         }
 
         @Override
@@ -134,16 +135,12 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Node getFirstChildForByte(int offset) {
-            throw new UnsupportedOperationException(
-                    "Byte position searches not supported after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_2);
         }
 
         @Override
         public Node getFirstNamedChildForByte(int offset) {
-            throw new UnsupportedOperationException(
-                    "Byte position searches not supported after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_2);
         }
 
         @Override
@@ -178,9 +175,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public int getStartByte() {
-            throw new UnsupportedOperationException(
-                    "Byte positions not available after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_1);
         }
 
         @Override
@@ -195,9 +190,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public QueryCursor walk(@NotNull Query query) {
-            throw new UnsupportedOperationException(
-                    "Querying not available after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_3);
         }
     }
 
@@ -232,16 +225,12 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public int getEndByte() {
-            throw new UnsupportedOperationException(
-                    "Byte positions not available after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_1);
         }
 
         @Override
         public int getStartByte() {
-            throw new UnsupportedOperationException(
-                    "Byte positions not available after node position has changed!"
-            );
+            throw new UnsupportedOperationException(UOE_MESSAGE_1);
         }
     }
 
@@ -262,12 +251,12 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public int getEndByte() {
-            throw new UnsupportedOperationException("Byte positions not available!");
+            throw new UnsupportedOperationException(UOE_MESSAGE_4);
         }
 
         @Override
         public int getStartByte() {
-            throw new UnsupportedOperationException("Byte positions not available!");
+            throw new UnsupportedOperationException(UOE_MESSAGE_4);
         }
     }
 }
