@@ -1,7 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
-import ch.usi.si.seart.treesitter.error.ABIVersionError;
-import ch.usi.si.seart.treesitter.exception.ParsingException;
+import ch.usi.si.seart.treesitter.exception.parser.IncompatibleLanguageException;
+import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
@@ -37,11 +37,10 @@ public class Parser extends External {
 
     /**
      * @param language The language used for parsing
-     * @throws NullPointerException
-     * if the specified language is null
-     * @throws UnsatisfiedLinkError
-     * if the specified language has not
-     * been linked to the system library
+     * @throws NullPointerException if the language is null
+     * @throws UnsatisfiedLinkError if the language was not linked to native code
+     * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
+     * @throws IncompatibleLanguageException if the language can not be set
      */
     public Parser(@NotNull Language language) {
         super(createIfValid(language));
@@ -99,11 +98,10 @@ public class Parser extends External {
      * Set the language that the parser should use for parsing.
      *
      * @param language The language used for parsing
-     * @throws NullPointerException
-     * if the specified language is null
-     * @throws UnsatisfiedLinkError
-     * if the specified language has not
-     * been linked to the system library
+     * @throws NullPointerException if the language is null
+     * @throws UnsatisfiedLinkError if the language was not linked to native code
+     * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
+     * @throws IncompatibleLanguageException if the language can not be set
      */
     public void setLanguage(@NotNull Language language) {
         Language.validate(language);
@@ -112,7 +110,7 @@ public class Parser extends External {
 
     private static void setLanguage(long pointer, Language language) {
         boolean success = setLanguage(pointer, language.getId());
-        if (!success) throw new ABIVersionError("Language could not be assigned to parser!");
+        if (!success) throw new IncompatibleLanguageException(language);
     }
 
     private static native boolean setLanguage(long pointer, long language);

@@ -1,6 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
-import ch.usi.si.seart.treesitter.exception.ParsingException;
+import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
@@ -50,11 +50,7 @@ class ParserTest extends TestBase {
         Assertions.assertFalse(tree.isNull());
         Node root = tree.getRootNode();
         Assertions.assertEquals("module", root.getType());
-        Range range = root.getRange();
-        Point start = range.getStartPoint();
-        Point end = range.getEndPoint();
-        Assertions.assertEquals(new Point(0, 0), start);
-        Assertions.assertEquals(new Point(1, 0), end);
+        checkRange(root);
     }
 
     @Test
@@ -63,11 +59,7 @@ class ParserTest extends TestBase {
         Assertions.assertFalse(tree.isNull());
         Node root = tree.getRootNode();
         Assertions.assertEquals("module", root.getType());
-        Range range = root.getRange();
-        Point start = range.getStartPoint();
-        Point end = range.getEndPoint();
-        Assertions.assertEquals(new Point(0, 0), start);
-        Assertions.assertEquals(new Point(1, 0), end);
+        checkRange(root);
     }
 
     @Test
@@ -79,7 +71,11 @@ class ParserTest extends TestBase {
         Assertions.assertFalse(tree.isNull());
         Node root = tree.getRootNode();
         Assertions.assertEquals("program", root.getType());
-        Range range = root.getRange();
+        checkRange(root);
+    }
+
+    private void checkRange(Node node) {
+        Range range = node.getRange();
         Point start = range.getStartPoint();
         Point end = range.getEndPoint();
         Assertions.assertEquals(new Point(0, 0), start);
@@ -126,6 +122,12 @@ class ParserTest extends TestBase {
     @ArgumentsSource(ConstructorExceptionProvider.class)
     void testConstructorThrows(Class<Throwable> throwableType, Language language) {
         Assertions.assertThrows(throwableType, () -> new Parser(language));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(ConstructorExceptionProvider.class)
+    void testSetLanguageThrows(Class<Throwable> throwableType, Language language) {
+        Assertions.assertThrows(throwableType, () -> parser.setLanguage(language));
     }
 
     private static class SetTimeoutExceptionProvider implements ArgumentsProvider {
