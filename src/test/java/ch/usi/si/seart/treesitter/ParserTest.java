@@ -124,6 +124,12 @@ class ParserTest extends TestBase {
         Assertions.assertThrows(throwableType, () -> new Parser(language));
     }
 
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(ConstructorExceptionProvider.class)
+    void testSetLanguageThrows(Class<Throwable> throwableType, Language language) {
+        Assertions.assertThrows(throwableType, () -> parser.setLanguage(language));
+    }
+
     private static class SetTimeoutExceptionProvider implements ArgumentsProvider {
 
         @Override
