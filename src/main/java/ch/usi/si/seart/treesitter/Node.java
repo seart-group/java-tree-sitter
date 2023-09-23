@@ -78,7 +78,7 @@ public class Node implements Iterable<Node> {
      * @since 1.5.0
      */
     public String getContent() {
-        return (!isNull()) ? tree.getSource(getStartByte(), getEndByte()) : null;
+        return !isNull() ? tree.getSource(getStartByte(), getEndByte()) : null;
     }
 
     /**

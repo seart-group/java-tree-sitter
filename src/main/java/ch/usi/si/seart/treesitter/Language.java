@@ -461,7 +461,7 @@ public enum Language {
         );
         String name = path.getFileName().toString();
         int i = name.lastIndexOf('.');
-        return Optional.ofNullable((i > 0) ? name.substring(i + 1) : null)
+        return Optional.ofNullable(i > 0 ? name.substring(i + 1) : null)
                 .map(EXTENSION_LOOKUP::get)
                 .orElseGet(Collections::emptyList);
     }
