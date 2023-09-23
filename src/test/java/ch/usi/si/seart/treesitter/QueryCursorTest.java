@@ -142,7 +142,7 @@ class QueryCursorTest extends TestBase {
     @SuppressWarnings("resource")
     void testConstructorThrows() {
         Assertions.assertThrows(NullPointerException.class, () -> root.walk(null));
-        Assertions.assertThrows(IllegalStateException.class, () -> new Node().walk(query));
-        Assertions.assertThrows(IllegalStateException.class, () -> new Node(1, 1, 1, 1, 1L, null).walk(query));
+        Assertions.assertThrows(IllegalStateException.class, () -> empty.walk(query));
+        Assertions.assertThrows(IllegalStateException.class, () -> treeless.walk(query));
     }
 }
