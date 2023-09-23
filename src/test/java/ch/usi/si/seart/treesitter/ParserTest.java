@@ -78,8 +78,8 @@ class ParserTest extends TestBase {
         Range range = node.getRange();
         Point start = range.getStartPoint();
         Point end = range.getEndPoint();
-        Assertions.assertEquals(new Point(0, 0), start);
-        Assertions.assertEquals(new Point(1, 0), end);
+        Assertions.assertEquals(_0_0_, start);
+        Assertions.assertEquals(_1_0_, end);
     }
 
     @Test
