@@ -38,11 +38,10 @@ public class Parser extends External {
 
     /**
      * @param language The language used for parsing
-     * @throws NullPointerException
-     * if the specified language is null
-     * @throws UnsatisfiedLinkError
-     * if the specified language has not
-     * been linked to the system library
+     * @throws NullPointerException if the language is null
+     * @throws UnsatisfiedLinkError if the language was not linked to native code
+     * @throws ABIVersionError if the language ABI version is outdated
+     * @throws IncompatibleLanguageException if the language can not be set
      */
     public Parser(@NotNull Language language) {
         super(createIfValid(language));
