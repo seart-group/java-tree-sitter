@@ -80,6 +80,11 @@ public class OffsetTreeCursor extends TreeCursor {
         return new OffsetNode(cursor.getCurrentNode());
     }
 
+    @Override
+    public String toString() {
+        return String.format("OffsetTreeCursor(row: %d, column: %d)", offset.getRow(), offset.getColumn());
+    }
+
     @AllArgsConstructor(access = AccessLevel.PACKAGE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     private class OffsetNode extends Node {
