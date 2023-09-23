@@ -212,13 +212,36 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint(
   return __marshalPoint(env, point);
 }
 
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol(
+  JNIEnv* env, jobject thisObject) {
+  jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
+  if (treeObject == NULL) return NULL;
+  jobject languageObject = env->GetObjectField(treeObject, _treeLanguageField);
+  if (languageObject == NULL) return NULL;
+  jclass languageClass = env->GetObjectClass(languageObject);
+  jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
+  jlong languageId = env->GetLongField(languageObject, languageIdField);
+  const TSLanguage* language = (const TSLanguage*)languageId;
+  TSNode node = __unmarshalNode(env, thisObject);
+  if (ts_node_is_null(node)) return NULL;
+  TSSymbol symbol = ts_node_symbol(node);
+  const char* name = ts_language_symbol_name(language, symbol);
+  TSSymbolType type = ts_language_symbol_type(language, symbol);
+  return env->NewObject(
+    _symbolClass,
+    _symbolConstructor,
+    (jint)symbol,
+    (jint)type,
+    env->NewStringUTF(name)
+  );
+}
+
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) return NULL;
   const char* type = ts_node_type(node);
-  jstring result = env->NewStringUTF(type);
-  return result;
+  return env->NewStringUTF(type);
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError(

@@ -50,8 +50,12 @@ public abstract class PrinterTestBase extends TestBase {
         Assertions.assertThrows(NullPointerException.class, () -> getPrinter(null));
     }
 
+    protected Language getLanguage() {
+        return Language.JAVA;
+    }
+
     protected Parser getParser() {
-        return new Parser(Language.JAVA);
+        return new Parser(getLanguage());
     }
 
     protected TreeCursor getCursor(Tree tree) {

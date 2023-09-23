@@ -234,6 +234,14 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetSymbol() {
+        Symbol symbol = root.getSymbol();
+        Assertions.assertEquals("module", symbol.getName());
+        Assertions.assertEquals(Symbol.Type.REGULAR, symbol.getType());
+        Assertions.assertNull(new Node().getSymbol());
+    }
+
+    @Test
     void testGetType() {
         Assertions.assertEquals("module", root.getType());
         Assertions.assertEquals("function_definition", root.getChild(0).getType());

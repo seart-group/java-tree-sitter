@@ -69,6 +69,7 @@ extern jclass _parserClass;
 extern jfieldID _parserLanguageField;
 
 extern jclass _treeClass;
+extern jfieldID _treeLanguageField;
 extern jmethodID _treeConstructor;
 
 extern jclass _dotGraphPrinterClass;
@@ -81,6 +82,9 @@ extern jmethodID _queryCursorConstructor;
 extern jfieldID _queryCursorNodeField;
 extern jfieldID _queryCursorQueryField;
 extern jfieldID _queryCursorExecutedField;
+
+extern jclass _symbolClass;
+extern jmethodID _symbolConstructor;
 
 extern jclass _treeCursorClass;
 extern jfieldID _treeCursorContext0Field;
@@ -166,6 +170,148 @@ jobject __marshalPoint(JNIEnv* env, TSPoint point);
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
+
+#ifdef TS_LANGUAGE_ADA
+TSLanguage* tree_sitter_ada();
+#endif
+#ifdef TS_LANGUAGE_BASH
+TSLanguage* tree_sitter_bash();
+#endif
+#ifdef TS_LANGUAGE_C
+TSLanguage* tree_sitter_c();
+#endif
+#ifdef TS_LANGUAGE_C_SHARP
+TSLanguage* tree_sitter_c_sharp();
+#endif
+#ifdef TS_LANGUAGE_CLOJURE
+TSLanguage* tree_sitter_clojure();
+#endif
+#ifdef TS_LANGUAGE_CMAKE
+TSLanguage* tree_sitter_cmake();
+#endif
+#ifdef TS_LANGUAGE_COMMON_LISP
+TSLanguage* tree_sitter_commonlisp();
+#endif
+#ifdef TS_LANGUAGE_CPP
+TSLanguage* tree_sitter_cpp();
+#endif
+#ifdef TS_LANGUAGE_CSS
+TSLanguage* tree_sitter_css();
+#endif
+#ifdef TS_LANGUAGE_DART
+TSLanguage* tree_sitter_dart();
+#endif
+#ifdef TS_LANGUAGE_DOT
+TSLanguage* tree_sitter_dot();
+#endif
+#ifdef TS_LANGUAGE_ELIXIR
+TSLanguage* tree_sitter_elixir();
+#endif
+#ifdef TS_LANGUAGE_ELM
+TSLanguage* tree_sitter_elm();
+#endif
+#ifdef TS_LANGUAGE_EMBEDDED_TEMPLATE
+TSLanguage* tree_sitter_embedded_template();
+#endif
+#ifdef TS_LANGUAGE_ERLANG
+TSLanguage* tree_sitter_erlang();
+#endif
+#ifdef TS_LANGUAGE_FORTRAN
+TSLanguage* tree_sitter_fortran();
+#endif
+#ifdef TS_LANGUAGE_GO
+TSLanguage* tree_sitter_go();
+#endif
+#ifdef TS_LANGUAGE_GRAPHQL
+TSLanguage* tree_sitter_graphql();
+#endif
+#ifdef TS_LANGUAGE_HASKELL
+TSLanguage* tree_sitter_haskell();
+#endif
+#ifdef TS_LANGUAGE_HTML
+TSLanguage* tree_sitter_html();
+#endif
+#ifdef TS_LANGUAGE_JAVA
+TSLanguage* tree_sitter_java();
+#endif
+#ifdef TS_LANGUAGE_JAVASCRIPT
+TSLanguage* tree_sitter_javascript();
+#endif
+#ifdef TS_LANGUAGE_JSON
+TSLanguage* tree_sitter_json();
+#endif
+#ifdef TS_LANGUAGE_JULIA
+TSLanguage* tree_sitter_julia();
+#endif
+#ifdef TS_LANGUAGE_KOTLIN
+TSLanguage* tree_sitter_kotlin();
+#endif
+#ifdef TS_LANGUAGE_LATEX
+TSLanguage* tree_sitter_latex();
+#endif
+#ifdef TS_LANGUAGE_LUA
+TSLanguage* tree_sitter_lua();
+#endif
+#ifdef TS_LANGUAGE_MARKDOWN
+TSLanguage* tree_sitter_markdown();
+#endif
+#ifdef TS_LANGUAGE_NIX
+TSLanguage* tree_sitter_nix();
+#endif
+#ifdef TS_LANGUAGE_OBJECTIVE_C
+TSLanguage* tree_sitter_objc();
+#endif
+#ifdef TS_LANGUAGE_OCAML
+TSLanguage* tree_sitter_ocaml();
+#endif
+#ifdef TS_LANGUAGE_PASCAL
+TSLanguage* tree_sitter_pascal();
+#endif
+#ifdef TS_LANGUAGE_PHP
+TSLanguage* tree_sitter_php();
+#endif
+#ifdef TS_LANGUAGE_PYTHON
+TSLanguage* tree_sitter_python();
+#endif
+#ifdef TS_LANGUAGE_R
+TSLanguage* tree_sitter_r();
+#endif
+#ifdef TS_LANGUAGE_RACKET
+TSLanguage* tree_sitter_racket();
+#endif
+#ifdef TS_LANGUAGE_RUBY
+TSLanguage* tree_sitter_ruby();
+#endif
+#ifdef TS_LANGUAGE_RUST
+TSLanguage* tree_sitter_rust();
+#endif
+#ifdef TS_LANGUAGE_SCALA
+TSLanguage* tree_sitter_scala();
+#endif
+#ifdef TS_LANGUAGE_SCHEME
+TSLanguage* tree_sitter_scheme();
+#endif
+#ifdef TS_LANGUAGE_SCSS
+TSLanguage* tree_sitter_scss();
+#endif
+#ifdef TS_LANGUAGE_SVELTE
+TSLanguage* tree_sitter_svelte();
+#endif
+#ifdef TS_LANGUAGE_SWIFT
+TSLanguage* tree_sitter_swift();
+#endif
+#ifdef TS_LANGUAGE_TOML
+TSLanguage* tree_sitter_toml();
+#endif
+#ifdef TS_LANGUAGE_TSX
+TSLanguage* tree_sitter_tsx();
+#endif
+#ifdef TS_LANGUAGE_TYPESCRIPT
+TSLanguage* tree_sitter_typescript();
+#endif
+#ifdef TS_LANGUAGE_YAML
+TSLanguage* tree_sitter_yaml();
+#endif
 
 #ifdef __cplusplus
 }
