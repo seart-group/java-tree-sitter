@@ -46,7 +46,7 @@ class NodeTest extends TestBase {
     void testGetChildCount() {
         Assertions.assertEquals(1, root.getChildCount());
         Assertions.assertEquals(5, root.getChild(0).getChildCount());
-        Assertions.assertEquals(0, new Node().getChildCount());
+        Assertions.assertEquals(0, empty.getChildCount());
     }
 
     @ParameterizedTest
@@ -64,7 +64,7 @@ class NodeTest extends TestBase {
         for (int i = 0; i < count; i++) {
             Assertions.assertEquals(function.getChild(i), children.get(i));
         }
-        Assertions.assertEquals(new Node().getChildren(), List.of());
+        Assertions.assertEquals(empty.getChildren(), List.of());
     }
 
     @Test
@@ -108,7 +108,7 @@ class NodeTest extends TestBase {
     @Test
     void testGetEndByte() {
         Assertions.assertEquals(44, root.getEndByte());
-        Assertions.assertEquals(0, new Node().getEndByte());
+        Assertions.assertEquals(0, empty.getEndByte());
     }
 
     @Test
@@ -116,7 +116,7 @@ class NodeTest extends TestBase {
         Point endPoint = root.getEndPoint();
         Assertions.assertEquals(2, endPoint.getRow());
         Assertions.assertEquals(12, endPoint.getColumn());
-        Assertions.assertTrue(new Node().getEndPoint().isOrigin());
+        Assertions.assertTrue(empty.getEndPoint().isOrigin());
     }
 
     @Test
@@ -222,7 +222,7 @@ class NodeTest extends TestBase {
     @Test
     void testGetStartByte() {
         Assertions.assertEquals(0, root.getStartByte());
-        Assertions.assertEquals(0, new Node().getStartByte());
+        Assertions.assertEquals(0, empty.getStartByte());
     }
 
     @Test
@@ -230,7 +230,7 @@ class NodeTest extends TestBase {
         Point startPoint = root.getStartPoint();
         Assertions.assertEquals(0, startPoint.getRow());
         Assertions.assertEquals(0, startPoint.getColumn());
-        Assertions.assertTrue(new Node().getStartPoint().isOrigin());
+        Assertions.assertTrue(empty.getStartPoint().isOrigin());
     }
 
     @Test
@@ -238,14 +238,14 @@ class NodeTest extends TestBase {
         Symbol symbol = root.getSymbol();
         Assertions.assertEquals("module", symbol.getName());
         Assertions.assertEquals(Symbol.Type.REGULAR, symbol.getType());
-        Assertions.assertNull(new Node().getSymbol());
+        Assertions.assertNull(empty.getSymbol());
     }
 
     @Test
     void testGetType() {
         Assertions.assertEquals("module", root.getType());
         Assertions.assertEquals("function_definition", root.getChild(0).getType());
-        Assertions.assertNull(new Node().getType());
+        Assertions.assertNull(empty.getType());
     }
 
     @Test
@@ -293,7 +293,7 @@ class NodeTest extends TestBase {
     @Test
     void testIsNull() {
         Assertions.assertFalse(root.isNull());
-        Assertions.assertTrue(new Node().isNull());
+        Assertions.assertTrue(empty.isNull());
     }
 
     @Test
@@ -307,9 +307,9 @@ class NodeTest extends TestBase {
             Assertions.assertEquals(function.getChild(i), iterator.next());
         }
         Assertions.assertTrue(iterator.hasNext());
-        Iterator<Node> empty = new Node().iterator();
-        empty.next();
-        Assertions.assertFalse(empty.hasNext());
-        Assertions.assertThrows(NoSuchElementException.class, empty::next);
+        Iterator<Node> emptyIterator = empty.iterator();
+        emptyIterator.next();
+        Assertions.assertFalse(emptyIterator.hasNext());
+        Assertions.assertThrows(NoSuchElementException.class, emptyIterator::next);
     }
 }
