@@ -1,6 +1,5 @@
 package ch.usi.si.seart.treesitter;
 
-import ch.usi.si.seart.treesitter.error.ABIVersionError;
 import ch.usi.si.seart.treesitter.exception.parser.IncompatibleLanguageException;
 import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.AccessLevel;
@@ -40,7 +39,7 @@ public class Parser extends External {
      * @param language The language used for parsing
      * @throws NullPointerException if the language is null
      * @throws UnsatisfiedLinkError if the language was not linked to native code
-     * @throws ABIVersionError if the language ABI version is outdated
+     * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
      * @throws IncompatibleLanguageException if the language can not be set
      */
     public Parser(@NotNull Language language) {
@@ -101,7 +100,7 @@ public class Parser extends External {
      * @param language The language used for parsing
      * @throws NullPointerException if the language is null
      * @throws UnsatisfiedLinkError if the language was not linked to native code
-     * @throws ABIVersionError if the language ABI version is outdated
+     * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
      * @throws IncompatibleLanguageException if the language can not be set
      */
     public void setLanguage(@NotNull Language language) {
