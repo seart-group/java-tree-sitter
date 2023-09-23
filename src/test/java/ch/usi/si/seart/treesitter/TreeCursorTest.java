@@ -84,8 +84,8 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
-    @SuppressWarnings("resource")
     void testWalkThrows() {
-        Assertions.assertThrows(IllegalStateException.class, () -> new Node().walk());
+        Node empty = new Node();
+        Assertions.assertThrows(IllegalStateException.class, empty::walk);
     }
 }
