@@ -12,9 +12,9 @@ class OffsetTreeCursorTest extends PrinterTestBase {
     @Test
     @SuppressWarnings("resource")
     void testCursorThrows() {
-        Assertions.assertThrows(NullPointerException.class, () -> new OffsetTreeCursor(null, new Point(1, 1)));
-        Assertions.assertThrows(NullPointerException.class, () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, null), null));
-        Assertions.assertThrows(IllegalStateException.class, () -> new OffsetTreeCursor(new Node(1, 1, 1, 1, 1, null), new Point(1, 1)));
+        Assertions.assertThrows(NullPointerException.class, () -> new OffsetTreeCursor(null, _1_1_));
+        Assertions.assertThrows(NullPointerException.class, () -> new OffsetTreeCursor(treeless, null));
+        Assertions.assertThrows(IllegalStateException.class, () -> new OffsetTreeCursor(treeless, _1_1_));
     }
 
     @Disabled("No need test the throw here")
