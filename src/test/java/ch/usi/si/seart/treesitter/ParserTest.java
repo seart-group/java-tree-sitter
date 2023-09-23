@@ -50,11 +50,7 @@ class ParserTest extends TestBase {
         Assertions.assertFalse(tree.isNull());
         Node root = tree.getRootNode();
         Assertions.assertEquals("module", root.getType());
-        Range range = root.getRange();
-        Point start = range.getStartPoint();
-        Point end = range.getEndPoint();
-        Assertions.assertEquals(new Point(0, 0), start);
-        Assertions.assertEquals(new Point(1, 0), end);
+        checkRange(root);
     }
 
     @Test
@@ -63,11 +59,7 @@ class ParserTest extends TestBase {
         Assertions.assertFalse(tree.isNull());
         Node root = tree.getRootNode();
         Assertions.assertEquals("module", root.getType());
-        Range range = root.getRange();
-        Point start = range.getStartPoint();
-        Point end = range.getEndPoint();
-        Assertions.assertEquals(new Point(0, 0), start);
-        Assertions.assertEquals(new Point(1, 0), end);
+        checkRange(root);
     }
 
     @Test
@@ -79,7 +71,11 @@ class ParserTest extends TestBase {
         Assertions.assertFalse(tree.isNull());
         Node root = tree.getRootNode();
         Assertions.assertEquals("program", root.getType());
-        Range range = root.getRange();
+        checkRange(root);
+    }
+
+    private void checkRange(Node node) {
+        Range range = node.getRange();
         Point start = range.getStartPoint();
         Point end = range.getEndPoint();
         Assertions.assertEquals(new Point(0, 0), start);
