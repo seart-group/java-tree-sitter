@@ -183,6 +183,8 @@ TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
 
 void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject);
 
+ComparisonResult __comparePoints(TSPoint left, TSPoint right);
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);

@@ -62,13 +62,11 @@ public class Point implements Comparable<Point> {
      *
      * @param other the object to be compared
      * @return the row comparison result, or the column comparison result if the rows are equal
+     * @throws NullPointerException if the other point is null
      * @since 1.5.1
      */
     @Override
-    public int compareTo(@NotNull Point other) {
-        int comparison = Integer.compare(this.row, other.row);
-        return comparison != 0 ? comparison : Integer.compare(this.column, other.column);
-    }
+    public native int compareTo(@NotNull Point other);
 
     /**
      * Adds another point to this point,
