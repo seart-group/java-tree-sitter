@@ -259,6 +259,10 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_incompatibleLanguageExceptionClass)
 }
 
+ComparisonResult intcmp(uint32_t x, uint32_t y) {
+  return (x < y) ? LT : ((x == y) ? EQ : GT);
+}
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }

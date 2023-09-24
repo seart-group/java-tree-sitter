@@ -173,6 +173,8 @@ typedef enum {
   GT =  1,
 } ComparisonResult;
 
+ComparisonResult intcmp(uint32_t x, uint32_t y);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
