@@ -48,6 +48,13 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange(
   JNIEnv* env, jobject thisObject, jint start, jint end) {
+  if (start < 0 || end < 0) {
+    env->ThrowNew(
+      _illegalArgumentExceptionClass,
+      "The start and end bytes must not be negative!"
+    );
+    return NULL;
+  }
   if (start > end) {
     env->ThrowNew(
       _illegalArgumentExceptionClass,
@@ -55,11 +62,31 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
     );
     return NULL;
   }
+  // Not sure why I need to multiply by two, again probably because of utf-16
   TSNode node = __unmarshalNode(env, thisObject);
-  TSNode descendant = ts_node_descendant_for_byte_range(
-    // Not sure why I need to multiply by two, again probably because of utf-16
-    node, (uint32_t)start * 2, (uint32_t)end * 2
-  );
+  uint32_t nodeStart = ts_node_start_byte(node);
+  uint32_t rangeStart = (uint32_t)start * 2;
+  if (rangeStart < nodeStart) {
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      rangeStart
+    );
+    env->Throw((jthrowable)exception);
+    return NULL;
+  }
+  uint32_t nodeEnd = ts_node_end_byte(node);
+  uint32_t rangeEnd = (uint32_t)end * 2;
+  if (rangeEnd > nodeEnd) {
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      rangeEnd
+    );
+    env->Throw((jthrowable)exception);
+    return NULL;
+  }
+  TSNode descendant = ts_node_descendant_for_byte_range(node, rangeStart, rangeEnd);
   jobject descendantObject = __marshalNode(env, descendant);
   __copyTree(env, thisObject, descendantObject);
   return descendantObject;

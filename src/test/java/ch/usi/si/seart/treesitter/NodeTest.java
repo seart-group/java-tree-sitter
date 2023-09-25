@@ -42,6 +42,18 @@ class NodeTest extends TestBase {
         );
     }
 
+    public static Stream<Arguments> provideStartAndEndBytes() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        return Stream.of(
+                Arguments.of(IllegalArgumentException.class, -1, identifier.getEndByte()),
+                Arguments.of(IllegalArgumentException.class, identifier.getStartByte(), identifier.getEndByte() * -1),
+                Arguments.of(IllegalArgumentException.class, identifier.getEndByte(), identifier.getStartByte()),
+                Arguments.of(IndexOutOfBoundsException.class, root.getStartByte(), identifier.getEndByte()),
+                Arguments.of(IndexOutOfBoundsException.class, identifier.getStartByte(), root.getEndByte())
+        );
+    }
+
     public static Stream<Arguments> provideStartAndEndPoints() {
         Node function = root.getChild(0);
         Node identifier = function.getChild(1);
@@ -115,6 +127,14 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
         Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
         Assertions.assertThrows(IllegalArgumentException.class, () -> root.getDescendantForByteRange(2, 0));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndBytes")
+    void testGetDescendantForByteRangeThrows(Class<Throwable> throwableType, int startByte, int endByte) {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertThrows(throwableType, () -> identifier.getDescendantForByteRange(startByte, endByte));
     }
 
     @Test
