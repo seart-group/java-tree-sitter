@@ -90,6 +90,17 @@ public class Node implements Iterable<Node> {
     public native Node getDescendantForByteRange(int startByte, int endByte);
 
     /**
+     * @param startPoint The start point of the range
+     * @param endPoint The end point of the range
+     * @return The smallest node within this node that spans the given point range
+     * @throws NullPointerException if either argument is null
+     * @throws IllegalArgumentException
+     * if {@code startPoint} is a position that comes after {@code endPoint},
+     * or if either of the two points has negative coordinates
+     */
+    public native Node getDescendantForPointRange(@NotNull Point startPoint, @NotNull Point endPoint);
+
+    /**
      * @return The node's end byte
      */
     public native int getEndByte();

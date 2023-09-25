@@ -42,6 +42,18 @@ class NodeTest extends TestBase {
         );
     }
 
+    public static Stream<Arguments> provideStartAndEndPoints() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        return Stream.of(
+                Arguments.of(NullPointerException.class, null, new Point(0, 0)),
+                Arguments.of(NullPointerException.class, new Point(0, 0), null),
+                Arguments.of(IllegalArgumentException.class, new Point(-1, -1), root.getEndPoint()),
+                Arguments.of(IllegalArgumentException.class, root.getStartPoint(), new Point(3, 1)),
+                Arguments.of(IllegalArgumentException.class, identifier.getEndPoint(), identifier.getStartPoint())
+        );
+    }
+
     @Test
     void testGetChildCount() {
         Assertions.assertEquals(1, root.getChildCount());
@@ -103,6 +115,27 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
         Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
         Assertions.assertThrows(IllegalArgumentException.class, () -> root.getDescendantForByteRange(2, 0));
+    }
+
+    @Test
+    void testGetDescendantForPointRange() {
+        Node function = root.getChild(0);
+        Node def = function.getChild(0);
+        Node identifier = function.getChild(1);
+        Node parameters = function.getChild(2);
+        Node colon = function.getChild(3);
+        Node body = function.getChild(4);
+        Assertions.assertEquals(def, root.getDescendantForPointRange(def.getStartPoint(), def.getEndPoint()));
+        Assertions.assertEquals(identifier, root.getDescendantForPointRange(identifier.getStartPoint(), identifier.getEndPoint()));
+        Assertions.assertEquals(parameters, root.getDescendantForPointRange(parameters.getStartPoint(), parameters.getEndPoint()));
+        Assertions.assertEquals(colon, root.getDescendantForPointRange(colon.getStartPoint(), colon.getEndPoint()));
+        Assertions.assertEquals(body, root.getDescendantForPointRange(body.getStartPoint(), body.getEndPoint()));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndPoints")
+    void testGetDescendantForPointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
+        Assertions.assertThrows(throwableType, () -> root.getDescendantForPointRange(startPoint, endPoint));
     }
 
     @Test

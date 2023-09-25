@@ -65,6 +65,47 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
   return descendantObject;
 }
 
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForPointRange(
+  JNIEnv* env, jobject thisObject, jobject startPointObject, jobject endPointObject) {
+  if (startPointObject == NULL) {
+    env->ThrowNew(_nullPointerExceptionClass, "Start point must not be null!");
+    return NULL;
+  }
+  if (endPointObject == NULL) {
+    env->ThrowNew(_nullPointerExceptionClass, "End point must not be null!");
+    return NULL;
+  }
+  TSNode node = __unmarshalNode(env, thisObject);
+  TSPoint startPoint = __unmarshalPoint(env, startPointObject);
+  TSPoint endPoint = __unmarshalPoint(env, endPointObject);
+  if (endPoint.row < 0 || endPoint.column < 0) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "End point can not have negative coordinates!");
+    return NULL;
+  }
+  if (startPoint.row < 0 || startPoint.column < 0) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not have negative coordinates!");
+    return NULL;
+  }
+  TSPoint lowerBound = ts_node_start_point(node);
+  TSPoint upperBound = ts_node_end_point(node);
+  if (__comparePoints(lowerBound, startPoint) == GT) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not be outside of node bounds!");
+    return NULL;
+  }
+  if (__comparePoints(endPoint, upperBound) == GT) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "End point can not be outside of node bounds!");
+    return NULL;
+  }
+  if (__comparePoints(startPoint, endPoint) == GT) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not be greater than end point!");
+    return NULL;
+  }
+  TSNode descendant = ts_node_descendant_for_point_range(node, startPoint, endPoint);
+  jobject descendantObject = __marshalNode(env, descendant);
+  __copyTree(env, thisObject, descendantObject);
+  return descendantObject;
+}
+
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);

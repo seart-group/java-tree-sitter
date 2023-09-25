@@ -41,6 +41,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getDescendantForPointRange
+ * Signature: (Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForPointRange
+  (JNIEnv *, jobject, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getEndByte
  * Signature: ()I
  */
