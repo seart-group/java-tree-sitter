@@ -5,13 +5,8 @@
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Point_compareTo(
   JNIEnv* env, jobject thisObject, jobject otherObject) {
-  if (otherObject == NULL) {
-    env->ThrowNew(
-      _nullPointerExceptionClass,
-      "Point must not be null!"
-    );
-    return 0;
-  }
+  if (otherObject == NULL)
+    return __throwNPE(env, "Point must not be null!");
   TSPoint thisPoint = __unmarshalPoint(env, thisObject);
   TSPoint otherPoint = __unmarshalPoint(env, otherObject);
   return (jint)__comparePoints(thisPoint, otherPoint);

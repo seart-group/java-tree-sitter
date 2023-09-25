@@ -112,6 +112,9 @@ extern jmethodID _incompatibleLanguageExceptionConstructor;
 extern "C" {
 #endif
 
+#define _throwNew(CLASS, MESSAGE) \
+  env->ThrowNew(CLASS, MESSAGE)
+
 #define _getClass(NAME) \
   env->FindClass(NAME)
 
@@ -174,6 +177,16 @@ typedef enum {
 } ComparisonResult;
 
 ComparisonResult intcmp(uint32_t x, uint32_t y);
+
+jint __throwNPE(JNIEnv* env, const char* message);
+
+jint __throwIAE(JNIEnv* env, const char* message);
+
+jint __throwISE(JNIEnv* env, const char* message);
+
+jint __throwIOE(JNIEnv* env, const char* message);
+
+jint __throwIOB(JNIEnv* env, jint index);
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 

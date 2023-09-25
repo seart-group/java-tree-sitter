@@ -32,7 +32,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
   bool executed = (bool)env->GetBooleanField(thisObject, _queryCursorExecutedField);
   bool found = false;
   if (!executed) {
-    env->ThrowNew(_illegalStateExceptionClass, "Query was not executed on node!");
+    __throwISE(env, "Query was not executed on node!");
     return NULL;
   }
   TSQueryMatch match;

@@ -9,12 +9,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
   TSNode node = __unmarshalNode(env, thisObject);
   uint32_t childIndex = (uint32_t)index;
   if ((childIndex < 0) || (childIndex >= ts_node_child_count(node))) {
-    jobject exception = env->NewObject(
-      _indexOutOfBoundsExceptionClass,
-      _indexOutOfBoundsExceptionConstructor,
-      index
-    );
-    env->Throw((jthrowable)exception);
+    __throwIOB(env, index);
     return NULL;
   }
   TSNode child = ts_node_child(node, childIndex);
@@ -26,7 +21,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldName(
   JNIEnv* env, jobject thisObject, jstring name) {
   if (name == NULL) {
-    env->ThrowNew(_nullPointerExceptionClass, "Field name must not be null!");
+    __throwNPE(env, "Field name must not be null!");
     return NULL;
   }
   uint32_t length = env->GetStringLength(name);
@@ -63,17 +58,11 @@ JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__IIZ(
   JNIEnv* env, jobject thisObject, jint start, jint end, jboolean named) {
   if (start < 0 || end < 0) {
-    env->ThrowNew(
-      _illegalArgumentExceptionClass,
-      "The start and end bytes must not be negative!"
-    );
+    __throwIAE(env, "The start and end bytes must not be negative!");
     return NULL;
   }
   if (start > end) {
-    env->ThrowNew(
-      _illegalArgumentExceptionClass,
-      "The starting byte of the range must not be greater than the ending byte!"
-    );
+    __throwIAE(env, "The starting byte of the range must not be greater than the ending byte!");
     return NULL;
   }
   // Not sure why I need to multiply by two, again probably because of utf-16
@@ -81,23 +70,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__II
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t rangeStart = (uint32_t)start * 2;
   if (rangeStart < nodeStart) {
-    jobject exception = env->NewObject(
-      _indexOutOfBoundsExceptionClass,
-      _indexOutOfBoundsExceptionConstructor,
-      rangeStart
-    );
-    env->Throw((jthrowable)exception);
+    __throwIOB(env, start);
     return NULL;
   }
   uint32_t nodeEnd = ts_node_end_byte(node);
   uint32_t rangeEnd = (uint32_t)end * 2;
   if (rangeEnd > nodeEnd) {
-    jobject exception = env->NewObject(
-      _indexOutOfBoundsExceptionClass,
-      _indexOutOfBoundsExceptionConstructor,
-      rangeEnd
-    );
-    env->Throw((jthrowable)exception);
+    __throwIOB(env, end);
     return NULL;
   }
   TSNode (*descendant_getter)(TSNode, uint32_t, uint32_t) = (bool)named
@@ -112,36 +91,36 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__II
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2Z(
   JNIEnv* env, jobject thisObject, jobject startPointObject, jobject endPointObject, jboolean named) {
   if (startPointObject == NULL) {
-    env->ThrowNew(_nullPointerExceptionClass, "Start point must not be null!");
+    __throwNPE(env, "Start point must not be null!");
     return NULL;
   }
   if (endPointObject == NULL) {
-    env->ThrowNew(_nullPointerExceptionClass, "End point must not be null!");
+    __throwNPE(env, "End point must not be null!");
     return NULL;
   }
   TSNode node = __unmarshalNode(env, thisObject);
   TSPoint startPoint = __unmarshalPoint(env, startPointObject);
   TSPoint endPoint = __unmarshalPoint(env, endPointObject);
   if (endPoint.row < 0 || endPoint.column < 0) {
-    env->ThrowNew(_illegalArgumentExceptionClass, "End point can not have negative coordinates!");
+    __throwIAE(env, "End point can not have negative coordinates!");
     return NULL;
   }
   if (startPoint.row < 0 || startPoint.column < 0) {
-    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not have negative coordinates!");
+    __throwIAE(env, "Start point can not have negative coordinates!");
     return NULL;
   }
   TSPoint lowerBound = ts_node_start_point(node);
   TSPoint upperBound = ts_node_end_point(node);
   if (__comparePoints(lowerBound, startPoint) == GT) {
-    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not be outside of node bounds!");
+    __throwIAE(env, "Start point can not be outside of node bounds!");
     return NULL;
   }
   if (__comparePoints(endPoint, upperBound) == GT) {
-    env->ThrowNew(_illegalArgumentExceptionClass, "End point can not be outside of node bounds!");
+    __throwIAE(env, "End point can not be outside of node bounds!");
     return NULL;
   }
   if (__comparePoints(startPoint, endPoint) == GT) {
-    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not be greater than end point!");
+    __throwIAE(env, "Start point can not be greater than end point!");
     return NULL;
   }
   TSNode (*descendant_getter)(TSNode, TSPoint, TSPoint) = (bool)named
@@ -172,12 +151,7 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getFieldNameForCh
   TSNode node = __unmarshalNode(env, thisObject);
   uint32_t childIndex = (uint32_t)index;
   if ((childIndex < 0) || (childIndex >= ts_node_child_count(node))) {
-    jobject exception = env->NewObject(
-      _indexOutOfBoundsExceptionClass,
-      _indexOutOfBoundsExceptionConstructor,
-      index
-    );
-    env->Throw((jthrowable)exception);
+    __throwIOB(env, index);
     return NULL;
   }
   const char* childName = ts_node_field_name_for_child(node, childIndex);
@@ -192,12 +166,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
   if ((position < nodeStart) || (position > nodeEnd)) {
-    jobject exception = env->NewObject(
-      _indexOutOfBoundsExceptionClass,
-      _indexOutOfBoundsExceptionConstructor,
-      index
-    );
-    env->Throw((jthrowable)exception);
+    __throwIOB(env, offset);
     return NULL;
   }
   TSNode child = ts_node_first_child_for_byte(node, position);
@@ -213,12 +182,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChil
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
   if ((position < nodeStart) || (position > nodeEnd)) {
-    jobject exception = env->NewObject(
-      _indexOutOfBoundsExceptionClass,
-      _indexOutOfBoundsExceptionConstructor,
-      offset
-    );
-    env->Throw((jthrowable)exception);
+    __throwIOB(env, offset);
     return NULL;
   }
   TSNode child = ts_node_first_named_child_for_byte(node, position);
@@ -373,18 +337,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
   JNIEnv* env, jobject thisObject) {
   jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
   if (treeObject == NULL) {
-    env->ThrowNew(
-      _illegalStateExceptionClass,
-      "Cannot construct a TreeCursor instance without a Tree!"
-    );
+    __throwISE(env, "Cannot construct a TreeCursor instance without a Tree!");
     return NULL;
   }
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) {
-    env->ThrowNew(
-      _illegalStateExceptionClass,
-      "Cannot construct a TreeCursor instance from a `null` Node!"
-    );
+    __throwISE(env, "Cannot construct a TreeCursor instance from a `null` Node!");
     return NULL;
   }
   TSTreeCursor cursor = ts_tree_cursor_new(node);
@@ -402,26 +360,17 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_seart_treesitter_Query_2(
   JNIEnv* env, jobject thisObject, jobject queryObject) {
   if (queryObject == NULL) {
-    env->ThrowNew(
-      _nullPointerExceptionClass,
-      "Query must not be null!"
-    );
+    __throwNPE(env, "Query must not be null!");
     return NULL;
   }
   jobject treeObject = env->GetObjectField(thisObject, _nodeTreeField);
   if (treeObject == NULL) {
-    env->ThrowNew(
-      _illegalStateExceptionClass,
-      "Cannot construct a QueryCursor instance without a Tree!"
-    );
+    __throwISE(env, "Cannot construct a QueryCursor instance without a Tree!");
     return NULL;
   }
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) {
-    env->ThrowNew(
-      _illegalStateExceptionClass,
-      "Cannot construct a QueryCursor instance from a `null` Node!"
-    );
+    __throwISE(env, "Cannot construct a QueryCursor instance from a `null` Node!");
     return NULL;
   }
   TSQueryCursor* cursor = ts_query_cursor_new();

@@ -263,6 +263,31 @@ ComparisonResult intcmp(uint32_t x, uint32_t y) {
   return (x < y) ? LT : ((x == y) ? EQ : GT);
 }
 
+jint __throwNPE(JNIEnv* env, const char* message) {
+  return _throwNew(_nullPointerExceptionClass, message);
+}
+
+jint __throwIAE(JNIEnv* env, const char* message) {
+  return _throwNew(_illegalArgumentExceptionClass, message);
+}
+
+jint __throwISE(JNIEnv* env, const char* message) {
+  return _throwNew(_illegalStateExceptionClass, message);
+}
+
+jint __throwIOE(JNIEnv* env, const char* message) {
+  return _throwNew(_ioExceptionClass, message);
+}
+
+jint __throwIOB(JNIEnv* env, jint index) {
+  jobject exception = env->NewObject(
+    _indexOutOfBoundsExceptionClass,
+    _indexOutOfBoundsExceptionConstructor,
+    index
+  );
+  return env->Throw((jthrowable)exception);
+}
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }

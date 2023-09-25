@@ -20,8 +20,8 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatib
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
   JNIEnv* env, jobject thisObject) {
-  jlong parser = __getPointer(env, thisObject);
-  ts_parser_delete((TSParser*)parser);
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  ts_parser_delete(parser);
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
@@ -31,17 +31,17 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
 
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
   JNIEnv* env, jobject thisObject) {
-  jlong parser = __getPointer(env, thisObject);
-  return (jlong)ts_parser_timeout_micros((TSParser*)parser);
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  return (jlong)ts_parser_timeout_micros(parser);
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
   JNIEnv* env, jobject thisObject, jlong timeout) {
   if (timeout >= 0) {
-      jlong parser = __getPointer(env, thisObject);
-      ts_parser_set_timeout_micros((TSParser*)parser, (uint64_t)timeout);
+    TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+    ts_parser_set_timeout_micros(parser, (uint64_t)timeout);
   } else {
-      env->ThrowNew(_illegalArgumentExceptionClass, "Timeout can not be negative!");
+    __throwIAE(env, "Timeout can not be negative!");
   }
 }
 
@@ -51,22 +51,22 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
   TSTree* oldTree = (oldTreeObject != NULL) ? (TSTree*)__getPointer(env, oldTreeObject) : NULL;
   jbyte* elements = env->GetByteArrayElements(bytes, NULL);
   TSTree* result = ts_parser_parse_string_encoding(
-      parser, oldTree, reinterpret_cast<const char*>(elements), length, TSInputEncodingUTF16
+    parser, oldTree, reinterpret_cast<const char*>(elements), length, TSInputEncodingUTF16
   );
   env->ReleaseByteArrayElements(bytes, elements, JNI_ABORT);
   ts_parser_reset(parser);
   if (result == 0) {
-      jobject cause = env->NewObject(
-        _timeoutExceptionClass,
-        _timeoutExceptionConstructor
-      );
-      jobject exception = env->NewObject(
-        _parsingExceptionClass,
-        _parsingExceptionConstructor,
-        (jthrowable)cause
-      );
-      env->Throw((jthrowable)exception);
-      return NULL;
+    jobject cause = env->NewObject(
+      _timeoutExceptionClass,
+      _timeoutExceptionConstructor
+    );
+    jobject exception = env->NewObject(
+      _parsingExceptionClass,
+      _parsingExceptionConstructor,
+      (jthrowable)cause
+    );
+    env->Throw((jthrowable)exception);
+    return NULL;
   }
   jobject language = env->GetObjectField(thisObject, _parserLanguageField);
   return env->NewObject(_treeClass, _treeConstructor, (jlong)result, language, source);
