@@ -40,11 +40,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
   found = ts_query_cursor_next_match(cursor, &match);
   if (!found) return NULL;
   jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
-  jobjectArray captures = (*env).NewObjectArray(
-    match.capture_count,
-    _queryCaptureClass,
-    NULL
-  );
+  jobjectArray captures = env->NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
   for (int i = 0; i < match.capture_count; i++) {
     TSQueryCapture capture = match.captures[i];
     jobject matchedObject = __marshalNode(env, capture.node);
