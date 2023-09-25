@@ -46,7 +46,7 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
   return (jint)count;
 }
 
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange(
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__II(
   JNIEnv* env, jobject thisObject, jint start, jint end) {
   if (start < 0 || end < 0) {
     env->ThrowNew(
@@ -92,7 +92,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
   return descendantObject;
 }
 
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForPointRange(
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2(
   JNIEnv* env, jobject thisObject, jobject startPointObject, jobject endPointObject) {
   if (startPointObject == NULL) {
     env->ThrowNew(_nullPointerExceptionClass, "Start point must not be null!");

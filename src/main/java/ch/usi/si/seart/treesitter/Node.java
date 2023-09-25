@@ -82,23 +82,46 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * @param startByte The starting byte of the range
-     * @param endByte The ending byte of the range
+     * @deprecated Use {@link #getDescendant(int, int)} instead
      * @return The smallest node within this node that spans the given range of bytes
-     * @throws IllegalArgumentException if {@code startByte} &gt; {@code endByte}
      */
-    public native Node getDescendantForByteRange(int startByte, int endByte);
+    @Deprecated(since = "1.6.0", forRemoval = true)
+    public Node getDescendantForByteRange(int startByte, int endByte) {
+        return getDescendant(startByte, endByte);
+    }
 
     /**
+     * Get the smallest node within this node that spans the given range of bytes.
+     *
+     * @param startByte The start byte of the range
+     * @param endByte The end byte of the range
+     * @return A descendant node
+     * @throws IndexOutOfBoundsException if either argument is outside of this node's byte range
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code startByte} &lt; 0</li>
+     *     <li>{@code endByte} &lt; 0</li>
+     *     <li>{@code startByte} &gt; {@code endByte}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public native Node getDescendant(int startByte, int endByte);
+
+    /**
+     * Get the smallest node within this node that spans the given range of points.
+     *
      * @param startPoint The start point of the range
      * @param endPoint The end point of the range
-     * @return The smallest node within this node that spans the given point range
+     * @return A descendant node
      * @throws NullPointerException if either argument is null
-     * @throws IllegalArgumentException
-     * if {@code startPoint} is a position that comes after {@code endPoint},
-     * or if either of the two points has negative coordinates
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>any of the arguments is outside of this node's position range</li>
+     *     <li>{@code startPoint} is a position that comes after {@code endPoint}</li>
+     * </ul>
+     * @since 1.6.0
      */
-    public native Node getDescendantForPointRange(@NotNull Point startPoint, @NotNull Point endPoint);
+    public native Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint);
 
     /**
      * @return The node's end byte
