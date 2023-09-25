@@ -230,12 +230,6 @@ class NodeTest extends TestBase {
     }
 
     @Test
-    void testGetParent() {
-        Assertions.assertNull(root.getParent());
-        Assertions.assertEquals(root, root.getChild(0).getParent());
-    }
-
-    @Test
     void testGetNextNamedSibling() {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
@@ -251,6 +245,12 @@ class NodeTest extends TestBase {
         Node identifier = function.getChild(1);
         Assertions.assertNull(root.getNextSibling());
         Assertions.assertEquals(identifier, def.getNextSibling());
+    }
+
+    @Test
+    void testGetParent() {
+        Assertions.assertNull(root.getParent());
+        Assertions.assertEquals(root, root.getChild(0).getParent());
     }
 
     @Test
