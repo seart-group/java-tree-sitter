@@ -42,6 +42,9 @@ public class Symbol {
      *     <li>Anonymous nodes ({@link #ANONYMOUS})</li>
      *     <li>Hidden nodes ({@link #AUXILIARY})</li>
      * </ul>
+     *
+     * @author Ozren Dabić
+     * @since 1.6.0
      */
     public enum Type {
 
