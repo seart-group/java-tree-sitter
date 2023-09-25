@@ -59,4 +59,10 @@ class PointTest extends TestBase {
         Assertions.assertEquals(_1_1_, _1_1_.multiply(1));
         Assertions.assertEquals(_2_2_, _1_1_.multiply(2));
     }
+
+    @Test
+    void testThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> _0_0_.add(null));
+        Assertions.assertThrows(NullPointerException.class, () -> _0_0_.subtract(null));
+    }
 }
