@@ -119,8 +119,16 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         @Override
-        public Node getDescendantForByteRange(int startByte, int endByte) {
+        public Node getDescendant(int startByte, int endByte) {
             throw new UnsupportedOperationException(UOE_MESSAGE_2);
+        }
+
+        @Override
+        public Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
+            return super.getDescendant(
+                    startPoint.subtract(offset),
+                    endPoint.subtract(offset)
+            );
         }
 
         @Override
