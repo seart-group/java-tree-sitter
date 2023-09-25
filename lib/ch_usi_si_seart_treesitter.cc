@@ -321,9 +321,10 @@ jobject __marshalPoint(JNIEnv* env, TSPoint point) {
 }
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
+  // Not sure why I need to multiply by two, probably because of utf-16
   return (TSPoint) {
     (uint32_t)env->GetIntField(pointObject, _pointRowField),
-    (uint32_t)env->GetIntField(pointObject, _pointColumnField),
+    (uint32_t)env->GetIntField(pointObject, _pointColumnField) * 2,
   };
 }
 
