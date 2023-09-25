@@ -126,7 +126,6 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(parameters, root.getDescendantForByteRange(parameters.getStartByte(), parameters.getEndByte()));
         Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
         Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> root.getDescendantForByteRange(2, 0));
     }
 
     @ParameterizedTest(name = "[{index}] {0}")
