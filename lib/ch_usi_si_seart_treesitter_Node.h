@@ -89,6 +89,22 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChil
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getNamedDescendant
+ * Signature: (II)Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedDescendant__II
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getNamedDescendant
+ * Signature: (Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedDescendant__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2
+  (JNIEnv *, jobject, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getNodeString
  * Signature: ()Ljava/lang/String;
  */

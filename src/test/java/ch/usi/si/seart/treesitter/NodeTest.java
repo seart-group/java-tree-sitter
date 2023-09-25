@@ -230,6 +230,38 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetNamedDescendantForByteRange() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        int startByte = identifier.getStartByte();
+        int endByte = identifier.getEndByte();
+        Assertions.assertEquals(identifier, root.getNamedDescendant(startByte, endByte));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndBytes")
+    void testGetNamedDescendantForByteRangeThrows(Class<Throwable> throwableType, int startByte, int endByte) {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertThrows(throwableType, () -> identifier.getNamedDescendant(startByte, endByte));
+    }
+
+    @Test
+    void testGetNamedDescendantForPointRange() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Point startPoint = identifier.getStartPoint();
+        Point endPoint = identifier.getEndPoint();
+        Assertions.assertEquals(identifier, root.getNamedDescendant(startPoint, endPoint));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndPoints")
+    void testGetNamedDescendantForPointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
+        Assertions.assertThrows(throwableType, () -> root.getDescendant(startPoint, endPoint));
+    }
+
+    @Test
     void testGetNextNamedSibling() {
         Node function = root.getChild(0);
         Node def = function.getChild(0);

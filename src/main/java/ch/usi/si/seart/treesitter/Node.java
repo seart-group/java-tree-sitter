@@ -160,6 +160,39 @@ public class Node implements Iterable<Node> {
     public native Node getFirstNamedChildForByte(int offset);
 
     /**
+     * Get the smallest named node within this node that spans the given range of bytes.
+     *
+     * @param startByte The start byte of the range
+     * @param endByte The end byte of the range
+     * @return A named descendant node
+     * @throws IndexOutOfBoundsException if either argument is outside of this node's byte range
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code startByte} &lt; 0</li>
+     *     <li>{@code endByte} &lt; 0</li>
+     *     <li>{@code startByte} &gt; {@code endByte}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public native Node getNamedDescendant(int startByte, int endByte);
+
+    /**
+     * Get the smallest named node within this node that spans the given range of points.
+     *
+     * @param startPoint The start point of the range
+     * @param endPoint The end point of the range
+     * @return A named descendant node
+     * @throws NullPointerException if either argument is null
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>any of the arguments is outside of this node's position range</li>
+     *     <li>{@code startPoint} is a position that comes after {@code endPoint}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public native Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint);
+
+    /**
      * @return An S-expression representing the node as a string
      * @deprecated <strong>This operation is potentially unsafe for large trees</strong>
      * @see ch.usi.si.seart.treesitter.printer.SymbolicExpressionPrinter SymbolicExpressionPrinter
