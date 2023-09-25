@@ -105,7 +105,11 @@ public class Node implements Iterable<Node> {
      * </ul>
      * @since 1.6.0
      */
-    public native Node getDescendant(int startByte, int endByte);
+    public Node getDescendant(int startByte, int endByte) {
+        return getDescendant(startByte, endByte, false);
+    }
+
+    private native Node getDescendant(int startByte, int endByte, boolean named);
 
     /**
      * Get the smallest node within this node that spans the given range of points.
@@ -121,7 +125,11 @@ public class Node implements Iterable<Node> {
      * </ul>
      * @since 1.6.0
      */
-    public native Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint);
+    public Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
+        return getDescendant(startPoint, endPoint, false);
+    }
+
+    private native Node getDescendant(Point startPoint, Point endPoint, boolean named);
 
     /**
      * @return The node's end byte
@@ -174,7 +182,9 @@ public class Node implements Iterable<Node> {
      * </ul>
      * @since 1.6.0
      */
-    public native Node getNamedDescendant(int startByte, int endByte);
+    public Node getNamedDescendant(int startByte, int endByte) {
+        return getDescendant(startByte, endByte, true);
+    }
 
     /**
      * Get the smallest named node within this node that spans the given range of points.
@@ -190,7 +200,9 @@ public class Node implements Iterable<Node> {
      * </ul>
      * @since 1.6.0
      */
-    public native Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint);
+    public Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
+        return getDescendant(startPoint, endPoint, true);
+    }
 
     /**
      * @return An S-expression representing the node as a string
