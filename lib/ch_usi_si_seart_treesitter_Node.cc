@@ -46,6 +46,20 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
   return (jint)count;
 }
 
+JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren(
+  JNIEnv* env, jclass thisClass, jobject nodeObject) {
+  TSNode node = __unmarshalNode(env, nodeObject);
+  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_child_count(node);
+  jobjectArray children = env->NewObjectArray(count, _nodeClass, NULL);
+  for (int i = 0; i < count; i++) {
+    TSNode child = ts_node_child(node, i);
+    jobject childObject = __marshalNode(env, child);
+    __copyTree(env, nodeObject, childObject);
+    env->SetObjectArrayElement(children, i, childObject);
+  }
+  return children;
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__IIZ(
   JNIEnv* env, jobject thisObject, jint start, jint end, jboolean named) {
   if (start < 0 || end < 0) {

@@ -11,8 +11,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * A Node represents a single node in the syntax tree.
@@ -68,10 +66,11 @@ public class Node implements Iterable<Node> {
      * @return A list of the node's children
      */
     public List<Node> getChildren() {
-        return IntStream.range(0, getChildCount())
-                .mapToObj(this::getChild)
-                .collect(Collectors.toList());
+        Node[] children = Node.getChildren(this);
+        return List.of(children);
     }
+
+    private static native Node[] getChildren(Node node);
 
     /**
      * @return The source code content encapsulated by this node

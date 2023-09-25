@@ -33,6 +33,14 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getChildren
+ * Signature: (Lch/usi/si/seart/treesitter/Node;)[Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getDescendant
  * Signature: (IIZ)Lch/usi/si/seart/treesitter/Node;
  */
