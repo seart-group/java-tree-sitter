@@ -42,6 +42,30 @@ class NodeTest extends TestBase {
         );
     }
 
+    public static Stream<Arguments> provideStartAndEndBytes() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        return Stream.of(
+                Arguments.of(IllegalArgumentException.class, -1, identifier.getEndByte()),
+                Arguments.of(IllegalArgumentException.class, identifier.getStartByte(), identifier.getEndByte() * -1),
+                Arguments.of(IllegalArgumentException.class, identifier.getEndByte(), identifier.getStartByte()),
+                Arguments.of(IndexOutOfBoundsException.class, root.getStartByte(), identifier.getEndByte()),
+                Arguments.of(IndexOutOfBoundsException.class, identifier.getStartByte(), root.getEndByte())
+        );
+    }
+
+    public static Stream<Arguments> provideStartAndEndPoints() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        return Stream.of(
+                Arguments.of(NullPointerException.class, null, new Point(0, 0)),
+                Arguments.of(NullPointerException.class, new Point(0, 0), null),
+                Arguments.of(IllegalArgumentException.class, new Point(-1, -1), root.getEndPoint()),
+                Arguments.of(IllegalArgumentException.class, root.getStartPoint(), new Point(3, 1)),
+                Arguments.of(IllegalArgumentException.class, identifier.getEndPoint(), identifier.getStartPoint())
+        );
+    }
+
     @Test
     void testGetChildCount() {
         Assertions.assertEquals(1, root.getChildCount());
@@ -97,12 +121,40 @@ class NodeTest extends TestBase {
         Node parameters = function.getChild(2);
         Node colon = function.getChild(3);
         Node body = function.getChild(4);
-        Assertions.assertEquals(def, root.getDescendantForByteRange(def.getStartByte(), def.getEndByte()));
-        Assertions.assertEquals(identifier, root.getDescendantForByteRange(identifier.getStartByte(), identifier.getEndByte()));
-        Assertions.assertEquals(parameters, root.getDescendantForByteRange(parameters.getStartByte(), parameters.getEndByte()));
-        Assertions.assertEquals(colon, root.getDescendantForByteRange(colon.getStartByte(), colon.getEndByte()));
-        Assertions.assertEquals(body, root.getDescendantForByteRange(body.getStartByte(), body.getEndByte()));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> root.getDescendantForByteRange(2, 0));
+        Assertions.assertEquals(def, root.getDescendant(def.getStartByte(), def.getEndByte()));
+        Assertions.assertEquals(identifier, root.getDescendant(identifier.getStartByte(), identifier.getEndByte()));
+        Assertions.assertEquals(parameters, root.getDescendant(parameters.getStartByte(), parameters.getEndByte()));
+        Assertions.assertEquals(colon, root.getDescendant(colon.getStartByte(), colon.getEndByte()));
+        Assertions.assertEquals(body, root.getDescendant(body.getStartByte(), body.getEndByte()));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndBytes")
+    void testGetDescendantForByteRangeThrows(Class<Throwable> throwableType, int startByte, int endByte) {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertThrows(throwableType, () -> identifier.getDescendant(startByte, endByte));
+    }
+
+    @Test
+    void testGetDescendantForPointRange() {
+        Node function = root.getChild(0);
+        Node def = function.getChild(0);
+        Node identifier = function.getChild(1);
+        Node parameters = function.getChild(2);
+        Node colon = function.getChild(3);
+        Node body = function.getChild(4);
+        Assertions.assertEquals(def, root.getDescendant(def.getStartPoint(), def.getEndPoint()));
+        Assertions.assertEquals(identifier, root.getDescendant(identifier.getStartPoint(), identifier.getEndPoint()));
+        Assertions.assertEquals(parameters, root.getDescendant(parameters.getStartPoint(), parameters.getEndPoint()));
+        Assertions.assertEquals(colon, root.getDescendant(colon.getStartPoint(), colon.getEndPoint()));
+        Assertions.assertEquals(body, root.getDescendant(body.getStartPoint(), body.getEndPoint()));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndPoints")
+    void testGetDescendantForPointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
+        Assertions.assertThrows(throwableType, () -> root.getDescendant(startPoint, endPoint));
     }
 
     @Test
@@ -178,9 +230,35 @@ class NodeTest extends TestBase {
     }
 
     @Test
-    void testGetParent() {
-        Assertions.assertNull(root.getParent());
-        Assertions.assertEquals(root, root.getChild(0).getParent());
+    void testGetNamedDescendantForByteRange() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        int startByte = identifier.getStartByte();
+        int endByte = identifier.getEndByte();
+        Assertions.assertEquals(identifier, root.getNamedDescendant(startByte, endByte));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndBytes")
+    void testGetNamedDescendantForByteRangeThrows(Class<Throwable> throwableType, int startByte, int endByte) {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertThrows(throwableType, () -> identifier.getNamedDescendant(startByte, endByte));
+    }
+
+    @Test
+    void testGetNamedDescendantForPointRange() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Point startPoint = identifier.getStartPoint();
+        Point endPoint = identifier.getEndPoint();
+        Assertions.assertEquals(identifier, root.getNamedDescendant(startPoint, endPoint));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("provideStartAndEndPoints")
+    void testGetNamedDescendantForPointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
+        Assertions.assertThrows(throwableType, () -> root.getDescendant(startPoint, endPoint));
     }
 
     @Test
@@ -199,6 +277,12 @@ class NodeTest extends TestBase {
         Node identifier = function.getChild(1);
         Assertions.assertNull(root.getNextSibling());
         Assertions.assertEquals(identifier, def.getNextSibling());
+    }
+
+    @Test
+    void testGetParent() {
+        Assertions.assertNull(root.getParent());
+        Assertions.assertEquals(root, root.getChild(0).getParent());
     }
 
     @Test

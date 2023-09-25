@@ -33,11 +33,27 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getDescendantForByteRange
- * Signature: (II)Lch/usi/si/seart/treesitter/Node;
+ * Method:    getChildren
+ * Signature: (Lch/usi/si/seart/treesitter/Node;)[Lch/usi/si/seart/treesitter/Node;
  */
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange
-  (JNIEnv *, jobject, jint, jint);
+JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getDescendant
+ * Signature: (IIZ)Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__IIZ
+  (JNIEnv *, jobject, jint, jint, jboolean);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getDescendant
+ * Signature: (Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;Z)Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2Z
+  (JNIEnv *, jobject, jobject, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node

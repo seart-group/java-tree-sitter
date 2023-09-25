@@ -46,8 +46,29 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
   return (jint)count;
 }
 
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForByteRange(
-  JNIEnv* env, jobject thisObject, jint start, jint end) {
+JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren(
+  JNIEnv* env, jclass thisClass, jobject nodeObject) {
+  TSNode node = __unmarshalNode(env, nodeObject);
+  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_child_count(node);
+  jobjectArray children = env->NewObjectArray(count, _nodeClass, NULL);
+  for (int i = 0; i < count; i++) {
+    TSNode child = ts_node_child(node, i);
+    jobject childObject = __marshalNode(env, child);
+    __copyTree(env, nodeObject, childObject);
+    env->SetObjectArrayElement(children, i, childObject);
+  }
+  return children;
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__IIZ(
+  JNIEnv* env, jobject thisObject, jint start, jint end, jboolean named) {
+  if (start < 0 || end < 0) {
+    env->ThrowNew(
+      _illegalArgumentExceptionClass,
+      "The start and end bytes must not be negative!"
+    );
+    return NULL;
+  }
   if (start > end) {
     env->ThrowNew(
       _illegalArgumentExceptionClass,
@@ -55,11 +76,78 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantForB
     );
     return NULL;
   }
+  // Not sure why I need to multiply by two, again probably because of utf-16
   TSNode node = __unmarshalNode(env, thisObject);
-  TSNode descendant = ts_node_descendant_for_byte_range(
-    // Not sure why I need to multiply by two, again probably because of utf-16
-    node, (uint32_t)start * 2, (uint32_t)end * 2
-  );
+  uint32_t nodeStart = ts_node_start_byte(node);
+  uint32_t rangeStart = (uint32_t)start * 2;
+  if (rangeStart < nodeStart) {
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      rangeStart
+    );
+    env->Throw((jthrowable)exception);
+    return NULL;
+  }
+  uint32_t nodeEnd = ts_node_end_byte(node);
+  uint32_t rangeEnd = (uint32_t)end * 2;
+  if (rangeEnd > nodeEnd) {
+    jobject exception = env->NewObject(
+      _indexOutOfBoundsExceptionClass,
+      _indexOutOfBoundsExceptionConstructor,
+      rangeEnd
+    );
+    env->Throw((jthrowable)exception);
+    return NULL;
+  }
+  TSNode (*descendant_getter)(TSNode, uint32_t, uint32_t) = (bool)named
+    ? ts_node_named_descendant_for_byte_range
+    : ts_node_descendant_for_byte_range;
+  TSNode descendant = descendant_getter(node, rangeStart, rangeEnd);
+  jobject descendantObject = __marshalNode(env, descendant);
+  __copyTree(env, thisObject, descendantObject);
+  return descendantObject;
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2Z(
+  JNIEnv* env, jobject thisObject, jobject startPointObject, jobject endPointObject, jboolean named) {
+  if (startPointObject == NULL) {
+    env->ThrowNew(_nullPointerExceptionClass, "Start point must not be null!");
+    return NULL;
+  }
+  if (endPointObject == NULL) {
+    env->ThrowNew(_nullPointerExceptionClass, "End point must not be null!");
+    return NULL;
+  }
+  TSNode node = __unmarshalNode(env, thisObject);
+  TSPoint startPoint = __unmarshalPoint(env, startPointObject);
+  TSPoint endPoint = __unmarshalPoint(env, endPointObject);
+  if (endPoint.row < 0 || endPoint.column < 0) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "End point can not have negative coordinates!");
+    return NULL;
+  }
+  if (startPoint.row < 0 || startPoint.column < 0) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not have negative coordinates!");
+    return NULL;
+  }
+  TSPoint lowerBound = ts_node_start_point(node);
+  TSPoint upperBound = ts_node_end_point(node);
+  if (__comparePoints(lowerBound, startPoint) == GT) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not be outside of node bounds!");
+    return NULL;
+  }
+  if (__comparePoints(endPoint, upperBound) == GT) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "End point can not be outside of node bounds!");
+    return NULL;
+  }
+  if (__comparePoints(startPoint, endPoint) == GT) {
+    env->ThrowNew(_illegalArgumentExceptionClass, "Start point can not be greater than end point!");
+    return NULL;
+  }
+  TSNode (*descendant_getter)(TSNode, TSPoint, TSPoint) = (bool)named
+    ? ts_node_named_descendant_for_point_range
+    : ts_node_descendant_for_point_range;
+  TSNode descendant = descendant_getter(node, startPoint, endPoint);
   jobject descendantObject = __marshalNode(env, descendant);
   __copyTree(env, thisObject, descendantObject);
   return descendantObject;

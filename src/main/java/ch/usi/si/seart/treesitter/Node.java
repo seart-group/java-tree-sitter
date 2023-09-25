@@ -11,8 +11,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * A Node represents a single node in the syntax tree.
@@ -68,10 +66,11 @@ public class Node implements Iterable<Node> {
      * @return A list of the node's children
      */
     public List<Node> getChildren() {
-        return IntStream.range(0, getChildCount())
-                .mapToObj(this::getChild)
-                .collect(Collectors.toList());
+        Node[] children = Node.getChildren(this);
+        return List.of(children);
     }
+
+    private static native Node[] getChildren(Node node);
 
     /**
      * @return The source code content encapsulated by this node
@@ -82,12 +81,54 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * @param startByte The starting byte of the range
-     * @param endByte The ending byte of the range
+     * @deprecated Use {@link #getDescendant(int, int)} instead
      * @return The smallest node within this node that spans the given range of bytes
-     * @throws IllegalArgumentException if {@code startByte} &gt; {@code endByte}
      */
-    public native Node getDescendantForByteRange(int startByte, int endByte);
+    @Deprecated(since = "1.6.0", forRemoval = true)
+    public Node getDescendantForByteRange(int startByte, int endByte) {
+        return getDescendant(startByte, endByte);
+    }
+
+    /**
+     * Get the smallest node within this node that spans the given range of bytes.
+     *
+     * @param startByte The start byte of the range
+     * @param endByte The end byte of the range
+     * @return A descendant node
+     * @throws IndexOutOfBoundsException if either argument is outside of this node's byte range
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code startByte} &lt; 0</li>
+     *     <li>{@code endByte} &lt; 0</li>
+     *     <li>{@code startByte} &gt; {@code endByte}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public Node getDescendant(int startByte, int endByte) {
+        return getDescendant(startByte, endByte, false);
+    }
+
+    private native Node getDescendant(int startByte, int endByte, boolean named);
+
+    /**
+     * Get the smallest node within this node that spans the given range of points.
+     *
+     * @param startPoint The start point of the range
+     * @param endPoint The end point of the range
+     * @return A descendant node
+     * @throws NullPointerException if either argument is null
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>any of the arguments is outside of this node's position range</li>
+     *     <li>{@code startPoint} is a position that comes after {@code endPoint}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
+        return getDescendant(startPoint, endPoint, false);
+    }
+
+    private native Node getDescendant(Point startPoint, Point endPoint, boolean named);
 
     /**
      * @return The node's end byte
@@ -124,6 +165,43 @@ public class Node implements Iterable<Node> {
      * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
      */
     public native Node getFirstNamedChildForByte(int offset);
+
+    /**
+     * Get the smallest named node within this node that spans the given range of bytes.
+     *
+     * @param startByte The start byte of the range
+     * @param endByte The end byte of the range
+     * @return A named descendant node
+     * @throws IndexOutOfBoundsException if either argument is outside of this node's byte range
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code startByte} &lt; 0</li>
+     *     <li>{@code endByte} &lt; 0</li>
+     *     <li>{@code startByte} &gt; {@code endByte}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public Node getNamedDescendant(int startByte, int endByte) {
+        return getDescendant(startByte, endByte, true);
+    }
+
+    /**
+     * Get the smallest named node within this node that spans the given range of points.
+     *
+     * @param startPoint The start point of the range
+     * @param endPoint The end point of the range
+     * @return A named descendant node
+     * @throws NullPointerException if either argument is null
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>any of the arguments is outside of this node's position range</li>
+     *     <li>{@code startPoint} is a position that comes after {@code endPoint}</li>
+     * </ul>
+     * @since 1.6.0
+     */
+    public Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
+        return getDescendant(startPoint, endPoint, true);
+    }
 
     /**
      * @return An S-expression representing the node as a string
