@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Represents a two-dimensional point with row and column coordinates.
  * Points are an  alternative to byte ranges, and as such are used to
@@ -62,13 +64,11 @@ public class Point implements Comparable<Point> {
      *
      * @param other the object to be compared
      * @return the row comparison result, or the column comparison result if the rows are equal
+     * @throws NullPointerException if the other point is null
      * @since 1.5.1
      */
     @Override
-    public int compareTo(@NotNull Point other) {
-        int comparison = Integer.compare(this.row, other.row);
-        return comparison != 0 ? comparison : Integer.compare(this.column, other.column);
-    }
+    public native int compareTo(@NotNull Point other);
 
     /**
      * Adds another point to this point,
@@ -76,11 +76,13 @@ public class Point implements Comparable<Point> {
      * equal to the sum of the coordinates
      * of this point and the other point.
      *
-     * @param other The point to be added to this point.
-     * @return A new point representing the sum of this point and the other point.
+     * @param other The point to be added to this point
+     * @return A new point representing the sum of this point and the other point
+     * @throws NullPointerException if {@code other} is null
      * @since 1.5.1
      */
-    public Point add(Point other) {
+    public Point add(@NotNull Point other) {
+        Objects.requireNonNull(other, "Other point must not be null!");
         if (isOrigin()) return other;
         if (other.isOrigin()) return this;
         if (equals(other)) return multiply(2);
@@ -95,9 +97,11 @@ public class Point implements Comparable<Point> {
      *
      * @param other The point to be subtracted from this point
      * @return A new point representing the difference between this point and the other point
+     * @throws NullPointerException if {@code other} is null
      * @since 1.5.1
      */
-    public Point subtract(Point other) {
+    public Point subtract(@NotNull Point other) {
+        Objects.requireNonNull(other, "Other point must not be null!");
         if (isOrigin()) return other.multiply(-1);
         if (other.isOrigin()) return this;
         if (equals(other)) return ORIGIN;

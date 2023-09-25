@@ -32,6 +32,11 @@ class PointTest extends TestBase {
     }
 
     @Test
+    void testCompareToThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> _0_0_.compareTo(null));
+    }
+
+    @Test
     void testAdd() {
         Assertions.assertEquals(_1_1_, _0_0_.add(_1_1_));
         Assertions.assertEquals(_1_1_, _1_1_.add(_0_0_));
@@ -53,5 +58,11 @@ class PointTest extends TestBase {
         Assertions.assertEquals(_0_0_, _1_1_.multiply(0));
         Assertions.assertEquals(_1_1_, _1_1_.multiply(1));
         Assertions.assertEquals(_2_2_, _1_1_.multiply(2));
+    }
+
+    @Test
+    void testThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> _0_0_.add(null));
+        Assertions.assertThrows(NullPointerException.class, () -> _0_0_.subtract(null));
     }
 }

@@ -259,6 +259,10 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_incompatibleLanguageExceptionClass)
 }
 
+ComparisonResult intcmp(uint32_t x, uint32_t y) {
+  return (x < y) ? LT : ((x == y) ? EQ : GT);
+}
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }
@@ -299,6 +303,11 @@ TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject) {
 void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject) {
   jobject treeObject = env->GetObjectField(sourceNodeObject, _nodeTreeField);
   _setNodeTreeField(targetNodeObject, treeObject);
+}
+
+ComparisonResult __comparePoints(TSPoint left, TSPoint right) {
+  ComparisonResult result = intcmp(left.row, right.row);
+  return (result != EQ) ? result : intcmp(left.column, right.column);
 }
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {

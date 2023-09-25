@@ -167,6 +167,14 @@ extern "C" {
 #define _setNodeTreeField(NODE, TREE) \
   env->SetObjectField(NODE, _nodeTreeField, TREE)
 
+typedef enum {
+  LT = -1,
+  EQ =  0,
+  GT =  1,
+} ComparisonResult;
+
+ComparisonResult intcmp(uint32_t x, uint32_t y);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
@@ -174,6 +182,8 @@ jobject __marshalNode(JNIEnv* env, TSNode node);
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
 
 void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject);
+
+ComparisonResult __comparePoints(TSPoint left, TSPoint right);
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
