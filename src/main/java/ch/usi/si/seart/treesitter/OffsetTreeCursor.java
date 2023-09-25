@@ -152,6 +152,19 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         @Override
+        public Node getNamedDescendant(int startByte, int endByte) {
+            throw new UnsupportedOperationException(UOE_MESSAGE_2);
+        }
+
+        @Override
+        public Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
+            return super.getNamedDescendant(
+                    startPoint.subtract(offset),
+                    endPoint.subtract(offset)
+            );
+        }
+
+        @Override
         public Node getNextNamedSibling() {
             return new OffsetNode(node.getNextNamedSibling());
         }
