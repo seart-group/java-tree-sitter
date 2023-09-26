@@ -68,6 +68,54 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
+    void testGotoFirstChildByteOffset() {
+        cursor.gotoFirstChild(); // function_definition
+        cursor.gotoFirstChild(4);
+        Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+        cursor.gotoParent();
+        cursor.gotoFirstChild(21);
+        Assertions.assertEquals("block", cursor.getCurrentNode().getType());
+        cursor.gotoFirstChild(34);
+        Assertions.assertEquals("expression_statement", cursor.getCurrentNode().getType());
+    }
+
+    @Test
+    void testGotoFirstChildByteOffsetThrows() {
+        cursor.gotoFirstChild(); // function_definition
+        cursor.gotoFirstChild(); // identifier
+        cursor.gotoNextSibling(); // parameters
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(-1));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> cursor.gotoFirstChild(0));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> cursor.gotoFirstChild(20));
+    }
+
+    @Test
+    void testGotoFirstChildPositionOffset() {
+        cursor.gotoFirstChild(); // function_definition
+        cursor.gotoFirstChild(new Point(0, 4));
+        Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+        cursor.gotoParent();
+        cursor.gotoFirstChild(new Point(1, 2));
+        Assertions.assertEquals("block", cursor.getCurrentNode().getType());
+        cursor.gotoFirstChild(new Point(2, 2));
+        Assertions.assertEquals("expression_statement", cursor.getCurrentNode().getType());
+    }
+
+    @Test
+    void testGotoFirstChildPositionOffsetThrows() {
+        cursor.gotoFirstChild(); // function_definition
+        cursor.gotoFirstChild(); // identifier
+        cursor.gotoNextSibling(); // parameters
+        Point negative = new Point(0, -1);
+        Point illegal = new Point(1, 2);
+        Assertions.assertThrows(NullPointerException.class, () -> cursor.gotoFirstChild(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(negative));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(_0_0_));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(illegal));
+
+    }
+
+    @Test
     void testPreorderTraversal() {
         AtomicInteger count = new AtomicInteger();
         cursor.preorderTraversal(node -> {

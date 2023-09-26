@@ -44,8 +44,24 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentT
  * Method:    gotoFirstChild
  * Signature: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild__
   (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    gotoFirstChild
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild__I
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    gotoFirstChild
+ * Signature: (Lch/usi/si/seart/treesitter/Point;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild__Lch_usi_si_seart_treesitter_Point_2
+  (JNIEnv *, jobject, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
