@@ -123,6 +123,12 @@ class ParserTest extends TestBase {
         Assertions.assertThrows(throwableType, () -> Parser.builder().language(language));
     }
 
+    @Test
+    void testBuildThrows() {
+        Parser.Builder builder = Parser.builder();
+        Assertions.assertThrows(NullPointerException.class, builder::build);
+    }
+
     @ParameterizedTest(name = "[{index}] {0}")
     @ArgumentsSource(ConstructorExceptionProvider.class)
     void testSetLanguageThrows(Class<Throwable> throwableType, Language language) {
