@@ -28,7 +28,7 @@ class DotGraphPrinterTest extends TestBase {
 
     @Test
     void testPrint() {
-        @Cleanup Parser parser = new Parser(Language.JAVA);
+        @Cleanup Parser parser = Parser.builder().language(Language.JAVA).build();
         @Cleanup Tree tree = parser.parse(source);
         TreePrinter printer = new DotGraphPrinter(tree);
         String actual = printer.print();
@@ -38,7 +38,7 @@ class DotGraphPrinterTest extends TestBase {
     @Test
     @SneakyThrows(IOException.class)
     void testExport() {
-        @Cleanup Parser parser = new Parser(Language.JAVA);
+        @Cleanup Parser parser = Parser.builder().language(Language.JAVA).build();
         @Cleanup Tree tree = parser.parse(source);
         TreePrinter printer = new DotGraphPrinter(tree);
         File file = printer.export();

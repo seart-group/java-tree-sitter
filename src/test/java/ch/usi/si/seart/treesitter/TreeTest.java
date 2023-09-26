@@ -24,7 +24,7 @@ class TreeTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        parser = new Parser(Language.JAVA);
+        parser = Parser.builder().language(Language.JAVA).build();;
     }
 
     @BeforeEach

@@ -55,7 +55,9 @@ public abstract class PrinterTestBase extends TestBase {
     }
 
     protected Parser getParser() {
-        return new Parser(getLanguage());
+        return Parser.builder()
+                .language(getLanguage())
+                .build();
     }
 
     protected TreeCursor getCursor(Tree tree) {

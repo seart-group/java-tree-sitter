@@ -36,7 +36,7 @@ class ParserTest extends TestBase {
     static void beforeAll() throws IOException {
         tmpFile = Files.createFile(tmp.resolve("print.py"));
         Files.writeString(tmpFile, source);
-        parser = new Parser(Language.PYTHON);
+        parser = Parser.builder().language(Language.PYTHON).build();
     }
 
     @AfterAll
@@ -64,7 +64,7 @@ class ParserTest extends TestBase {
 
     @Test
     void testSetLanguage() {
-        @Cleanup Parser parser = new Parser(Language.PYTHON);
+        @Cleanup Parser parser = Parser.builder().language(Language.PYTHON).build();
         parser.setLanguage(Language.JAVA);
         String source = "public class _ {}\n";
         @Cleanup Tree tree = parser.parse(source);
@@ -86,7 +86,7 @@ class ParserTest extends TestBase {
     @SuppressWarnings("DataFlowIssue")
     @SneakyThrows(URISyntaxException.class)
     void testSetTimeout() {
-        @Cleanup Parser parser = new Parser(Language.JAVA);
+        @Cleanup Parser parser = Parser.builder().language(Language.JAVA).build();
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(10);
         Assertions.assertEquals(10, parser.getTimeout());
@@ -121,7 +121,7 @@ class ParserTest extends TestBase {
     @ParameterizedTest(name = "[{index}] {0}")
     @ArgumentsSource(ConstructorExceptionProvider.class)
     void testConstructorThrows(Class<Throwable> throwableType, Language language) {
-        Assertions.assertThrows(throwableType, () -> new Parser(language));
+        Assertions.assertThrows(throwableType, () -> Parser.builder().language(language));
     }
 
     @ParameterizedTest(name = "[{index}] {0}")

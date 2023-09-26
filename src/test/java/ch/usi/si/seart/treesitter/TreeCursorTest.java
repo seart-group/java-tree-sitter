@@ -19,7 +19,7 @@ class TreeCursorTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        parser = new Parser(Language.PYTHON);
+        parser = Parser.builder().language(Language.PYTHON).build();;
         tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
     }
 
