@@ -363,3 +363,10 @@ TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
   };
 }
+
+const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject) {
+  jclass languageClass = env->GetObjectClass(languageObject);
+  jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
+  jlong languageId = env->GetLongField(languageObject, languageIdField);
+  return (const TSLanguage*)languageId;
+}
