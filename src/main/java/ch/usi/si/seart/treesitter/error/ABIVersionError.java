@@ -12,5 +12,5 @@ import lombok.experimental.StandardException;
  * @author Ozren Dabić
  */
 @StandardException
-public class ABIVersionError extends Error {
+public class ABIVersionError extends LinkageError {
 }
