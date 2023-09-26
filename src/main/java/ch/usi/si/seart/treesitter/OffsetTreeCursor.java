@@ -66,6 +66,16 @@ public class OffsetTreeCursor extends TreeCursor {
     }
 
     @Override
+    public boolean gotoFirstChild(int offset) {
+        throw new UnsupportedOperationException(UOE_MESSAGE_2);
+    }
+
+    @Override
+    public boolean gotoFirstChild(@NotNull Point point) {
+        return cursor.gotoFirstChild(point.subtract(offset));
+    }
+
+    @Override
     public boolean gotoNextSibling() {
         return cursor.gotoNextSibling();
     }
