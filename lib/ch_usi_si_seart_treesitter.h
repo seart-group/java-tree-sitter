@@ -206,6 +206,8 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 
+const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
+
 #ifdef TS_LANGUAGE_ADA
 TSLanguage* tree_sitter_ada();
 #endif
