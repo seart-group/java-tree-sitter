@@ -188,6 +188,8 @@ jint __throwIOE(JNIEnv* env, const char* message);
 
 jint __throwIOB(JNIEnv* env, jint index);
 
+jint __throwILE(JNIEnv* env, jobject languageObject);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);

@@ -288,6 +288,15 @@ jint __throwIOB(JNIEnv* env, jint index) {
   return env->Throw((jthrowable)exception);
 }
 
+jint __throwILE(JNIEnv* env, jobject languageObject) {
+  jobject exception = env->NewObject(
+    _incompatibleLanguageExceptionClass,
+    _incompatibleLanguageExceptionConstructor,
+    languageObject
+  );
+  return env->Throw((jthrowable)exception);
+}
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }
