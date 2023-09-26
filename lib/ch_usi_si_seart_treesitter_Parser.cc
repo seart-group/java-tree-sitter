@@ -3,11 +3,6 @@
 #include <jni.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_malloc(
-  JNIEnv* env, jclass self) {
-  return (jlong)ts_parser_new();
-}
-
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion(
   JNIEnv *, jclass) {
   return (jint)TREE_SITTER_LANGUAGE_VERSION;

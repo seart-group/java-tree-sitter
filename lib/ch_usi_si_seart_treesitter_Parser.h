@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    malloc
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_malloc
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    getLanguageVersion
  * Signature: ()I
  */

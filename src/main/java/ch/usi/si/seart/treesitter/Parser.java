@@ -5,6 +5,7 @@ import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,32 +43,61 @@ public class Parser extends External {
     }
 
     /**
-     * @param language The language used for parsing
-     * @throws NullPointerException if the language is null
-     * @throws UnsatisfiedLinkError if the language was not linked to native code
-     * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
-     * @throws IncompatibleLanguageException if the language can not be set
+     * @deprecated Use {@link Parser#builder()} instead
      */
+    @Deprecated(since = "1.7.0", forRemoval = true)
     public Parser(@NotNull Language language) {
-        super(createIfValid(language));
-        this.language = language;
+        throw new UnsupportedOperationException(
+                "This constructor should no longer be used"
+        );
     }
 
-    /*
-     * Constructor precondition for creating a parser.
-     * In essence, we should never allocate memory to
-     * these structures if the language:
-     * - Has not been specified (i.e. is null)
-     * - Has not been linked to the system library
+    /**
+     * Obtain a new builder for constructing a Parser instance.
+     *
+     * @return a new parser builder
+     * @since 1.7.0
      */
-    private static long createIfValid(Language language) {
-        Language.validate(language);
-        long pointer = malloc();
-        setLanguage(pointer, language);
-        return pointer;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    private static native long malloc();
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Builder {
+
+        Language language = null;
+
+        /**
+         * Sets the programming language intended for parsing.
+         *
+         * @param language The language used for parsing
+         * @return this builder
+         * @throws NullPointerException if the language is null
+         * @throws UnsatisfiedLinkError if the language was not linked to native code
+         * @throws ch.usi.si.seart.treesitter.error.ABIVersionError
+         * if the language ABI version is incompatible with requirements
+         */
+        public Builder language(@NotNull Language language) {
+            Language.validate(language);
+            this.language = language;
+            return this;
+        }
+
+        /**
+         * Builds and returns a new Parser instance with the configured language.
+         *
+         * @return A new parser instance
+         * @throws NullPointerException if the language was not previously set
+         * @throws IncompatibleLanguageException if the language can not be set
+         */
+        public Parser build() {
+            Objects.requireNonNull(language, "Language must not be null!");
+            return build(language);
+        }
+
+        private static native Parser build(Language language);
+    }
 
     /**
      * The latest ABI version that is supported by the current version of the library.
