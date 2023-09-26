@@ -24,7 +24,7 @@ class NodeTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        parser = Parser.builder().language(Language.PYTHON).build();
+        parser = Parser.getFor(Language.PYTHON);
         tree = parser.parse(source);
         root = tree.getRootNode();
     }
@@ -354,7 +354,7 @@ class NodeTest extends TestBase {
 
     @Test
     void testIsMissing() {
-        @Cleanup Parser parser = Parser.builder().language(Language.JAVA).build();
+        @Cleanup Parser parser = Parser.getFor(Language.JAVA);
         @Cleanup Tree tree = parser.parse("class C { public static final int i = 6 }");
         Node root = tree.getRootNode();
         Assertions.assertFalse(root.isMissing());

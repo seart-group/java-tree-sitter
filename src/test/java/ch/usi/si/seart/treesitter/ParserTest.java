@@ -36,7 +36,7 @@ class ParserTest extends TestBase {
     static void beforeAll() throws IOException {
         tmpFile = Files.createFile(tmp.resolve("print.py"));
         Files.writeString(tmpFile, source);
-        parser = Parser.builder().language(Language.PYTHON).build();
+        parser = Parser.getFor(Language.PYTHON);
     }
 
     @AfterAll
@@ -86,7 +86,7 @@ class ParserTest extends TestBase {
     @SuppressWarnings("DataFlowIssue")
     @SneakyThrows(URISyntaxException.class)
     void testSetTimeout() {
-        @Cleanup Parser parser = Parser.builder().language(Language.JAVA).build();
+        @Cleanup Parser parser = Parser.getFor(Language.JAVA);
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(10);
         Assertions.assertEquals(10, parser.getTimeout());
