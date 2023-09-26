@@ -35,6 +35,12 @@ public class Parser extends External {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
+    @SuppressWarnings("unused")
+    Parser(long pointer, @NotNull Language language) {
+        super(pointer);
+        this.language = language;
+    }
+
     /**
      * @param language The language used for parsing
      * @throws NullPointerException if the language is null

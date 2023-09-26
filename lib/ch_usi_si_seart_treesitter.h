@@ -67,6 +67,7 @@ extern jfieldID _treeCursorNodeIsNamed;
 
 extern jclass _parserClass;
 extern jfieldID _parserLanguageField;
+extern jmethodID _parserConstructor;
 
 extern jclass _treeClass;
 extern jfieldID _treeLanguageField;
