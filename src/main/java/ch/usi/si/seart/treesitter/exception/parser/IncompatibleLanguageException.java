@@ -14,6 +14,7 @@ public class IncompatibleLanguageException extends ParserException {
 
     private static final String TEMPLATE = "Could not assign language to parser: %s";
 
+    @SuppressWarnings("unused")
     public IncompatibleLanguageException(Language language) {
         super(String.format(TEMPLATE, language));
     }
