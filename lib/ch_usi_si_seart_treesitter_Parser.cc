@@ -19,9 +19,20 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
   ts_parser_delete(parser);
 }
 
-JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
-  JNIEnv* env, jclass self, jlong parser, jlong language) {
-  return ts_parser_set_language((TSParser*)parser, (TSLanguage*)language) ? JNI_TRUE : JNI_FALSE;
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
+  JNIEnv* env, jclass thisClass, jobject parserObject, jobject languageObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, parserObject);
+  const TSLanguage* language = __unmarshalLanguage(env, languageObject);
+  bool succeeded = ts_parser_set_language(parser, language);
+  if (!succeeded) {
+    __throwILE(env, languageObject);
+    return;
+  }
+  env->SetObjectField(
+    parserObject,
+    _parserLanguageField,
+    languageObject
+  );
 }
 
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(

@@ -141,15 +141,10 @@ public class Parser extends External {
      */
     public void setLanguage(@NotNull Language language) {
         Language.validate(language);
-        setLanguage(pointer, language);
+        setLanguage(this, language);
     }
 
-    private static void setLanguage(long pointer, Language language) {
-        boolean success = setLanguage(pointer, language.getId());
-        if (!success) throw new IncompatibleLanguageException(language);
-    }
-
-    private static native boolean setLanguage(long pointer, long language);
+    private static native void setLanguage(Parser parser, Language language) throws IncompatibleLanguageException;
 
     /**
      * Get the duration in microseconds that parsing is allowed to take.

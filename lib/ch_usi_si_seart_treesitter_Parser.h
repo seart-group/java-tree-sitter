@@ -34,10 +34,10 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    setLanguage
- * Signature: (JJ)Z
+ * Signature: (Lch/usi/si/seart/treesitter/Parser;Lch/usi/si/seart/treesitter/Language;)V
  */
-JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
-  (JNIEnv *, jclass, jlong, jlong);
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
+  (JNIEnv *, jclass, jobject, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
