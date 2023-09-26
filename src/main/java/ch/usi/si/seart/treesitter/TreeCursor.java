@@ -105,13 +105,11 @@ public class TreeCursor extends External implements Cloneable {
     public void preorderTraversal(@NotNull Consumer<Node> callback) {
         Objects.requireNonNull(callback, "Callback must not be null!");
         for (;;) {
-            callback.accept(this.getCurrentNode());
-            if (this.gotoFirstChild() || this.gotoNextSibling())
-                continue;
+            callback.accept(getCurrentNode());
+            if (gotoFirstChild() || gotoNextSibling()) continue;
             do {
-                if (!this.gotoParent())
-                    return;
-            } while (!this.gotoNextSibling());
+                if (!gotoParent()) return;
+            } while (!gotoNextSibling());
         }
     }
 
