@@ -117,7 +117,6 @@ class ParserTest extends TestBase {
         }
     }
 
-    @SuppressWarnings("resource")
     @ParameterizedTest(name = "[{index}] {0}")
     @ArgumentsSource(ConstructorExceptionProvider.class)
     void testConstructorThrows(Class<Throwable> throwableType, Language language) {
