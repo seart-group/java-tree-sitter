@@ -36,7 +36,7 @@ class QueryCursorTest extends TestBase {
 
     @BeforeEach
     void setUp() {
-        query = new Query(language, pattern);
+        query = Query.getFor(language, pattern);
         cursor = root.walk(query);
     }
 
@@ -116,7 +116,7 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testExecuteNoResultQuery() {
-        @Cleanup Query query = new Query(language, "(method_declaration) @method");
+        @Cleanup Query query = Query.getFor(language, "(method_declaration) @method");
         @Cleanup QueryCursor cursor = root.walk(query);
         Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
@@ -126,7 +126,7 @@ class QueryCursorTest extends TestBase {
 
     @Test
     void testMultipleExecuteCalls() {
-        @Cleanup Query query = new Query(language, "(class_body) @class");
+        @Cleanup Query query = Query.getFor(language, "(class_body) @class");
         @Cleanup QueryCursor cursor = root.walk(query);
         Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();

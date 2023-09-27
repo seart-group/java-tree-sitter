@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 class QueryTest extends TestBase {
@@ -24,7 +25,7 @@ class QueryTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        query = new Query(Language.JAVA, "(_) @capture");
+        query = Query.getFor(Language.JAVA, "(_) @capture");
     }
 
     @AfterAll
@@ -59,7 +60,7 @@ class QueryTest extends TestBase {
     @ParameterizedTest(name = "[{index}] {0}")
     @ArgumentsSource(QueryExceptionProvider.class)
     void testQueryException(Class<Throwable> throwableType, Language language, String pattern) {
-        Assertions.assertThrows(throwableType, () -> new Query(language, pattern));
+        Assertions.assertThrows(throwableType, () -> Query.getFor(language, pattern));
     }
 
     @Test
@@ -78,7 +79,7 @@ class QueryTest extends TestBase {
     @Test
     void testQueryHasCaptures() {
         Assertions.assertTrue(query.hasCaptures());
-        @Cleanup Query query = new Query(Language.JAVA, "(_)");
+        @Cleanup Query query = Query.getFor(Language.JAVA, "(_)");
         Assertions.assertFalse(query.hasCaptures());
     }
 }
