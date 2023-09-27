@@ -79,6 +79,7 @@ extern jclass _dotGraphPrinterClass;
 extern jfieldID _dotGraphPrinterTreeField;
 
 extern jclass _queryClass;
+extern jmethodID _queryConstructor;
 
 extern jclass _queryCursorClass;
 extern jmethodID _queryCursorConstructor;

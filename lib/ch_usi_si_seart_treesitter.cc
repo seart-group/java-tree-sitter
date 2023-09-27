@@ -67,6 +67,7 @@ jclass _dotGraphPrinterClass;
 jfieldID _dotGraphPrinterTreeField;
 
 jclass _queryClass;
+jmethodID _queryConstructor;
 
 jclass _queryCursorClass;
 jmethodID _queryCursorConstructor;
@@ -186,6 +187,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
 
   _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query")
+  _loadConstructor(_queryConstructor, _queryClass,
+    "(JLch/usi/si/seart/treesitter/Language;Ljava/lang/String;[Ljava/lang/String;)V")
 
   _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor")
   _loadConstructor(_queryCursorConstructor, _queryCursorClass,
