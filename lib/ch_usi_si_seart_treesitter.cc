@@ -292,6 +292,10 @@ jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }
 
+void __clearPointer(JNIEnv* env, jobject objectInstance) {
+  env->SetLongField(objectInstance, _externalPointerField, (jlong)0);
+}
+
 jobject __marshalNode(JNIEnv* env, TSNode node) {
   if (node.id == 0) {
     return NULL;

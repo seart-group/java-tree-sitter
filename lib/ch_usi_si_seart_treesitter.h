@@ -190,6 +190,8 @@ jint __throwIOB(JNIEnv* env, jint index);
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
+void __clearPointer(JNIEnv* env, jobject objectInstance);
+
 jobject __marshalNode(JNIEnv* env, TSNode node);
 
 TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
