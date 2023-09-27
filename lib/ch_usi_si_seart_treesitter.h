@@ -97,10 +97,15 @@ extern jmethodID _treeCursorConstructor;
 extern jclass _treeSitterExceptionClass;
 
 extern jclass _querySyntaxExceptionClass;
+extern jmethodID _querySyntaxExceptionConstructor;
 extern jclass _queryNodeTypeExceptionClass;
+extern jmethodID _queryNodeTypeExceptionConstructor;
 extern jclass _queryFieldExceptionClass;
+extern jmethodID _queryFieldExceptionConstructor;
 extern jclass _queryCaptureExceptionClass;
+extern jmethodID _queryCaptureExceptionConstructor;
 extern jclass _queryStructureExceptionClass;
+extern jmethodID _queryStructureExceptionConstructor;
 
 extern jclass _parsingExceptionClass;
 extern jmethodID _parsingExceptionConstructor;
