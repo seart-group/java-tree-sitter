@@ -134,8 +134,6 @@ public class Query extends External {
         private static native Query build(Language language, String pattern) throws QueryException;
     }
 
-    private static native long malloc(long language, String pattern) throws QueryException;
-
     /**
      * Delete the query, freeing all the memory that it used.
      */
@@ -152,8 +150,6 @@ public class Query extends External {
      */
     public native int countCaptures();
 
-    private static native int countCaptures(long query);
-
     /**
      * @return The number of patterns in this query
      */
@@ -166,8 +162,6 @@ public class Query extends External {
     public String getCaptureName(@NotNull QueryCapture capture) {
         return captures.get(capture.getIndex());
     }
-
-    private static native String getCaptureName(long query, int index);
 
     /**
      * @return true if the query has captures, false otherwise
