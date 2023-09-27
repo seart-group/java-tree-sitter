@@ -34,11 +34,8 @@ public class Tree extends External implements Iterable<Node>, Cloneable {
         this.source = source;
     }
 
-    /**
-     * Delete the tree, freeing all the memory that it used.
-     */
     @Override
-    public native void close();
+    protected native void delete();
 
     /**
      * Edit the syntax tree to keep it in sync with source code that has been edited.

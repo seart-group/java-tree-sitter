@@ -2,14 +2,26 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+import java.lang.ref.Cleaner;
+
+@FieldDefaults(makeFinal = true)
 abstract class External implements AutoCloseable {
 
-    protected final long pointer;
+    protected long pointer;
+    private Cleaner.Cleanable cleanable;
+
+    private static final Cleaner CLEANER = Cleaner.create();
 
     protected External() {
         this.pointer = 0L;
+        this.cleanable = null;
+    }
+
+    protected External(long pointer) {
+        this.pointer = pointer;
+        this.cleanable = CLEANER.register(this, new Action(this));
     }
 
     public final boolean isNull() {
@@ -30,9 +42,25 @@ abstract class External implements AutoCloseable {
     }
 
     /**
-     * Delete the external resource,
-     * freeing all the memory that it used.
+     * Delete the external resource, freeing all the memory that it used.
      */
     @Override
-    public abstract void close();
+    public void close() {
+        boolean requiresCleaning = cleanable != null && !isNull();
+        if (requiresCleaning) cleanable.clean();
+    }
+
+    protected abstract void delete();
+
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    private static final class Action implements Runnable {
+
+        External external;
+
+        @Override
+        public void run() {
+            external.delete();
+        }
+    }
 }

@@ -3,7 +3,7 @@
 #include <jni.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_delete(
   JNIEnv* env, jobject thisObject) {
   TSQueryCursor* cursor = (TSQueryCursor*)__getPointer(env, thisObject);
   ts_query_cursor_delete(cursor);

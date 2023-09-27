@@ -4,7 +4,7 @@
 #include <string.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete(
   JNIEnv* env, jobject thisObject) {
   TSTreeCursor* treeCursor = (TSTreeCursor*)__getPointer(env, thisObject);
   delete treeCursor;

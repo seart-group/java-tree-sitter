@@ -17,10 +17,10 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Query_malloc
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    close
+ * Method:    delete
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_close
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_delete
   (JNIEnv *, jobject);
 
 /*

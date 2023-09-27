@@ -39,7 +39,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Query_malloc(
   return env->Throw((jthrowable)exception);
 }
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_delete(
   JNIEnv* env, jobject thisObject) {
   TSQuery* query = (TSQuery*)__getPointer(env, thisObject);
   ts_query_delete(query);

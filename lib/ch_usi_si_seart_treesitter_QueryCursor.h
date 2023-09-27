@@ -9,10 +9,10 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_QueryCursor
- * Method:    close
+ * Method:    delete
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_close
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_delete
   (JNIEnv *, jobject);
 
 /*
