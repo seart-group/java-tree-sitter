@@ -3,6 +3,8 @@
 
 static jint JNI_VERSION = JNI_VERSION_10;
 
+jclass _stringClass;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -117,6 +119,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
   }
+
+  _loadClass(_stringClass, "java/lang/String")
 
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
@@ -238,6 +242,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
+  _unload(_stringClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
