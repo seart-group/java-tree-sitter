@@ -6,8 +6,9 @@
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_close(
   JNIEnv* env, jobject thisObject) {
-  jlong treeCursor = __getPointer(env, thisObject);
-  delete (TSTreeCursor*)treeCursor;
+  TSTreeCursor* treeCursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  delete treeCursor;
+  __clearPointer(env, thisObject);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentNode(

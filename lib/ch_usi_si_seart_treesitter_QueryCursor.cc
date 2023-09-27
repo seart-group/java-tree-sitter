@@ -7,6 +7,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_close(
   JNIEnv* env, jobject thisObject) {
   TSQueryCursor* cursor = (TSQueryCursor*)__getPointer(env, thisObject);
   ts_query_cursor_delete(cursor);
+  __clearPointer(env, thisObject);
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute(

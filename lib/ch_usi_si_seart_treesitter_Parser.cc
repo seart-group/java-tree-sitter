@@ -22,6 +22,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
   ts_parser_delete(parser);
+  __clearPointer(env, thisObject);
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
