@@ -191,3 +191,4 @@ public class Example {
 ```
 
 For more usage examples, take a look at the [tests](src/test/java/ch/usi/si/seart/treesitter).
+You can also refer to the full documentation [here](https://javadoc.io/doc/ch.usi.si.seart/java-tree-sitter/latest/index.html).
