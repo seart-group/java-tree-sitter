@@ -9,6 +9,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_00024Builder_bu
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
   bool succeeded = ts_parser_set_language(parser, language);
   if (!succeeded) {
+    ts_parser_delete(parser);
     __throwILE(env, languageObject);
     return NULL;
   }
