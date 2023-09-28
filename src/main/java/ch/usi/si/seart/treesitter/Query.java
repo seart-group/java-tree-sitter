@@ -12,27 +12,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A query consists of one or more patterns, where each pattern is an S-expression that matches a certain set of nodes
- * in a syntax tree. The query is associated with a particular language, and can only be run on syntax nodes parsed with
- * that language. The expression to match a given node consists of a pair of parentheses containing two things: the
- * node's type, and optionally, a series of other S-expressions that match the node's children. For example, this
- * pattern would match any {@code binary_expression} node whose children are both {@code number_literal} nodes:
- *
- * <pre>
- *     (binary_expression (number_literal) (number_literal))
- * </pre>
- *
- * Children can also be omitted. For example, this would match any {@code binary_expression} where at least one of
- * child is a {@code string_literal} node:
- *
- * <pre>
- *     (binary_expression (string_literal))
- * </pre>
- *
- * The underlying query value is immutable and can be safely shared between threads.
+ * A query consists of one or more patterns, where each pattern is a symbolic expression (S-expression)
+ * that matches a certain set of nodes in an abstract syntax tree. Each query is associated with a particular language,
+ * and can only be run on syntax nodes parsed with that language. The expression to match a given node consists of
+ * a pair of parentheses containing two things: the node's type, and optionally, a series of other S-expressions
+ * that match the node's children. Query instances are immutable and can be safely shared among threads.
  *
  * @since 1.0.0
  * @author Ozren Dabić
+ * @see <a href="https://tree-sitter.github.io/tree-sitter/using-parsers#query-syntax">Query Syntax</a>
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
