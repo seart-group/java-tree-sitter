@@ -41,13 +41,23 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           jstring captureString = env->NewStringUTF(capture);
           env->SetObjectArrayElement(captures, i, captureString);
         }
+
+        uint32_t stringsLength = ts_query_string_count(query);
+        jobjectArray strings = env->NewObjectArray(stringsLength, _stringClass, NULL);
+        for (int i = 0; i < stringsLength; i++) {
+          const char* string = ts_query_string_value_for_id(query, i, new uint32_t);
+          jstring stringString = env->NewStringUTF(string);
+          env->SetObjectArrayElement(strings, i, stringString);
+        }
+
         return env->NewObject(
           _queryClass,
           _queryConstructor,
           (jlong)query,
           languageObject,
           patterns,
-          captures
+          captures,
+          strings
         );
       }
     case TSQueryErrorSyntax:

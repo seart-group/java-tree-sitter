@@ -29,13 +29,21 @@ public class Query extends External {
     Language language;
     List<String> patterns;
     List<String> captures;
+    List<String> strings;
 
     @SuppressWarnings("unused")
-    Query(long pointer, @NotNull Language language, @NotNull String[] patterns, @NotNull String[] captures) {
+    Query(
+            long pointer,
+            @NotNull Language language,
+            @NotNull String[] patterns,
+            @NotNull String[] captures,
+            @NotNull String[] strings
+    ) {
         super(pointer);
         this.language = language;
         this.patterns = List.of(patterns);
         this.captures = List.of(captures);
+        this.strings = List.of(strings);
     }
 
     /**
