@@ -160,7 +160,18 @@ public class Query extends External {
     public String toString() {
         return String.format(
                 "Query(language: %s, pattern: '%s', captures: [%s])",
-                language, patterns, String.join(", ", captures)
+                 language, getPattern(), String.join(", ", captures)
         );
+    }
+
+    /**
+     * Returns a concatenated, possibly non-rooted symbolic expression
+     * consisting of the individual query patterns.
+     *
+     * @return the full query s-expression
+     */
+    @Generated
+    public String getPattern() {
+        return String.join(" ", patterns);
     }
 }
