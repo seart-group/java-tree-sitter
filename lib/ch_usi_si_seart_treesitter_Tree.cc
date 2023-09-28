@@ -3,10 +3,11 @@
 #include <jni.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_delete(
   JNIEnv* env, jobject thisObject) {
-  jlong tree = __getPointer(env, thisObject);
-  ts_tree_delete((TSTree*)tree);
+  TSTree* tree = (TSTree*)__getPointer(env, thisObject);
+  ts_tree_delete(tree);
+  __clearPointer(env, thisObject);
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit(

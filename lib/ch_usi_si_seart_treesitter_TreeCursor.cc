@@ -4,10 +4,11 @@
 #include <string.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete(
   JNIEnv* env, jobject thisObject) {
-  jlong treeCursor = __getPointer(env, thisObject);
-  delete (TSTreeCursor*)treeCursor;
+  TSTreeCursor* treeCursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  delete treeCursor;
+  __clearPointer(env, thisObject);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentNode(
@@ -43,13 +44,68 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentT
   );
 }
 
-JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild(
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild__(
   JNIEnv* env, jobject thisObject) {
   TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
   bool result = ts_tree_cursor_goto_first_child(cursor);
   env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
   env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
   return result ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild__I(
+  JNIEnv* env, jobject thisObject, jint offset) {
+  if (offset < 0) {
+    __throwIAE(env, "Byte offset must not be negative!");
+    return JNI_FALSE;
+  }
+  // Not sure why I need to multiply by two, again probably because of utf-16
+  uint32_t childStart = (uint32_t)offset * 2;
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  TSNode node = ts_tree_cursor_current_node(cursor);
+  uint32_t nodeStart = ts_node_start_byte(node);
+  if (childStart < nodeStart) {
+    __throwIOB(env, offset);
+    return JNI_FALSE;
+  }
+  uint32_t nodeEnd = ts_node_end_byte(node);
+  if (childStart > nodeEnd) {
+    __throwIOB(env, offset);
+    return JNI_FALSE;
+  }
+  int64_t result = ts_tree_cursor_goto_first_child_for_byte(cursor, childStart);
+  env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
+  env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
+  return (result > -1) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstChild__Lch_usi_si_seart_treesitter_Point_2(
+  JNIEnv* env, jobject thisObject, jobject pointObject) {
+  if (pointObject == NULL) {
+    __throwNPE(env, "Point must not be null!");
+    return JNI_FALSE;
+  }
+  TSPoint point = __unmarshalPoint(env, pointObject);
+  if (point.row < 0 || point.column < 0) {
+    __throwIAE(env, "Point can not have negative coordinates!");
+    return JNI_FALSE;
+  }
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  TSNode node = ts_tree_cursor_current_node(cursor);
+  TSPoint lowerBound = ts_node_start_point(node);
+  if (__comparePoints(lowerBound, point) == GT) {
+    __throwIAE(env, "Point can not be outside of current node bounds!");
+    return JNI_FALSE;
+  }
+  TSPoint upperBound = ts_node_end_point(node);
+  if (__comparePoints(point, upperBound) == GT) {
+    __throwIAE(env, "Point can not be outside of current node bounds!");
+    return JNI_FALSE;
+  }
+  int64_t result = ts_tree_cursor_goto_first_child_for_point(cursor, point);
+  env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
+  env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
+  return (result > -1) ? JNI_TRUE : JNI_FALSE;
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNextSibling(

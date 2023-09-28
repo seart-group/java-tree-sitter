@@ -69,6 +69,7 @@ extern jfieldID _treeCursorNodeIsNamed;
 
 extern jclass _parserClass;
 extern jfieldID _parserLanguageField;
+extern jmethodID _parserConstructor;
 
 extern jclass _treeClass;
 extern jfieldID _treeLanguageField;
@@ -196,7 +197,11 @@ jint __throwIOE(JNIEnv* env, const char* message);
 
 jint __throwIOB(JNIEnv* env, jint index);
 
+jint __throwILE(JNIEnv* env, jobject languageObject);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
+
+void __clearPointer(JNIEnv* env, jobject objectInstance);
 
 jobject __marshalNode(JNIEnv* env, TSNode node);
 

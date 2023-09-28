@@ -3,11 +3,6 @@
 #include <jni.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_malloc(
-  JNIEnv* env, jclass self) {
-  return (jlong)ts_parser_new();
-}
-
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion(
   JNIEnv *, jclass) {
   return (jint)TREE_SITTER_LANGUAGE_VERSION;
@@ -18,15 +13,27 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatib
   return (jint)TREE_SITTER_MIN_COMPATIBLE_LANGUAGE_VERSION;
 }
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
   ts_parser_delete(parser);
+  __clearPointer(env, thisObject);
 }
 
-JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
-  JNIEnv* env, jclass self, jlong parser, jlong language) {
-  return ts_parser_set_language((TSParser*)parser, (TSLanguage*)language) ? JNI_TRUE : JNI_FALSE;
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
+  JNIEnv* env, jclass thisClass, jobject parserObject, jobject languageObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, parserObject);
+  const TSLanguage* language = __unmarshalLanguage(env, languageObject);
+  bool succeeded = ts_parser_set_language(parser, language);
+  if (!succeeded) {
+    __throwILE(env, languageObject);
+    return;
+  }
+  env->SetObjectField(
+    parserObject,
+    _parserLanguageField,
+    languageObject
+  );
 }
 
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(

@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    malloc
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_malloc
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    getLanguageVersion
  * Signature: ()I
  */
@@ -33,19 +25,19 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatib
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    close
+ * Method:    delete
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete
   (JNIEnv *, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    setLanguage
- * Signature: (JJ)Z
+ * Signature: (Lch/usi/si/seart/treesitter/Parser;Lch/usi/si/seart/treesitter/Language;)V
  */
-JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
-  (JNIEnv *, jclass, jlong, jlong);
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
+  (JNIEnv *, jclass, jobject, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser

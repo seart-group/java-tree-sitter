@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter.exception.parser;
 
 import ch.usi.si.seart.treesitter.exception.TreeSitterException;
+import lombok.AccessLevel;
 import lombok.experimental.StandardException;
 
 /**
@@ -9,6 +10,6 @@ import lombok.experimental.StandardException;
  * @since 1.6.0
  * @author Ozren Dabić
  */
-@StandardException
+@StandardException(access = AccessLevel.PROTECTED)
 public abstract class ParserException extends TreeSitterException {
 }

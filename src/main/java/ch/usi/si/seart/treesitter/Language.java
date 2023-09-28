@@ -438,9 +438,8 @@ public enum Language {
         int version = language.getVersion();
         int minimum = Parser.getMinimumCompatibleLanguageVersion();
         int maximum = Parser.getLanguageVersion();
-        if (version < minimum || version > maximum) throw new ABIVersionError(
-                "Incompatible language version: " + version
-        );
+        if (version < minimum || version > maximum)
+            throw new ABIVersionError(version);
     }
 
     /**

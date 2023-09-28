@@ -48,11 +48,8 @@ public class TreeCursor extends External implements Cloneable {
         this.tree = tree;
     }
 
-    /**
-     * Delete the tree cursor, freeing all the memory that it used.
-     */
     @Override
-    public native void close();
+    protected native void delete();
 
     /**
      * @return The tree cursor's current node
@@ -77,6 +74,34 @@ public class TreeCursor extends External implements Cloneable {
      * and false if there were no children
      */
     public native boolean gotoFirstChild();
+
+    /**
+     * Move the cursor to the first child of its current node
+     * that extends beyond the given byte offset.
+     *
+     * @param offset the starting byte of the child
+     * @return true if the cursor successfully moved,
+     * and false if no such child was found
+     * @throws IllegalArgumentException if {@code offset} is negative
+     * @throws IndexOutOfBoundsException if {@code offset} is outside
+     * the current node's byte range
+     * @since 1.7.0
+     */
+    public native boolean gotoFirstChild(int offset);
+
+    /**
+     * Move the cursor to the first child of its current node
+     * that extends beyond the given row-column offset.
+     *
+     * @param point the starting row-column position of the child
+     * @return true if the cursor successfully moved,
+     * and false if no such child was found
+     * @throws NullPointerException if {@code point} is null
+     * @throws IllegalArgumentException if {@code point} is
+     * outside the current node's positional span
+     * @since 1.7.0
+     */
+    public native boolean gotoFirstChild(@NotNull Point point);
 
     /**
      * Move the cursor to the next sibling of its current node.
@@ -105,13 +130,11 @@ public class TreeCursor extends External implements Cloneable {
     public void preorderTraversal(@NotNull Consumer<Node> callback) {
         Objects.requireNonNull(callback, "Callback must not be null!");
         for (;;) {
-            callback.accept(this.getCurrentNode());
-            if (this.gotoFirstChild() || this.gotoNextSibling())
-                continue;
+            callback.accept(getCurrentNode());
+            if (gotoFirstChild() || gotoNextSibling()) continue;
             do {
-                if (!this.gotoParent())
-                    return;
-            } while (!this.gotoNextSibling());
+                if (!gotoParent()) return;
+            } while (!gotoNextSibling());
         }
     }
 
