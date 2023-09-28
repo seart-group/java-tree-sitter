@@ -22,7 +22,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         for (int i = 0; i < patternsLength; i++) {
           patternStartBytes[i] = ts_query_start_byte_for_pattern(query, i);
         }
-        jobjectArray patterns = env->NewObjectArray(patternsLength, _stringClass, NULL);
+        jobjectArray patterns = env->NewObjectArray(patternsLength, _patternClass, NULL);
         for (int i = 0; i < patternsLength; i++) {
           uint32_t patternStartByte = patternStartBytes[i];
           uint32_t patternEndByte = (i < patternsLength - 1) ? patternStartBytes[i + 1] : length;
@@ -30,8 +30,17 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           char* substring = new char[patternLength + 1];
           memcpy(substring, characters + patternStartByte, patternLength);
           substring[patternLength] = '\0';
-          jstring patternString = env->NewStringUTF(substring);
-          env->SetObjectArrayElement(patterns, i, patternString);
+          bool rooted = ts_query_is_pattern_rooted(query, i);
+          bool nonLocal = ts_query_is_pattern_non_local(query, i);
+          jobject patternObject = env->NewObject(
+            _patternClass,
+            _patternConstructor,
+            (jint)i,
+            (rooted) ? JNI_TRUE : JNI_FALSE,
+            (nonLocal) ? JNI_TRUE : JNI_FALSE,
+            env->NewStringUTF(substring)
+          );
+          env->SetObjectArrayElement(patterns, i, patternObject);
         }
 
         uint32_t capturesLength = ts_query_capture_count(query);

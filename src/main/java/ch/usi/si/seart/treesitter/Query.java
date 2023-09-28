@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * A query consists of one or more patterns, where each pattern is a symbolic expression (S-expression)
@@ -27,7 +28,7 @@ import java.util.Objects;
 public class Query extends External {
 
     Language language;
-    List<String> patterns;
+    List<Pattern> patterns;
     List<String> captures;
     List<String> strings;
 
@@ -35,7 +36,7 @@ public class Query extends External {
     Query(
             long pointer,
             @NotNull Language language,
-            @NotNull String[] patterns,
+            @NotNull Pattern[] patterns,
             @NotNull String[] captures,
             @NotNull String[] strings
     ) {
@@ -189,6 +190,8 @@ public class Query extends External {
      */
     @Generated
     public String getPattern() {
-        return String.join(" ", patterns);
+        return patterns.stream()
+                .map(Pattern::toString)
+                .collect(Collectors.joining(" "));
     }
 }
