@@ -1,4 +1,4 @@
-# java-tree-sitter
+# java-tree-sitter &middot; [![javadoc](https://javadoc.io/badge2/ch.usi.si.seart/java-tree-sitter/javadoc.svg)](https://javadoc.io/doc/ch.usi.si.seart/java-tree-sitter)
 
 Java bindings for [tree-sitter](https://tree-sitter.github.io/tree-sitter/).
 Originally developed by [serenadeai](https://github.com/serenadeai).
