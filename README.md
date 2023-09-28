@@ -190,4 +190,4 @@ public class Example {
 }
 ```
 
-For more usage examples, take a look at the [tests](src/test/java/usi/si/seart/treesitter).
+For more usage examples, take a look at the [tests](src/test/java/ch/usi/si/seart/treesitter).
