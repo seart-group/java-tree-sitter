@@ -15,30 +15,6 @@ extern "C" {
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_delete
   (JNIEnv *, jobject);
 
-/*
- * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    countStrings
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countStrings
-  (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    countCaptures
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures
-  (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    countPatterns
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countPatterns
-  (JNIEnv *, jobject);
-
 #ifdef __cplusplus
 }
 #endif

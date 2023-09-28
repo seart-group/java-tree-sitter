@@ -134,19 +134,28 @@ public class Query extends External {
     protected native void delete();
 
     /**
-     * @return The number of string literals in this query
+     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    public native int countStrings();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int countStrings() {
+        return strings.size();
+    }
 
     /**
-     * @return The number of captures in this query
+     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    public native int countCaptures();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int countCaptures() {
+        return captures.size();
+    }
 
     /**
-     * @return The number of patterns in this query
+     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    public native int countPatterns();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int countPatterns() {
+        return patterns.size();
+    }
 
     /**
      * @param capture The query capture
