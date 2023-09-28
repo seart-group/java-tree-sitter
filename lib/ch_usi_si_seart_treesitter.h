@@ -4,6 +4,8 @@
 #ifndef _Included_ch_usi_si_seart_treesitter
 #define _Included_ch_usi_si_seart_treesitter
 
+extern jclass _stringClass;
+
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;
@@ -78,6 +80,7 @@ extern jclass _dotGraphPrinterClass;
 extern jfieldID _dotGraphPrinterTreeField;
 
 extern jclass _queryClass;
+extern jmethodID _queryConstructor;
 
 extern jclass _queryCursorClass;
 extern jmethodID _queryCursorConstructor;
@@ -98,10 +101,15 @@ extern jmethodID _treeCursorConstructor;
 extern jclass _treeSitterExceptionClass;
 
 extern jclass _querySyntaxExceptionClass;
+extern jmethodID _querySyntaxExceptionConstructor;
 extern jclass _queryNodeTypeExceptionClass;
+extern jmethodID _queryNodeTypeExceptionConstructor;
 extern jclass _queryFieldExceptionClass;
+extern jmethodID _queryFieldExceptionConstructor;
 extern jclass _queryCaptureExceptionClass;
+extern jmethodID _queryCaptureExceptionConstructor;
 extern jclass _queryStructureExceptionClass;
+extern jmethodID _queryStructureExceptionConstructor;
 
 extern jclass _parsingExceptionClass;
 extern jmethodID _parsingExceptionConstructor;

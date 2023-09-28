@@ -3,6 +3,8 @@
 
 static jint JNI_VERSION = JNI_VERSION_10;
 
+jclass _stringClass;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -66,6 +68,7 @@ jclass _dotGraphPrinterClass;
 jfieldID _dotGraphPrinterTreeField;
 
 jclass _queryClass;
+jmethodID _queryConstructor;
 
 jclass _queryCursorClass;
 jmethodID _queryCursorConstructor;
@@ -97,10 +100,15 @@ jmethodID _indexOutOfBoundsExceptionConstructor;
 jclass _treeSitterExceptionClass;
 
 jclass _querySyntaxExceptionClass;
+jmethodID _querySyntaxExceptionConstructor;
 jclass _queryNodeTypeExceptionClass;
+jmethodID _queryNodeTypeExceptionConstructor;
 jclass _queryFieldExceptionClass;
+jmethodID _queryFieldExceptionConstructor;
 jclass _queryCaptureExceptionClass;
+jmethodID _queryCaptureExceptionConstructor;
 jclass _queryStructureExceptionClass;
+jmethodID _queryStructureExceptionConstructor;
 
 jclass _parsingExceptionClass;
 jmethodID _parsingExceptionConstructor;
@@ -113,6 +121,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
   }
+
+  _loadClass(_stringClass, "java/lang/String")
 
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
@@ -179,6 +189,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
 
   _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query")
+  _loadConstructor(_queryConstructor, _queryClass,
+    "(JLch/usi/si/seart/treesitter/Language;Ljava/lang/String;[Ljava/lang/String;)V")
 
   _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor")
   _loadConstructor(_queryCursorConstructor, _queryCursorClass,
@@ -211,10 +223,15 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException")
 
   _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException")
+  _loadConstructor(_querySyntaxExceptionConstructor, _querySyntaxExceptionClass, "(I)V")
   _loadClass(_queryNodeTypeExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException")
+  _loadConstructor(_queryNodeTypeExceptionConstructor, _queryNodeTypeExceptionClass, "(I)V")
   _loadClass(_queryFieldExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryFieldException")
+  _loadConstructor(_queryFieldExceptionConstructor, _queryFieldExceptionClass, "(I)V")
   _loadClass(_queryCaptureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryCaptureException")
+  _loadConstructor(_queryCaptureExceptionConstructor, _queryCaptureExceptionClass, "(I)V")
   _loadClass(_queryStructureExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryStructureException")
+  _loadConstructor(_queryStructureExceptionConstructor, _queryStructureExceptionClass, "(I)V")
 
   _loadClass(_parsingExceptionClass, "ch/usi/si/seart/treesitter/exception/parser/ParsingException")
   _loadConstructor(_parsingExceptionConstructor, _parsingExceptionClass, "(Ljava/lang/Throwable;)V")
@@ -230,6 +247,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
+  _unload(_stringClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)

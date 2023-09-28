@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    malloc
- * Signature: (JLjava/lang/String;)J
- */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Query_malloc
-  (JNIEnv *, jclass, jlong, jstring);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Query
  * Method:    delete
  * Signature: ()V
  */
@@ -36,16 +28,8 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countStrings
  * Method:    countCaptures
  * Signature: ()I
  */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures__
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures
   (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    countCaptures
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures__J
-  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Query
@@ -54,14 +38,6 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countCaptures__J
  */
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_countPatterns
   (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Query
- * Method:    getCaptureName
- * Signature: (JI)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Query_getCaptureName
-  (JNIEnv *, jclass, jlong, jint);
 
 #ifdef __cplusplus
 }

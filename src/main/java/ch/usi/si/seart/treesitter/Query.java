@@ -4,11 +4,10 @@ import ch.usi.si.seart.treesitter.exception.query.QueryException;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,26 +42,97 @@ public class Query extends External {
     String pattern;
     List<String> captures;
 
-    public Query(@NotNull Language language, @NotNull String pattern) {
-        super(createIfValid(language, pattern));
+    @SuppressWarnings("unused")
+    Query(long pointer, @NotNull Language language, @NotNull String pattern, String[] captures) {
+        super(pointer);
         this.language = language;
         this.pattern = pattern;
-        int capturesCount = countCaptures(pointer);
-        List<String> captures = new ArrayList<>(capturesCount);
-        for (int idx = 0; idx < capturesCount; idx++) {
-            String capture = getCaptureName(pointer, idx);
-            captures.add(capture);
+        this.captures = List.of(captures);
+    }
+
+    /**
+     * @deprecated Use {@link Query#getFor(Language, String)} or {@link Query#builder()} instead
+     */
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public Query(@NotNull Language language, @NotNull String pattern) {
+        throw new UnsupportedOperationException(
+                "This constructor should no longer be used"
+        );
+    }
+
+    /**
+     * Static factory for obtaining new Query instances.
+     *
+     * @param language The language for querying
+     * @param pattern The query pattern
+     * @return A new query instance
+     * @since 1.7.0
+     */
+    public static Query getFor(@NotNull Language language, @NotNull String pattern) {
+        return builder().language(language).pattern(pattern).build();
+    }
+
+    /**
+     * Obtain a new builder for constructing a Query instance.
+     *
+     * @return a new query builder
+     * @since 1.7.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Builder {
+
+        Language language = null;
+        String pattern = null;
+
+        /**
+         * Sets the programming language associated with the query.
+         *
+         * @param language The language associated with the query
+         * @return this builder
+         * @throws NullPointerException if the language is null
+         * @throws UnsatisfiedLinkError if the language was not linked to native code
+         * @throws ch.usi.si.seart.treesitter.error.ABIVersionError
+         * if the language ABI version is incompatible with requirements
+         */
+        public Builder language(@NotNull Language language) {
+            Language.validate(language);
+            this.language = language;
+            return this;
         }
-        this.captures = Collections.unmodifiableList(captures);
-    }
 
-    private static long createIfValid(Language language, String pattern) {
-        Language.validate(language);
-        Objects.requireNonNull(pattern, "Pattern must not be null!");
-        return malloc(language.getId(), pattern);
-    }
+        /**
+         * Sets the query pattern that will be used to match nodes.
+         *
+         * @param pattern The symbolic expression string of the query pattern.
+         * @return this builder
+         * @throws NullPointerException if the pattern is null
+         */
+        public Builder pattern(@NotNull String pattern) {
+            Objects.requireNonNull(pattern, "Pattern must not be null!");
+            this.pattern = pattern;
+            return this;
+        }
 
-    private static native long malloc(long language, String pattern) throws QueryException;
+        /**
+         * Builds and returns a new Query instance
+         * with the configured language and pattern.
+         *
+         * @return A new query instance
+         * @throws QueryException if query construction fails
+         */
+        public Query build() {
+            Objects.requireNonNull(language, "Language must not be null!");
+            Objects.requireNonNull(pattern, "Pattern must not be null!");
+            return build(language, pattern);
+        }
+
+        private static native Query build(Language language, String pattern) throws QueryException;
+    }
 
     @Override
     protected native void delete();
@@ -77,8 +147,6 @@ public class Query extends External {
      */
     public native int countCaptures();
 
-    private static native int countCaptures(long query);
-
     /**
      * @return The number of patterns in this query
      */
@@ -91,8 +159,6 @@ public class Query extends External {
     public String getCaptureName(@NotNull QueryCapture capture) {
         return captures.get(capture.getIndex());
     }
-
-    private static native String getCaptureName(long query, int index);
 
     /**
      * @return true if the query has captures, false otherwise

@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 class QueryTest extends TestBase {
@@ -24,7 +25,7 @@ class QueryTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        query = new Query(Language.JAVA, "(_) @capture");
+        query = Query.getFor(Language.JAVA, "(_) @capture");
     }
 
     @AfterAll
@@ -42,9 +43,6 @@ class QueryTest extends TestBase {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                    Arguments.of(NullPointerException.class, null, null),
-                    Arguments.of(NullPointerException.class, Language.JAVA, null),
-                    Arguments.of(NullPointerException.class, null, "(_)"),
                     Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_, "(_)"),
                     Arguments.of(QueryCaptureException.class, Language.JAVA, "(#eq? @key @value)"),
                     Arguments.of(QueryFieldException.class, Language.JAVA, "(program unknown: (_))"),
@@ -55,11 +53,31 @@ class QueryTest extends TestBase {
         }
     }
 
-    @SuppressWarnings("resource")
     @ParameterizedTest(name = "[{index}] {0}")
     @ArgumentsSource(QueryExceptionProvider.class)
     void testQueryException(Class<Throwable> throwableType, Language language, String pattern) {
-        Assertions.assertThrows(throwableType, () -> new Query(language, pattern));
+        Assertions.assertThrows(throwableType, () -> Query.getFor(language, pattern));
+    }
+
+    private static class QuerySupplierExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            Supplier<Query> case1 = () -> Query.builder().build();
+            Supplier<Query> case2 = () -> Query.builder().pattern("(_)").build();
+            Supplier<Query> case3 = () -> Query.builder().language(Language.JAVA).build();
+            return Stream.of(
+                    Arguments.of("Nothing specified", case1),
+                    Arguments.of("Only pattern specified", case2),
+                    Arguments.of("Only language specified", case3)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(QuerySupplierExceptionProvider.class)
+    void testQueryException(String ignored, Supplier<Query> supplier) {
+        Assertions.assertThrows(NullPointerException.class, supplier::get);
     }
 
     @Test
@@ -78,7 +96,7 @@ class QueryTest extends TestBase {
     @Test
     void testQueryHasCaptures() {
         Assertions.assertTrue(query.hasCaptures());
-        @Cleanup Query query = new Query(Language.JAVA, "(_)");
+        @Cleanup Query query = Query.getFor(Language.JAVA, "(_)");
         Assertions.assertFalse(query.hasCaptures());
     }
 }
