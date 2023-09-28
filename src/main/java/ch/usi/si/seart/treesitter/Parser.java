@@ -5,6 +5,7 @@ import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,33 +36,79 @@ public class Parser extends External {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
-    /**
-     * @param language The language used for parsing
-     * @throws NullPointerException if the language is null
-     * @throws UnsatisfiedLinkError if the language was not linked to native code
-     * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
-     * @throws IncompatibleLanguageException if the language can not be set
-     */
-    public Parser(@NotNull Language language) {
-        super(createIfValid(language));
+    @SuppressWarnings("unused")
+    Parser(long pointer, @NotNull Language language) {
+        super(pointer);
         this.language = language;
     }
 
-    /*
-     * Constructor precondition for creating a parser.
-     * In essence, we should never allocate memory to
-     * these structures if the language:
-     * - Has not been specified (i.e. is null)
-     * - Has not been linked to the system library
+    /**
+     * @deprecated Use {@link Parser#getFor(Language)} or {@link Parser#builder()} instead
      */
-    private static long createIfValid(Language language) {
-        Language.validate(language);
-        long pointer = malloc();
-        setLanguage(pointer, language);
-        return pointer;
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public Parser(@NotNull Language language) {
+        throw new UnsupportedOperationException(
+                "This constructor should no longer be used"
+        );
     }
 
-    private static native long malloc();
+    /**
+     * Static factory for obtaining new Parser instances.
+     *
+     * @param language The language used for parsing
+     * @return A new parser instance
+     * @since 1.7.0
+     */
+    public static Parser getFor(@NotNull Language language) {
+        return builder().language(language).build();
+    }
+
+    /**
+     * Obtain a new builder for constructing a Parser instance.
+     *
+     * @return a new parser builder
+     * @since 1.7.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Builder {
+
+        Language language = null;
+
+        /**
+         * Sets the programming language intended for parsing.
+         *
+         * @param language The language used for parsing
+         * @return this builder
+         * @throws NullPointerException if the language is null
+         * @throws UnsatisfiedLinkError if the language was not linked to native code
+         * @throws ch.usi.si.seart.treesitter.error.ABIVersionError
+         * if the language ABI version is incompatible with requirements
+         */
+        public Builder language(@NotNull Language language) {
+            Language.validate(language);
+            this.language = language;
+            return this;
+        }
+
+        /**
+         * Builds and returns a new Parser instance with the configured language.
+         *
+         * @return A new parser instance
+         * @throws NullPointerException if the language was not previously set
+         * @throws IncompatibleLanguageException if the language can not be set
+         */
+        public Parser build() {
+            Objects.requireNonNull(language, "Language must not be null!");
+            return build(language);
+        }
+
+        private static native Parser build(Language language);
+    }
 
     /**
      * The latest ABI version that is supported by the current version of the library.
@@ -102,15 +149,10 @@ public class Parser extends External {
      */
     public void setLanguage(@NotNull Language language) {
         Language.validate(language);
-        setLanguage(pointer, language);
+        setLanguage(this, language);
     }
 
-    private static void setLanguage(long pointer, Language language) {
-        boolean success = setLanguage(pointer, language.getId());
-        if (!success) throw new IncompatibleLanguageException(language);
-    }
-
-    private static native boolean setLanguage(long pointer, long language);
+    private static native void setLanguage(Parser parser, Language language) throws IncompatibleLanguageException;
 
     /**
      * Get the duration in microseconds that parsing is allowed to take.

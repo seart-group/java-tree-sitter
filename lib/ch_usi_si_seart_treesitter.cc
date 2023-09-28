@@ -55,6 +55,7 @@ jfieldID _treeCursorNodeIsNamed;
 
 jclass _parserClass;
 jfieldID _parserLanguageField;
+jmethodID _parserConstructor;
 
 jclass _treeClass;
 jfieldID _treeLanguageField;
@@ -167,6 +168,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_parserClass, "ch/usi/si/seart/treesitter/Parser")
   _loadField(_parserLanguageField, _parserClass, "language", "Lch/usi/si/seart/treesitter/Language;")
+  _loadConstructor(_parserConstructor, _parserClass, "(JLch/usi/si/seart/treesitter/Language;)V")
 
   _loadClass(_treeClass, "ch/usi/si/seart/treesitter/Tree")
   _loadField(_treeLanguageField, _treeClass, "language", "Lch/usi/si/seart/treesitter/Language;")
@@ -288,6 +290,15 @@ jint __throwIOB(JNIEnv* env, jint index) {
   return env->Throw((jthrowable)exception);
 }
 
+jint __throwILE(JNIEnv* env, jobject languageObject) {
+  jobject exception = env->NewObject(
+    _incompatibleLanguageExceptionClass,
+    _incompatibleLanguageExceptionConstructor,
+    languageObject
+  );
+  return env->Throw((jthrowable)exception);
+}
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
   return env->GetLongField(objectInstance, _externalPointerField);
 }
@@ -366,4 +377,11 @@ TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditOldEndPointField)),
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
   };
+}
+
+const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject) {
+  jclass languageClass = env->GetObjectClass(languageObject);
+  jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
+  jlong languageId = env->GetLongField(languageObject, languageIdField);
+  return (const TSLanguage*)languageId;
 }

@@ -29,7 +29,7 @@ class QueryCursorTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        parser = new Parser(language);
+        parser = Parser.builder().language(language).build();;
         tree = parser.parse(source);
         root = tree.getRootNode();
     }

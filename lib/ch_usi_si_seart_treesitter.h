@@ -67,6 +67,7 @@ extern jfieldID _treeCursorNodeIsNamed;
 
 extern jclass _parserClass;
 extern jfieldID _parserLanguageField;
+extern jmethodID _parserConstructor;
 
 extern jclass _treeClass;
 extern jfieldID _treeLanguageField;
@@ -188,6 +189,8 @@ jint __throwIOE(JNIEnv* env, const char* message);
 
 jint __throwIOB(JNIEnv* env, jint index);
 
+jint __throwILE(JNIEnv* env, jobject languageObject);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 void __clearPointer(JNIEnv* env, jobject objectInstance);
@@ -205,6 +208,8 @@ jobject __marshalPoint(JNIEnv* env, TSPoint point);
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
+
+const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
 
 #ifdef TS_LANGUAGE_ADA
 TSLanguage* tree_sitter_ada();
