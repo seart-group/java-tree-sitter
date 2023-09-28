@@ -53,7 +53,6 @@ class QueryTest extends TestBase {
         }
     }
 
-    @SuppressWarnings("resource")
     @ParameterizedTest(name = "[{index}] {0}")
     @ArgumentsSource(QueryExceptionProvider.class)
     void testQueryException(Class<Throwable> throwableType, Language language, String pattern) {
