@@ -27,14 +27,14 @@ import java.util.Objects;
 public class Query extends External {
 
     Language language;
-    String pattern;
+    List<String> patterns;
     List<String> captures;
 
     @SuppressWarnings("unused")
-    Query(long pointer, @NotNull Language language, @NotNull String pattern, String[] captures) {
+    Query(long pointer, @NotNull Language language, @NotNull String[] patterns, @NotNull String[] captures) {
         super(pointer);
         this.language = language;
-        this.pattern = pattern;
+        this.patterns = List.of(patterns);
         this.captures = List.of(captures);
     }
 
@@ -160,7 +160,7 @@ public class Query extends External {
     public String toString() {
         return String.format(
                 "Query(language: %s, pattern: '%s', captures: [%s])",
-                language, pattern, String.join(", ", captures)
+                language, patterns, String.join(", ", captures)
         );
     }
 }

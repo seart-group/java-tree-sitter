@@ -5,18 +5,35 @@
 #include <tree_sitter/api.h>
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_build(
-  JNIEnv* env, jclass thisClass, jobject languageObject, jstring pattern) {
+  JNIEnv* env, jclass thisClass, jobject languageObject, jstring patterns) {
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
-  uint32_t patternLength = env->GetStringLength(pattern);
-  const char* characters = env->GetStringUTFChars(pattern, NULL);
+  uint32_t length = env->GetStringLength(patterns);
+  const char* characters = env->GetStringUTFChars(patterns, NULL);
   uint32_t* offset = new uint32_t;
   TSQueryError* errorType = new TSQueryError;
-  TSQuery* query = ts_query_new(language, characters, patternLength, offset, errorType);
+  TSQuery* query = ts_query_new(language, characters, length, offset, errorType);
   jclass exceptionClass;
   jmethodID exceptionConstructor;
   switch (*errorType) {
     case TSQueryErrorNone:
       {
+        uint32_t patternsLength = ts_query_pattern_count(query);
+        uint32_t patternStartBytes[patternsLength];
+        for (int i = 0; i < patternsLength; i++) {
+          patternStartBytes[i] = ts_query_start_byte_for_pattern(query, i);
+        }
+        jobjectArray patterns = env->NewObjectArray(patternsLength, _stringClass, NULL);
+        for (int i = 0; i < patternsLength; i++) {
+          uint32_t patternStartByte = patternStartBytes[i];
+          uint32_t patternEndByte = (i < patternsLength - 1) ? patternStartBytes[i + 1] : length;
+          uint32_t patternLength = patternEndByte - patternStartByte;
+          char* substring = new char[patternLength + 1];
+          memcpy(substring, characters + patternStartByte, patternLength);
+          substring[patternLength] = '\0';
+          jstring patternString = env->NewStringUTF(substring);
+          env->SetObjectArrayElement(patterns, i, patternString);
+        }
+
         uint32_t capturesLength = ts_query_capture_count(query);
         jobjectArray captures = env->NewObjectArray(capturesLength, _stringClass, NULL);
         for (int i = 0; i < capturesLength; i++) {
@@ -29,7 +46,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           _queryConstructor,
           (jlong)query,
           languageObject,
-          pattern,
+          patterns,
           captures
         );
       }
