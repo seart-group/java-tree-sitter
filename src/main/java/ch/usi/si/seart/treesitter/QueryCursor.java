@@ -44,11 +44,8 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
         );
     }
 
-    /**
-     * Delete the query cursor, freeing all the memory that it used.
-     */
     @Override
-    public native void close();
+    protected native void delete();
 
     /**
      * Start running a given query on a given node.

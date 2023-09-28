@@ -33,10 +33,10 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatib
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    close
+ * Method:    delete
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete
   (JNIEnv *, jobject);
 
 /*

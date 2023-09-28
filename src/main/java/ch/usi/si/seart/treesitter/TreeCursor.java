@@ -48,11 +48,8 @@ public class TreeCursor extends External implements Cloneable {
         this.tree = tree;
     }
 
-    /**
-     * Delete the tree cursor, freeing all the memory that it used.
-     */
     @Override
-    public native void close();
+    protected native void delete();
 
     /**
      * @return The tree cursor's current node

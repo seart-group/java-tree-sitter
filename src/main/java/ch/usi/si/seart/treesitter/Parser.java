@@ -88,11 +88,8 @@ public class Parser extends External {
      */
     public static native int getMinimumCompatibleLanguageVersion();
 
-    /**
-     * Delete the parser, freeing all the memory that it used.
-     */
     @Override
-    public native void close();
+    protected native void delete();
 
     /**
      * Set the language that the parser should use for parsing.

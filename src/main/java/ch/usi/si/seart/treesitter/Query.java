@@ -64,11 +64,8 @@ public class Query extends External {
 
     private static native long malloc(long language, String pattern) throws QueryException;
 
-    /**
-     * Delete the query, freeing all the memory that it used.
-     */
     @Override
-    public native void close();
+    protected native void delete();
 
     /**
      * @return The number of string literals in this query

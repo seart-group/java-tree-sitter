@@ -18,10 +18,11 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatib
   return (jint)TREE_SITTER_MIN_COMPATIBLE_LANGUAGE_VERSION;
 }
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_close(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
   ts_parser_delete(parser);
+  __clearPointer(env, thisObject);
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
