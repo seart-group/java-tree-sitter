@@ -5,9 +5,7 @@ import ch.usi.si.seart.treesitter.exception.query.QueryFieldException;
 import ch.usi.si.seart.treesitter.exception.query.QueryNodeTypeException;
 import ch.usi.si.seart.treesitter.exception.query.QueryStructureException;
 import ch.usi.si.seart.treesitter.exception.query.QuerySyntaxException;
-import lombok.Cleanup;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -93,12 +91,5 @@ class QueryTest extends TestBase {
     @ArgumentsSource(QuerySupplierExceptionProvider.class)
     void testQueryException(String ignored, Supplier<Query> supplier) {
         Assertions.assertThrows(NullPointerException.class, supplier::get);
-    }
-
-    @Test
-    void testQueryCaptureName() {
-        @Cleanup Query query = Query.getFor(Language.JAVA, "(_) @capture");
-        QueryCapture capture = new QueryCapture(empty, 0);
-        Assertions.assertEquals("capture", query.getCaptureName(capture));
     }
 }

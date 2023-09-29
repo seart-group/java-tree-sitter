@@ -159,12 +159,14 @@ public class Query extends External {
     }
 
     /**
-     * @param capture The query capture
-     * @return The name of the provided query captures
+     * @deprecated Should not be used anymore
+     * @see QueryMatch
      */
-    public String getCaptureName(@NotNull QueryCapture capture) {
-        int index = capture.getIndex();
-        return captures.get(index).getValue();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public String getCaptureName(@NotNull Object ignored) {
+        throw new UnsupportedOperationException(
+                "This method should no longer be used"
+        );
     }
 
     /**
