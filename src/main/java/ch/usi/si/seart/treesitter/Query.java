@@ -111,7 +111,7 @@ public class Query extends External {
          */
         public Builder pattern(@NotNull String pattern) {
             Objects.requireNonNull(pattern, "Pattern must not be null!");
-            this.pattern = pattern;
+            this.pattern = pattern.trim();
             return this;
         }
 
