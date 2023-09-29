@@ -29,7 +29,7 @@ public class Query extends External {
 
     Language language;
     List<Pattern> patterns;
-    List<String> captures;
+    List<Capture> captures;
     List<String> strings;
 
     @SuppressWarnings("unused")
@@ -37,7 +37,7 @@ public class Query extends External {
             long pointer,
             @NotNull Language language,
             @NotNull Pattern[] patterns,
-            @NotNull String[] captures,
+            @NotNull Capture[] captures,
             @NotNull String[] strings
     ) {
         super(pointer);
@@ -163,7 +163,8 @@ public class Query extends External {
      * @return The name of the provided query captures
      */
     public String getCaptureName(@NotNull QueryCapture capture) {
-        return captures.get(capture.getIndex());
+        int index = capture.getIndex();
+        return captures.get(index).getValue();
     }
 
     /**
@@ -176,9 +177,13 @@ public class Query extends External {
     @Override
     @Generated
     public String toString() {
+        String pattern = getPattern();
+        String capture = captures.stream()
+                .map(Capture::toString)
+                .collect(Collectors.joining(", ", "[", "]"));
         return String.format(
-                "Query(language: %s, pattern: '%s', captures: [%s])",
-                 language, getPattern(), String.join(", ", captures)
+                "Query(language: %s, pattern: '%s', captures: %s)",
+                language, pattern, capture
         );
     }
 

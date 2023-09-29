@@ -44,11 +44,16 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         }
 
         uint32_t capturesLength = ts_query_capture_count(query);
-        jobjectArray captures = env->NewObjectArray(capturesLength, _stringClass, NULL);
+        jobjectArray captures = env->NewObjectArray(capturesLength, _captureClass, NULL);
         for (int i = 0; i < capturesLength; i++) {
           const char* capture = ts_query_capture_name_for_id(query, i, new uint32_t);
-          jstring captureString = env->NewStringUTF(capture);
-          env->SetObjectArrayElement(captures, i, captureString);
+          jobject captureObject = env->NewObject(
+            _captureClass,
+            _captureConstructor,
+            (jint)i,
+            env->NewStringUTF(capture)
+          );
+          env->SetObjectArrayElement(captures, i, captureObject);
         }
 
         uint32_t stringsLength = ts_query_string_count(query);
