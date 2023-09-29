@@ -266,6 +266,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_treeClass)
   _unload(_dotGraphPrinterClass)
   _unload(_queryClass)
+  _unload(_patternClass)
   _unload(_queryCursorClass)
   _unload(_symbolClass)
   _unload(_treeCursorClass)
