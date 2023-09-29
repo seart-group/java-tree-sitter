@@ -21,8 +21,17 @@ import java.util.stream.Stream;
 public class QueryMatch {
 
     int id;
-    int patternIndex;
+    Pattern pattern;
     QueryCapture[] captures;
+
+    /**
+     * @deprecated Use dedicated {@link QueryMatch#pattern} getter instead
+     */
+    @Generated
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int getPatternIndex() {
+        return getPattern().getIndex();
+    }
 
     @Override
     @Generated
@@ -30,6 +39,6 @@ public class QueryMatch {
         String joined = Stream.of(captures)
                 .map(QueryCapture::toString)
                 .collect(Collectors.joining(", "));
-        return String.format("QueryMatch(id: %d, pattern: %d, captures: [%s])", id, patternIndex, joined);
+        return String.format("QueryMatch(id: %d, pattern: '%s', captures: [%s])", id, pattern, joined);
     }
 }
