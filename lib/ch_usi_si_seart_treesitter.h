@@ -83,6 +83,10 @@ extern jclass _dotGraphPrinterClass;
 extern jfieldID _dotGraphPrinterTreeField;
 
 extern jclass _queryClass;
+extern jfieldID _queryLanguageField;
+extern jfieldID _queryPatternsField;
+extern jfieldID _queryCapturesField;
+extern jfieldID _queryStringsField;
 extern jmethodID _queryConstructor;
 
 extern jclass _patternClass;
