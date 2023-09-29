@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Pattern {
 
-    int id;
+    int index;
 
     boolean rooted;
     boolean nonLocal;
