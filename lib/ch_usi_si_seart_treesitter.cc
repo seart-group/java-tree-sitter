@@ -36,7 +36,6 @@ jclass _queryMatchClass;
 jmethodID _queryMatchConstructor;
 jfieldID _queryMatchIdField;
 jfieldID _queryMatchPatternField;
-jfieldID _queryMatchCapturesField;
 
 jclass _inputEditClass;
 jmethodID _inputEditConstructor;
@@ -173,7 +172,6 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     "(ILch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/QueryCapture;)V")
   _loadField(_queryMatchIdField, _queryMatchClass, "id", "I")
   _loadField(_queryMatchPatternField, _queryMatchClass, "pattern", "Lch/usi/si/seart/treesitter/Pattern;")
-  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;")
   
   _loadClass(_inputEditClass, "ch/usi/si/seart/treesitter/InputEdit")
   _loadConstructor(_inputEditConstructor, _inputEditClass,

@@ -48,7 +48,6 @@ extern jclass _queryMatchClass;
 extern jmethodID _queryMatchConstructor;
 extern jfieldID _queryMatchIdField;
 extern jfieldID _queryMatchPatternField;
-extern jfieldID _queryMatchCapturesField;
 
 extern jclass _inputEditClass;
 extern jmethodID _inputEditConstructor;
