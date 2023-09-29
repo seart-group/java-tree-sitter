@@ -178,7 +178,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch")
   _loadConstructor(_queryMatchConstructor, _queryMatchClass,
-    "(ILch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/QueryCapture;)V")
+    "(ILch/usi/si/seart/treesitter/Pattern;[Ljava/util/Map$Entry;)V")
   _loadField(_queryMatchIdField, _queryMatchClass, "id", "I")
   _loadField(_queryMatchPatternField, _queryMatchClass, "pattern", "Lch/usi/si/seart/treesitter/Pattern;")
   
