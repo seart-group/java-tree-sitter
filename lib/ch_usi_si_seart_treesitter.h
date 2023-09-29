@@ -6,6 +6,9 @@
 
 extern jclass _stringClass;
 
+extern jclass _listClass;
+extern jmethodID _listGet;
+
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;

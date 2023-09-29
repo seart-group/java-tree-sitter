@@ -5,6 +5,9 @@ static jint JNI_VERSION = JNI_VERSION_10;
 
 jclass _stringClass;
 
+jclass _listClass;
+jmethodID _listGet;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -133,6 +136,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   }
 
   _loadClass(_stringClass, "java/lang/String")
+
+  _loadClass(_listClass, "java/util/List")
+  _loadMethod(_listGet, _listClass, "get", "(I)Ljava/lang/Object;")
 
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
@@ -268,6 +274,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
   _unload(_stringClass)
+  _unload(_listClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
