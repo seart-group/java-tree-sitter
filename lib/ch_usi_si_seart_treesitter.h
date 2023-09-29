@@ -9,6 +9,10 @@ extern jclass _stringClass;
 extern jclass _listClass;
 extern jmethodID _listGet;
 
+extern jclass _mapClass;
+extern jclass _mapEntryClass;
+extern jmethodID _mapEntryStaticMethod;
+
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;

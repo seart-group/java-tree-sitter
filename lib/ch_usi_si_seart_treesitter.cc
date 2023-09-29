@@ -8,6 +8,10 @@ jclass _stringClass;
 jclass _listClass;
 jmethodID _listGet;
 
+jclass _mapClass;
+jclass _mapEntryClass;
+jmethodID _mapEntryStaticMethod;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -142,6 +146,11 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_listClass, "java/util/List")
   _loadMethod(_listGet, _listClass, "get", "(I)Ljava/lang/Object;")
+
+  _loadClass(_mapClass, "java/util/Map")
+  _loadClass(_mapEntryClass, "java/util/Map$Entry")
+  _loadStaticMethod(_mapEntryStaticMethod, _mapClass, "entry",
+    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;")
 
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
@@ -282,6 +291,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
   _unload(_stringClass)
   _unload(_listClass)
+  _unload(_mapClass)
+  _unload(_mapEntryClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
