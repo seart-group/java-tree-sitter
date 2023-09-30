@@ -22,7 +22,7 @@ import java.util.Objects;
  * @see Query
  */
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Pattern {
 
