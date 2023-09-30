@@ -85,12 +85,14 @@ jmethodID _patternConstructor;
 jfieldID _patternQueryField;
 jfieldID _patternIndexField;
 jfieldID _patternValueField;
+jfieldID _patternEnabledField;
 
 jclass _captureClass;
 jmethodID _captureConstructor;
 jfieldID _captureQueryField;
 jfieldID _captureIndexField;
 jfieldID _captureNameField;
+jfieldID _captureEnabledField;
 
 jclass _queryCursorClass;
 jmethodID _queryCursorConstructor;
@@ -231,12 +233,14 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_patternQueryField, _patternClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_patternIndexField, _patternClass, "index", "I")
   _loadField(_patternValueField, _patternClass, "value", "Ljava/lang/String;")
+  _loadField(_patternEnabledField, _patternClass, "enabled", "Z")
 
   _loadClass(_captureClass, "ch/usi/si/seart/treesitter/Capture")
   _loadConstructor(_captureConstructor, _captureClass, "(ILjava/lang/String;)V")
   _loadField(_captureQueryField, _captureClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_captureIndexField, _captureClass, "index", "I")
   _loadField(_captureNameField, _captureClass, "name", "Ljava/lang/String;")
+  _loadField(_captureEnabledField, _captureClass, "enabled", "Z")
 
   _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor")
   _loadConstructor(_queryCursorConstructor, _queryCursorClass,

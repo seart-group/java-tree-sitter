@@ -1,10 +1,11 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -21,7 +22,7 @@ import java.util.Objects;
  * @see Query
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Capture {
 
@@ -31,10 +32,25 @@ public class Capture {
 
     String name;
 
+    @NonFinal
+    boolean enabled = true;
+
     @SuppressWarnings("unused")
     Capture(int index, @NotNull String name) {
         this(null, index, name);
     }
+
+    /**
+     * Disable this capture, preventing it from returning in matches.
+     * This will eliminate any resource usage from the query
+     * associated with recording the capture.
+     *
+     * <p>
+     * <strong>
+     * This can not be undone.
+     * </strong>
+     */
+    public native void disable();
 
     @Override
     @Generated

@@ -1,10 +1,11 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -21,7 +22,7 @@ import java.util.Objects;
  * @see Query
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Pattern {
 
@@ -34,10 +35,25 @@ public class Pattern {
 
     String value;
 
+    @NonFinal
+    boolean enabled = true;
+
     @SuppressWarnings("unused")
     Pattern(int index, boolean rooted, boolean nonLocal, @NotNull String value) {
         this(null, index, rooted, nonLocal, value);
     }
+
+    /**
+     * Disable this pattern, preventing it from further matching.
+     * This will eliminate any resource usage from the query
+     * associated with the pattern.
+     *
+     * <p>
+     * <strong>
+     * This can not be undone.
+     * </strong>
+     */
+    public native void disable();
 
     @Override
     @Generated

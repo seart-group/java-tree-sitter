@@ -97,12 +97,14 @@ extern jmethodID _patternConstructor;
 extern jfieldID _patternQueryField;
 extern jfieldID _patternIndexField;
 extern jfieldID _patternValueField;
+extern jfieldID _patternEnabledField;
 
 extern jclass _captureClass;
 extern jmethodID _captureConstructor;
 extern jfieldID _captureQueryField;
 extern jfieldID _captureIndexField;
 extern jfieldID _captureNameField;
+extern jfieldID _captureEnabledField;
 
 extern jclass _queryCursorClass;
 extern jmethodID _queryCursorConstructor;
