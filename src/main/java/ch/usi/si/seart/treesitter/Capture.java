@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Represents the named capture of a {@link Query}.
- * Captures are used to extract information from
- * syntax trees when a query match occurs.
- * Each instance consists of an ordinal representing
- * its order of appearance within the query,
- * as well as the name used to refer to the
- * captured node in the results.
+ * Captures are used to extract information from syntax trees when a query match occurs.
+ * Each instance can be uniquely identified by the query it belongs to,
+ * along with its ordinal position within the same query.
  *
  * @since 1.7.0
  * @author Ozren Dabić
@@ -34,6 +33,19 @@ public class Capture {
     @SuppressWarnings("unused")
     Capture(int index, @NotNull String name) {
         this(null, index, name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Capture capture = (Capture) o;
+        return Objects.equals(query, capture.query) && index == capture.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(query, index);
     }
 
     @Override
