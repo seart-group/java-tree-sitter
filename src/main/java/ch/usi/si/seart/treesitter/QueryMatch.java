@@ -65,15 +65,15 @@ public class QueryMatch {
     /**
      * Retrieves all nodes captured under a specific capture with the given name.
      *
-     * @param value the name of the query capture
+     * @param name the name of the query capture
      * @return a collection of captured nodes
      * @since 1.7.0
      */
-    public Collection<Node> getNodes(String value) {
+    public Collection<Node> getNodes(String name) {
         return captures.entries().stream()
                 .filter(entry -> {
                     Capture capture = entry.getKey();
-                    return value.equals(capture.getValue());
+                    return name.equals(capture.getName());
                 })
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toUnmodifiableList());

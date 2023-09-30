@@ -100,7 +100,7 @@ extern jfieldID _patternValue;
 extern jclass _captureClass;
 extern jmethodID _captureConstructor;
 extern jfieldID _captureIndex;
-extern jfieldID _captureValue;
+extern jfieldID _captureName;
 
 extern jclass _queryCursorClass;
 extern jmethodID _queryCursorConstructor;

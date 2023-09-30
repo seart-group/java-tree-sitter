@@ -113,7 +113,7 @@ class QueryCursorTest extends TestBase {
         Capture capture = entry.getKey();
         Node node = entry.getValue();
         Assertions.assertEquals(0, capture.getIndex());
-        Assertions.assertEquals("comment", capture.getValue());
+        Assertions.assertEquals("comment", capture.getName());
         Assertions.assertEquals("block_comment", node.getType());
     }
 
@@ -165,8 +165,8 @@ class QueryCursorTest extends TestBase {
         @Cleanup QueryCursor cursor = module.walk(query);
         for (QueryMatch match: cursor) {
             Assertions.assertEquals(3, match.getNodes().size());
-            Assertions.assertEquals(2, match.getNodes(additional.getValue()).size());
-            Assertions.assertEquals(1, match.getNodes(target.getValue()).size());
+            Assertions.assertEquals(2, match.getNodes(additional.getName()).size());
+            Assertions.assertEquals(1, match.getNodes(target.getName()).size());
             Assertions.assertEquals(2, match.getNodes(additional).size());
             Assertions.assertEquals(1, match.getNodes(target).size());
         }

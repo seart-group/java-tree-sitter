@@ -26,10 +26,10 @@ public class Capture {
 
     int index;
 
-    String value;
+    String name;
 
     @Override
     public String toString() {
-        return "@" + value;
+        return "@" + name;
     }
 }
