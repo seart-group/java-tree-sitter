@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the named capture of a {@link Query}.
@@ -24,9 +25,16 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Capture {
 
+    Query query;
+
     int index;
 
     String name;
+
+    @SuppressWarnings("unused")
+    Capture(int index, @NotNull String name) {
+        this(null, index, name);
+    }
 
     @Override
     public String toString() {

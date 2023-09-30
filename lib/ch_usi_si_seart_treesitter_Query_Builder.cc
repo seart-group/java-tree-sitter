@@ -64,7 +64,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           env->SetObjectArrayElement(strings, i, stringString);
         }
 
-        return env->NewObject(
+        jobject queryObject = env->NewObject(
           _queryClass,
           _queryConstructor,
           (jlong)query,
@@ -73,6 +73,18 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           captures,
           strings
         );
+
+        for (int i = 0; i < capturesLength; i++) {
+          jobject captureObject = env->GetObjectArrayElement(captures, i);
+          env->SetObjectField(captureObject, _captureQueryField, queryObject);
+        }
+
+        for (int i = 0; i < patternsLength; i++) {
+          jobject patternObject = env->GetObjectArrayElement(patterns, i);
+          env->SetObjectField(patternObject, _patternQueryField, queryObject);
+        }
+
+        return queryObject;
       }
     case TSQueryErrorSyntax:
       exceptionClass = _querySyntaxExceptionClass;

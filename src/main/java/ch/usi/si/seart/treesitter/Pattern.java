@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a single symbolic expression (s-expression) pattern of a {@link Query}.
@@ -22,12 +23,19 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Pattern {
 
+    Query query;
+
     int index;
 
     boolean rooted;
     boolean nonLocal;
 
     String value;
+
+    @SuppressWarnings("unused")
+    Pattern(int index, boolean rooted, boolean nonLocal, @NotNull String value) {
+        this(null, index, rooted, nonLocal, value);
+    }
 
     @Override
     public String toString() {
