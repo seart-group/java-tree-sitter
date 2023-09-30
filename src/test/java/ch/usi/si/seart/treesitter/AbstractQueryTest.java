@@ -3,7 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.Cleanup;
 import org.junit.jupiter.api.Test;
 
-public abstract class DisableTest extends TestBase {
+public abstract class AbstractQueryTest extends TestBase {
 
     protected Language getLanguage() {
         return Language.PYTHON;
@@ -29,7 +29,7 @@ public abstract class DisableTest extends TestBase {
     protected abstract void assertions(Node node, Query query);
 
     @Test
-    void testDisable() {
+    void test() {
         String source = getSource();
         Language language = getLanguage();
         @Cleanup Query query = Query.getFor(language, getPattern());

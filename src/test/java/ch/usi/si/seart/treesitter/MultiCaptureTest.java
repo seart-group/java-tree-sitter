@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 
-class MultiCaptureTest extends DisableTest {
+class MultiCaptureTest extends AbstractQueryTest {
 
     @Override
     protected void assertions(Node node, Query query) {

@@ -3,7 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.Cleanup;
 import org.junit.jupiter.api.Assertions;
 
-class PatternTest extends DisableTest {
+class PatternTest extends AbstractQueryTest {
 
     @Override
     protected void assertions(Node node, Query query) {
