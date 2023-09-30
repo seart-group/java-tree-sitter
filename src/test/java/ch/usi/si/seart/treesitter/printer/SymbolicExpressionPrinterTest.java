@@ -2,7 +2,7 @@ package ch.usi.si.seart.treesitter.printer;
 
 import ch.usi.si.seart.treesitter.TreeCursor;
 
-class SymbolicExpressionPrinterTest extends PrinterTestBase{
+class SymbolicExpressionPrinterTest extends PrinterTestBase {
 
     @Override
     protected String getExpected() {

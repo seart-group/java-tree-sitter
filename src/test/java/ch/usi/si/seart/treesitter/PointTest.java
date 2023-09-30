@@ -21,7 +21,7 @@ class PointTest extends TestBase {
         Assertions.assertFalse(_1_1_.isOrigin());
         Assertions.assertFalse(_2_2_.isOrigin());
     }
-  
+
     @Test
     void testCompareTo() {
         List<Point> sorted = List.of(_0_0_, _0_1_, _1_0_, _1_1_);
