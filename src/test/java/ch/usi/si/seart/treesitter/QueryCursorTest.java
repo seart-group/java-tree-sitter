@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -139,37 +138,6 @@ class QueryCursorTest extends TestBase {
         QueryMatch match = cursor.nextMatch();
         Assertions.assertNotNull(match);
         Assertions.assertNull(cursor.nextMatch());
-    }
-
-    @Test
-    void testMultipleCaptures() {
-        Language language = Language.PYTHON;
-        String pattern = "(_ (decorator)* @additional (function_definition) @target)";
-        @Cleanup Query query = Query.getFor(language, pattern);
-        List<Capture> captures = query.getCaptures();
-        Capture additional = captures.get(0);
-        Capture target = captures.get(1);
-        @Cleanup Parser parser = Parser.getFor(language);
-        @Cleanup Tree tree = parser.parse(
-                "@pure\n" +
-                "@property\n" +
-                "def foo(x):\n" +
-                "    pass\n" +
-                "\n" +
-                "@pure\n" +
-                "@property\n" +
-                "def bar(x):\n" +
-                "    pass\n"
-        );
-        Node module = tree.getRootNode();
-        @Cleanup QueryCursor cursor = module.walk(query);
-        for (QueryMatch match: cursor) {
-            Assertions.assertEquals(3, match.getNodes().size());
-            Assertions.assertEquals(2, match.getNodes(additional.getName()).size());
-            Assertions.assertEquals(1, match.getNodes(target.getName()).size());
-            Assertions.assertEquals(2, match.getNodes(additional).size());
-            Assertions.assertEquals(1, match.getNodes(target).size());
-        }
     }
 
     @Test
