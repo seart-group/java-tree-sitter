@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,7 @@ public class Pattern {
     }
 
     @Override
+    @Generated
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -47,11 +49,13 @@ public class Pattern {
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(query, index);
     }
 
     @Override
+    @Generated
     public String toString() {
         return value;
     }
