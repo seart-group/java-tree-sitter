@@ -123,6 +123,11 @@ jmethodID _indexOutOfBoundsExceptionConstructor;
 
 jclass _treeSitterExceptionClass;
 
+jclass _byteOffsetOutOfBoundsExceptionClass;
+jmethodID _byteOffsetOutOfBoundsExceptionConstructor;
+jclass _pointOutOfBoundsExceptionClass;
+jmethodID _pointOutOfBoundsExceptionConstructor;
+
 jclass _querySyntaxExceptionClass;
 jmethodID _querySyntaxExceptionConstructor;
 jclass _queryNodeTypeExceptionClass;
@@ -272,6 +277,12 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException")
 
+  _loadClass(_byteOffsetOutOfBoundsExceptionClass, "ch/usi/si/seart/treesitter/exception/ByteOffsetOutOfBoundsException")
+  _loadConstructor(_byteOffsetOutOfBoundsExceptionConstructor, _byteOffsetOutOfBoundsExceptionClass, "(I)V")
+  _loadClass(_pointOutOfBoundsExceptionClass, "ch/usi/si/seart/treesitter/exception/PointOutOfBoundsException")
+  _loadConstructor(_pointOutOfBoundsExceptionConstructor, _pointOutOfBoundsExceptionClass,
+    "(Lch/usi/si/seart/treesitter/Point;)V")
+
   _loadClass(_querySyntaxExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QuerySyntaxException")
   _loadConstructor(_querySyntaxExceptionConstructor, _querySyntaxExceptionClass, "(I)V")
   _loadClass(_queryNodeTypeExceptionClass, "ch/usi/si/seart/treesitter/exception/query/QueryNodeTypeException")
@@ -325,6 +336,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_timeoutExceptionClass)
   _unload(_indexOutOfBoundsExceptionClass)
   _unload(_treeSitterExceptionClass)
+  _unload(_byteOffsetOutOfBoundsExceptionClass)
+  _unload(_pointOutOfBoundsExceptionClass)
   _unload(_querySyntaxExceptionClass)
   _unload(_queryNodeTypeExceptionClass)
   _unload(_queryFieldExceptionClass)

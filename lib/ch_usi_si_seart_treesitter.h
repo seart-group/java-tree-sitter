@@ -124,6 +124,11 @@ extern jmethodID _treeCursorConstructor;
 
 extern jclass _treeSitterExceptionClass;
 
+extern jclass _byteOffsetOutOfBoundsExceptionClass;
+extern jmethodID _byteOffsetOutOfBoundsExceptionConstructor;
+extern jclass _pointOutOfBoundsExceptionClass;
+extern jmethodID _pointOutOfBoundsExceptionConstructor;
+
 extern jclass _querySyntaxExceptionClass;
 extern jmethodID _querySyntaxExceptionConstructor;
 extern jclass _queryNodeTypeExceptionClass;
