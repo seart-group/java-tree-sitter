@@ -1,5 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
+import ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException;
+import ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException;
 import lombok.Cleanup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -49,8 +51,8 @@ class NodeTest extends TestBase {
                 Arguments.of(IllegalArgumentException.class, -1, identifier.getEndByte()),
                 Arguments.of(IllegalArgumentException.class, identifier.getStartByte(), identifier.getEndByte() * -1),
                 Arguments.of(IllegalArgumentException.class, identifier.getEndByte(), identifier.getStartByte()),
-                Arguments.of(IndexOutOfBoundsException.class, root.getStartByte(), identifier.getEndByte()),
-                Arguments.of(IndexOutOfBoundsException.class, identifier.getStartByte(), root.getEndByte())
+                Arguments.of(ByteOffsetOutOfBoundsException.class, root.getStartByte(), identifier.getEndByte()),
+                Arguments.of(ByteOffsetOutOfBoundsException.class, identifier.getStartByte(), root.getEndByte())
         );
     }
 
@@ -61,8 +63,8 @@ class NodeTest extends TestBase {
                 Arguments.of(NullPointerException.class, null, new Point(0, 0)),
                 Arguments.of(NullPointerException.class, new Point(0, 0), null),
                 Arguments.of(IllegalArgumentException.class, new Point(-1, -1), root.getEndPoint()),
-                Arguments.of(IllegalArgumentException.class, root.getStartPoint(), new Point(3, 1)),
-                Arguments.of(IllegalArgumentException.class, identifier.getEndPoint(), identifier.getStartPoint())
+                Arguments.of(IllegalArgumentException.class, identifier.getEndPoint(), identifier.getStartPoint()),
+                Arguments.of(PointOutOfBoundsException.class, root.getStartPoint(), new Point(3, 1))
         );
     }
 
@@ -205,7 +207,7 @@ class NodeTest extends TestBase {
     @ParameterizedTest
     @MethodSource("provideOutOfBoundsIndexes")
     void testGetFirstChildForByteThrows(int index) {
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstChildForByte(index));
+        Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> root.getFirstChildForByte(index));
     }
 
     @Test
@@ -226,7 +228,7 @@ class NodeTest extends TestBase {
     @ParameterizedTest
     @MethodSource("provideOutOfBoundsIndexes")
     void testGetFirstNamedChildForByteThrows(int index) {
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(index));
+        Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(index));
     }
 
     @Test

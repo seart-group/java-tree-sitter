@@ -83,8 +83,8 @@ public class TreeCursor extends External implements Cloneable {
      * @return true if the cursor successfully moved,
      * and false if no such child was found
      * @throws IllegalArgumentException if {@code offset} is negative
-     * @throws IndexOutOfBoundsException if {@code offset} is outside
-     * the current node's byte range
+     * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
+     * if {@code offset} is outside the current node's byte range
      * @since 1.7.0
      */
     public native boolean gotoFirstChild(int offset);
@@ -97,8 +97,8 @@ public class TreeCursor extends External implements Cloneable {
      * @return true if the cursor successfully moved,
      * and false if no such child was found
      * @throws NullPointerException if {@code point} is null
-     * @throws IllegalArgumentException if {@code point} is
-     * outside the current node's positional span
+     * @throws ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException
+     * if {@code point} is outside the current node's positional span
      * @since 1.7.0
      */
     public native boolean gotoFirstChild(@NotNull Point point);

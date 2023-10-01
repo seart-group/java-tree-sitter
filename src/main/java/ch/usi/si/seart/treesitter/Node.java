@@ -95,7 +95,8 @@ public class Node implements Iterable<Node> {
      * @param startByte The start byte of the range
      * @param endByte The end byte of the range
      * @return A descendant node
-     * @throws IndexOutOfBoundsException if either argument is outside of this node's byte range
+     * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
+     * if either argument is outside of this node's byte range
      * @throws IllegalArgumentException if:
      * <ul>
      *     <li>{@code startByte} &lt; 0</li>
@@ -117,11 +118,10 @@ public class Node implements Iterable<Node> {
      * @param endPoint The end point of the range
      * @return A descendant node
      * @throws NullPointerException if either argument is null
-     * @throws IllegalArgumentException if:
-     * <ul>
-     *     <li>any of the arguments is outside of this node's position range</li>
-     *     <li>{@code startPoint} is a position that comes after {@code endPoint}</li>
-     * </ul>
+     * @throws IllegalArgumentException if any point coordinates are negative,
+     * or if {@code startPoint} is a position that comes after {@code endPoint}
+     * @throws ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException
+     * if any of the arguments is outside of this node's position range
      * @since 1.6.0
      */
     public Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
@@ -155,14 +155,16 @@ public class Node implements Iterable<Node> {
     /**
      * @param offset The offset in bytes
      * @return The node's first child that extends beyond the given byte offset
-     * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
+     * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
+     * if the byte offset is outside the node's byte range
      */
     public native Node getFirstChildForByte(int offset);
 
     /**
      * @param offset The offset in bytes
      * @return The node's first named child that extends beyond the given byte offset
-     * @throws IndexOutOfBoundsException if the byte offset is outside the node's byte range
+     * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
+     * if the byte offset is outside the node's byte range
      */
     public native Node getFirstNamedChildForByte(int offset);
 
@@ -172,7 +174,8 @@ public class Node implements Iterable<Node> {
      * @param startByte The start byte of the range
      * @param endByte The end byte of the range
      * @return A named descendant node
-     * @throws IndexOutOfBoundsException if either argument is outside of this node's byte range
+     * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
+     * if either argument is outside of this node's byte range
      * @throws IllegalArgumentException if:
      * <ul>
      *     <li>{@code startByte} &lt; 0</li>
@@ -192,11 +195,10 @@ public class Node implements Iterable<Node> {
      * @param endPoint The end point of the range
      * @return A named descendant node
      * @throws NullPointerException if either argument is null
-     * @throws IllegalArgumentException if:
-     * <ul>
-     *     <li>any of the arguments is outside of this node's position range</li>
-     *     <li>{@code startPoint} is a position that comes after {@code endPoint}</li>
-     * </ul>
+     * @throws IllegalArgumentException if any point coordinates are negative,
+     * or if {@code startPoint} is a position that comes after {@code endPoint}
+     * @throws ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException
+     * if any of the arguments is outside of this node's position range
      * @since 1.6.0
      */
     public Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {

@@ -1,5 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
+import ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException;
+import ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException;
 import lombok.Cleanup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -85,8 +87,8 @@ class TreeCursorTest extends TestBase {
         cursor.gotoFirstChild(); // identifier
         cursor.gotoNextSibling(); // parameters
         Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(-1));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> cursor.gotoFirstChild(0));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> cursor.gotoFirstChild(20));
+        Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> cursor.gotoFirstChild(0));
+        Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> cursor.gotoFirstChild(20));
     }
 
     @Test
@@ -109,9 +111,9 @@ class TreeCursorTest extends TestBase {
         Point negative = new Point(0, -1);
         Point illegal = new Point(1, 2);
         Assertions.assertThrows(NullPointerException.class, () -> cursor.gotoFirstChild(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(negative));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(_0_0_));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(illegal));
+        Assertions.assertThrows(PointOutOfBoundsException.class, () -> cursor.gotoFirstChild(negative));
+        Assertions.assertThrows(PointOutOfBoundsException.class, () -> cursor.gotoFirstChild(_0_0_));
+        Assertions.assertThrows(PointOutOfBoundsException.class, () -> cursor.gotoFirstChild(illegal));
 
     }
 
