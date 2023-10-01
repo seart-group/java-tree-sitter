@@ -89,14 +89,6 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getNodeString
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getNodeString
-  (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getNextNamedSibling
  * Signature: ()Lch/usi/si/seart/treesitter/Node;
  */
