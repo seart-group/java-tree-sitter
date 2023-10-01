@@ -65,12 +65,12 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstC
   TSNode node = ts_tree_cursor_current_node(cursor);
   uint32_t nodeStart = ts_node_start_byte(node);
   if (childStart < nodeStart) {
-    __throwIOB(env, offset);
+    __throwBOB(env, offset);
     return JNI_FALSE;
   }
   uint32_t nodeEnd = ts_node_end_byte(node);
   if (childStart > nodeEnd) {
-    __throwIOB(env, offset);
+    __throwBOB(env, offset);
     return JNI_FALSE;
   }
   int64_t result = ts_tree_cursor_goto_first_child_for_byte(cursor, childStart);
@@ -94,12 +94,12 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstC
   TSNode node = ts_tree_cursor_current_node(cursor);
   TSPoint lowerBound = ts_node_start_point(node);
   if (__comparePoints(lowerBound, point) == GT) {
-    __throwIAE(env, "Point can not be outside of current node bounds!");
+    __throwPOB(env, pointObject);
     return JNI_FALSE;
   }
   TSPoint upperBound = ts_node_end_point(node);
   if (__comparePoints(point, upperBound) == GT) {
-    __throwIAE(env, "Point can not be outside of current node bounds!");
+    __throwPOB(env, pointObject);
     return JNI_FALSE;
   }
   int64_t result = ts_tree_cursor_goto_first_child_for_point(cursor, point);
