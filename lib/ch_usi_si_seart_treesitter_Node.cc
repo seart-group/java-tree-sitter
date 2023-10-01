@@ -182,15 +182,6 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   return childObject;
 }
 
-JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getNodeString(
-  JNIEnv* env, jobject thisObject) {
-  TSNode node = __unmarshalNode(env, thisObject);
-  char* nodeString = ts_node_string(node);
-  jstring result = env->NewStringUTF(nodeString);
-  free(nodeString);
-  return result;
-}
-
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextNamedSibling(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
