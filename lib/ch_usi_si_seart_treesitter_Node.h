@@ -82,18 +82,10 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getFieldNameForCh
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getFirstChildForByte
- * Signature: (I)Lch/usi/si/seart/treesitter/Node;
+ * Signature: (IZ)Lch/usi/si/seart/treesitter/Node;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForByte
-  (JNIEnv *, jobject, jint);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getFirstNamedChildForByte
- * Signature: (I)Lch/usi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChildForByte
-  (JNIEnv *, jobject, jint);
+  (JNIEnv *, jobject, jint, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node

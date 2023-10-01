@@ -160,32 +160,23 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getFieldNameForCh
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForByte(
-  JNIEnv* env, jobject thisObject, jint offset) {
+  JNIEnv* env, jobject thisObject, jint offset, jboolean named) {
   TSNode node = __unmarshalNode(env, thisObject);
   uint32_t position = (uint32_t)offset * 2;
   uint32_t nodeStart = ts_node_start_byte(node);
-  uint32_t nodeEnd = ts_node_end_byte(node);
-  if ((position < nodeStart) || (position > nodeEnd)) {
+  if (position < nodeStart) {
     __throwBOB(env, offset);
     return NULL;
   }
-  TSNode child = ts_node_first_child_for_byte(node, position);
-  jobject childObject = __marshalNode(env, child);
-  __copyTree(env, thisObject, childObject);
-  return childObject;
-}
-
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChildForByte(
-  JNIEnv* env, jobject thisObject, jint offset) {
-  TSNode node = __unmarshalNode(env, thisObject);
-  uint32_t position = (uint32_t)offset * 2;
-  uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
-  if ((position < nodeStart) || (position > nodeEnd)) {
+  if (position > nodeEnd) {
     __throwBOB(env, offset);
     return NULL;
   }
-  TSNode child = ts_node_first_named_child_for_byte(node, position);
+  TSNode (*child_getter)(TSNode, uint32_t) = (bool)named
+    ? ts_node_first_named_child_for_byte
+    : ts_node_first_child_for_byte;
+  TSNode child = child_getter(node, position);
   jobject childObject = __marshalNode(env, child);
   __copyTree(env, thisObject, childObject);
   return childObject;

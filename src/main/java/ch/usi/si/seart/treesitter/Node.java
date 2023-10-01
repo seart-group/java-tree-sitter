@@ -158,7 +158,11 @@ public class Node implements Iterable<Node> {
      * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
      * if the byte offset is outside the node's byte range
      */
-    public native Node getFirstChildForByte(int offset);
+    public Node getFirstChildForByte(int offset) {
+        return getFirstChildForByte(offset, false);
+    }
+
+    private native Node getFirstChildForByte(int offset, boolean named);
 
     /**
      * @param offset The offset in bytes
@@ -166,7 +170,9 @@ public class Node implements Iterable<Node> {
      * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
      * if the byte offset is outside the node's byte range
      */
-    public native Node getFirstNamedChildForByte(int offset);
+    public Node getFirstNamedChildForByte(int offset) {
+        return getFirstChildForByte(offset, true);
+    }
 
     /**
      * Get the smallest named node within this node that spans the given range of bytes.
