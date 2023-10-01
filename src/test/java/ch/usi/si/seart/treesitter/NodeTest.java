@@ -260,7 +260,7 @@ class NodeTest extends TestBase {
     @ParameterizedTest(name = "[{index}] {0}")
     @MethodSource("provideStartAndEndPoints")
     void testGetNamedDescendantForPointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
-        Assertions.assertThrows(throwableType, () -> root.getDescendant(startPoint, endPoint));
+        Assertions.assertThrows(throwableType, () -> root.getNamedDescendant(startPoint, endPoint));
     }
 
     @Test
