@@ -70,13 +70,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__II
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t rangeStart = (uint32_t)start * 2;
   if (rangeStart < nodeStart) {
-    __throwIOB(env, start);
+    __throwBOB(env, start);
     return NULL;
   }
   uint32_t nodeEnd = ts_node_end_byte(node);
   uint32_t rangeEnd = (uint32_t)end * 2;
   if (rangeEnd > nodeEnd) {
-    __throwIOB(env, end);
+    __throwBOB(env, end);
     return NULL;
   }
   TSNode (*descendant_getter)(TSNode, uint32_t, uint32_t) = (bool)named
@@ -109,18 +109,18 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lc
     __throwIAE(env, "Start point can not have negative coordinates!");
     return NULL;
   }
-  TSPoint lowerBound = ts_node_start_point(node);
-  TSPoint upperBound = ts_node_end_point(node);
-  if (__comparePoints(lowerBound, startPoint) == GT) {
-    __throwIAE(env, "Start point can not be outside of node bounds!");
-    return NULL;
-  }
-  if (__comparePoints(endPoint, upperBound) == GT) {
-    __throwIAE(env, "End point can not be outside of node bounds!");
-    return NULL;
-  }
   if (__comparePoints(startPoint, endPoint) == GT) {
     __throwIAE(env, "Start point can not be greater than end point!");
+    return NULL;
+  }
+  TSPoint lowerBound = ts_node_start_point(node);
+  if (__comparePoints(lowerBound, startPoint) == GT) {
+    __throwPOB(env, startPointObject);
+    return NULL;
+  }
+  TSPoint upperBound = ts_node_end_point(node);
+  if (__comparePoints(endPoint, upperBound) == GT) {
+    __throwPOB(env, endPointObject);
     return NULL;
   }
   TSNode (*descendant_getter)(TSNode, TSPoint, TSPoint) = (bool)named
@@ -166,7 +166,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
   if ((position < nodeStart) || (position > nodeEnd)) {
-    __throwIOB(env, offset);
+    __throwBOB(env, offset);
     return NULL;
   }
   TSNode child = ts_node_first_child_for_byte(node, position);
@@ -182,7 +182,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstNamedChil
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t nodeEnd = ts_node_end_byte(node);
   if ((position < nodeStart) || (position > nodeEnd)) {
-    __throwIOB(env, offset);
+    __throwBOB(env, offset);
     return NULL;
   }
   TSNode child = ts_node_first_named_child_for_byte(node, position);
