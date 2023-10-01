@@ -5,6 +5,13 @@ static jint JNI_VERSION = JNI_VERSION_10;
 
 jclass _stringClass;
 
+jclass _listClass;
+jmethodID _listGet;
+
+jclass _mapClass;
+jclass _mapEntryClass;
+jmethodID _mapEntryStaticMethod;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -32,8 +39,7 @@ jfieldID _queryCaptureIndexField;
 jclass _queryMatchClass;
 jmethodID _queryMatchConstructor;
 jfieldID _queryMatchIdField;
-jfieldID _queryMatchPatternIndexField;
-jfieldID _queryMatchCapturesField;
+jfieldID _queryMatchPatternField;
 
 jclass _inputEditClass;
 jmethodID _inputEditConstructor;
@@ -68,7 +74,25 @@ jclass _dotGraphPrinterClass;
 jfieldID _dotGraphPrinterTreeField;
 
 jclass _queryClass;
+jfieldID _queryLanguageField;
+jfieldID _queryPatternsField;
+jfieldID _queryCapturesField;
+jfieldID _queryStringsField;
 jmethodID _queryConstructor;
+
+jclass _patternClass;
+jmethodID _patternConstructor;
+jfieldID _patternQueryField;
+jfieldID _patternIndexField;
+jfieldID _patternValueField;
+jfieldID _patternEnabledField;
+
+jclass _captureClass;
+jmethodID _captureConstructor;
+jfieldID _captureQueryField;
+jfieldID _captureIndexField;
+jfieldID _captureNameField;
+jfieldID _captureEnabledField;
 
 jclass _queryCursorClass;
 jmethodID _queryCursorConstructor;
@@ -124,6 +148,14 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_stringClass, "java/lang/String")
 
+  _loadClass(_listClass, "java/util/List")
+  _loadMethod(_listGet, _listClass, "get", "(I)Ljava/lang/Object;")
+
+  _loadClass(_mapClass, "java/util/Map")
+  _loadClass(_mapEntryClass, "java/util/Map$Entry")
+  _loadStaticMethod(_mapEntryStaticMethod, _mapClass, "entry",
+    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;")
+
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
 
@@ -149,10 +181,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I")
 
   _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch")
-  _loadConstructor(_queryMatchConstructor, _queryMatchClass, "(II[Lch/usi/si/seart/treesitter/QueryCapture;)V")
+  _loadConstructor(_queryMatchConstructor, _queryMatchClass,
+    "(ILch/usi/si/seart/treesitter/Pattern;[Ljava/util/Map$Entry;)V")
   _loadField(_queryMatchIdField, _queryMatchClass, "id", "I")
-  _loadField(_queryMatchPatternIndexField, _queryMatchClass, "patternIndex", "I")
-  _loadField(_queryMatchCapturesField, _queryMatchClass, "captures", "[Lch/usi/si/seart/treesitter/QueryCapture;")
+  _loadField(_queryMatchPatternField, _queryMatchClass, "pattern", "Lch/usi/si/seart/treesitter/Pattern;")
   
   _loadClass(_inputEditClass, "ch/usi/si/seart/treesitter/InputEdit")
   _loadConstructor(_inputEditConstructor, _inputEditClass,
@@ -189,8 +221,26 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_dotGraphPrinterTreeField, _dotGraphPrinterClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
 
   _loadClass(_queryClass, "ch/usi/si/seart/treesitter/Query")
+  _loadField(_queryLanguageField, _queryClass, "language", "Lch/usi/si/seart/treesitter/Language;")
+  _loadField(_queryPatternsField, _queryClass, "patterns", "Ljava/util/List;")
+  _loadField(_queryCapturesField, _queryClass, "captures", "Ljava/util/List;")
+  _loadField(_queryStringsField, _queryClass, "strings", "Ljava/util/List;")
   _loadConstructor(_queryConstructor, _queryClass,
-    "(JLch/usi/si/seart/treesitter/Language;Ljava/lang/String;[Ljava/lang/String;)V")
+    "(JLch/usi/si/seart/treesitter/Language;[Lch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/Capture;[Ljava/lang/String;)V")
+
+  _loadClass(_patternClass, "ch/usi/si/seart/treesitter/Pattern")
+  _loadConstructor(_patternConstructor, _patternClass, "(IZZLjava/lang/String;)V")
+  _loadField(_patternQueryField, _patternClass, "query", "Lch/usi/si/seart/treesitter/Query;")
+  _loadField(_patternIndexField, _patternClass, "index", "I")
+  _loadField(_patternValueField, _patternClass, "value", "Ljava/lang/String;")
+  _loadField(_patternEnabledField, _patternClass, "enabled", "Z")
+
+  _loadClass(_captureClass, "ch/usi/si/seart/treesitter/Capture")
+  _loadConstructor(_captureConstructor, _captureClass, "(ILjava/lang/String;)V")
+  _loadField(_captureQueryField, _captureClass, "query", "Lch/usi/si/seart/treesitter/Query;")
+  _loadField(_captureIndexField, _captureClass, "index", "I")
+  _loadField(_captureNameField, _captureClass, "name", "Ljava/lang/String;")
+  _loadField(_captureEnabledField, _captureClass, "enabled", "Z")
 
   _loadClass(_queryCursorClass, "ch/usi/si/seart/treesitter/QueryCursor")
   _loadConstructor(_queryCursorConstructor, _queryCursorClass,
@@ -248,6 +298,9 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION);
   _unload(_stringClass)
+  _unload(_listClass)
+  _unload(_mapClass)
+  _unload(_mapEntryClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
@@ -260,6 +313,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_treeClass)
   _unload(_dotGraphPrinterClass)
   _unload(_queryClass)
+  _unload(_patternClass)
+  _unload(_captureClass)
   _unload(_queryCursorClass)
   _unload(_symbolClass)
   _unload(_treeCursorClass)

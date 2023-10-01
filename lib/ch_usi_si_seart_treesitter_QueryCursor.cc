@@ -36,24 +36,33 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
   found = ts_query_cursor_next_match(cursor, &match);
   if (!found) return NULL;
   jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
-  jobjectArray captures = env->NewObjectArray(match.capture_count, _queryCaptureClass, NULL);
+  jobject queryObject = env->GetObjectField(thisObject, _queryCursorQueryField);
+  jobject queryCapturesList = env->GetObjectField(queryObject, _queryCapturesField);
+  jobject queryPatternsList = env->GetObjectField(queryObject, _queryPatternsField);
+  jobject patternObject = env->CallObjectMethod(
+    queryPatternsList, _listGet, match.pattern_index
+  );
+  jobjectArray entries = env->NewObjectArray(match.capture_count, _mapEntryClass, NULL);
   for (int i = 0; i < match.capture_count; i++) {
     TSQueryCapture capture = match.captures[i];
+    jobject captureObject = env->CallObjectMethod(
+      queryCapturesList, _listGet, capture.index
+    );
     jobject matchedObject = __marshalNode(env, capture.node);
     __copyTree(env, nodeObject, matchedObject);
-    jobject captureObject = env->NewObject(
-      _queryCaptureClass,
-      _queryCaptureConstructor,
-      matchedObject,
-      capture.index
+    jobject entryObject = env->CallStaticObjectMethod(
+      _mapClass,
+      _mapEntryStaticMethod,
+      captureObject,
+      matchedObject
     );
-    env->SetObjectArrayElement(captures, i, captureObject);
+    env->SetObjectArrayElement(entries, i, entryObject);
   }
   return env->NewObject(
     _queryMatchClass,
     _queryMatchConstructor,
-    match.id,
-    match.pattern_index,
-    captures
+    (jint)match.id,
+    patternObject,
+    entries
   );
 }

@@ -6,6 +6,13 @@
 
 extern jclass _stringClass;
 
+extern jclass _listClass;
+extern jmethodID _listGet;
+
+extern jclass _mapClass;
+extern jclass _mapEntryClass;
+extern jmethodID _mapEntryStaticMethod;
+
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;
@@ -44,8 +51,7 @@ extern jfieldID _queryCaptureIndexField;
 extern jclass _queryMatchClass;
 extern jmethodID _queryMatchConstructor;
 extern jfieldID _queryMatchIdField;
-extern jfieldID _queryMatchPatternIndexField;
-extern jfieldID _queryMatchCapturesField;
+extern jfieldID _queryMatchPatternField;
 
 extern jclass _inputEditClass;
 extern jmethodID _inputEditConstructor;
@@ -80,7 +86,25 @@ extern jclass _dotGraphPrinterClass;
 extern jfieldID _dotGraphPrinterTreeField;
 
 extern jclass _queryClass;
+extern jfieldID _queryLanguageField;
+extern jfieldID _queryPatternsField;
+extern jfieldID _queryCapturesField;
+extern jfieldID _queryStringsField;
 extern jmethodID _queryConstructor;
+
+extern jclass _patternClass;
+extern jmethodID _patternConstructor;
+extern jfieldID _patternQueryField;
+extern jfieldID _patternIndexField;
+extern jfieldID _patternValueField;
+extern jfieldID _patternEnabledField;
+
+extern jclass _captureClass;
+extern jmethodID _captureConstructor;
+extern jfieldID _captureQueryField;
+extern jfieldID _captureIndexField;
+extern jfieldID _captureNameField;
+extern jfieldID _captureEnabledField;
 
 extern jclass _queryCursorClass;
 extern jmethodID _queryCursorConstructor;

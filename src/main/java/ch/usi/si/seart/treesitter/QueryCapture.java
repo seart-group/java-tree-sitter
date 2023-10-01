@@ -7,13 +7,10 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Wrapper for a single node matched with a {@link Query} capture.
- * Each instance contains a reference to a matched node,
- * as well as the ordinal index within the match.
- *
- * @since 1.0.0
- * @author Ozren Dabić
+ * @deprecated Currently obsolete, refrain from further use
+ * @see QueryMatch
  */
+@Deprecated(since = "1.7.0", forRemoval = true)
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

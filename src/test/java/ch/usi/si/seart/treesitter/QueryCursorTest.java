@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.Cleanup;
+import org.apache.commons.collections4.MultiValuedMap;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -8,11 +9,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 class QueryCursorTest extends TestBase {
@@ -105,12 +106,13 @@ class QueryCursorTest extends TestBase {
     }
 
     private static void check(QueryMatch match) {
-        QueryCapture[] captures = match.getCaptures();
-        Optional<QueryCapture> optional = Stream.of(captures).findFirst();
-        Assertions.assertTrue(optional.isPresent());
-        QueryCapture capture = optional.get();
-        Node node = capture.getNode();
+        MultiValuedMap<Capture, Node> captures = match.getCaptures();
+        Collection<Map.Entry<Capture, Node>> entries = captures.entries();
+        Map.Entry<Capture, Node> entry = entries.stream().findFirst().orElseGet(Assertions::fail);
+        Capture capture = entry.getKey();
+        Node node = entry.getValue();
         Assertions.assertEquals(0, capture.getIndex());
+        Assertions.assertEquals("comment", capture.getName());
         Assertions.assertEquals("block_comment", node.getType());
     }
 

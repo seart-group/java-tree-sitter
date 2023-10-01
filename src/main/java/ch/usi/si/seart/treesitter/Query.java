@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * A query consists of one or more patterns, where each pattern is a symbolic expression (S-expression)
@@ -27,15 +28,23 @@ import java.util.Objects;
 public class Query extends External {
 
     Language language;
-    String pattern;
-    List<String> captures;
+    List<Pattern> patterns;
+    List<Capture> captures;
+    List<String> strings;
 
     @SuppressWarnings("unused")
-    Query(long pointer, @NotNull Language language, @NotNull String pattern, String[] captures) {
+    Query(
+            long pointer,
+            @NotNull Language language,
+            @NotNull Pattern[] patterns,
+            @NotNull Capture[] captures,
+            @NotNull String[] strings
+    ) {
         super(pointer);
         this.language = language;
-        this.pattern = pattern;
+        this.patterns = List.of(patterns);
         this.captures = List.of(captures);
+        this.strings = List.of(strings);
     }
 
     /**
@@ -102,7 +111,7 @@ public class Query extends External {
          */
         public Builder pattern(@NotNull String pattern) {
             Objects.requireNonNull(pattern, "Pattern must not be null!");
-            this.pattern = pattern;
+            this.pattern = pattern.trim();
             return this;
         }
 
@@ -126,26 +135,38 @@ public class Query extends External {
     protected native void delete();
 
     /**
-     * @return The number of string literals in this query
+     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    public native int countStrings();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int countStrings() {
+        return strings.size();
+    }
 
     /**
-     * @return The number of captures in this query
+     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    public native int countCaptures();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int countCaptures() {
+        return captures.size();
+    }
 
     /**
-     * @return The number of patterns in this query
+     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    public native int countPatterns();
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public int countPatterns() {
+        return patterns.size();
+    }
 
     /**
-     * @param capture The query capture
-     * @return The name of the provided query captures
+     * @deprecated Should not be used anymore
+     * @see QueryMatch
      */
-    public String getCaptureName(@NotNull QueryCapture capture) {
-        return captures.get(capture.getIndex());
+    @Deprecated(since = "1.7.0", forRemoval = true)
+    public String getCaptureName(@NotNull Object ignored) {
+        throw new UnsupportedOperationException(
+                "This method should no longer be used"
+        );
     }
 
     /**
@@ -158,9 +179,26 @@ public class Query extends External {
     @Override
     @Generated
     public String toString() {
+        String pattern = getPattern();
+        String capture = captures.stream()
+                .map(Capture::toString)
+                .collect(Collectors.joining(", ", "[", "]"));
         return String.format(
-                "Query(language: %s, pattern: '%s', captures: [%s])",
-                language, pattern, String.join(", ", captures)
+                "Query(language: %s, pattern: '%s', captures: %s)",
+                language, pattern, capture
         );
+    }
+
+    /**
+     * Returns a concatenated, possibly non-rooted symbolic expression
+     * consisting of the individual query patterns.
+     *
+     * @return the full query s-expression
+     */
+    @Generated
+    public String getPattern() {
+        return patterns.stream()
+                .map(Pattern::toString)
+                .collect(Collectors.joining(" "));
     }
 }
