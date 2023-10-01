@@ -226,6 +226,10 @@ jint __throwIOE(JNIEnv* env, const char* message);
 
 jint __throwIOB(JNIEnv* env, jint index);
 
+jint __throwBOB(JNIEnv* env, jint index);
+
+jint __throwPOB(JNIEnv* env, jobject pointObject);
+
 jint __throwILE(JNIEnv* env, jobject languageObject);
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance);

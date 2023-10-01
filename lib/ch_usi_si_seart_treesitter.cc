@@ -376,6 +376,24 @@ jint __throwIOB(JNIEnv* env, jint index) {
   return env->Throw((jthrowable)exception);
 }
 
+jint __throwBOB(JNIEnv* env, jint index) {
+  jobject exception = env->NewObject(
+    _byteOffsetOutOfBoundsExceptionClass,
+    _byteOffsetOutOfBoundsExceptionConstructor,
+    index
+  );
+  return env->Throw((jthrowable)exception);
+}
+
+jint __throwPOB(JNIEnv* env, jobject pointObject) {
+  jobject exception = env->NewObject(
+    _pointOutOfBoundsExceptionClass,
+    _pointOutOfBoundsExceptionConstructor,
+    pointObject
+  );
+  return env->Throw((jthrowable)exception);
+}
+
 jint __throwILE(JNIEnv* env, jobject languageObject) {
   jobject exception = env->NewObject(
     _incompatibleLanguageExceptionClass,
