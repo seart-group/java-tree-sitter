@@ -10,7 +10,6 @@ import ch.usi.si.seart.treesitter.Point;
  */
 public class PointOutOfBoundsException extends NodeRangeBoundaryException {
 
-    @SuppressWarnings("unused")
     public PointOutOfBoundsException(Point point) {
         super("Point outside node range: " + point);
     }

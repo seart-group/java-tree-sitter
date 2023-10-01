@@ -8,7 +8,6 @@ package ch.usi.si.seart.treesitter.exception;
  */
 public class ByteOffsetOutOfBoundsException extends NodeRangeBoundaryException {
 
-    @SuppressWarnings("unused")
     public ByteOffsetOutOfBoundsException(int offset) {
         super("Byte offset outside node range: " + offset);
     }
