@@ -106,7 +106,7 @@ public class Example {
 
     public static void main(String[] args) {
         try (
-            Parser parser = new Parser(Language.PYTHON);
+            Parser parser = Parser.getFor(Language.PYTHON);
             Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)")
         ) {
             Node root = tree.getRootNode();
@@ -136,7 +136,7 @@ public class Example {
     public static void main(String[] args) {
         String type;
         try (
-            Parser parser = new Parser(Language.PYTHON);
+            Parser parser = Parser.getFor(Language.PYTHON);
             Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
             TreeCursor cursor = tree.getRootNode().walk()
         ) {
@@ -169,7 +169,7 @@ public class Example {
 
     public static void main(String[] args) {
         try (
-            Parser parser = new Parser(Language.PYTHON);
+            Parser parser = Parser.getFor(Language.PYTHON);
             Tree tree = parser.parse("print(\"hi\")");
             TreeCursor cursor = tree.getRootNode().walk()
         ) {
