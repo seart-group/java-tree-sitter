@@ -42,6 +42,16 @@ public class QueryMatch {
     }
 
     /**
+     * Retrieves a mapping between the captures and captured nodes in this match.
+     *
+     * @return a map of captures and the nodes they captured
+     * @since 1.7.0
+     */
+    public Map<Capture, Collection<Node>> getCaptures() {
+        return captures.asMap();
+    }
+
+    /**
      * Retrieves all the captured nodes from this match.
      *
      * @return a collection of captured nodes
