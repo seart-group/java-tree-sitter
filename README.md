@@ -1,4 +1,4 @@
-# java-tree-sitter &middot; [![javadoc](https://javadoc.io/badge2/ch.usi.si.seart/java-tree-sitter/javadoc.svg)](https://javadoc.io/doc/ch.usi.si.seart/java-tree-sitter)
+# java-tree-sitter &middot; [![MIT license](https://img.shields.io/github/license/seart-group/java-tree-sitter)](https://github.com/seart-group/java-tree-sitter/blob/master/LICENSE) [![javadoc](https://javadoc.io/badge2/ch.usi.si.seart/java-tree-sitter/javadoc.svg)](https://javadoc.io/doc/ch.usi.si.seart/java-tree-sitter) [![Maven Central](https://img.shields.io/maven-central/v/ch.usi.si.seart/java-tree-sitter)](https://central.sonatype.com/artifact/ch.usi.si.seart/java-tree-sitter)
 
 Java bindings for [tree-sitter](https://tree-sitter.github.io/tree-sitter/).
 Originally developed by [serenadeai](https://github.com/serenadeai).
