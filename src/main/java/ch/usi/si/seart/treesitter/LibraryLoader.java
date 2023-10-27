@@ -84,11 +84,12 @@ public class LibraryLoader {
         }
     }
 
+    private static final int COPY_BUFFER_SIZE = 8192;
+
     private static void copy(InputStream inputStream, OutputStream outputStream) throws IOException {
-        int size = 8192;
-        byte[] buffer = new byte[size];
+        byte[] buffer = new byte[COPY_BUFFER_SIZE];
         int read;
-        while ((read = inputStream.read(buffer, 0, size)) >= 0) {
+        while ((read = inputStream.read(buffer, 0, COPY_BUFFER_SIZE)) >= 0) {
             outputStream.write(buffer, 0, read);
         }
     }
