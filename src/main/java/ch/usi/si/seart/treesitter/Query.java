@@ -50,7 +50,7 @@ public class Query extends External {
     /**
      * @deprecated Use {@link Query#getFor(Language, String)} or {@link Query#builder()} instead
      */
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public Query(@NotNull Language language, @NotNull String pattern) {
         throw new UnsupportedOperationException(
                 "This constructor should no longer be used"
@@ -137,7 +137,7 @@ public class Query extends External {
     /**
      * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public int countStrings() {
         return strings.size();
     }
@@ -145,7 +145,7 @@ public class Query extends External {
     /**
      * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public int countCaptures() {
         return captures.size();
     }
@@ -153,7 +153,7 @@ public class Query extends External {
     /**
      * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
      */
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public int countPatterns() {
         return patterns.size();
     }
@@ -162,7 +162,7 @@ public class Query extends External {
      * @deprecated Should not be used anymore
      * @see QueryMatch
      */
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public String getCaptureName(@NotNull Object ignored) {
         throw new UnsupportedOperationException(
                 "This method should no longer be used"

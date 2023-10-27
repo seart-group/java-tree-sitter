@@ -45,7 +45,7 @@ public class Parser extends External {
     /**
      * @deprecated Use {@link Parser#getFor(Language)} or {@link Parser#builder()} instead
      */
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public Parser(@NotNull Language language) {
         throw new UnsupportedOperationException(
                 "This constructor should no longer be used"

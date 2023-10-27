@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
  * @deprecated Currently obsolete, refrain from further use
  * @see QueryMatch
  */
-@Deprecated(since = "1.7.0", forRemoval = true)
+@Deprecated
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

@@ -93,7 +93,7 @@ public class QueryMatch {
      * @deprecated Use dedicated {@link QueryMatch#pattern} getter instead
      */
     @Generated
-    @Deprecated(since = "1.7.0", forRemoval = true)
+    @Deprecated
     public int getPatternIndex() {
         return getPattern().getIndex();
     }

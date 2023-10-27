@@ -39,7 +39,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * @deprecated Use {@link Node#walk(Query)} instead
      * @throws UnsupportedOperationException when called
      */
-    @Deprecated(since = "1.5.0", forRemoval = true)
+    @Deprecated
     public QueryCursor(@NotNull Node node, @NotNull Query query) {
         super();
         throw new UnsupportedOperationException(
