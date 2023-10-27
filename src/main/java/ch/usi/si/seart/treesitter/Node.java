@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
@@ -66,8 +68,9 @@ public class Node implements Iterable<Node> {
      * @return A list of the node's children
      */
     public List<Node> getChildren() {
-        Node[] children = Node.getChildren(this);
-        return List.of(children);
+        Node[] array = Node.getChildren(this);
+        List<Node> list = Arrays.asList(array);
+        return Collections.unmodifiableList(list);
     }
 
     private static native Node[] getChildren(Node node);
@@ -346,7 +349,7 @@ public class Node implements Iterable<Node> {
     public @NotNull Iterator<Node> iterator() {
         return new Iterator<>() {
 
-            private final Deque<Node> stack = new ArrayDeque<>(List.of(Node.this));
+            private final Deque<Node> stack = new ArrayDeque<>(Collections.singletonList(Node.this));
 
             @Override
             public boolean hasNext() {
