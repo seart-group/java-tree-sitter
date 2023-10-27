@@ -60,7 +60,7 @@ public class LibraryLoader {
                     File temporary = new File(tmpdir, systemResource.name);
                     temporary.deleteOnExit();
                     @Cleanup OutputStream output = new FileOutputStream(temporary, false);
-                    input.transferTo(output);
+                    copy(input, output);
                     return temporary.getPath();
                 } catch (IOException cause) {
                     throw new TreeSitterException(cause);
@@ -81,6 +81,15 @@ public class LibraryLoader {
             throw new TreeSitterException(
                     "The tree-sitter library was not compiled for this platform: " + platform
             );
+        }
+    }
+
+    private static void copy(InputStream inputStream, OutputStream outputStream) throws IOException {
+        int size = 8192;
+        byte[] buffer = new byte[size];
+        int read;
+        while ((read = inputStream.read(buffer, 0, size)) >= 0) {
+            outputStream.write(buffer, 0, read);
         }
     }
 }
