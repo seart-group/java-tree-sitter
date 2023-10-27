@@ -1,7 +1,7 @@
 #include "ch_usi_si_seart_treesitter.h"
 #include <jni.h>
 
-static jint JNI_VERSION = JNI_VERSION_10;
+static jint JNI_VERSION = JNI_VERSION_1_8;
 
 jclass _stringClass;
 
