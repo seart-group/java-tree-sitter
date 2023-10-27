@@ -484,7 +484,10 @@ public enum Language {
                     Map.Entry::getKey,
                     Collectors.mapping(
                             Map.Entry::getValue,
-                            Collectors.toUnmodifiableList()
+                            Collectors.collectingAndThen(
+                                    Collectors.toList(),
+                                    Collections::unmodifiableList
+                            )
                     )
             ));
 

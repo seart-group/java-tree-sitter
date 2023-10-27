@@ -10,6 +10,7 @@ import org.apache.commons.collections4.multimap.UnmodifiableMultiValuedMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -86,7 +87,10 @@ public class QueryMatch {
                     return name.equals(capture.getName());
                 })
                 .map(Map.Entry::getValue)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        Collections::unmodifiableList
+                ));
     }
 
     /**
