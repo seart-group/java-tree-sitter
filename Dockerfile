@@ -6,7 +6,8 @@ ENV IMAGE_NAME="seart-group/java-tree-sitter" \
     JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
 RUN apk update && \
-    apk add openjdk11 \
+    apk add --no-cache \
+            openjdk11 \
             python3 \
             py3-distutils-extra \
             make \
