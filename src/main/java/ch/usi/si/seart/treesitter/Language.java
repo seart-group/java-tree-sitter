@@ -10,6 +10,7 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -480,7 +481,9 @@ public enum Language {
     private static final long INVALID = 0L;
 
     private static final Map<String, List<Language>> EXTENSION_LOOKUP = Stream.of(Language.values())
-            .flatMap(language -> language.getExtensions().stream().map(extension -> Map.entry(extension, language)))
+            .flatMap(language -> language.getExtensions().stream().map(
+                    extension -> new AbstractMap.SimpleEntry<>(extension, language)
+            ))
             .collect(Collectors.groupingBy(
                     Map.Entry::getKey,
                     Collectors.mapping(
