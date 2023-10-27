@@ -347,7 +347,7 @@ public class Node implements Iterable<Node> {
      */
     @Override
     public @NotNull Iterator<Node> iterator() {
-        return new Iterator<>() {
+        return new Iterator<Node>() {
 
             private final Deque<Node> stack = new ArrayDeque<>(Collections.singletonList(Node.this));
 

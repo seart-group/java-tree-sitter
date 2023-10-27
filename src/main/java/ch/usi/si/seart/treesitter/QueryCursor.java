@@ -70,7 +70,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     @Override
     public @NotNull Iterator<QueryMatch> iterator() {
         execute();
-        return new Iterator<>() {
+        return new Iterator<QueryMatch>() {
 
             private QueryMatch current = nextMatch();
 
