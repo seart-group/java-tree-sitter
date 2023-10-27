@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +25,7 @@ class PointTest extends TestBase {
 
     @Test
     void testCompareTo() {
-        List<Point> sorted = List.of(_0_0_, _0_1_, _1_0_, _1_1_);
+        List<Point> sorted = Collections.unmodifiableList(Arrays.asList(_0_0_, _0_1_, _1_0_, _1_1_));
         ArrayList<Point> unsorted = new ArrayList<>(sorted);
         Collections.shuffle(unsorted);
         Collections.sort(unsorted);

@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 class DotGraphPrinterTest extends TestBase {
 
@@ -43,7 +45,8 @@ class DotGraphPrinterTest extends TestBase {
         TreePrinter printer = new DotGraphPrinter(tree);
         File file = printer.export();
         Path path = file.toPath();
-        String actual = Files.readString(path);
+        byte[] bytes = Files.readAllBytes(path);
+        String actual = new String(bytes);
         Files.delete(file.toPath());
         assertion(actual);
     }
@@ -54,7 +57,9 @@ class DotGraphPrinterTest extends TestBase {
     }
 
     private void assertion(String result) {
-        Assertions.assertEquals(594, result.lines().count());
+        Pattern pattern = Pattern.compile("\\R");
+        Stream<String> lines = pattern.splitAsStream(result);
+        Assertions.assertEquals(594, lines.count());
         Assertions.assertTrue(result.startsWith("digraph tree {"));
         Assertions.assertTrue(result.endsWith("}\n"));
     }

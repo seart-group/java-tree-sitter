@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -90,7 +91,7 @@ class NodeTest extends TestBase {
         for (int i = 0; i < count; i++) {
             Assertions.assertEquals(function.getChild(i), children.get(i));
         }
-        Assertions.assertEquals(empty.getChildren(), List.of());
+        Assertions.assertEquals(Collections.emptyList(), empty.getChildren());
     }
 
     @Test

@@ -14,10 +14,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -34,9 +36,10 @@ class ParserTest extends TestBase {
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        tmpFile = Files.createFile(tmp.resolve("print.py"));
-        Files.writeString(tmpFile, source);
         parser = Parser.getFor(Language.PYTHON);
+        tmpFile = Files.createFile(tmp.resolve("print.py"));
+        @Cleanup FileWriter fileWriter = new FileWriter(tmpFile.toFile());
+        fileWriter.write(source);
     }
 
     @AfterAll
@@ -90,7 +93,7 @@ class ParserTest extends TestBase {
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(10);
         Assertions.assertEquals(10, parser.getTimeout());
-        Path path = Path.of(getClass().getClassLoader().getResource("deep_string_concat").toURI());
+        Path path = Paths.get(getClass().getClassLoader().getResource("deep_string_concat").toURI());
         Assertions.assertThrows(ParsingException.class, () -> parser.parse(path));
         TimeUnit unit = TimeUnit.SECONDS;
         parser.setTimeout(1, unit);

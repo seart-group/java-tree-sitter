@@ -40,7 +40,8 @@ public abstract class PrinterTestBase extends TestBase {
         String expected = getExpected();
         File file = printer.export();
         Path path = file.toPath();
-        String actual = Files.readString(path);
+        byte[] bytes = Files.readAllBytes(path);
+        String actual = new String(bytes);
         Files.delete(path);
         Assertions.assertEquals(expected, actual);
     }
