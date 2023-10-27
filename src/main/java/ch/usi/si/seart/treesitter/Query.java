@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,9 +44,9 @@ public class Query extends External {
     ) {
         super(pointer);
         this.language = language;
-        this.patterns = List.of(patterns);
-        this.captures = List.of(captures);
-        this.strings = List.of(strings);
+        this.patterns = Collections.unmodifiableList(Arrays.asList(patterns));
+        this.captures = Collections.unmodifiableList(Arrays.asList(captures));
+        this.strings = Collections.unmodifiableList(Arrays.asList(strings));
     }
 
     /**
