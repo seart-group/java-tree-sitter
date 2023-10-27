@@ -247,7 +247,8 @@ public class Parser extends External {
      */
     public Tree parse(@NotNull Path path) throws ParsingException {
         try {
-            String source = Files.readString(path);
+            byte[] bytes = Files.readAllBytes(path);
+            String source = new String(bytes);
             return parse(source);
         } catch (IOException ex) {
             throw new ParsingException(ex);
@@ -266,7 +267,8 @@ public class Parser extends External {
      */
     public Tree parse(@NotNull Path path, @NotNull Tree oldTree) throws ParsingException {
         try {
-            String source = Files.readString(path);
+            byte[] bytes = Files.readAllBytes(path);
+            String source = new String(bytes);
             return parse(source, oldTree);
         } catch (IOException ex) {
             throw new ParsingException(ex);

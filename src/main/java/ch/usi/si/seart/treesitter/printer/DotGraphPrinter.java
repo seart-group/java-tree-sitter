@@ -40,7 +40,8 @@ public class DotGraphPrinter implements TreePrinter {
         try {
             File file = export();
             Path path = file.toPath();
-            String contents = Files.readString(path);
+            byte[] bytes = Files.readAllBytes(path);
+            String contents = new String(bytes);
             Files.delete(path);
             return contents;
         } catch (IOException ex) {
