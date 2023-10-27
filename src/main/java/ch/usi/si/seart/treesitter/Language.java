@@ -10,6 +10,7 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -500,7 +501,7 @@ public enum Language {
     }
 
     Language(long id, String... extensions) {
-        this(id, version(id), fields(id), symbols(id), List.of(extensions));
+        this(id, version(id), fields(id), symbols(id), Collections.unmodifiableList(Arrays.asList(extensions)));
     }
 
     Language(long id, int version, int totalFields, int totalSymbols, List<String> extensions) {
