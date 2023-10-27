@@ -3,11 +3,11 @@ LABEL maintainer="Ozren Dabić (dabico@usi.ch)"
 
 ENV IMAGE_NAME="seart-group/java-tree-sitter" \
     IMAGE_REPO_URL="https://github.com/${IMAGE_NAME}/" \
-    JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
+    JAVA_HOME="/usr/lib/jvm/java-8-openjdk"
 
 RUN apk update && \
     apk add --no-cache \
-            openjdk11 \
+            openjdk8 \
             python3 \
             py3-distutils-extra \
             make \
