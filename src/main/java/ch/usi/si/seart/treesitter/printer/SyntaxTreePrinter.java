@@ -4,6 +4,8 @@ import ch.usi.si.seart.treesitter.TreeCursor;
 import ch.usi.si.seart.treesitter.TreeCursorNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Consumer;
 
 /**
@@ -35,7 +37,8 @@ public class SyntaxTreePrinter extends IterativeTreePrinter {
         for (;;) {
             TreeCursorNode cursorNode = cursor.getCurrentTreeCursorNode();
             if (cursorNode.isNamed()) {
-                String indent = "  ".repeat(depth);
+                Collection<String> spaces = Collections.nCopies(depth, "  ");
+                String indent = String.join("", spaces);
                 appender.accept(indent);
                 appender.accept(cursorNode.toString());
                 appender.accept("\n");
