@@ -4,24 +4,23 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.lang.ref.Cleaner;
-
 @FieldDefaults(makeFinal = true)
 abstract class External implements AutoCloseable {
 
-    protected long pointer;
-    private Cleaner.Cleanable cleanable;
+    private static final CleanerThread CLEANER_THREAD = new CleanerThread(5000);
 
-    private static final Cleaner CLEANER = Cleaner.create();
+    protected long pointer;
+
+    private CleanerThread.Cleaner cleaner;
 
     protected External() {
         this.pointer = 0L;
-        this.cleanable = null;
+        this.cleaner = null;
     }
 
     protected External(long pointer) {
         this.pointer = pointer;
-        this.cleanable = CLEANER.register(this, new Action(this));
+        this.cleaner = CLEANER_THREAD.register(this, new CleaningAction(this));
     }
 
     public final boolean isNull() {
@@ -46,20 +45,19 @@ abstract class External implements AutoCloseable {
      */
     @Override
     public void close() {
-        boolean requiresCleaning = cleanable != null && !isNull();
-        if (requiresCleaning) cleanable.clean();
+        cleaner.clean();
     }
 
     protected abstract void delete();
 
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-    private static final class Action implements Runnable {
+    private static final class CleaningAction implements CleanerThread.Action {
 
         External external;
 
         @Override
-        public void run() {
+        public void run(boolean leak) {
             external.delete();
         }
     }
