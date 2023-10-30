@@ -100,6 +100,11 @@ class ParserTest extends TestBase {
         parser.setTimeout(duration);
         Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
         Assertions.assertFalse(parser.parse(path).isNull());
+    }
+
+    @Test
+    void testSetTimeoutNanoseconds() {
+        Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(Duration.ofNanos(500));
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(500, TimeUnit.NANOSECONDS);
