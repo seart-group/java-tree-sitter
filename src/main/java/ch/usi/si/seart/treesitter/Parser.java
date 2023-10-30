@@ -170,8 +170,8 @@ public class Parser extends External {
     /**
      * Set the maximum duration that parsing should be allowed to take.
      * If parsing takes longer than this, an exception is thrown.
-     * Note that the supplied duration will be rounded down
-     * to 0 if the duration is expressed in nanoseconds.
+     * The duration is rounded down to zero if it does not exceed one microsecond.
+     * Timeouts are considered disabled when the value is zero.
      *
      * @param duration the timeout duration
      * @throws NullPointerException if the duration is {@code null}
@@ -186,8 +186,8 @@ public class Parser extends External {
     /**
      * Set the maximum duration that parsing should be allowed to take.
      * If parsing takes longer than this, an exception is thrown.
-     * Note that the supplied duration will be rounded down
-     * to 0 if the duration is expressed in nanoseconds.
+     * The duration is rounded down to zero if it does not exceed one microsecond.
+     * Timeouts are considered disabled when the value is zero.
      *
      * @param timeout the timeout duration amount
      * @param timeUnit the duration time unit
@@ -205,6 +205,7 @@ public class Parser extends External {
     /**
      * Set the maximum duration in microseconds that parsing should be allowed to take.
      * If parsing takes longer than this, an exception is thrown.
+     * Timeouts are considered disabled when the value is zero.
      *
      * @param timeout the timeout in microseconds
      * @throws IllegalArgumentException if the timeout value is negative
