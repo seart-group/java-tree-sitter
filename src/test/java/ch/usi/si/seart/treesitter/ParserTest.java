@@ -122,6 +122,18 @@ class ParserTest extends TestBase {
         Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
     }
 
+    @Test
+    void testToBuilder() {
+        Parser.Builder builder = parser.toBuilder();
+        @Cleanup Parser other = builder.language(Language.JAVA)
+                .timeout(Duration.ofSeconds(1))
+                .build();
+        Assertions.assertFalse(other.isNull());
+        Assertions.assertNotEquals(parser, other);
+        Assertions.assertNotEquals(parser.getTimeout(), other.getTimeout());
+        Assertions.assertNotEquals(parser.getLanguage(), other.getLanguage());
+    }
+
     private static class ConstructorExceptionProvider implements ArgumentsProvider {
 
         @Override

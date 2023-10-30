@@ -78,6 +78,16 @@ public class Parser extends External {
         return new Builder();
     }
 
+    /**
+     * Obtain a new builder initialized with the current Parser settings.
+     *
+     * @return a new parser builder
+     * @since 1.8.0
+     */
+    public Builder toBuilder() {
+        return builder().language(getLanguage()).timeout(getTimeout());
+    }
+
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
