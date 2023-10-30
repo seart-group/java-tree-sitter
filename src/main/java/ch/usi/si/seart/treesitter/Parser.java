@@ -168,7 +168,7 @@ public class Parser extends External {
     public native long getTimeout();
 
     /**
-     * Set the maximum duration that parsing should be allowed to take before halting.
+     * Set the maximum duration that parsing should be allowed to take.
      * If parsing takes longer than this, an exception is thrown.
      * Note that the supplied duration will be rounded down
      * to 0 if the duration is expressed in nanoseconds.
@@ -184,7 +184,7 @@ public class Parser extends External {
     }
 
     /**
-     * Set the maximum duration that parsing should be allowed to take before halting.
+     * Set the maximum duration that parsing should be allowed to take.
      * If parsing takes longer than this, an exception is thrown.
      * Note that the supplied duration will be rounded down
      * to 0 if the duration is expressed in nanoseconds.
@@ -203,8 +203,7 @@ public class Parser extends External {
     }
 
     /**
-     * Set the maximum duration in microseconds that
-     * parsing should be allowed to take before halting.
+     * Set the maximum duration in microseconds that parsing should be allowed to take.
      * If parsing takes longer than this, an exception is thrown.
      *
      * @param timeout the timeout in microseconds
