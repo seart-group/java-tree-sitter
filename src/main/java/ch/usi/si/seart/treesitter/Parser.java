@@ -36,6 +36,11 @@ public class Parser extends External {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
+    private static final String NULL_LANGUAGE = "Language must not be null!";
+    private static final String NULL_DURATION = "Duration must not be null!";
+    private static final String NULL_TIME_UNIT = "Time unit must not be null!";
+    private static final String NEGATIVE_TIMEOUT = "Timeout must not be negative!";
+
     @SuppressWarnings("unused")
     Parser(long pointer, @NotNull Language language) {
         super(pointer);
@@ -103,7 +108,7 @@ public class Parser extends External {
          * @throws IncompatibleLanguageException if the language can not be set
          */
         public Parser build() {
-            Objects.requireNonNull(language, "Language must not be null!");
+            Objects.requireNonNull(language, NULL_LANGUAGE);
             return build(language);
         }
 
@@ -173,7 +178,7 @@ public class Parser extends External {
      * @since 1.1.0
      */
     public void setTimeout(@NotNull Duration duration) {
-        Objects.requireNonNull(duration, "Duration must not be null!");
+        Objects.requireNonNull(duration, NULL_DURATION);
         long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
         setTimeout(micros);
     }
@@ -191,9 +196,8 @@ public class Parser extends External {
      * @since 1.1.0
      */
     public void setTimeout(long timeout, @NotNull TimeUnit timeUnit) {
-        if (timeout < 0)
-            throw new IllegalArgumentException("Timeout can not be negative!");
-        Objects.requireNonNull(timeUnit, "Time unit must not be null!");
+        if (timeout < 0) throw new IllegalArgumentException(NEGATIVE_TIMEOUT);
+        Objects.requireNonNull(timeUnit, NULL_TIME_UNIT);
         long micros = timeUnit.toMicros(timeout);
         setTimeout(micros);
     }
