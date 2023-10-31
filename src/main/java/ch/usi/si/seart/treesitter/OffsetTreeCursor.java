@@ -117,6 +117,11 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         @Override
+        public int getChildCount() {
+            return node.getChildCount();
+        }
+
+        @Override
         public List<Node> getChildren() {
             return node.getChildren().stream()
                     .map(OffsetNode::new)
@@ -149,6 +154,11 @@ public class OffsetTreeCursor extends TreeCursor {
         @Override
         public Point getEndPoint() {
             return node.getEndPoint().add(offset);
+        }
+
+        @Override
+        public String getFieldNameForChild(int child) {
+            return node.getFieldNameForChild(child);
         }
 
         @Override
@@ -212,6 +222,41 @@ public class OffsetTreeCursor extends TreeCursor {
         @Override
         public Point getStartPoint() {
             return node.getStartPoint().add(offset);
+        }
+
+        @Override
+        public Symbol getSymbol() {
+            return node.getSymbol();
+        }
+
+        @Override
+        public String getType() {
+            return node.getType();
+        }
+
+        @Override
+        public boolean hasError() {
+            return node.hasError();
+        }
+
+        @Override
+        public boolean isExtra() {
+            return node.isExtra();
+        }
+
+        @Override
+        public boolean isMissing() {
+            return node.isMissing();
+        }
+
+        @Override
+        public boolean isNamed() {
+            return node.isNamed();
+        }
+
+        @Override
+        public boolean isNull() {
+            return node.isNull();
         }
 
         @Override
