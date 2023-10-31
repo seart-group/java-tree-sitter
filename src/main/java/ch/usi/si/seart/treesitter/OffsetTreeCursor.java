@@ -289,7 +289,9 @@ public class OffsetTreeCursor extends TreeCursor {
         @Override
         public String toString() {
             String original = node.toString();
-            String data = original.substring(5, original.length() - 1);
+            int lower = 5;
+            int upper = original.length() - 1;
+            String data = original.substring(lower, upper);
             return String.format(
                     "OffsetNode(%s, row: %d, column: %d)",
                     data, offset.getRow(), offset.getColumn()
