@@ -102,4 +102,32 @@ class QueryTest extends TestBase {
     void testQueryException(String ignored, Supplier<Query> supplier) {
         Assertions.assertThrows(NullPointerException.class, supplier::get);
     }
+
+    @Test
+    void testQueryToBuilder() {
+        @Cleanup Query original = Query.builder()
+                .language(language)
+                .pattern("(line_comment)")
+                .build();
+        Query.Builder builder = original.toBuilder();
+        @Cleanup Query modified = builder
+                .pattern("(block_comment)")
+                .build();
+        Assertions.assertNotEquals(original, modified);
+        Assertions.assertEquals(1, original.getPatterns().size());
+        Assertions.assertEquals(2, modified.getPatterns().size());
+        Assertions.assertEquals(original.getLanguage(), modified.getLanguage());
+        @Cleanup Query overwrite = builder
+                .patterns(List.of("(_)"))
+                .build();
+        Assertions.assertNotEquals(original, overwrite);
+        Assertions.assertEquals(original.getPatterns().size(), overwrite.getPatterns().size());
+        Assertions.assertNotEquals(original.getPattern(), overwrite.getPattern());
+        Assertions.assertEquals(original.getLanguage(), modified.getLanguage());
+        @Cleanup Query empty = builder.pattern().build();
+        Assertions.assertNotEquals(original, empty);
+        Assertions.assertEquals(1, original.getPatterns().size());
+        Assertions.assertEquals(0, empty.getPatterns().size());
+        Assertions.assertEquals(original.getLanguage(), empty.getLanguage());
+    }
 }
