@@ -94,6 +94,14 @@ public class Query extends External {
         return builder().language(language).patterns(patterns);
     }
 
+    /**
+     * Facilitates the construction of Query instances.
+     * It allows for the step-by-step creation of these objects
+     * by providing methods for setting individual attributes.
+     * Input validations are performed at each build step.
+     *
+     * @since 1.7.0
+     */
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
