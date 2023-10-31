@@ -105,6 +105,21 @@ public class Query extends External {
         }
 
         /**
+         * Adds multiple symbolic expression to the collection of
+         * patterns that the Query will use to match nodes.
+         *
+         * @param patterns A sequence of symbolic expression strings that make up the pattern
+         * @return this builder
+         * @throws NullPointerException if the pattern sequence is null
+         * @since 1.8.0
+         */
+        public Builder patterns(@NotNull String... patterns) {
+            Objects.requireNonNull(patterns, "Patterns must not be null!");
+            for (String pattern: patterns) pattern(pattern);
+            return this;
+        }
+
+        /**
          * Adds a symbolic expression to the collection of
          * patterns that the Query will use to match nodes.
          *
