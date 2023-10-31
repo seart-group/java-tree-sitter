@@ -1,7 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
-import lombok.Generated;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -136,12 +135,6 @@ public class TreeCursor extends External implements Cloneable {
                 if (!gotoParent()) return;
             } while (!gotoNextSibling());
         }
-    }
-
-    @Override
-    @Generated
-    public String toString() {
-        return String.format("TreeCursor(id: %d, tree: %d)", id, tree.pointer);
     }
 
     /**
