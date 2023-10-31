@@ -35,18 +35,6 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
         this.query = query;
     }
 
-    /**
-     * @deprecated Use {@link Node#walk(Query)} instead
-     * @throws UnsupportedOperationException when called
-     */
-    @Deprecated(since = "1.5.0", forRemoval = true)
-    public QueryCursor(@NotNull Node node, @NotNull Query query) {
-        super();
-        throw new UnsupportedOperationException(
-                "This constructor should no longer be used"
-        );
-    }
-
     @Override
     protected native void delete();
 
