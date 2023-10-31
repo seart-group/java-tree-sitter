@@ -105,6 +105,23 @@ public class Query extends External {
         }
 
         /**
+         * Sets the collection of patterns that the Query will use to match nodes.
+         * This method <em>will overwrite</em> all the currently specified patterns.
+         *
+         * @param patterns A list of symbolic expression strings that make up the pattern
+         * @return this builder
+         * @throws NullPointerException if the pattern list is null or contains null elements
+         * @since 1.8.0
+         */
+        public Builder patterns(@NotNull List<@NotNull String> patterns) {
+            Objects.requireNonNull(patterns, "Patterns must not be null!");
+            this.patterns = List.copyOf(patterns).stream()
+                    .map(String::trim)
+                    .collect(Collectors.toList());
+            return this;
+        }
+
+        /**
          * Adds multiple symbolic expression to the collection of
          * patterns that the Query will use to match nodes.
          *
