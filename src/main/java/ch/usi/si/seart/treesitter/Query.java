@@ -49,7 +49,7 @@ public class Query extends External {
     }
 
     /**
-     * @deprecated Use {@link Query#getFor(Language, String)} or {@link Query#builder()} instead
+     * @deprecated Use {@link Query#getFor(Language, String...)} or {@link Query#builder()} instead
      */
     @Deprecated(since = "1.7.0", forRemoval = true)
     public Query(@NotNull Language language, @NotNull String pattern) {
@@ -62,12 +62,12 @@ public class Query extends External {
      * Static factory for obtaining new Query instances.
      *
      * @param language The language for querying
-     * @param pattern The query pattern
+     * @param patterns The query patterns
      * @return A new query instance
      * @since 1.7.0
      */
-    public static Query getFor(@NotNull Language language, @NotNull String pattern) {
-        return builder().language(language).pattern(pattern).build();
+    public static Query getFor(@NotNull Language language, @NotNull String... patterns) {
+        return builder().language(language).patterns(patterns).build();
     }
 
     /**
