@@ -5,13 +5,18 @@ import ch.usi.si.seart.treesitter.exception.query.QueryFieldException;
 import ch.usi.si.seart.treesitter.exception.query.QueryNodeTypeException;
 import ch.usi.si.seart.treesitter.exception.query.QueryStructureException;
 import ch.usi.si.seart.treesitter.exception.query.QuerySyntaxException;
+import lombok.Cleanup;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -27,13 +32,15 @@ class QueryTest extends TestBase {
             String pattern1 = "(_)";
             String pattern2 = "(_) @capture";
             String pattern3 = "\"return\" @capture";
-            String pattern4 = "\"private\" @capture.first \"public\" @capture.second";
+            String pattern4 = "\"private\" @capture.first";
+            String pattern5 = "\"public\" @capture.second";
 
             return Stream.of(
+                    Arguments.of("", Query.builder().language(language).build(), 0, 0, 0),
                     Arguments.of(pattern1, Query.getFor(language, pattern1), 1, 0, 0),
                     Arguments.of(pattern2, Query.getFor(language, pattern2), 1, 1, 0),
                     Arguments.of(pattern3, Query.getFor(language, pattern3), 1, 1, 0),
-                    Arguments.of(pattern4, Query.getFor(language, pattern4), 2, 2, 0)
+                    Arguments.of(pattern4, Query.getFor(language, pattern4, pattern5), 2, 2, 0)
             );
         }
     }
@@ -76,14 +83,17 @@ class QueryTest extends TestBase {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            Supplier<Query> case1 = () -> Query.builder().build();
-            Supplier<Query> case2 = () -> Query.builder().pattern("(_)").build();
-            Supplier<Query> case3 = () -> Query.builder().language(Language.JAVA).build();
-            return Stream.of(
-                    Arguments.of("Nothing specified", case1),
-                    Arguments.of("Only pattern specified", case2),
-                    Arguments.of("Only language specified", case3)
+            Query.Builder builder = Query.builder();
+            Map<String, Supplier<Query>> map = Map.of(
+                    "Nothing specified", builder::build,
+                    "No language specified", () -> builder.pattern("(_)").build(),
+                    "Single null pattern string", () -> builder.pattern(null).build(),
+                    "String array as null", () -> builder.patterns((String[]) null).build(),
+                    "String list as null", () -> builder.patterns((List<String>) null).build(),
+                    "String array contains null", () -> builder.patterns("(_)", null).build(),
+                    "String list contains null", () -> builder.patterns(Arrays.asList("(_)", null)).build()
             );
+            return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
         }
     }
 
