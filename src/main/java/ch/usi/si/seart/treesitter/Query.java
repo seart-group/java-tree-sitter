@@ -80,6 +80,20 @@ public class Query extends External {
         return new Builder();
     }
 
+    /**
+     * Obtain a new builder initialized with the current Query settings.
+     *
+     * @return a new query builder
+     * @since 1.8.0
+     */
+    public Builder toBuilder() {
+        Language language = getLanguage();
+        List<String> patterns = getPatterns().stream()
+                .map(Pattern::toString)
+                .collect(Collectors.toList());
+        return builder().language(language).patterns(patterns);
+    }
+
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
