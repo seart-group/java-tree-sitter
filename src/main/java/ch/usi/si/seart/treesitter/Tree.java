@@ -1,7 +1,6 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
@@ -65,12 +64,6 @@ public class Tree extends External implements Iterable<Node>, Cloneable {
      */
     @Override
     public native Tree clone();
-
-    @Override
-    @Generated
-    public String toString() {
-        return String.format("Tree(language: %s)", language);
-    }
 
     String getSource(int startByte, int endByte) {
         byte[] bytes = source.getBytes(CHARSET);
