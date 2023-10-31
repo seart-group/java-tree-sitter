@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -84,7 +85,8 @@ public class Query extends External {
     public static class Builder {
 
         Language language = null;
-        String pattern = null;
+
+        List<String> patterns = new ArrayList<>();
 
         /**
          * Sets the programming language associated with the query.
@@ -103,15 +105,16 @@ public class Query extends External {
         }
 
         /**
-         * Sets the query pattern that will be used to match nodes.
+         * Adds a symbolic expression to the collection of
+         * patterns that the Query will use to match nodes.
          *
-         * @param pattern The symbolic expression string of the query pattern.
+         * @param pattern The symbolic expression string of the query pattern
          * @return this builder
          * @throws NullPointerException if the pattern is null
          */
         public Builder pattern(@NotNull String pattern) {
             Objects.requireNonNull(pattern, "Pattern must not be null!");
-            this.pattern = pattern.trim();
+            patterns.add(pattern.trim());
             return this;
         }
 
@@ -124,7 +127,7 @@ public class Query extends External {
          */
         public Query build() {
             Objects.requireNonNull(language, "Language must not be null!");
-            Objects.requireNonNull(pattern, "Pattern must not be null!");
+            String pattern = String.join(" ", patterns).trim();
             return build(language, pattern);
         }
 
