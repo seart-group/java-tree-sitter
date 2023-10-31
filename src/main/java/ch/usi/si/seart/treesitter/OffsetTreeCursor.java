@@ -289,7 +289,7 @@ public class OffsetTreeCursor extends TreeCursor {
         @Override
         public String toString() {
             String original = node.toString();
-            int lower = 5;
+            int lower = Node.class.getSimpleName().length() + 1;
             int upper = original.length() - 1;
             String data = original.substring(lower, upper);
             return String.format(
