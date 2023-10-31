@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -48,7 +49,7 @@ public class Query extends External {
     }
 
     /**
-     * @deprecated Use {@link Query#getFor(Language, String)} or {@link Query#builder()} instead
+     * @deprecated Use {@link Query#getFor(Language, String...)} or {@link Query#builder()} instead
      */
     @Deprecated(since = "1.7.0", forRemoval = true)
     public Query(@NotNull Language language, @NotNull String pattern) {
@@ -61,12 +62,12 @@ public class Query extends External {
      * Static factory for obtaining new Query instances.
      *
      * @param language The language for querying
-     * @param pattern The query pattern
+     * @param patterns The query patterns
      * @return A new query instance
      * @since 1.7.0
      */
-    public static Query getFor(@NotNull Language language, @NotNull String pattern) {
-        return builder().language(language).pattern(pattern).build();
+    public static Query getFor(@NotNull Language language, @NotNull String... patterns) {
+        return builder().language(language).patterns(patterns).build();
     }
 
     /**
@@ -79,12 +80,27 @@ public class Query extends External {
         return new Builder();
     }
 
+    /**
+     * Obtain a new builder initialized with the current Query settings.
+     *
+     * @return a new query builder
+     * @since 1.8.0
+     */
+    public Builder toBuilder() {
+        Language language = getLanguage();
+        List<String> patterns = getPatterns().stream()
+                .map(Pattern::toString)
+                .collect(Collectors.toList());
+        return builder().language(language).patterns(patterns);
+    }
+
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
 
         Language language = null;
-        String pattern = null;
+
+        List<String> patterns = new ArrayList<>();
 
         /**
          * Sets the programming language associated with the query.
@@ -103,15 +119,59 @@ public class Query extends External {
         }
 
         /**
-         * Sets the query pattern that will be used to match nodes.
+         * Sets the collection of patterns that the Query will use to match nodes.
+         * This method <em>will overwrite</em> all the currently specified patterns.
          *
-         * @param pattern The symbolic expression string of the query pattern.
+         * @param patterns A list of symbolic expression strings that make up the pattern
+         * @return this builder
+         * @throws NullPointerException if the pattern list is null or contains null elements
+         * @since 1.8.0
+         */
+        public Builder patterns(@NotNull List<@NotNull String> patterns) {
+            Objects.requireNonNull(patterns, "Patterns must not be null!");
+            this.patterns = List.copyOf(patterns).stream()
+                    .map(String::trim)
+                    .collect(Collectors.toList());
+            return this;
+        }
+
+        /**
+         * Adds multiple symbolic expression to the collection of
+         * patterns that the Query will use to match nodes.
+         *
+         * @param patterns A sequence of symbolic expression strings that make up the pattern
+         * @return this builder
+         * @throws NullPointerException if the pattern sequence is null
+         * @since 1.8.0
+         */
+        public Builder patterns(@NotNull String... patterns) {
+            Objects.requireNonNull(patterns, "Patterns must not be null!");
+            for (String pattern: patterns) pattern(pattern);
+            return this;
+        }
+
+        /**
+         * Adds a symbolic expression to the collection of
+         * patterns that the Query will use to match nodes.
+         *
+         * @param pattern The symbolic expression string of the query pattern
          * @return this builder
          * @throws NullPointerException if the pattern is null
          */
         public Builder pattern(@NotNull String pattern) {
             Objects.requireNonNull(pattern, "Pattern must not be null!");
-            this.pattern = pattern.trim();
+            patterns.add(pattern.trim());
+            return this;
+        }
+
+        /**
+         * Removes all currently specified query patterns.
+         *
+         * @return this builder
+         * @since 1.8.0
+         */
+        public Builder pattern() {
+            patterns.clear();
             return this;
         }
 
@@ -124,7 +184,7 @@ public class Query extends External {
          */
         public Query build() {
             Objects.requireNonNull(language, "Language must not be null!");
-            Objects.requireNonNull(pattern, "Pattern must not be null!");
+            String pattern = String.join(" ", patterns).trim();
             return build(language, pattern);
         }
 
