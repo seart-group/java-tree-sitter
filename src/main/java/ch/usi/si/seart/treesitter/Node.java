@@ -336,7 +336,7 @@ public class Node implements Iterable<Node> {
     @Override
     @Generated
     public String toString() {
-        return String.format("Node(id: %d, tree: %d)", id, tree.pointer);
+        return String.format("Node(id: %d, tree: %s)", id, tree);
     }
 
     /**
