@@ -3,7 +3,6 @@ package ch.usi.si.seart.treesitter;
 import ch.usi.si.seart.treesitter.exception.parser.IncompatibleLanguageException;
 import ch.usi.si.seart.treesitter.exception.parser.ParsingException;
 import lombok.AccessLevel;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -346,10 +345,4 @@ public class Parser extends External {
     }
 
     private native Tree parse(String source, byte[] bytes, int length, Tree oldTree);
-
-    @Override
-    @Generated
-    public String toString() {
-        return String.format("Parser(id: %d, language: %s)", pointer, language);
-    }
 }
