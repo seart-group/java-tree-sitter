@@ -134,6 +134,17 @@ public class Query extends External {
         }
 
         /**
+         * Removes all currently specified query patterns.
+         *
+         * @return this builder
+         * @since 1.8.0
+         */
+        public Builder pattern() {
+            patterns.clear();
+            return this;
+        }
+
+        /**
          * Builds and returns a new Query instance
          * with the configured language and pattern.
          *
