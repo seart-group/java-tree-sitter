@@ -278,6 +278,6 @@ public class Parser extends External {
     @Override
     @Generated
     public String toString() {
-        return String.format("Parser(id: %d, language: %s)", pointer, language);
+        return String.format("Parser(language: %s)", language);
     }
 }
