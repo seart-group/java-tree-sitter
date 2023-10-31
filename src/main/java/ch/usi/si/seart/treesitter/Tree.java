@@ -69,7 +69,7 @@ public class Tree extends External implements Iterable<Node>, Cloneable {
     @Override
     @Generated
     public String toString() {
-        return String.format("Tree(id: %d, language: %s)", pointer, language);
+        return String.format("Tree(language: %s)", language);
     }
 
     String getSource(int startByte, int endByte) {
