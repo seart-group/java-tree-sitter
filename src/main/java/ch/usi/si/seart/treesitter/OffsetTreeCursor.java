@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -117,10 +118,18 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         @Override
+        public int getChildCount() {
+            return node.getChildCount();
+        }
+
+        @Override
         public List<Node> getChildren() {
             return node.getChildren().stream()
                     .map(OffsetNode::new)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            Collections::unmodifiableList
+                    ));
         }
 
         @Override
@@ -149,6 +158,11 @@ public class OffsetTreeCursor extends TreeCursor {
         @Override
         public Point getEndPoint() {
             return node.getEndPoint().add(offset);
+        }
+
+        @Override
+        public String getFieldNameForChild(int child) {
+            return node.getFieldNameForChild(child);
         }
 
         @Override
@@ -215,6 +229,41 @@ public class OffsetTreeCursor extends TreeCursor {
         }
 
         @Override
+        public Symbol getSymbol() {
+            return node.getSymbol();
+        }
+
+        @Override
+        public String getType() {
+            return node.getType();
+        }
+
+        @Override
+        public boolean hasError() {
+            return node.hasError();
+        }
+
+        @Override
+        public boolean isExtra() {
+            return node.isExtra();
+        }
+
+        @Override
+        public boolean isMissing() {
+            return node.isMissing();
+        }
+
+        @Override
+        public boolean isNamed() {
+            return node.isNamed();
+        }
+
+        @Override
+        public boolean isNull() {
+            return node.isNull();
+        }
+
+        @Override
         public TreeCursor walk() {
             return new OffsetTreeCursor(node, offset);
         }
@@ -222,6 +271,31 @@ public class OffsetTreeCursor extends TreeCursor {
         @Override
         public QueryCursor walk(@NotNull Query query) {
             throw new UnsupportedOperationException(UOE_MESSAGE_3);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            OffsetNode other = (OffsetNode) obj;
+            return node.equals(other.node);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(node, offset);
+        }
+
+        @Override
+        public String toString() {
+            String original = node.toString();
+            int lower = Node.class.getSimpleName().length() + 1;
+            int upper = original.length() - 1;
+            String data = original.substring(lower, upper);
+            return String.format(
+                    "OffsetNode(%s, row: %d, column: %d)",
+                    data, offset.getRow(), offset.getColumn()
+            );
         }
     }
 
