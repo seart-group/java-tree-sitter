@@ -100,10 +100,38 @@ class ParserTest extends TestBase {
         parser.setTimeout(duration);
         Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
         Assertions.assertFalse(parser.parse(path).isNull());
+    }
+
+    @Test
+    void testSetTimeoutNanoseconds() {
+        Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(Duration.ofNanos(500));
         Assertions.assertEquals(0, parser.getTimeout());
         parser.setTimeout(500, TimeUnit.NANOSECONDS);
         Assertions.assertEquals(0, parser.getTimeout());
+    }
+
+    @Test
+    void testBuilder() {
+        Duration duration = Duration.ofSeconds(3);
+        @Cleanup Parser parser = Parser.builder()
+                .language(Language.JAVA)
+                .timeout(duration)
+                .build();
+        Assertions.assertFalse(parser.isNull());
+        Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
+    }
+
+    @Test
+    void testToBuilder() {
+        Parser.Builder builder = parser.toBuilder();
+        @Cleanup Parser other = builder.language(Language.JAVA)
+                .timeout(Duration.ofSeconds(1))
+                .build();
+        Assertions.assertFalse(other.isNull());
+        Assertions.assertNotEquals(parser, other);
+        Assertions.assertNotEquals(parser.getTimeout(), other.getTimeout());
+        Assertions.assertNotEquals(parser.getLanguage(), other.getLanguage());
     }
 
     private static class ConstructorExceptionProvider implements ArgumentsProvider {
@@ -150,6 +178,7 @@ class ParserTest extends TestBase {
     @ArgumentsSource(SetTimeoutExceptionProvider.class)
     void testSetTimeoutThrows(Class<Throwable> throwableType, Long timeout) {
         Assertions.assertThrows(throwableType, () -> parser.setTimeout(timeout));
+        Assertions.assertThrows(throwableType, () -> Parser.builder().timeout(timeout));
     }
 
     private static class SetTimeoutWitTimeUnitExceptionProvider implements ArgumentsProvider {
@@ -167,5 +196,6 @@ class ParserTest extends TestBase {
     @ArgumentsSource(SetTimeoutWitTimeUnitExceptionProvider.class)
     void testSetTimeoutThrows(Class<Throwable> throwableType, Long timeout, TimeUnit timeUnit) {
         Assertions.assertThrows(throwableType, () -> parser.setTimeout(timeout, timeUnit));
+        Assertions.assertThrows(throwableType, () -> Parser.builder().timeout(timeout, timeUnit));
     }
 }

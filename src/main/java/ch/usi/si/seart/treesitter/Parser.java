@@ -36,6 +36,11 @@ public class Parser extends External {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
+    private static final String NULL_LANGUAGE = "Language must not be null!";
+    private static final String NULL_DURATION = "Duration must not be null!";
+    private static final String NULL_TIME_UNIT = "Time unit must not be null!";
+    private static final String NEGATIVE_TIMEOUT = "Timeout must not be negative!";
+
     @SuppressWarnings("unused")
     Parser(long pointer, @NotNull Language language) {
         super(pointer);
@@ -73,11 +78,23 @@ public class Parser extends External {
         return new Builder();
     }
 
+    /**
+     * Obtain a new builder initialized with the current Parser settings.
+     *
+     * @return a new parser builder
+     * @since 1.8.0
+     */
+    public Builder toBuilder() {
+        return builder().language(getLanguage()).timeout(getTimeout());
+    }
+
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
 
         Language language = null;
+
+        long timeout = 0L;
 
         /**
          * Sets the programming language intended for parsing.
@@ -96,6 +113,62 @@ public class Parser extends External {
         }
 
         /**
+         * Set the maximum duration that parsing should be allowed to take.
+         * If parsing time exceeds this value, an exception is thrown.
+         * The duration is rounded down to zero if it does not exceed one microsecond.
+         * Timeouts are considered disabled when the value is zero.
+         *
+         * @param duration the timeout duration
+         * @return this builder
+         * @throws NullPointerException if the duration is {@code null}
+         * @since 1.8.0
+         */
+        public Builder timeout(@NotNull Duration duration) {
+            Objects.requireNonNull(duration, NULL_DURATION);
+            if (duration.isZero()) return this;
+            long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
+            return timeout(micros);
+        }
+
+        /**
+         * Set the maximum duration that parsing should be allowed to take.
+         * If parsing time exceeds this value, an exception is thrown.
+         * The duration is rounded down to zero if it does not exceed one microsecond.
+         * Timeouts are considered disabled when the value is zero.
+         *
+         * @param timeout the timeout duration amount
+         * @param timeUnit the duration time unit
+         * @return this builder
+         * @throws NullPointerException if the time unit is {@code null}
+         * @throws IllegalArgumentException if the timeout value is negative
+         * @since 1.8.0
+         */
+        public Builder timeout(long timeout, @NotNull TimeUnit timeUnit) {
+            if (timeout == 0) return this;
+            if (timeout < 0) throw new IllegalArgumentException(NEGATIVE_TIMEOUT);
+            Objects.requireNonNull(timeUnit, NULL_TIME_UNIT);
+            long micros = timeUnit.toMicros(timeout);
+            return timeout(micros);
+        }
+
+        /**
+         * Set the maximum duration in microseconds that parsing should be allowed to take.
+         * If parsing time exceeds this value, an exception is thrown.
+         * Timeouts are considered disabled when the value is zero.
+         *
+         * @param timeout the timeout in microseconds
+         * @return this builder
+         * @throws IllegalArgumentException if the timeout value is negative
+         * @since 1.8.0
+         */
+        public Builder timeout(long timeout) {
+            if (timeout == 0) return this;
+            if (timeout < 0) throw new IllegalArgumentException(NEGATIVE_TIMEOUT);
+            this.timeout = timeout;
+            return this;
+        }
+
+        /**
          * Builds and returns a new Parser instance with the configured language.
          *
          * @return A new parser instance
@@ -103,11 +176,11 @@ public class Parser extends External {
          * @throws IncompatibleLanguageException if the language can not be set
          */
         public Parser build() {
-            Objects.requireNonNull(language, "Language must not be null!");
-            return build(language);
+            Objects.requireNonNull(language, NULL_LANGUAGE);
+            return build(language, timeout);
         }
 
-        private static native Parser build(Language language);
+        private static native Parser build(Language language, long timeout);
     }
 
     /**
@@ -163,26 +236,26 @@ public class Parser extends External {
     public native long getTimeout();
 
     /**
-     * Set the maximum duration that parsing should be allowed to take before halting.
-     * If parsing takes longer than this, an exception is thrown.
-     * Note that the supplied duration will be rounded down
-     * to 0 if the duration is expressed in nanoseconds.
+     * Set the maximum duration that parsing should be allowed to take.
+     * If parsing time exceeds this value, an exception is thrown.
+     * The duration is rounded down to zero if it does not exceed one microsecond.
+     * Timeouts are considered disabled when the value is zero.
      *
      * @param duration the timeout duration
      * @throws NullPointerException if the duration is {@code null}
      * @since 1.1.0
      */
     public void setTimeout(@NotNull Duration duration) {
-        Objects.requireNonNull(duration, "Duration must not be null!");
+        Objects.requireNonNull(duration, NULL_DURATION);
         long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
         setTimeout(micros);
     }
 
     /**
-     * Set the maximum duration that parsing should be allowed to take before halting.
-     * If parsing takes longer than this, an exception is thrown.
-     * Note that the supplied duration will be rounded down
-     * to 0 if the duration is expressed in nanoseconds.
+     * Set the maximum duration that parsing should be allowed to take.
+     * If parsing time exceeds this value, an exception is thrown.
+     * The duration is rounded down to zero if it does not exceed one microsecond.
+     * Timeouts are considered disabled when the value is zero.
      *
      * @param timeout the timeout duration amount
      * @param timeUnit the duration time unit
@@ -191,17 +264,16 @@ public class Parser extends External {
      * @since 1.1.0
      */
     public void setTimeout(long timeout, @NotNull TimeUnit timeUnit) {
-        if (timeout < 0)
-            throw new IllegalArgumentException("Timeout can not be negative!");
-        Objects.requireNonNull(timeUnit, "Time unit must not be null!");
+        if (timeout < 0) throw new IllegalArgumentException(NEGATIVE_TIMEOUT);
+        Objects.requireNonNull(timeUnit, NULL_TIME_UNIT);
         long micros = timeUnit.toMicros(timeout);
         setTimeout(micros);
     }
 
     /**
-     * Set the maximum duration in microseconds that
-     * parsing should be allowed to take before halting.
-     * If parsing takes longer than this, an exception is thrown.
+     * Set the maximum duration in microseconds that parsing should be allowed to take.
+     * If parsing time exceeds this value, an exception is thrown.
+     * Timeouts are considered disabled when the value is zero.
      *
      * @param timeout the timeout in microseconds
      * @throws IllegalArgumentException if the timeout value is negative
