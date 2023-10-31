@@ -268,6 +268,29 @@ public class OffsetTreeCursor extends TreeCursor {
         public QueryCursor walk(@NotNull Query query) {
             throw new UnsupportedOperationException(UOE_MESSAGE_3);
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            OffsetNode other = (OffsetNode) obj;
+            return node.equals(other.node);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(node, offset);
+        }
+
+        @Override
+        public String toString() {
+            String original = node.toString();
+            String data = original.substring(5, original.length() - 1);
+            return String.format(
+                    "OffsetNode(%s, row: %d, column: %d)",
+                    data, offset.getRow(), offset.getColumn()
+            );
+        }
     }
 
     @Override
