@@ -144,7 +144,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Node getDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
-            return super.getDescendant(
+            return node.getDescendant(
                     startPoint.subtract(offset),
                     endPoint.subtract(offset)
             );
@@ -182,7 +182,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
         @Override
         public Node getNamedDescendant(@NotNull Point startPoint, @NotNull Point endPoint) {
-            return super.getNamedDescendant(
+            return node.getNamedDescendant(
                     startPoint.subtract(offset),
                     endPoint.subtract(offset)
             );
