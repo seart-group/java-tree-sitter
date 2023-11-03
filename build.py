@@ -42,7 +42,6 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
     cmd(f"make -C \"{path(here, 'tree-sitter')}\" clean {'> /dev/null' if not verbose else ''}")
     cmd(f"{env} make -C \"{path(here, 'tree-sitter')}\" {'> /dev/null' if not verbose else ''}")
 
-    cpp = False
     source_paths = find(path(here, "lib", "*.cc"))
 
     compiler = new_c_compiler()
@@ -61,7 +60,6 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         scanner_c = path(src_path, "scanner.c")
         scanner_cc = path(src_path, "scanner.cc")
         if exists(scanner_cc):
-            cpp = True
             source_paths.append(scanner_cc)
         elif exists(scanner_c):
             source_paths.append(scanner_c)
@@ -71,11 +69,10 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         compiler.define_macro(f"TS_LANGUAGE_{repository_lang.replace('-', '_').upper()}", "1")
 
     source_mtimes = [getmtime(__file__)] + [getmtime(source_path) for source_path in source_paths]
-    if cpp:
-        if find_cpp_library("stdc++"):
-            compiler.add_library("stdc++")
-        elif find_cpp_library("c++"):
-            compiler.add_library("c++")
+    if find_cpp_library("stdc++"):
+        compiler.add_library("stdc++")
+    elif find_cpp_library("c++"):
+        compiler.add_library("c++")
 
     output_mtime = getmtime(output_path) if exists(output_path) else 0
     if max(source_mtimes) <= output_mtime:
