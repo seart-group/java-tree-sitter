@@ -7,7 +7,7 @@
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete(
   JNIEnv* env, jobject thisObject) {
   TSTreeCursor* treeCursor = (TSTreeCursor*)__getPointer(env, thisObject);
-  delete treeCursor;
+  ts_tree_cursor_delete(treeCursor);
   __clearPointer(env, thisObject);
 }
 
