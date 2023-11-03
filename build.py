@@ -29,6 +29,8 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     if arch and system != "Darwin":
         arch = "64" if "64" in arch else "32"
+    if arch and system == "Darwin":
+        arch = "arm64" if "aarch64" in arch else arch
 
     output_path = f"{output_path}.{'dylib' if system == 'Darwin' else 'so'}"
     env = ""
@@ -136,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-a",
         "--arch",
-        help="Architecture to build for (x86, x86_64, arm64).",
+        help="Architecture to build for (x86, x86_64, arm64, aarch64).",
     )
     parser.add_argument(
         "-o",
