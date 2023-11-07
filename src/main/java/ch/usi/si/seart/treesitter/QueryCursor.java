@@ -44,11 +44,46 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     public native void execute();
 
     /**
+     * Start running a query against a node,
+     * limiting search to a range of bytes.
+     *
+     * @param startByte The start byte of the query range
+     * @param endByte The end byte of the query range
+     * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
+     * if either argument is outside the queried node's byte range
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code startByte} &lt; 0</li>
+     *     <li>{@code endByte} &lt; 0</li>
+     *     <li>{@code startByte} &gt; {@code endByte}</li>
+     * </ul>
+     * @since 1.9.0
+     */
+    public native void execute(int startByte, int endByte);
+
+    /**
+     * Start running a query against a node,
+     * limiting the search to a range between two points.
+     *
+     * @param startPoint The start point of the query range
+     * @param endPoint The end point of the query range
+     * @throws NullPointerException if either argument is null
+     * @throws IllegalArgumentException if any point coordinates are negative,
+     * or if {@code startPoint} is a position that comes after {@code endPoint}
+     * @throws ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException
+     * if any of the arguments is outside the queried node's position range
+     * @since 1.9.0
+     */
+    public native void execute(@NotNull Point startPoint, @NotNull Point endPoint);
+
+    /**
      * Advance to the next match of the currently running query.
      *
      * @return A match if there is one, null otherwise
      * @throws IllegalStateException if the query was not executed beforehand
      * @see #execute()
+     * @see #execute(int, int)
+     * @see #execute(Point, Point)
      */
     public native QueryMatch nextMatch();
 

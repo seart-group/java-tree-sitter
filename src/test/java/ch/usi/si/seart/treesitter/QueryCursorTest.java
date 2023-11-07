@@ -1,5 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
+import ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException;
+import ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException;
 import lombok.Cleanup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -7,13 +9,21 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 class QueryCursorTest extends TestBase {
@@ -24,6 +34,7 @@ class QueryCursorTest extends TestBase {
     private static Parser parser;
     private static Tree tree;
     private static Node root;
+    private static Node body;
 
     private Query query;
     private QueryCursor cursor;
@@ -33,6 +44,7 @@ class QueryCursorTest extends TestBase {
         parser = Parser.builder().language(language).build();
         tree = parser.parse(source);
         root = tree.getRootNode();
+        body = root.getChild(0).getChildByFieldName("body");
     }
 
     @BeforeEach
@@ -124,6 +136,83 @@ class QueryCursorTest extends TestBase {
         cursor.execute();
         Assertions.assertTrue(cursor.isExecuted());
         Assertions.assertNull(cursor.nextMatch());
+    }
+
+    @Test
+    void testExecuteByteRange() {
+        List<Node> comments = body.getChildren().stream()
+                .filter(Node::isNamed)
+                .collect(Collectors.toUnmodifiableList());
+        @Cleanup QueryCursor cursor = root.walk(query);
+        Assertions.assertFalse(cursor.isExecuted());
+        for (Node comment: comments) {
+            int lowerByte = comment.getStartByte();
+            int upperByte = comment.getEndByte();
+            cursor.execute(lowerByte, upperByte);
+            Assertions.assertTrue(cursor.isExecuted());
+            Assertions.assertNotNull(cursor.nextMatch());
+            Assertions.assertNull(cursor.nextMatch());
+        }
+    }
+
+    private static class ByteRangeExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(IllegalArgumentException.class, -1, body.getEndByte()),
+                    Arguments.of(IllegalArgumentException.class, body.getStartByte(), body.getEndByte() * -1),
+                    Arguments.of(IllegalArgumentException.class, body.getEndByte(), body.getStartByte()),
+                    Arguments.of(ByteOffsetOutOfBoundsException.class, root.getStartByte(), body.getEndByte()),
+                    Arguments.of(ByteOffsetOutOfBoundsException.class, body.getStartByte(), root.getEndByte() + 1)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(ByteRangeExceptionProvider.class)
+    void testExecuteByteRangeThrows(Class<Throwable> throwableType, int startByte, int endByte) {
+        @Cleanup QueryCursor cursor = body.walk(query);
+        Assertions.assertThrows(throwableType, () -> cursor.execute(startByte, endByte));
+    }
+
+    @Test
+    void testExecutePointRange() {
+        List<Node> comments = body.getChildren().stream()
+                .filter(Node::isNamed)
+                .collect(Collectors.toUnmodifiableList());
+        @Cleanup QueryCursor cursor = root.walk(query);
+        Assertions.assertFalse(cursor.isExecuted());
+        for (Node comment: comments) {
+            Point lowerPoint = comment.getStartPoint();
+            Point upperPoint = comment.getEndPoint();
+            cursor.execute(lowerPoint, upperPoint);
+            Assertions.assertTrue(cursor.isExecuted());
+            Assertions.assertNotNull(cursor.nextMatch());
+            Assertions.assertNull(cursor.nextMatch());
+        }
+    }
+
+    private static class PointRangeExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, null, new Point(0, 0)),
+                    Arguments.of(NullPointerException.class, new Point(0, 0), null),
+                    Arguments.of(IllegalArgumentException.class, new Point(-1, -1), body.getEndPoint()),
+                    Arguments.of(IllegalArgumentException.class, body.getEndPoint(), body.getStartPoint()),
+                    Arguments.of(PointOutOfBoundsException.class, root.getStartPoint(), body.getEndPoint()),
+                    Arguments.of(PointOutOfBoundsException.class, body.getStartPoint(), new Point(1, 0))
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(PointRangeExceptionProvider.class)
+    void testExecutePointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
+        @Cleanup QueryCursor cursor = body.walk(query);
+        Assertions.assertThrows(throwableType, () -> cursor.execute(startPoint, endPoint));
     }
 
     @Test
