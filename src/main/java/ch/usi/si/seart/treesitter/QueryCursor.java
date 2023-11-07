@@ -44,8 +44,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     public native void execute();
 
     /**
-     * Start running a query against a node,
-     * limiting search to a range of bytes.
+     * Set the range of bytes positions in which the query will be executed.
      *
      * @param startByte The start byte of the query range
      * @param endByte The end byte of the query range
@@ -59,11 +58,10 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * </ul>
      * @since 1.9.0
      */
-    public native void execute(int startByte, int endByte);
+    public native void setRange(int startByte, int endByte);
 
     /**
-     * Start running a query against a node,
-     * limiting the search to a range between two points.
+     * Set the range of row-column coordinates in which the query will be executed.
      *
      * @param startPoint The start point of the query range
      * @param endPoint The end point of the query range
@@ -74,7 +72,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * if any of the arguments is outside the queried node's position range
      * @since 1.9.0
      */
-    public native void execute(@NotNull Point startPoint, @NotNull Point endPoint);
+    public native void setRange(@NotNull Point startPoint, @NotNull Point endPoint);
 
     /**
      * Advance to the next match of the currently running query.
@@ -82,13 +80,15 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * @return A match if there is one, null otherwise
      * @throws IllegalStateException if the query was not executed beforehand
      * @see #execute()
-     * @see #execute(int, int)
-     * @see #execute(Point, Point)
      */
     public native QueryMatch nextMatch();
 
     /**
-     * @return An iterator over the query cursor matches, starting from the first match
+     * Returns an iterator over the query matches,
+     * starting from the first {@link QueryMatch}.
+     * Implicitly calls {@link #execute()}.
+     *
+     * @return an iterator over query cursor matches
      */
     @Override
     public @NotNull Iterator<QueryMatch> iterator() {

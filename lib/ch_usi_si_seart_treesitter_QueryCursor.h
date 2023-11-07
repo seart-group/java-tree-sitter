@@ -20,23 +20,23 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_delete
  * Method:    execute
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute
   (JNIEnv *, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_QueryCursor
- * Method:    execute
+ * Method:    setRange
  * Signature: (II)V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__II
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_setRange__II
   (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_QueryCursor
- * Method:    execute
+ * Method:    setRange
  * Signature: (Lch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V
  */
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_setRange__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2
   (JNIEnv *, jobject, jobject, jobject);
 
 /*

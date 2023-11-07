@@ -148,10 +148,12 @@ class QueryCursorTest extends TestBase {
         for (Node comment: comments) {
             int lowerByte = comment.getStartByte();
             int upperByte = comment.getEndByte();
-            cursor.execute(lowerByte, upperByte);
+            cursor.setRange(lowerByte, upperByte);
+            Iterator<QueryMatch> iterator = cursor.iterator();
             Assertions.assertTrue(cursor.isExecuted());
-            Assertions.assertNotNull(cursor.nextMatch());
-            Assertions.assertNull(cursor.nextMatch());
+            Assertions.assertTrue(iterator.hasNext());
+            Assertions.assertNotNull(iterator.next());
+            Assertions.assertFalse(iterator.hasNext());
         }
     }
 
@@ -173,7 +175,7 @@ class QueryCursorTest extends TestBase {
     @ArgumentsSource(ByteRangeExceptionProvider.class)
     void testExecuteByteRangeThrows(Class<Throwable> throwableType, int startByte, int endByte) {
         @Cleanup QueryCursor cursor = body.walk(query);
-        Assertions.assertThrows(throwableType, () -> cursor.execute(startByte, endByte));
+        Assertions.assertThrows(throwableType, () -> cursor.setRange(startByte, endByte));
     }
 
     @Test
@@ -186,10 +188,12 @@ class QueryCursorTest extends TestBase {
         for (Node comment: comments) {
             Point lowerPoint = comment.getStartPoint();
             Point upperPoint = comment.getEndPoint();
-            cursor.execute(lowerPoint, upperPoint);
+            cursor.setRange(lowerPoint, upperPoint);
+            Iterator<QueryMatch> iterator = cursor.iterator();
             Assertions.assertTrue(cursor.isExecuted());
-            Assertions.assertNotNull(cursor.nextMatch());
-            Assertions.assertNull(cursor.nextMatch());
+            Assertions.assertTrue(iterator.hasNext());
+            Assertions.assertNotNull(iterator.next());
+            Assertions.assertFalse(iterator.hasNext());
         }
     }
 
@@ -212,7 +216,7 @@ class QueryCursorTest extends TestBase {
     @ArgumentsSource(PointRangeExceptionProvider.class)
     void testExecutePointRangeThrows(Class<Throwable> throwableType, Point startPoint, Point endPoint) {
         @Cleanup QueryCursor cursor = body.walk(query);
-        Assertions.assertThrows(throwableType, () -> cursor.execute(startPoint, endPoint));
+        Assertions.assertThrows(throwableType, () -> cursor.setRange(startPoint, endPoint));
     }
 
     @Test

@@ -10,7 +10,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_delete(
   __clearPointer(env, thisObject);
 }
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute(
   JNIEnv* env, jobject thisObject) {
   jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
   jobject queryObject = env->GetObjectField(thisObject, _queryCursorQueryField);
@@ -21,7 +21,7 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__(
   env->SetBooleanField(thisObject, _queryCursorExecutedField, JNI_TRUE);
 }
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__II(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_setRange__II(
   JNIEnv* env, jobject thisObject, jint start, jint end) {
   if (start < 0 || end < 0) {
     __throwIAE(env, "The start and end bytes must not be negative!");
@@ -33,7 +33,6 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__II(
   }
   // Not sure why I need to multiply by two, again probably because of utf-16
   jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
-  jobject queryObject = env->GetObjectField(thisObject, _queryCursorQueryField);
   TSNode node = __unmarshalNode(env, nodeObject);
   uint32_t nodeStart = ts_node_start_byte(node);
   uint32_t rangeStart = (uint32_t)start * 2;
@@ -47,14 +46,11 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__II(
     __throwBOB(env, end);
     return;
   }
-  TSQuery* query = (TSQuery*)__getPointer(env, queryObject);
   TSQueryCursor* cursor = (TSQueryCursor*)__getPointer(env, thisObject);
   ts_query_cursor_set_byte_range(cursor, rangeStart, rangeEnd);
-  ts_query_cursor_exec(cursor, query, node);
-  env->SetBooleanField(thisObject, _queryCursorExecutedField, JNI_TRUE);
 }
 
-JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2(
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_setRange__Lch_usi_si_seart_treesitter_Point_2Lch_usi_si_seart_treesitter_Point_2(
   JNIEnv* env, jobject thisObject, jobject startPointObject, jobject endPointObject) {
   if (startPointObject == NULL) {
     __throwNPE(env, "Start point must not be null!");
@@ -65,7 +61,6 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__Lch_
     return;
   }
   jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
-  jobject queryObject = env->GetObjectField(thisObject, _queryCursorQueryField);
   TSNode node = __unmarshalNode(env, nodeObject);
   TSPoint startPoint = __unmarshalPoint(env, startPointObject);
   TSPoint endPoint = __unmarshalPoint(env, endPointObject);
@@ -91,11 +86,8 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute__Lch_
     __throwPOB(env, endPointObject);
     return;
   }
-  TSQuery* query = (TSQuery*)__getPointer(env, queryObject);
   TSQueryCursor* cursor = (TSQueryCursor*)__getPointer(env, thisObject);
   ts_query_cursor_set_point_range(cursor, startPoint, endPoint);
-  ts_query_cursor_exec(cursor, query, node);
-  env->SetBooleanField(thisObject, _queryCursorExecutedField, JNI_TRUE);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
