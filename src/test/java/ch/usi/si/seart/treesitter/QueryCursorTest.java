@@ -127,16 +127,17 @@ class QueryCursorTest extends TestBase {
     }
 
     @Test
-    void testMultipleExecuteCalls() {
+    void testExecuteReuse() {
         @Cleanup Query query = Query.getFor(language, "(class_body) @class");
         @Cleanup QueryCursor cursor = root.walk(query);
         Assertions.assertFalse(cursor.isExecuted());
         cursor.execute();
         Assertions.assertTrue(cursor.isExecuted());
+        Assertions.assertNotNull(cursor.nextMatch());
+        Assertions.assertNull(cursor.nextMatch());
         cursor.execute();
         Assertions.assertTrue(cursor.isExecuted());
-        QueryMatch match = cursor.nextMatch();
-        Assertions.assertNotNull(match);
+        Assertions.assertNotNull(cursor.nextMatch());
         Assertions.assertNull(cursor.nextMatch());
     }
 

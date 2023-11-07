@@ -12,8 +12,6 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_delete(
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_execute(
   JNIEnv* env, jobject thisObject) {
-  bool executed = (bool)env->GetBooleanField(thisObject, _queryCursorExecutedField);
-  if (executed) return;
   jobject nodeObject = env->GetObjectField(thisObject, _queryCursorNodeField);
   jobject queryObject = env->GetObjectField(thisObject, _queryCursorQueryField);
   TSQueryCursor* cursor = (TSQueryCursor*)__getPointer(env, thisObject);

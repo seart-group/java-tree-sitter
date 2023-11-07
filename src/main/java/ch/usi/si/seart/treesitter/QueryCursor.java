@@ -39,8 +39,7 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
     protected native void delete();
 
     /**
-     * Start running a given query on a given node.
-     * Successive calls to this method are ignored.
+     * Start running a query against a node.
      */
     public native void execute();
 
@@ -48,7 +47,8 @@ public class QueryCursor extends External implements Iterable<QueryMatch> {
      * Advance to the next match of the currently running query.
      *
      * @return A match if there is one, null otherwise
-     * @throws IllegalStateException if {@link #execute()} was not called beforehand
+     * @throws IllegalStateException if the query was not executed beforehand
+     * @see #execute()
      */
     public native QueryMatch nextMatch();
 
