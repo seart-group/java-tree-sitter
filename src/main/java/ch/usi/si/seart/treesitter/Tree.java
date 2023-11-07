@@ -39,17 +39,23 @@ public class Tree extends External implements Iterable<Node>, Cloneable {
     /**
      * Edit the syntax tree to keep it in sync with source code that has been edited.
      *
-     * @param edit Changes made to the source code in terms of <em>both</em> byte offsets and row/column coordinates
+     * @param edit changes made to the source code in terms of
+     * <strong>both</strong> byte offsets and row/column coordinates
      */
     public native void edit(@NotNull InputEdit edit);
 
     /**
-     * @return The root node of the syntax tree
+     * Get the topmost {@link Node} of the syntax tree.
+     *
+     * @return the root node of the syntax tree
      */
     public native Node getRootNode();
 
     /**
-     * @return An iterator over the entire syntax tree, starting from the root node
+     * Returns an iterator over the entire syntax tree, starting from the root.
+     *
+     * @return an iterator over syntax tree nodes
+     * @see Node#iterator()
      */
     @Override
     public @NotNull Iterator<Node> iterator() {
