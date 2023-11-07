@@ -82,15 +82,6 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * @deprecated Use {@link #getDescendant(int, int)} instead
-     * @return The smallest node within this node that spans the given range of bytes
-     */
-    @Deprecated(since = "1.6.0", forRemoval = true)
-    public Node getDescendantForByteRange(int startByte, int endByte) {
-        return getDescendant(startByte, endByte);
-    }
-
-    /**
      * Get the smallest node within this node that spans the given range of bytes.
      *
      * @param startByte The start byte of the range
