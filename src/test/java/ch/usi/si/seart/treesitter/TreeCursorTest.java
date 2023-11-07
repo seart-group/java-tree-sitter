@@ -118,6 +118,22 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
+    void testGotoNode() {
+        Node root = tree.getRootNode();
+        Assertions.assertFalse(cursor.gotoNode(root));
+        Node identifier = root.getChild(0).getChildByFieldName("name");
+        Assertions.assertTrue(cursor.gotoNode(identifier));
+        Assertions.assertEquals(identifier, cursor.getCurrentNode());
+        Assertions.assertFalse(cursor.gotoNode(identifier));
+        Assertions.assertTrue(cursor.gotoNode(root));
+        Assertions.assertEquals(root, cursor.getCurrentNode());
+        Node clone = tree.clone().getRootNode();
+        Assertions.assertThrows(NullPointerException.class, () -> cursor.gotoNode(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoNode(empty));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoNode(clone));
+    }
+
+    @Test
     void testPreorderTraversal() {
         AtomicInteger count = new AtomicInteger();
         cursor.preorderTraversal(node -> {
