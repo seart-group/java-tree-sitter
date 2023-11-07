@@ -238,6 +238,8 @@ public class Query extends External {
     }
 
     /**
+     * Check if this query has captures.
+     *
      * @return true if the query has captures, false otherwise
      */
     public boolean hasCaptures() {
