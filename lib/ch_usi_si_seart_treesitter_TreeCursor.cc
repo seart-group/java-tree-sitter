@@ -126,6 +126,30 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoParent
   return result ? JNI_TRUE : JNI_FALSE;
 }
 
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNode(
+  JNIEnv* env, jobject thisObject, jobject nodeObject) {
+  if (nodeObject == NULL) {
+    __throwNPE(env, "Node must not be null!");
+    return JNI_FALSE;
+  }
+  TSNode target = __unmarshalNode(env, nodeObject);
+  if (ts_node_is_null(target)) {
+    __throwIAE(env, "Node must be part of the tree!");
+    return JNI_FALSE;
+  }
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  TSNode source = ts_tree_cursor_current_node(cursor);
+  if (ts_node_eq(source, target)) return JNI_FALSE;
+  if (source.tree != target.tree) {
+    __throwIAE(env, "Node must be part of the tree!");
+    return JNI_FALSE;
+  }
+  ts_tree_cursor_reset(cursor, target);
+  env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
+  env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
+  return JNI_TRUE;
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_clone(
   JNIEnv* env, jobject thisObject) {
   jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
