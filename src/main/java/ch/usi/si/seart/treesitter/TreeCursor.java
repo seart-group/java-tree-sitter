@@ -145,4 +145,57 @@ public class TreeCursor extends External implements Cloneable {
      */
     @Override
     public native TreeCursor clone();
+
+    static class Stub extends TreeCursor {
+
+        @Override
+        public Node getCurrentNode() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public String getCurrentFieldName() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public TreeCursorNode getCurrentTreeCursorNode() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoFirstChild() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoFirstChild(int offset) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoFirstChild(@NotNull Point point) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoNextSibling() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoParent() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void preorderTraversal(@NotNull Consumer<Node> callback) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public TreeCursor clone() {
+            throw new UnsupportedOperationException();
+        }
+    }
 }
