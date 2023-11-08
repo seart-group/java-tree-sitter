@@ -50,7 +50,11 @@ public class Node implements Iterable<Node> {
      * if the index is a negative number or if it is
      * greater or equal to the total number of children
      */
-    public native Node getChild(int child);
+    public Node getChild(int child) {
+        return getChild(child, false);
+    }
+
+    private native Node getChild(int child, boolean named);
 
     /**
      * Get the child {@code Node} residing in a given named field.
@@ -66,7 +70,11 @@ public class Node implements Iterable<Node> {
      *
      * @return the count of this node's children
      */
-    public native int getChildCount();
+    public int getChildCount() {
+        return getChildCount(false);
+    }
+
+    private native int getChildCount(boolean named);
 
     /**
      * Get an ordered list of this node's children.
@@ -74,11 +82,11 @@ public class Node implements Iterable<Node> {
      * @return this node's children
      */
     public List<Node> getChildren() {
-        Node[] children = Node.getChildren(this);
+        Node[] children = Node.getChildren(this, false);
         return List.of(children);
     }
 
-    private static native Node[] getChildren(Node node);
+    private static native Node[] getChildren(Node node, boolean named);
 
     /**
      * Get the source code content encapsulated by this node.
@@ -193,7 +201,9 @@ public class Node implements Iterable<Node> {
      * greater or equal to the total number of named children
      * @since 1.9.0
      */
-    public native Node getNamedChild(int child);
+    public Node getNamedChild(int child) {
+        return getChild(child, true);
+    }
 
     /**
      * Get the number <em>named</em> children associated with this node.
@@ -201,7 +211,9 @@ public class Node implements Iterable<Node> {
      * @return the count of this node's named children
      * @since 1.9.0
      */
-    public native int getNamedChildCount();
+    public int getNamedChildCount() {
+        return getChildCount(true);
+    }
 
     /**
      * Get an ordered list of this node's <em>named</em> children.
@@ -210,11 +222,9 @@ public class Node implements Iterable<Node> {
      * @since 1.9.0
      */
     public List<Node> getNamedChildren() {
-        Node[] children = Node.getNamedChildren(this);
+        Node[] children = Node.getChildren(this, true);
         return List.of(children);
     }
-
-    private static native Node[] getNamedChildren(Node node);
 
     /**
      * Get the smallest named node within this node that spans the given range of bytes.

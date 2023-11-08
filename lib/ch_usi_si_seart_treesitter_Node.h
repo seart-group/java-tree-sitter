@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getChild
- * Signature: (I)Lch/usi/si/seart/treesitter/Node;
+ * Signature: (IZ)Lch/usi/si/seart/treesitter/Node;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild
-  (JNIEnv *, jobject, jint);
+  (JNIEnv *, jobject, jint, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
@@ -26,18 +26,18 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getChildCount
- * Signature: ()I
+ * Signature: (Z)I
  */
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getChildren
- * Signature: (Lch/usi/si/seart/treesitter/Node;)[Lch/usi/si/seart/treesitter/Node;
+ * Signature: (Lch/usi/si/seart/treesitter/Node;Z)[Lch/usi/si/seart/treesitter/Node;
  */
 JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
@@ -86,30 +86,6 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getFieldNameForCh
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForByte
   (JNIEnv *, jobject, jint, jboolean);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getNamedChild
- * Signature: (I)Lch/usi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChild
-  (JNIEnv *, jobject, jint);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getNamedChildCount
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChildCount
-  (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getNamedChildren
- * Signature: (Lch/usi/si/seart/treesitter/Node;)[Lch/usi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChildren
-  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
