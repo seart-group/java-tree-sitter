@@ -185,6 +185,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public Language getLanguage() {
+            return node.getLanguage();
+        }
+
+        @Override
         public Node getNamedChild(int child) {
             return new OffsetNode(node.getNamedChild(child));
         }
