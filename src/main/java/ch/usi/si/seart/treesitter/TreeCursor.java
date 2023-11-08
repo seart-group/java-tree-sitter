@@ -9,9 +9,12 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A tree cursor is a stateful object that allows you to walk a syntax tree with maximum efficiency.
- * It allows you to walk a syntax tree more efficiently than is possible using the Node traversal functions.
- * It is always on a certain syntax node, and can be moved imperatively to different nodes.
+ * A tree cursor is a stateful object that allows
+ * you to walk a syntax tree with maximum efficiency.
+ * It allows you to walk a syntax tree more efficiently
+ * than is possible using the {@link Node} traversal functions.
+ * It is always on a certain syntax node,
+ * and can be moved imperatively to different nodes.
  *
  * @since 1.0.0
  * @author Tommy MacWilliam
@@ -41,18 +44,25 @@ public class TreeCursor extends External implements Cloneable {
     protected native void delete();
 
     /**
-     * @return The tree cursor's current node
+     * Get the {@link Node} that the cursor is currently pointing to.
+     *
+     * @return the tree cursor's current node
      */
     public native Node getCurrentNode();
 
     /**
-     * @return The field name of the tree cursor's current node,
+     * Get the field name of the {@link Node} that the cursor is currently pointing to.
+     *
+     * @return the field name of the tree cursor's current node,
      * {@code null} if the current node doesn't have a field
      */
     public native String getCurrentFieldName();
 
     /**
-     * @return The tree cursor's current node
+     * Get the {@link TreeCursorNode} representation of the
+     * {@link Node} that the cursor is currently pointing to.
+     *
+     * @return the tree cursor's current node
      */
     public native TreeCursorNode getCurrentTreeCursorNode();
 

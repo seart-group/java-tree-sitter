@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Represents a symbol in an abstract syntax tree.
- * Symbols are used to identify nodes in the AST,
- * and each symbol has an associated ID, type, and name.
+ * Represents a symbol in an abstract syntax {@link Tree}.
+ * Symbols are used to identify nodes in the AST.
+ * Each symbol has an associated ID, {@link Type Type}, and name.
  *
  * @author Ozren Dabić
  * @since 1.6.0

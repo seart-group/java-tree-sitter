@@ -14,11 +14,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * A query consists of one or more patterns, where each pattern is a symbolic expression (S-expression)
- * that matches a certain set of nodes in an abstract syntax tree. Each query is associated with a particular language,
- * and can only be run on syntax nodes parsed with that language. The expression to match a given node consists of
- * a pair of parentheses containing two things: the node's type, and optionally, a series of other S-expressions
- * that match the node's children. Query instances are immutable and can be safely shared among threads.
+ * A query consists of one or more patterns,
+ * where each pattern is a symbolic expression (S-expression)
+ * that matches a certain set of nodes in an abstract syntax tree.
+ * Each query is associated with a particular {@link Language},
+ * and can only be run on syntax nodes parsed with that language.
+ * The expression to match a given node consists of a pair of parentheses containing two things:
+ * the node's type, and optionally, a series of other S-expressions that match the node's children.
+ * Query instances are immutable and can be safely shared among threads.
  *
  * @since 1.0.0
  * @author Ozren Dabić
@@ -59,7 +62,7 @@ public class Query extends External {
     }
 
     /**
-     * Static factory for obtaining new Query instances.
+     * Static factory for obtaining new {@code Query} instances.
      *
      * @param language The language for querying
      * @param patterns The query patterns
@@ -71,7 +74,7 @@ public class Query extends External {
     }
 
     /**
-     * Obtain a new builder for constructing a Query instance.
+     * Obtain a new {@link Builder Builder} for constructing a query instance.
      *
      * @return a new query builder
      * @since 1.7.0
@@ -81,7 +84,7 @@ public class Query extends External {
     }
 
     /**
-     * Obtain a new builder initialized with the current Query settings.
+     * Obtain a new {@link Builder Builder} initialized with the current query settings.
      *
      * @return a new query builder
      * @since 1.8.0
@@ -95,7 +98,7 @@ public class Query extends External {
     }
 
     /**
-     * Facilitates the construction of Query instances.
+     * Facilitates the construction of {@link Query} instances.
      * It allows for the step-by-step creation of these objects
      * by providing methods for setting individual attributes.
      * Input validations are performed at each build step.
@@ -113,9 +116,9 @@ public class Query extends External {
         /**
          * Sets the programming language associated with the query.
          *
-         * @param language The language associated with the query
+         * @param language the language associated with the query
          * @return this builder
-         * @throws NullPointerException if the language is null
+         * @throws NullPointerException if the language is {@code null}
          * @throws UnsatisfiedLinkError if the language was not linked to native code
          * @throws ch.usi.si.seart.treesitter.error.ABIVersionError
          * if the language ABI version is incompatible with requirements
@@ -130,9 +133,10 @@ public class Query extends External {
          * Sets the collection of patterns that the Query will use to match nodes.
          * This method <em>will overwrite</em> all the currently specified patterns.
          *
-         * @param patterns A list of symbolic expression strings that make up the pattern
+         * @param patterns a list of symbolic expression strings that make up the pattern
          * @return this builder
-         * @throws NullPointerException if the pattern list is null or contains null elements
+         * @throws NullPointerException if the pattern list is {@code null}
+         * or contains {@code null} elements
          * @since 1.8.0
          */
         public Builder patterns(@NotNull List<@NotNull String> patterns) {
@@ -144,12 +148,12 @@ public class Query extends External {
         }
 
         /**
-         * Adds multiple symbolic expression to the collection of
-         * patterns that the Query will use to match nodes.
+         * Adds multiple symbolic expressions to the collection of
+         * patterns that the query will use to match nodes.
          *
-         * @param patterns A sequence of symbolic expression strings that make up the pattern
+         * @param patterns a sequence of symbolic expression strings that make up the pattern
          * @return this builder
-         * @throws NullPointerException if the pattern sequence is null
+         * @throws NullPointerException if the pattern sequence is {@code null}
          * @since 1.8.0
          */
         public Builder patterns(@NotNull String... patterns) {
@@ -160,11 +164,11 @@ public class Query extends External {
 
         /**
          * Adds a symbolic expression to the collection of
-         * patterns that the Query will use to match nodes.
+         * patterns that the query will use to match nodes.
          *
-         * @param pattern The symbolic expression string of the query pattern
+         * @param pattern the symbolic expression string of the query pattern
          * @return this builder
-         * @throws NullPointerException if the pattern is null
+         * @throws NullPointerException if the pattern is {@code null}
          */
         public Builder pattern(@NotNull String pattern) {
             Objects.requireNonNull(pattern, "Pattern must not be null!");
@@ -184,10 +188,10 @@ public class Query extends External {
         }
 
         /**
-         * Builds and returns a new Query instance
+         * Builds and returns a new query instance
          * with the configured language and pattern.
          *
-         * @return A new query instance
+         * @return a new query instance
          * @throws QueryException if query construction fails
          */
         public Query build() {
@@ -238,7 +242,9 @@ public class Query extends External {
     }
 
     /**
-     * @return true if the query has captures, false otherwise
+     * Check if this query has captures.
+     *
+     * @return {@code true} if the query has captures, {@code false} otherwise
      */
     public boolean hasCaptures() {
         return !captures.isEmpty();

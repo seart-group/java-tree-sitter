@@ -18,10 +18,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Parsers are stateful objects that can be assigned a language
- * and used to produce a {@link Tree Tree} based on some source code.
- * Instances of this class <strong>can not</strong> be created
- * without an initially set language.
+ * Parsers are stateful objects used to produce a {@link Tree} from some source code,
+ * based on the rules outlined by the used {@link Language}.
  *
  * @since 1.0.0
  * @author Tommy MacWilliam
@@ -289,7 +287,7 @@ public class Parser extends External {
     public native void setTimeout(long timeout);
 
     /**
-     * Use the parser to parse some source code and create a syntax tree.
+     * Use the parser to parse some source code and create a syntax {@link Tree}.
      *
      * @param source The source code string to be parsed
      * @return A syntax tree matching the provided source
@@ -302,8 +300,8 @@ public class Parser extends External {
     }
 
     /**
-     * Use the parser to incrementally parse a changed source code string,
-     * reusing unchanged parts of the tree to speed up the process.
+     * Use the parser to incrementally reparse a changed source code string,
+     * re-using unchanged parts of the {@link Tree} to expedite the process.
      *
      * @param source The source code string to be parsed
      * @param oldTree The syntax tree before changes were made
@@ -317,10 +315,10 @@ public class Parser extends External {
     }
 
     /**
-     * Use the parser to parse some source code found in a file at the specified path.
+     * Use the parser to parse source code from a file.
      *
      * @param path The path of the file to be parsed
-     * @return A tree-sitter Tree matching the provided source
+     * @return A syntax tree matching the provided source
      * @throws ParsingException if a parsing failure occurs
      * @since 1.3.0
      */
@@ -334,12 +332,12 @@ public class Parser extends External {
     }
 
     /**
-     * Use the parser to parse some source code found in a file at the specified path,
-     * reusing unchanged parts of the tree to speed up the process.
+     * Use the parser to reparse source code from a file,
+     * re-using unchanged parts of the {@link Tree} to expedite the process.
      *
      * @param path The path of the file to be parsed
      * @param oldTree The syntax tree before changes were made
-     * @return A tree-sitter Tree matching the provided source
+     * @return A syntax tree matching the provided source
      * @throws ParsingException if a parsing failure occurs
      * @since 1.3.0
      */
