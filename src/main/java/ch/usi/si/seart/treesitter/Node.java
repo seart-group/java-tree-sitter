@@ -192,6 +192,16 @@ public class Node implements Iterable<Node> {
     }
 
     /**
+     * Get the {@link Language} that was used to parse this node’s syntax tree.
+     *
+     * @return the node's language
+     * @since 1.9.0
+     */
+    public Language getLanguage() {
+        return !isNull() ? tree.getLanguage() : null;
+    }
+
+    /**
      * Get the <em>named</em> child {@code Node} at the given index.
      *
      * @param child the zero-indexed child position
