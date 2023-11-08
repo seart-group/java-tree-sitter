@@ -231,6 +231,13 @@ class NodeTest extends TestBase {
         Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(index));
     }
 
+    @Test
+    void testGetLanguage() {
+        for (Node child: tree)
+            Assertions.assertEquals(tree.getLanguage(), child.getLanguage());
+        Assertions.assertNull(empty.getLanguage());
+    }
+
     @ParameterizedTest
     @MethodSource("provideOutOfBoundsIndexes")
     void testGetNamedChildThrows(int index) {
