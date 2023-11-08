@@ -101,6 +101,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     }
 
     @Override
+    public TreeCursor clone() {
+        return new OffsetTreeCursor(cursor.getCurrentNode(), offset);
+    }
+
+    @Override
     public String toString() {
         return String.format("OffsetTreeCursor(row: %d, column: %d)", offset.getRow(), offset.getColumn());
     }

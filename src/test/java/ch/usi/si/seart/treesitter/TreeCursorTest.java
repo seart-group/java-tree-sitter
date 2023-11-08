@@ -84,8 +84,8 @@ class TreeCursorTest extends TestBase {
     @Test
     void testGotoFirstChildByteOffsetThrows() {
         cursor.gotoFirstChild(); // function_definition
-        cursor.gotoFirstChild(); // identifier
-        cursor.gotoNextSibling(); // parameters
+        cursor.gotoFirstChild(); // def
+        cursor.gotoNextSibling(); // identifier
         Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoFirstChild(-1));
         Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> cursor.gotoFirstChild(0));
         Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> cursor.gotoFirstChild(20));
@@ -106,8 +106,8 @@ class TreeCursorTest extends TestBase {
     @Test
     void testGotoFirstChildPositionOffsetThrows() {
         cursor.gotoFirstChild(); // function_definition
-        cursor.gotoFirstChild(); // identifier
-        cursor.gotoNextSibling(); // parameters
+        cursor.gotoFirstChild(); // def
+        cursor.gotoNextSibling(); // identifier
         Point negative = new Point(0, -1);
         Point illegal = new Point(1, 2);
         Assertions.assertThrows(NullPointerException.class, () -> cursor.gotoFirstChild(null));
@@ -147,6 +147,18 @@ class TreeCursorTest extends TestBase {
     void testClone() {
         @Cleanup TreeCursor copy = cursor.clone();
         Assertions.assertNotEquals(cursor, copy);
+        Assertions.assertEquals(tree.getRootNode(), copy.getCurrentNode());
+        Assertions.assertEquals(cursor.getCurrentNode(), copy.getCurrentNode());
+    }
+
+    @Test
+    void testCloneAfterTraversal() {
+        cursor.gotoFirstChild(); // function_definition
+        cursor.gotoFirstChild(); // def
+        @Cleanup TreeCursor copy = cursor.clone();
+        Assertions.assertNotEquals(cursor, copy);
+        Assertions.assertNotEquals(tree.getRootNode(), copy.getCurrentNode());
+        Assertions.assertEquals(cursor.getCurrentNode(), copy.getCurrentNode());
     }
 
     @Test
