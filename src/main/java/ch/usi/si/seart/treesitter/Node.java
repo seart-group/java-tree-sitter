@@ -31,6 +31,7 @@ public class Node implements Iterable<Node> {
     int context1;
     int context2;
     int context3;
+
     long id;
 
     Tree tree;
