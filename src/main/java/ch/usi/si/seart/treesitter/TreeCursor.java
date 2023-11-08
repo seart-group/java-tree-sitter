@@ -120,6 +120,18 @@ public class TreeCursor extends External implements Cloneable {
     public native boolean gotoParent();
 
     /**
+     * Move the cursor to an arbitrary node.
+     *
+     * @param node target node to move the cursor to.
+     * @return true if the cursor successfully moved,
+     * and false if it was already at the specified node
+     * @throws NullPointerException if {@code node} is null
+     * @throws IllegalArgumentException if {@code node} is not present in the tree
+     * @since 1.9.0
+     */
+    public native boolean gotoNode(@NotNull Node node);
+
+    /**
      * Iteratively traverse over the parse tree,
      * applying a callback to the nodes before they are visited.
      *

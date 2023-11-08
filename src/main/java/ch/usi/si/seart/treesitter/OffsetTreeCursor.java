@@ -87,6 +87,11 @@ public class OffsetTreeCursor extends TreeCursor {
     }
 
     @Override
+    public boolean gotoNode(@NotNull Node node) {
+        return cursor.gotoNode(node);
+    }
+
+    @Override
     public void preorderTraversal(@NotNull Consumer<Node> callback) {
         cursor.preorderTraversal(callback);
     }
