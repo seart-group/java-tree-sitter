@@ -18,10 +18,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Parsers are stateful objects that can be assigned a language
- * and used to produce a {@link Tree Tree} based on some source code.
- * Instances of this class <strong>can not</strong> be created
- * without an initially set language.
+ * Parsers are stateful objects used to produce a {@link Tree} from some source code,
+ * based on the rules outlined by the used {@link Language}.
  *
  * @since 1.0.0
  * @author Tommy MacWilliam
