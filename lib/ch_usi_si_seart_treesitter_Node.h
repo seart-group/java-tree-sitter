@@ -89,35 +89,19 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getNextNamedSibling
- * Signature: ()Lch/usi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextNamedSibling
-  (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getNextSibling
- * Signature: ()Lch/usi/si/seart/treesitter/Node;
+ * Signature: (Z)Lch/usi/si/seart/treesitter/Node;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling
-  (JNIEnv *, jobject);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Node
- * Method:    getPrevNamedSibling
- * Signature: ()Lch/usi/si/seart/treesitter/Node;
- */
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibling
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getPrevSibling
- * Signature: ()Lch/usi/si/seart/treesitter/Node;
+ * Signature: (Z)Lch/usi/si/seart/treesitter/Node;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevSibling
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
