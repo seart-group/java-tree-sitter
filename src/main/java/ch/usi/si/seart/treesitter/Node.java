@@ -66,7 +66,7 @@ public class Node implements Iterable<Node> {
     public native Node getChildByFieldName(@NotNull String name);
 
     /**
-     * Get the number children associated with this node.
+     * Get the number of children associated with this node.
      *
      * @return the count of this node's children
      */
@@ -216,7 +216,7 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * Get the number <em>named</em> children associated with this node.
+     * Get the number of <em>named</em> children associated with this node.
      *
      * @return the count of this node's named children
      * @since 1.9.0
