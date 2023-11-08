@@ -185,6 +185,26 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public Node getNamedChild(int child) {
+            return new OffsetNode(node.getNamedChild(child));
+        }
+
+        @Override
+        public int getNamedChildCount() {
+            return node.getNamedChildCount();
+        }
+
+        @Override
+        public List<Node> getNamedChildren() {
+            return node.getNamedChildren().stream()
+                    .map(OffsetNode::new)
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            Collections::unmodifiableList
+                    ));
+        }
+
+        @Override
         public Node getNamedDescendant(int startByte, int endByte) {
             throw new UnsupportedOperationException(UOE_MESSAGE_2);
         }

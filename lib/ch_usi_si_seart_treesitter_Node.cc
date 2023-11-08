@@ -5,14 +5,20 @@
 #include <tree_sitter/api.h>
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChild(
-  JNIEnv* env, jobject thisObject, jint index) {
+  JNIEnv* env, jobject thisObject, jint index, jboolean named) {
+  uint32_t (*child_counter)(TSNode) = (bool)named
+      ? ts_node_named_child_count
+      : ts_node_child_count;
+  TSNode (*child_getter)(TSNode, uint32_t) = (bool)named
+      ? ts_node_named_child
+      : ts_node_child;
   TSNode node = __unmarshalNode(env, thisObject);
   uint32_t childIndex = (uint32_t)index;
-  if ((childIndex < 0) || (childIndex >= ts_node_child_count(node))) {
+  if ((childIndex < 0) || (childIndex >= child_counter(node))) {
     __throwIOB(env, index);
     return NULL;
   }
-  TSNode child = ts_node_child(node, childIndex);
+  TSNode child = child_getter(node, childIndex);
   jobject childObject = __marshalNode(env, child);
   __copyTree(env, thisObject, childObject);
   return childObject;
@@ -35,19 +41,28 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildCount(
-  JNIEnv* env, jobject thisObject) {
+  JNIEnv* env, jobject thisObject, jboolean named) {
+  uint32_t (*child_counter)(TSNode) = (bool)named
+      ? ts_node_named_child_count
+      : ts_node_child_count;
   TSNode node = __unmarshalNode(env, thisObject);
-  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_child_count(node);
+  uint32_t count = ts_node_is_null(node) ? 0 : child_counter(node);
   return (jint)count;
 }
 
 JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren(
-  JNIEnv* env, jclass thisClass, jobject nodeObject) {
+  JNIEnv* env, jclass thisClass, jobject nodeObject, jboolean named) {
+  uint32_t (*child_counter)(TSNode) = (bool)named
+      ? ts_node_named_child_count
+      : ts_node_child_count;
+  TSNode (*child_getter)(TSNode, uint32_t) = (bool)named
+      ? ts_node_named_child
+      : ts_node_child;
   TSNode node = __unmarshalNode(env, nodeObject);
-  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_child_count(node);
+  uint32_t count = ts_node_is_null(node) ? 0 : child_counter(node);
   jobjectArray children = env->NewObjectArray(count, _nodeClass, NULL);
   for (int i = 0; i < count; i++) {
-    TSNode child = ts_node_child(node, i);
+    TSNode child = child_getter(node, i);
     jobject childObject = __marshalNode(env, child);
     __copyTree(env, nodeObject, childObject);
     env->SetObjectArrayElement(children, i, childObject);

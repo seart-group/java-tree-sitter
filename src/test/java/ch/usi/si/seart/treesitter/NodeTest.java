@@ -231,6 +231,31 @@ class NodeTest extends TestBase {
         Assertions.assertThrows(ByteOffsetOutOfBoundsException.class, () -> root.getFirstNamedChildForByte(index));
     }
 
+    @ParameterizedTest
+    @MethodSource("provideOutOfBoundsIndexes")
+    void testGetNamedChildThrows(int index) {
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> root.getNamedChild(index));
+    }
+
+    @Test
+    void testGetNamedChildCount() {
+        Assertions.assertEquals(1, root.getNamedChildCount());
+        Assertions.assertEquals(3, root.getChild(0).getNamedChildCount());
+        Assertions.assertEquals(0, empty.getNamedChildCount());
+    }
+
+    @Test
+    void testGetNamedChildren() {
+        Node function = root.getChild(0);
+        int count = function.getNamedChildCount();
+        List<Node> children = function.getNamedChildren();
+        Assertions.assertEquals(count, children.size());
+        for (int i = 0; i < count; i++) {
+            Assertions.assertEquals(function.getNamedChild(i), children.get(i));
+        }
+        Assertions.assertEquals(empty.getNamedChildren(), List.of());
+    }
+
     @Test
     void testGetNamedDescendantForByteRange() {
         Node function = root.getChild(0);
