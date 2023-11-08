@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /**
  * Represents a two-dimensional point with row and column coordinates.
- * Points are an  alternative to byte ranges, and as such are used to
+ * Points are an alternative to byte ranges, and as such are used to
  * represent more human-friendly positions of tree nodes within source code.
  * Although node positions within files should never be negative,
  * instances of this class can be created with negative row and column
