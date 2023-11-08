@@ -55,7 +55,7 @@ public class Parser extends External {
     }
 
     /**
-     * Static factory for obtaining new Parser instances.
+     * Static factory for obtaining new parser instances.
      *
      * @param language The language used for parsing
      * @return A new parser instance
@@ -66,7 +66,7 @@ public class Parser extends External {
     }
 
     /**
-     * Obtain a new builder for constructing a Parser instance.
+     * Obtain a new {@link Builder Builder} for constructing a parser instance.
      *
      * @return a new parser builder
      * @since 1.7.0
@@ -76,7 +76,7 @@ public class Parser extends External {
     }
 
     /**
-     * Obtain a new builder initialized with the current Parser settings.
+     * Obtain a new {@link Builder Builder} initialized with the current parser settings.
      *
      * @return a new parser builder
      * @since 1.8.0
@@ -86,7 +86,7 @@ public class Parser extends External {
     }
 
     /**
-     * Facilitates the construction of Parser instances.
+     * Facilitates the construction of {@link Parser} instances.
      * It allows for the step-by-step creation of these objects
      * by providing methods for setting individual attributes.
      * Input validations are performed at each build step.
@@ -104,7 +104,7 @@ public class Parser extends External {
         /**
          * Sets the programming language intended for parsing.
          *
-         * @param language The language used for parsing
+         * @param language the language used for parsing
          * @return this builder
          * @throws NullPointerException if the language is null
          * @throws UnsatisfiedLinkError if the language was not linked to native code
@@ -176,7 +176,7 @@ public class Parser extends External {
         /**
          * Builds and returns a new Parser instance with the configured language.
          *
-         * @return A new parser instance
+         * @return a new parser instance
          * @throws NullPointerException if the language was not previously set
          * @throws IncompatibleLanguageException if the language can not be set
          */
@@ -219,7 +219,7 @@ public class Parser extends External {
     /**
      * Set the language that the parser should use for parsing.
      *
-     * @param language The language used for parsing
+     * @param language the language used for parsing
      * @throws NullPointerException if the language is null
      * @throws UnsatisfiedLinkError if the language was not linked to native code
      * @throws ch.usi.si.seart.treesitter.error.ABIVersionError if the language ABI version is outdated
@@ -289,8 +289,8 @@ public class Parser extends External {
     /**
      * Use the parser to parse some source code and create a syntax {@link Tree}.
      *
-     * @param source The source code string to be parsed
-     * @return A syntax tree matching the provided source
+     * @param source the source code string to be parsed
+     * @return a syntax tree matching the provided source
      * @throws ParsingException if a parsing failure occurs
      * @since 1.3.0
      */
@@ -303,9 +303,9 @@ public class Parser extends External {
      * Use the parser to incrementally reparse a changed source code string,
      * re-using unchanged parts of the {@link Tree} to expedite the process.
      *
-     * @param source The source code string to be parsed
-     * @param oldTree The syntax tree before changes were made
-     * @return A syntax tree matching the provided source
+     * @param source the source code string to be parsed
+     * @param oldTree the syntax tree before changes were made
+     * @return a syntax tree matching the provided source
      * @throws ParsingException if a parsing failure occurs
      * @since 1.3.0
      */
@@ -317,8 +317,8 @@ public class Parser extends External {
     /**
      * Use the parser to parse source code from a file.
      *
-     * @param path The path of the file to be parsed
-     * @return A syntax tree matching the provided source
+     * @param path the path of the file to be parsed
+     * @return a syntax tree matching the provided source
      * @throws ParsingException if a parsing failure occurs
      * @since 1.3.0
      */
@@ -335,9 +335,9 @@ public class Parser extends External {
      * Use the parser to reparse source code from a file,
      * re-using unchanged parts of the {@link Tree} to expedite the process.
      *
-     * @param path The path of the file to be parsed
-     * @param oldTree The syntax tree before changes were made
-     * @return A syntax tree matching the provided source
+     * @param path the path of the file to be parsed
+     * @param oldTree the syntax tree before changes were made
+     * @return a syntax tree matching the provided source
      * @throws ParsingException if a parsing failure occurs
      * @since 1.3.0
      */
