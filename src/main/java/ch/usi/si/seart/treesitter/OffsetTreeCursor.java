@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @author Ozren Dabić
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class OffsetTreeCursor extends TreeCursor {
+public class OffsetTreeCursor extends TreeCursor.Stub {
 
     private static final String UOE_MESSAGE_1 = "Byte positions not available after node position has changed!";
     private static final String UOE_MESSAGE_2 = "Byte position searches not supported after node position has changed!";
@@ -44,7 +44,6 @@ public class OffsetTreeCursor extends TreeCursor {
     Point offset;
 
     public OffsetTreeCursor(@NotNull Node node, @NotNull Point offset) {
-        super();
         Objects.requireNonNull(node, "Node must not be null!");
         Objects.requireNonNull(offset, "Offset must not be null!");
         this.cursor = node.walk();
