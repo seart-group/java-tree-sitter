@@ -2,22 +2,19 @@ package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.lang.ref.Cleaner;
 
 @FieldDefaults(makeFinal = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 abstract class External implements AutoCloseable {
 
     protected long pointer;
     private Cleaner.Cleanable cleanable;
 
     private static final Cleaner CLEANER = Cleaner.create();
-
-    protected External() {
-        this.pointer = 0L;
-        this.cleanable = null;
-    }
 
     protected External(long pointer) {
         this.pointer = pointer;

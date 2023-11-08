@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TreeCursor extends External implements Cloneable {
 
@@ -25,18 +27,6 @@ public class TreeCursor extends External implements Cloneable {
     long id;
 
     Tree tree;
-
-    /*
-     * This is a workaround intended for OffsetTreeCursor.
-     * Should not be used under any other circumstances!
-     */
-    protected TreeCursor() {
-        super();
-        this.context0 = 0;
-        this.context1 = 0;
-        this.id = 0L;
-        this.tree = null;
-    }
 
     @SuppressWarnings("unused")
     TreeCursor(long pointer, int context0, int context1, long id, @NotNull Tree tree) {
@@ -157,4 +147,57 @@ public class TreeCursor extends External implements Cloneable {
      */
     @Override
     public native TreeCursor clone();
+
+    static class Stub extends TreeCursor {
+
+        @Override
+        public Node getCurrentNode() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public String getCurrentFieldName() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public TreeCursorNode getCurrentTreeCursorNode() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoFirstChild() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoFirstChild(int offset) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoFirstChild(@NotNull Point point) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoNextSibling() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoParent() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void preorderTraversal(@NotNull Consumer<Node> callback) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public TreeCursor clone() {
+            throw new UnsupportedOperationException();
+        }
+    }
 }
