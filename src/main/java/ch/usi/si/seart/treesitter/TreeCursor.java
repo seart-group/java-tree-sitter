@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
  * @author Tommy MacWilliam
  * @author Ozren Dabić
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TreeCursor extends External implements Cloneable {
 
@@ -25,18 +27,6 @@ public class TreeCursor extends External implements Cloneable {
     long id;
 
     Tree tree;
-
-    /*
-     * This is a workaround intended for OffsetTreeCursor.
-     * Should not be used under any other circumstances!
-     */
-    protected TreeCursor() {
-        super();
-        this.context0 = 0;
-        this.context1 = 0;
-        this.id = 0L;
-        this.tree = null;
-    }
 
     @SuppressWarnings("unused")
     TreeCursor(long pointer, int context0, int context1, long id, @NotNull Tree tree) {
