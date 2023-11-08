@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents a collection of captured nodes, matched with a single {@link Query} pattern.
+ * Represents a collection of captured nodes, matched with a single query {@link Pattern}.
  *
  * @since 1.0.0
  * @author Ozren Dabić
