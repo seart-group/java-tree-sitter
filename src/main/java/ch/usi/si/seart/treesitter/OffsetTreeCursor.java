@@ -103,7 +103,7 @@ public class OffsetTreeCursor extends TreeCursor {
 
     @AllArgsConstructor(access = AccessLevel.PACKAGE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-    private class OffsetNode extends Node {
+    private class OffsetNode extends Node.Null {
 
         Node node;
 
