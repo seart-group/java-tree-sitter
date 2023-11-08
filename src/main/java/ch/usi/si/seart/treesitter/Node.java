@@ -3,6 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +25,7 @@ import java.util.NoSuchElementException;
  * @author Ozren Dabić
  */
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Node implements Iterable<Node> {
 
@@ -35,10 +37,6 @@ public class Node implements Iterable<Node> {
     long id;
 
     Tree tree;
-
-    Node() {
-        this(0, 0, 0, 0, 0L, null);
-    }
 
     static class Null extends Node {
     }
