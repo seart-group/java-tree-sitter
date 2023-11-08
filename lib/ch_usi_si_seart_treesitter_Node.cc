@@ -197,30 +197,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   return childObject;
 }
 
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextNamedSibling(
-  JNIEnv* env, jobject thisObject) {
-  TSNode node = __unmarshalNode(env, thisObject);
-  TSNode sibling = ts_node_next_named_sibling(node);
-  if (ts_node_is_null(sibling)) return NULL;
-  jobject siblingObject = __marshalNode(env, sibling);
-  __copyTree(env, thisObject, siblingObject);
-  return siblingObject;
-}
-
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
-  JNIEnv* env, jobject thisObject) {
+  JNIEnv* env, jobject thisObject, jboolean named) {
+  TSNode (*next_sibling_getter)(TSNode) = (bool)named
+        ? ts_node_next_named_sibling
+        : ts_node_next_sibling;
   TSNode node = __unmarshalNode(env, thisObject);
-  TSNode sibling = ts_node_next_sibling(node);
-  if (ts_node_is_null(sibling)) return NULL;
-  jobject siblingObject = __marshalNode(env, sibling);
-  __copyTree(env, thisObject, siblingObject);
-  return siblingObject;
-}
-
-JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibling(
-  JNIEnv* env, jobject thisObject) {
-  TSNode node = __unmarshalNode(env, thisObject);
-  TSNode sibling = ts_node_prev_named_sibling(node);
+  TSNode sibling = next_sibling_getter(node);
   if (ts_node_is_null(sibling)) return NULL;
   jobject siblingObject = __marshalNode(env, sibling);
   __copyTree(env, thisObject, siblingObject);
@@ -228,9 +211,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevNamedSibli
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getPrevSibling(
-  JNIEnv* env, jobject thisObject) {
+  JNIEnv* env, jobject thisObject, jboolean named) {
+  TSNode (*prev_sibling_getter)(TSNode) = (bool)named
+       ? ts_node_prev_named_sibling
+       : ts_node_prev_sibling;
   TSNode node = __unmarshalNode(env, thisObject);
-  TSNode sibling = ts_node_prev_sibling(node);
+  TSNode sibling = prev_sibling_getter(node);
   if (ts_node_is_null(sibling)) return NULL;
   jobject siblingObject = __marshalNode(env, sibling);
   __copyTree(env, thisObject, siblingObject);

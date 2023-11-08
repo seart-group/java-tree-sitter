@@ -278,28 +278,40 @@ public class Node implements Iterable<Node> {
      *
      * @return the next named sibling, {@code null} if there is none
      */
-    public native Node getNextNamedSibling();
+    public Node getNextNamedSibling() {
+        return getNextSibling(true);
+    }
 
     /**
      * Get the next sibling {@code Node}.
      *
      * @return the next sibling, {@code null} if there is none
      */
-    public native Node getNextSibling();
+    public Node getNextSibling() {
+        return getNextSibling(false);
+    }
+
+    private native Node getNextSibling(boolean named);
 
     /**
      * Get the previous <em>named</em> sibling {@code Node}.
      *
      * @return the previous named sibling, {@code null} if there is none
      */
-    public native Node getPrevNamedSibling();
+    public Node getPrevNamedSibling() {
+        return getPrevSibling(true);
+    }
 
     /**
      * Get the previous sibling {@code Node}.
      *
      * @return the previous sibling, {@code null} if there is none
      */
-    public native Node getPrevSibling();
+    public Node getPrevSibling() {
+        return getPrevSibling(false);
+    }
+
+    public native Node getPrevSibling(boolean named);
 
     /**
      * Get the parent {@code Node}.
