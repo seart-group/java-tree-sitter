@@ -38,7 +38,7 @@ public class Point implements Comparable<Point> {
      *      row:column
      * }</pre>
      *
-     * @return A string representation of this point
+     * @return a string representation of this point
      */
     @Override
     @Generated
@@ -51,7 +51,8 @@ public class Point implements Comparable<Point> {
      * which is when both the row and the column are zero.
      * In byte range terms, this point also corresponds to zero.
      *
-     * @return true if this is an origin point, false otherwise
+     * @return {@code true} if this is an origin point,
+     * {@code false} otherwise
      */
     public boolean isOrigin() {
         return equals(ORIGIN);
@@ -76,8 +77,8 @@ public class Point implements Comparable<Point> {
      * equal to the sum of the coordinates
      * of this point and the other point.
      *
-     * @param other The point to be added to this point
-     * @return A new point representing the sum of this point and the other point
+     * @param other the point to be added to this point
+     * @return a new point
      * @throws NullPointerException if {@code other} is null
      * @since 1.5.1
      */
@@ -95,8 +96,8 @@ public class Point implements Comparable<Point> {
      * equal to the difference between the coordinates
      * of this point and the other point.
      *
-     * @param other The point to be subtracted from this point
-     * @return A new point representing the difference between this point and the other point
+     * @param other the point to be subtracted from this point
+     * @return a new point
      * @throws NullPointerException if {@code other} is null
      * @since 1.5.1
      */
@@ -112,8 +113,8 @@ public class Point implements Comparable<Point> {
      * Multiplies the coordinates of this point by a scalar value,
      * resulting in a new point with scaled coordinates.
      *
-     * @param value The scalar value by which to multiply the coordinates of this point
-     * @return A new point representing the scaled coordinates
+     * @param value the scalar value by which to multiply the coordinates of this point
+     * @return a new point
      * @since 1.5.1
      */
     public Point multiply(int value) {
