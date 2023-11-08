@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * A Node represents a single node in the syntax tree.
+ * A single node within a syntax {@link Tree}.
  * It tracks its start and end positions in the source code,
  * as well as its relation to other nodes like its parent,
  * siblings and children.
@@ -40,11 +40,10 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * Get the node's child at the given index,
-     * where zero represents the first child.
+     * Get the child {@code Node} at the given index.
      *
-     * @param child The zero-indexed child position
-     * @return The Node's child at the given index
+     * @param child the zero-indexed child position
+     * @return the child
      * @throws IndexOutOfBoundsException
      * if the index is a negative number or if it is
      * greater or equal to the total number of children
@@ -52,19 +51,25 @@ public class Node implements Iterable<Node> {
     public native Node getChild(int child);
 
     /**
-     * @param name The child field name
-     * @return The node's child with the given field name
-     * @throws NullPointerException if the field name is null
+     * Get the child {@code Node} residing in a given named field.
+     *
+     * @param name the child field name
+     * @return the node's child with the given field name
+     * @throws NullPointerException if {@code name} is {@code null}
      */
     public native Node getChildByFieldName(@NotNull String name);
 
     /**
-     * @return The node's number of children
+     * Get the number children associated with this node.
+     *
+     * @return the count of this node's children
      */
     public native int getChildCount();
 
     /**
-     * @return A list of the node's children
+     * Get an ordered list of this node's children.
+     *
+     * @return this node's children
      */
     public List<Node> getChildren() {
         Node[] children = Node.getChildren(this);
@@ -74,7 +79,9 @@ public class Node implements Iterable<Node> {
     private static native Node[] getChildren(Node node);
 
     /**
-     * @return The source code content encapsulated by this node
+     * Get the source code content encapsulated by this node.
+     *
+     * @return the node's source code
      * @since 1.5.0
      */
     public String getContent() {
@@ -93,9 +100,9 @@ public class Node implements Iterable<Node> {
     /**
      * Get the smallest node within this node that spans the given range of bytes.
      *
-     * @param startByte The start byte of the range
-     * @param endByte The end byte of the range
-     * @return A descendant node
+     * @param startByte the start byte of the range
+     * @param endByte the end byte of the range
+     * @return a descendant node
      * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
      * if either argument is outside of this node's byte range
      * @throws IllegalArgumentException if:
@@ -115,10 +122,10 @@ public class Node implements Iterable<Node> {
     /**
      * Get the smallest node within this node that spans the given range of points.
      *
-     * @param startPoint The start point of the range
-     * @param endPoint The end point of the range
-     * @return A descendant node
-     * @throws NullPointerException if either argument is null
+     * @param startPoint the start point of the range
+     * @param endPoint the end point of the range
+     * @return a descendant node
+     * @throws NullPointerException if either argument is {@code null}
      * @throws IllegalArgumentException if any point coordinates are negative,
      * or if {@code startPoint} is a position that comes after {@code endPoint}
      * @throws ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException
@@ -132,21 +139,25 @@ public class Node implements Iterable<Node> {
     private native Node getDescendant(Point startPoint, Point endPoint, boolean named);
 
     /**
-     * @return The node's end byte
+     * Get the byte offset where this node ends.
+     *
+     * @return the node's end byte
      */
     public native int getEndByte();
 
     /**
-     * @return The node's end position in terms of rows and columns
+     * Get the node's end position in terms of rows and columns.
+     *
+     * @return the node's end position
      */
     public native Point getEndPoint();
 
     /**
-     * @return
-     * The field name for node's child at the given index,
-     * with zero representing the first child,
-     * {@code null} if no field is found
-     * @param child The zero-indexed child position
+     * Get the field name of a child {@code Node} residing at a given index.
+     *
+     * @return the child field name,
+     * {@code null} if child does not reside in a field
+     * @param child the zero-indexed child position
      * @throws IndexOutOfBoundsException
      * if the index is a negative number or if it is
      * greater or equal to the total number of children
@@ -154,8 +165,10 @@ public class Node implements Iterable<Node> {
     public native String getFieldNameForChild(int child);
 
     /**
-     * @param offset The offset in bytes
-     * @return The node's first child that extends beyond the given byte offset
+     * Get the first child {@code Node} that extends beyond the given byte offset.
+     *
+     * @param offset the offset in bytes
+     * @return the child
      * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
      * if the byte offset is outside the node's byte range
      */
@@ -166,8 +179,10 @@ public class Node implements Iterable<Node> {
     private native Node getFirstChildForByte(int offset, boolean named);
 
     /**
-     * @param offset The offset in bytes
-     * @return The node's first named child that extends beyond the given byte offset
+     * Get the first named child {@code Node} that extends beyond the given byte offset.
+     *
+     * @param offset the offset in bytes
+     * @return the child
      * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
      * if the byte offset is outside the node's byte range
      */
@@ -178,9 +193,9 @@ public class Node implements Iterable<Node> {
     /**
      * Get the smallest named node within this node that spans the given range of bytes.
      *
-     * @param startByte The start byte of the range
-     * @param endByte The end byte of the range
-     * @return A named descendant node
+     * @param startByte the start byte of the range
+     * @param endByte the end byte of the range
+     * @return a named descendant node
      * @throws ch.usi.si.seart.treesitter.exception.ByteOffsetOutOfBoundsException
      * if either argument is outside of this node's byte range
      * @throws IllegalArgumentException if:
@@ -198,10 +213,10 @@ public class Node implements Iterable<Node> {
     /**
      * Get the smallest named node within this node that spans the given range of points.
      *
-     * @param startPoint The start point of the range
-     * @param endPoint The end point of the range
-     * @return A named descendant node
-     * @throws NullPointerException if either argument is null
+     * @param startPoint the start point of the range
+     * @param endPoint the end point of the range
+     * @return a named descendant node
+     * @throws NullPointerException if either argument is {@code null}
      * @throws IllegalArgumentException if any point coordinates are negative,
      * or if {@code startPoint} is a position that comes after {@code endPoint}
      * @throws ch.usi.si.seart.treesitter.exception.PointOutOfBoundsException
@@ -213,80 +228,109 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * @return The node's next <em>named</em> sibling
+     * Get the next <em>named</em> sibling {@code Node}.
+     *
+     * @return the next named sibling, {@code null} if there is none
      */
     public native Node getNextNamedSibling();
 
     /**
-     * @return The node's next sibling
+     * Get the next sibling {@code Node}.
+     *
+     * @return the next sibling, {@code null} if there is none
      */
     public native Node getNextSibling();
 
     /**
-     * @return The node's previous <em>named</em> sibling
+     * Get the previous <em>named</em> sibling {@code Node}.
+     *
+     * @return the previous named sibling, {@code null} if there is none
      */
     public native Node getPrevNamedSibling();
 
     /**
-     * @return The node's previous sibling
+     * Get the previous sibling {@code Node}.
+     *
+     * @return the previous sibling, {@code null} if there is none
      */
     public native Node getPrevSibling();
 
     /**
-     * @return The node's immediate parent
+     * Get the parent {@code Node}.
+     *
+     * @return the parent, {@code null} if there is none
      */
     public native Node getParent();
 
     /**
-     * @return The node's range, indicating its byte and file position span
+     * Get the node's {@link Range}, indicating its byte and row-column position span.
+     *
+     * @return the node's range
      */
     public Range getRange() {
         return new Range(this);
     }
 
     /**
-     * @return The node's start byte
+     * Get the byte offset where this node starts.
+     *
+     * @return the node's start byte
      */
     public native int getStartByte();
 
     /**
-     * @return The node's start position in terms of rows and columns
+     * Get the node's start position in terms of rows and columns.
+     *
+     * @return the node's start position
      */
     public native Point getStartPoint();
 
     /**
-     * @return The node's symbol
+     * Get the syntax tree {@link Symbol} associated with this node.
+     *
+     * @return the node's symbol
      * @since 1.6.0
      */
     public native Symbol getSymbol();
 
     /**
-     * @return The node's type as a string
+     * Get the node's type as a string.
+     *
+     * @return the node's type
      */
     public native String getType();
 
     /**
-     * @return true if the node is a syntax error or contains any syntax errors, false otherwise
+     * Check if this node represents a syntax error
+     * or contains any syntax errors anywhere within it.
+     * Syntax errors represent parts of the code that
+     * could not be incorporated into a valid syntax tree.
+     *
+     * @return {@code true} if the node is an {@code ERROR},
+     * or contains one such child in its subtree,
+     * {@code false} otherwise
      */
     public native boolean hasError();
 
     /**
-     * Check if the node is <em>extra</em>.
+     * Check if the node is an <em>extra</em>.
      * Extra nodes represent things like comments,
      * which are not required by the grammar,
      * but can appear anywhere.
      *
-     * @return true if the node is an extra, false otherwise
+     * @return {@code true} if the node is an extra,
+     * {@code false} otherwise
      */
     public native boolean isExtra();
 
     /**
      * Check if the node is <em>missing</em>.
-     * Missing nodes are inserted by the parser
+     * These nodes are inserted by the parser
      * in order to recover from certain kinds
      * of syntax errors.
      *
-     * @return true if the node is missing, false otherwise
+     * @return {@code true} if the node is {@code MISSING},
+     * {@code false} otherwise
      */
     public native boolean isMissing();
 
@@ -296,25 +340,31 @@ public class Node implements Iterable<Node> {
      * whereas anonymous nodes correspond to string
      * literals in the grammar.
      *
-     * @return true if the node is named, false otherwise
+     * @return {@code true} if the node is named,
+     * {@code false} otherwise
      */
     public native boolean isNamed();
 
     /**
      * Check if the node is <em>null</em> node.
      *
-     * @return true if {@code id == 0}, false otherwise
+     * @return {@code true} if {@code id == 0},
+     * {@code false} otherwise
      */
     public native boolean isNull();
 
     /**
-     * @return A new tree cursor starting from the given node
+     * Create a new {@link TreeCursor} starting from this node.
+     *
+     * @return a tree cursor
      */
     public native TreeCursor walk();
 
     /**
+     * Create a new {@link QueryCursor} starting from this node.
+     *
      * @param query the query to run against this node's subtree
-     * @return A new query cursor starting from the given node
+     * @return a query cursor
      * @since 1.5.0
      */
     public native QueryCursor walk(@NotNull Query query);
@@ -341,7 +391,11 @@ public class Node implements Iterable<Node> {
     }
 
     /**
-     * @return An iterator over the node subtree, starting from the current node
+     * Create an iterator over the current node's subtree.
+     * The subtree is traversed in a depth-first manner.
+     * First iterator element is always the current node.
+     *
+     * @return the subtree iterator
      */
     @Override
     public @NotNull Iterator<Node> iterator() {
