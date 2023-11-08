@@ -40,8 +40,7 @@ extern jclass _pointClass;
 extern jmethodID _pointConstructor;
 extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
-extern jfieldID _pointOriginStaticField;
-extern jobject _pointOrigin;
+extern jmethodID _pointOriginStaticMethod;
 
 extern jclass _queryCaptureClass;
 extern jmethodID _queryCaptureConstructor;

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +28,8 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Point implements Comparable<Point> {
 
+    @Getter(lazy = true)
+    @Accessors(fluent = true, makeFinal = true)
     private static final Point ORIGIN = new Point(0, 0);
 
     int row;
@@ -54,7 +57,7 @@ public class Point implements Comparable<Point> {
      * @return true if this is an origin point, false otherwise
      */
     public boolean isOrigin() {
-        return equals(ORIGIN);
+        return equals(ORIGIN());
     }
 
     /**
@@ -104,7 +107,7 @@ public class Point implements Comparable<Point> {
         Objects.requireNonNull(other, "Other point must not be null!");
         if (isOrigin()) return other.multiply(-1);
         if (other.isOrigin()) return this;
-        if (equals(other)) return ORIGIN;
+        if (equals(other)) return ORIGIN();
         return new Point(row - other.row, column - other.column);
     }
 
@@ -117,7 +120,7 @@ public class Point implements Comparable<Point> {
      * @since 1.5.1
      */
     public Point multiply(int value) {
-        if (value == 0) return ORIGIN;
+        if (value == 0) return ORIGIN();
         if (value == 1) return this;
         return new Point(row * value, column * value);
     }
