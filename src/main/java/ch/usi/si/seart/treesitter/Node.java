@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
  * @author Ozren Dabić
  */
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Node implements Iterable<Node> {
 
