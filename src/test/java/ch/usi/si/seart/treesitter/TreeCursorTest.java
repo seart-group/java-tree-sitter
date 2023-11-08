@@ -136,6 +136,16 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
+    void testCloneAfterTraversal() {
+        cursor.gotoFirstChild(); // function_definition
+        cursor.gotoFirstChild(); // identifier
+        @Cleanup TreeCursor copy = cursor.clone();
+        Assertions.assertNotEquals(cursor, copy);
+        Assertions.assertNotEquals(tree.getRootNode(), copy.getCurrentNode());
+        Assertions.assertEquals(cursor.getCurrentNode(), copy.getCurrentNode());
+    }
+
+    @Test
     void testWalkThrows() {
         Assertions.assertThrows(IllegalStateException.class, empty::walk);
     }
