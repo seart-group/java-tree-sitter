@@ -135,7 +135,6 @@ class TreeCursorTest extends TestBase {
 
     @Test
     void testWalkThrows() {
-        Node empty = new Node();
         Assertions.assertThrows(IllegalStateException.class, empty::walk);
     }
 }
