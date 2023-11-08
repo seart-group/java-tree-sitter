@@ -182,6 +182,41 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   return childObject;
 }
 
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChild(
+  JNIEnv* env, jobject thisObject, jint index) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  uint32_t childIndex = (uint32_t)index;
+  if ((childIndex < 0) || (childIndex >= ts_node_named_child_count(node))) {
+    __throwIOB(env, index);
+    return NULL;
+  }
+  TSNode child = ts_node_named_child(node, childIndex);
+  jobject childObject = __marshalNode(env, child);
+  __copyTree(env, thisObject, childObject);
+  return childObject;
+}
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChildCount(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_named_child_count(node);
+  return (jint)count;
+}
+
+JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChildren(
+  JNIEnv* env, jclass thisClass, jobject nodeObject) {
+  TSNode node = __unmarshalNode(env, nodeObject);
+  uint32_t count = ts_node_is_null(node) ? 0 : ts_node_named_child_count(node);
+  jobjectArray children = env->NewObjectArray(count, _nodeClass, NULL);
+  for (int i = 0; i < count; i++) {
+    TSNode child = ts_node_named_child(node, i);
+    jobject childObject = __marshalNode(env, child);
+    __copyTree(env, nodeObject, childObject);
+    env->SetObjectArrayElement(children, i, childObject);
+  }
+  return children;
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextNamedSibling(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);

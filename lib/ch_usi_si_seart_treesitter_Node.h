@@ -89,6 +89,30 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getNamedChild
+ * Signature: (I)Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChild
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getNamedChildCount
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChildCount
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getNamedChildren
+ * Signature: (Lch/usi/si/seart/treesitter/Node;)[Lch/usi/si/seart/treesitter/Node;
+ */
+JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getNamedChildren
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getNextNamedSibling
  * Signature: ()Lch/usi/si/seart/treesitter/Node;
  */
