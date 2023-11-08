@@ -131,6 +131,8 @@ class TreeCursorTest extends TestBase {
     void testClone() {
         @Cleanup TreeCursor copy = cursor.clone();
         Assertions.assertNotEquals(cursor, copy);
+        Assertions.assertEquals(tree.getRootNode(), copy.getCurrentNode());
+        Assertions.assertEquals(cursor.getCurrentNode(), copy.getCurrentNode());
     }
 
     @Test
