@@ -30,7 +30,7 @@ Recursively clone the project with submodules:
 git clone https://github.com/seart-group/java-tree-sitter.git --recursive
 ```
 
-Or clone first and update the submodules then:
+Or clone first and update the submodules afterward:
 
 ```shell   
 git clone https://github.com/seart-group/java-tree-sitter.git
