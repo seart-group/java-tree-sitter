@@ -62,7 +62,7 @@ public class Query extends External {
     }
 
     /**
-     * Static factory for obtaining new {@code Query} instances.
+     * Static factory for obtaining new query instances.
      *
      * @param language The language for querying
      * @param patterns The query patterns
