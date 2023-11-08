@@ -113,6 +113,7 @@ class NodeTest extends TestBase {
         Assertions.assertEquals(source, root.getContent());
         Assertions.assertEquals(source, function.getContent());
         Assertions.assertEquals("foo", identifier.getContent());
+        Assertions.assertNull(empty.getContent());
     }
 
     @Test
