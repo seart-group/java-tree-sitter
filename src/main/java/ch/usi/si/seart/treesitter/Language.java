@@ -506,10 +506,7 @@ public enum Language {
         this.totalFields = totalFields;
         this.symbols = IntStream.range(0, totalSymbols)
                 .mapToObj(symbolId -> symbol(id, symbolId))
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        Collections::unmodifiableList
-                ));
+                .collect(Collectors.toUnmodifiableList());
         this.extensions = extensions;
     }
 

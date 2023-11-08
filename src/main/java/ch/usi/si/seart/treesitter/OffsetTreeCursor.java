@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -135,10 +134,7 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         public List<Node> getChildren() {
             return node.getChildren().stream()
                     .map(OffsetNode::new)
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            Collections::unmodifiableList
-                    ));
+                    .collect(Collectors.toUnmodifiableList());
         }
 
         @Override
@@ -203,10 +199,7 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         public List<Node> getNamedChildren() {
             return node.getNamedChildren().stream()
                     .map(OffsetNode::new)
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            Collections::unmodifiableList
-                    ));
+                    .collect(Collectors.toUnmodifiableList());
         }
 
         @Override
