@@ -21,6 +21,13 @@ abstract class External implements AutoCloseable {
         this.cleanable = CLEANER.register(this, new Action(this));
     }
 
+    /**
+     * Checks whether the memory address associated
+     * with this external resource is {@code nullptr}.
+     *
+     * @return {@code true} if the memory address is 0,
+     * otherwise {@code false}
+     */
     public final boolean isNull() {
         return pointer == 0;
     }
