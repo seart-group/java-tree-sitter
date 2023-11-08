@@ -40,6 +40,9 @@ public class Node implements Iterable<Node> {
         this(0, 0, 0, 0, 0L, null);
     }
 
+    static class Null extends Node {
+    }
+
     /**
      * Get the node's child at the given index,
      * where zero represents the first child.
