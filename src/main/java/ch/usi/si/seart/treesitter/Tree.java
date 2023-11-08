@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 /**
  * A Tree represents the syntax tree of an entire source code file.
- * It contains {@link Node Node} instances that indicate the structure of the source code.
+ * It contains {@link Node} instances that indicate the structure of the source code.
  *
  * @since 1.0.0
  * @author Tommy MacWilliam
