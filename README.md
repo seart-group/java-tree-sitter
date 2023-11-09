@@ -144,6 +144,33 @@ public class Example {
 }
 ```
 
+The `Query` class can be used to specify subtrees to match, while the `QueryCursor` can be used to iterate over matched nodes:
+
+```java
+import ch.usi.si.seart.treesitter.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        Language language = Language.PYTHON;
+        try (
+                Query query = Query.getFor(language, "(identifier) @target");
+                Parser parser = Parser.getFor(language);
+                Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+                QueryCursor cursor = tree.getRootNode().walk(query)
+        ) {
+            int count = 0;
+            for (QueryMatch match: cursor) count++;
+            assert count == 7;
+        } catch (Exception ex) {
+            // ...
+        }
+    }
+}
+```
+
 We also provide a way to print the syntax tree, similar to the [online playground](https://tree-sitter.github.io/tree-sitter/playground):
 
 ```java
