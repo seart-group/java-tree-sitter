@@ -35,7 +35,7 @@ Or clone first and update the submodules afterward:
 ```shell   
 git clone https://github.com/seart-group/java-tree-sitter.git
 git submodule update --init --recursive  
-# or:  git submodule init && git submodule update
+# or: git submodule init && git submodule update
 ```
 
 ## Building dependency locally
@@ -76,9 +76,10 @@ First, load the shared object somewhere in your application:
 import ch.usi.si.seart.treesitter.*;
 
 public class Example {
-  static {
-      LibraryLoader.load();
-  }
+
+    static {
+        LibraryLoader.load();
+    }
 }
 ```
 
@@ -156,10 +157,10 @@ public class Example {
     public static void main(String[] args) {
         Language language = Language.PYTHON;
         try (
-                Query query = Query.getFor(language, "(identifier) @target");
-                Parser parser = Parser.getFor(language);
-                Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
-                QueryCursor cursor = tree.getRootNode().walk(query)
+            Query query = Query.getFor(language, "(identifier) @target");
+            Parser parser = Parser.getFor(language);
+            Tree tree = parser.parse("def foo(bar, baz):\n  print(bar)\n  print(baz)");
+            QueryCursor cursor = tree.getRootNode().walk(query)
         ) {
             int count = 0;
             for (QueryMatch match: cursor) count++;
