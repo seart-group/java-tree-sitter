@@ -302,37 +302,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <version>4.3</version>
-        <configuration>
-          <licenseSets>
-            <licenseSet>
-              <header>${project.basedir}/LICENSE</header>
-              <includes>
-                <include>src/main/**</include>
-              </includes>
-            </licenseSet>
-          </licenseSets>
-        </configuration>
-        <executions>
-          <execution>
-            <id>default-format</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-remove</id>
-            <phase>package</phase>
-            <goals>
-              <goal>remove</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.1.1</version>
@@ -423,6 +392,37 @@
                     </resource>
                   </resources>
                 </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.mycila</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+            <version>4.3</version>
+            <configuration>
+              <licenseSets>
+                <licenseSet>
+                  <header>${project.basedir}/LICENSE</header>
+                  <includes>
+                    <include>src/main/**</include>
+                  </includes>
+                </licenseSet>
+              </licenseSets>
+            </configuration>
+            <executions>
+              <execution>
+                <id>default-format</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>format</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-remove</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>remove</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
