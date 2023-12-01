@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,15 +75,10 @@ public class LibraryLoader {
     }
 
     private String getExtension() {
-        String platform = System.getProperty("os.name").toLowerCase();
-        if (platform.contains("nix") || platform.contains("nux") || platform.contains("aix")) {
-            return "so";
-        } else if (platform.contains("mac") || platform.contains("darwin")) {
-            return "dylib";
-        } else {
-            throw new TreeSitterException(
-                    "The tree-sitter library was not compiled for this platform: " + platform
+        if (SystemUtils.IS_OS_LINUX) return "so";
+        else if (SystemUtils.IS_OS_MAC) return "dylib";
+        else throw new TreeSitterException(
+                "The tree-sitter library was not compiled for this platform: " + SystemUtils.OS_NAME.toLowerCase()
             );
-        }
     }
 }
