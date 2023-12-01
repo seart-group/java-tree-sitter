@@ -175,6 +175,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_haskell(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_hcl(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_HCL
+  return (jlong)tree_sitter_hcl();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_html(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_HTML
