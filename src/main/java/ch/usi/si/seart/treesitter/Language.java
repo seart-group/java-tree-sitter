@@ -116,6 +116,13 @@ public enum Language {
     DART(dart(), "dart"),
 
     /**
+     * Dockerfile: domain-specific language used for building a Docker image.
+     *
+     * @see <a href="https://github.com/camdencheek/tree-sitter-dockerfile">tree-sitter-dockerfile</a>
+     */
+    DOCKERFILE(dockerfile()),
+
+    /**
      * DOT graph description language.
      *
      * @see <a href="https://github.com/rydesun/tree-sitter-dot">tree-sitter-dot</a>
@@ -384,6 +391,7 @@ public enum Language {
     private static native long cpp();
     private static native long css();
     private static native long dart();
+    private static native long dockerfile();
     private static native long dot();
     private static native long elixir();
     private static native long elm();
@@ -542,6 +550,7 @@ public enum Language {
             case BASH:
             case CLOJURE:
             case DART:
+            case DOCKERFILE:
             case ELIXIR:
             case ELM:
             case ERLANG:
