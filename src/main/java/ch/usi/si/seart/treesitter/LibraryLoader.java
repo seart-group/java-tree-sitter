@@ -25,6 +25,8 @@ import java.net.URL;
 @UtilityClass
 public class LibraryLoader {
 
+    private static final String LIBRARY_FILE_NAME = "libjava-tree-sitter";
+
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     private static final class SystemResource {
@@ -42,9 +44,7 @@ public class LibraryLoader {
      * Call this once prior to using any of the APIs.
      */
     public void load() {
-        String name = "libjava-tree-sitter";
-        String extension = getExtension();
-        String filename = name + "." + extension;
+        String filename = String.format("%s.%s", LIBRARY_FILE_NAME, getExtension());
         SystemResource systemResource = new SystemResource(filename);
         String libPath = getLibPath(systemResource);
         System.load(libPath);
