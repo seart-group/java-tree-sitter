@@ -52,16 +52,6 @@ public class Query extends External {
     }
 
     /**
-     * @deprecated Use {@link Query#getFor(Language, String...)} or {@link Query#builder()} instead
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public Query(@NotNull Language language, @NotNull String pattern) {
-        throw new UnsupportedOperationException(
-                "This constructor should no longer be used"
-        );
-    }
-
-    /**
      * Static factory for obtaining new query instances.
      *
      * @param language The language for querying
