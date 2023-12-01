@@ -197,17 +197,6 @@ public class Query extends External {
     protected native void delete();
 
     /**
-     * @deprecated Should not be used anymore
-     * @see QueryMatch
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public String getCaptureName(@NotNull Object ignored) {
-        throw new UnsupportedOperationException(
-                "This method should no longer be used"
-        );
-    }
-
-    /**
      * Check if this query has captures.
      *
      * @return {@code true} if the query has captures, {@code false} otherwise
