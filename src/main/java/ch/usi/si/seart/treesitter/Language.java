@@ -468,10 +468,19 @@ public enum Language {
                 "Path argument must not be a directory!"
         );
         String name = path.getFileName().toString();
-        String extension = FilenameUtils.getExtension(name);
-        return Optional.of(extension)
-                .map(EXTENSION_LOOKUP::get)
-                .orElseGet(Collections::emptyList);
+        switch (name) {
+            case "docker":
+            case "container":
+            case "Dockerfile":
+            case "dockerfile":
+            case "Containerfile":
+                return Collections.singletonList(DOCKERFILE);
+            default:
+                String extension = FilenameUtils.getExtension(name);
+                return Optional.of(extension)
+                        .map(EXTENSION_LOOKUP::get)
+                        .orElseGet(Collections::emptyList);
+        }
     }
 
     private static native int version(long id);
