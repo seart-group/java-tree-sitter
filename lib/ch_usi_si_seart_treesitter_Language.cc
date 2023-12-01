@@ -148,6 +148,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fortran(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_gitattributes(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_GITATTRIBUTES
+  return (jlong)tree_sitter_gitattributes();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_GO
