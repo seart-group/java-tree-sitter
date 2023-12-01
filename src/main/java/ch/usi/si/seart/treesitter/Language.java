@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
@@ -459,8 +460,8 @@ public enum Language {
                 "Path argument must not be a directory!"
         );
         String name = path.getFileName().toString();
-        int i = name.lastIndexOf('.');
-        return Optional.ofNullable(i > 0 ? name.substring(i + 1) : null)
+        String extension = FilenameUtils.getExtension(name);
+        return Optional.of(extension)
                 .map(EXTENSION_LOOKUP::get)
                 .orElseGet(Collections::emptyList);
     }
