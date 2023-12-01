@@ -3,9 +3,10 @@ package ch.usi.si.seart.treesitter;
 import ch.usi.si.seart.treesitter.exception.TreeSitterException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,14 +55,15 @@ public class LibraryLoader {
             case "file":
                 return systemResource.url.getPath();
             case "jar":
-                try {
-                    @Cleanup InputStream input = systemResource.url.openStream();
-                    String tmpdir = System.getProperty("java.io.tmpdir");
-                    File temporary = new File(tmpdir, systemResource.name);
-                    temporary.deleteOnExit();
-                    @Cleanup OutputStream output = new FileOutputStream(temporary, false);
-                    input.transferTo(output);
-                    return temporary.getPath();
+                File tmpdir = FileUtils.getTempDirectory();
+                File tmpfile = new File(tmpdir, systemResource.name);
+                tmpfile.deleteOnExit();
+                try (
+                    InputStream input = systemResource.url.openStream();
+                    OutputStream output = new FileOutputStream(tmpfile, false)
+                ) {
+                    IOUtils.copy(input, output);
+                    return tmpfile.getPath();
                 } catch (IOException cause) {
                     throw new TreeSitterException(cause);
                 }
