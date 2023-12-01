@@ -197,30 +197,6 @@ public class Query extends External {
     protected native void delete();
 
     /**
-     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int countStrings() {
-        return strings.size();
-    }
-
-    /**
-     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int countCaptures() {
-        return captures.size();
-    }
-
-    /**
-     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int countPatterns() {
-        return patterns.size();
-    }
-
-    /**
      * @deprecated Should not be used anymore
      * @see QueryMatch
      */
