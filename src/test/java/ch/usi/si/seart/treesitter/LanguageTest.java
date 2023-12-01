@@ -59,6 +59,7 @@ class LanguageTest extends TestBase {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
                     Arguments.of("requirements.txt", List.of()),
+                    Arguments.of(".py", List.of(Language.PYTHON)),
                     Arguments.of("__init__.py", List.of(Language.PYTHON)),
                     Arguments.of("Main.java", List.of(Language.JAVA)),
                     Arguments.of("example.h", List.of(
