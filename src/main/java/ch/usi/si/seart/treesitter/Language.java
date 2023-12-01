@@ -158,6 +158,13 @@ public enum Language {
     FORTRAN(fortran(), "f", "F90", "f77", "f90", "f95"),
 
     /**
+     * Patterns for intentionally untracked files in a repository.
+     *
+     * @see <a href="https://github.com/shunsambongi/tree-sitter-gitignore">tree-sitter-gitignore</a>
+     */
+    GITIGNORE(gitignore(), "gitignore"),
+
+    /**
      * Go programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter-go</a>
@@ -390,6 +397,7 @@ public enum Language {
     private static native long embeddedTemplate();
     private static native long erlang();
     private static native long fortran();
+    private static native long gitignore();
     private static native long go();
     private static native long graphQl();
     private static native long haskell();
@@ -535,6 +543,11 @@ public enum Language {
             case TSX:
             case YAML:
                 return name();
+            /*
+             * Lowercase
+             */
+            case GITIGNORE:
+                return name().toLowerCase();
             /*
              * Capital Case
              */

@@ -299,6 +299,9 @@ TSLanguage* tree_sitter_erlang();
 #ifdef TS_LANGUAGE_FORTRAN
 TSLanguage* tree_sitter_fortran();
 #endif
+#ifdef TS_LANGUAGE_GITIGNORE
+TSLanguage* tree_sitter_gitignore();
+#endif
 #ifdef TS_LANGUAGE_GO
 TSLanguage* tree_sitter_go();
 #endif

@@ -139,6 +139,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fortran
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    gitignore
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_gitignore
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    go
  * Signature: ()J
  */
