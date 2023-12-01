@@ -61,6 +61,7 @@ class LanguageTest extends TestBase {
                     Arguments.of("requirements.txt", List.of()),
                     Arguments.of(".py", List.of(Language.PYTHON)),
                     Arguments.of("__init__.py", List.of(Language.PYTHON)),
+                    Arguments.of(".gitignore", List.of(Language.GITIGNORE)),
                     Arguments.of("Main.java", List.of(Language.JAVA)),
                     Arguments.of("example.h", List.of(
                             Language.C,
