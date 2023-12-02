@@ -371,6 +371,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_tsx
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    twig
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_twig
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    typescript
  * Signature: ()J
  */

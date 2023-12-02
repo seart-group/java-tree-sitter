@@ -361,6 +361,13 @@ public enum Language {
     TSX(tsx(), "tsx"),
 
     /**
+     * Twig template language.
+     *
+     * @see <a href="https://github.com/gbprod/tree-sitter-twig">tree-sitter-twig</a>
+     */
+    TWIG(twig(), "twig"),
+
+    /**
      * TypeScript programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
@@ -419,6 +426,7 @@ public enum Language {
     private static native long swift();
     private static native long toml();
     private static native long tsx();
+    private static native long twig();
     private static native long typescript();
     private static native long yaml();
 
@@ -563,6 +571,7 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
+            case TWIG:
                 return capitalize(name());
             /*
              * Space-Delimited Capital Case

@@ -409,6 +409,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_tsx(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_twig(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_TWIG
+  return (jlong)tree_sitter_twig();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_TYPESCRIPT
