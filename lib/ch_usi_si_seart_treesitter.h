@@ -380,6 +380,9 @@ TSLanguage* tree_sitter_svelte();
 #ifdef TS_LANGUAGE_SWIFT
 TSLanguage* tree_sitter_swift();
 #endif
+#ifdef TS_LANGUAGE_THRIFT
+TSLanguage* tree_sitter_thrift();
+#endif
 #ifdef TS_LANGUAGE_TOML
 TSLanguage* tree_sitter_toml();
 #endif

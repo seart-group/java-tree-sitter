@@ -355,6 +355,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_swift
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    thrift
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_thrift
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    toml
  * Signature: ()J
  */

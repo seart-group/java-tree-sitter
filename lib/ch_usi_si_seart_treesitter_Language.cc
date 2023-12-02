@@ -391,6 +391,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_swift(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_thrift(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_THRIFT
+  return (jlong)tree_sitter_thrift();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_toml(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_TOML
