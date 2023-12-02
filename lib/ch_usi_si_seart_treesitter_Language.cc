@@ -418,6 +418,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_verilog(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_VERILOG
+  return (jlong)tree_sitter_verilog();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_YAML

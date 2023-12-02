@@ -368,6 +368,13 @@ public enum Language {
     TYPESCRIPT(typescript(), "ts"),
 
     /**
+     * Verilog hardware description language.
+     *
+     * @see <a href="https://github.com/tree-sitter/tree-sitter-verilog">tree-sitter-verilog</a>
+     */
+    VERILOG(verilog(), "v", "vh", "vlg", "verilog"),
+
+    /**
      * YAML: YAML Ain't Markup Language.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
@@ -420,6 +427,7 @@ public enum Language {
     private static native long toml();
     private static native long tsx();
     private static native long typescript();
+    private static native long verilog();
     private static native long yaml();
 
     /**
@@ -563,6 +571,7 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
+            case VERILOG:
                 return capitalize(name());
             /*
              * Space-Delimited Capital Case
