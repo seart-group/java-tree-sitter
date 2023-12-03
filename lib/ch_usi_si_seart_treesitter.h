@@ -284,6 +284,9 @@ TSLanguage* tree_sitter_dart();
 #ifdef TS_LANGUAGE_DOT
 TSLanguage* tree_sitter_dot();
 #endif
+#ifdef TS_LANGUAGE_DTD
+TSLanguage* tree_sitter_dtd();
+#endif
 #ifdef TS_LANGUAGE_ELIXIR
 TSLanguage* tree_sitter_elixir();
 #endif
@@ -406,6 +409,9 @@ TSLanguage* tree_sitter_typescript();
 #endif
 #ifdef TS_LANGUAGE_VERILOG
 TSLanguage* tree_sitter_verilog();
+#endif
+#ifdef TS_LANGUAGE_XML
+TSLanguage* tree_sitter_xml();
 #endif
 #ifdef TS_LANGUAGE_YAML
 TSLanguage* tree_sitter_yaml();

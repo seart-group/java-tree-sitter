@@ -99,6 +99,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    dtd
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dtd
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    elixir
  * Signature: ()J
  */
@@ -423,6 +431,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_verilog
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    xml
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_xml
   (JNIEnv *, jclass);
 
 /*

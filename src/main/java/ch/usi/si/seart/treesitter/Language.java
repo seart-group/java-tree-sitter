@@ -123,6 +123,13 @@ public enum Language {
     DOT(dot(), "dot", "gv"),
 
     /**
+     * DTD: Document Type Definition.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     */
+    DTD(dtd(), "dtd"),
+
+    /**
      * Elixir programming language.
      *
      * @see <a href="https://github.com/elixir-lang/tree-sitter-elixir">tree-sitter-elixir</a>
@@ -410,6 +417,13 @@ public enum Language {
     VERILOG(verilog(), "v", "vh", "vlg", "verilog"),
 
     /**
+     * XML: Extensible Markup Language.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     */
+    XML(xml(), "svg", "xml", "xsd", "xslt"),
+
+    /**
      * YAML: YAML Ain't Markup Language.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
@@ -427,6 +441,7 @@ public enum Language {
     private static native long css();
     private static native long dart();
     private static native long dot();
+    private static native long dtd();
     private static native long elixir();
     private static native long elm();
     private static native long embeddedTemplate();
@@ -468,6 +483,7 @@ public enum Language {
     private static native long twig();
     private static native long typescript();
     private static native long verilog();
+    private static native long xml();
     private static native long yaml();
 
     /**
@@ -574,6 +590,7 @@ public enum Language {
             case C:
             case CSS:
             case DOT:
+            case DTD:
             case HCL:
             case HTML:
             case JSON:
@@ -582,6 +599,7 @@ public enum Language {
             case SCSS:
             case TOML:
             case TSX:
+            case XML:
             case YAML:
                 return name();
             /*
