@@ -42,11 +42,6 @@ extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
 extern jmethodID _pointOriginStaticMethod;
 
-extern jclass _queryCaptureClass;
-extern jmethodID _queryCaptureConstructor;
-extern jfieldID _queryCaptureNodeField;
-extern jfieldID _queryCaptureIndexField;
-
 extern jclass _queryMatchClass;
 extern jmethodID _queryMatchConstructor;
 extern jfieldID _queryMatchIdField;
