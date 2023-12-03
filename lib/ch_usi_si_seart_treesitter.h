@@ -389,6 +389,9 @@ TSLanguage* tree_sitter_tsx();
 #ifdef TS_LANGUAGE_TYPESCRIPT
 TSLanguage* tree_sitter_typescript();
 #endif
+#ifdef TS_LANGUAGE_XML
+TSLanguage* tree_sitter_xml();
+#endif
 #ifdef TS_LANGUAGE_YAML
 TSLanguage* tree_sitter_yaml();
 #endif

@@ -368,6 +368,13 @@ public enum Language {
     TYPESCRIPT(typescript(), "ts"),
 
     /**
+     * XML: Extensible Markup Language.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     */
+    XML(xml(), "svg", "xml", "xsd", "xslt"),
+
+    /**
      * YAML: YAML Ain't Markup Language.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
@@ -420,6 +427,7 @@ public enum Language {
     private static native long toml();
     private static native long tsx();
     private static native long typescript();
+    private static native long xml();
     private static native long yaml();
 
     /**
@@ -533,6 +541,7 @@ public enum Language {
             case SCSS:
             case TOML:
             case TSX:
+            case XML:
             case YAML:
                 return name();
             /*
