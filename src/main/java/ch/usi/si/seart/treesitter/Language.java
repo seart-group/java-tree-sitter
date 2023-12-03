@@ -368,6 +368,13 @@ public enum Language {
     SWIFT(swift(), "swift"),
 
     /**
+     * Thrift interface description language.
+     *
+     * @see <a href="https://github.com/duskmoon314/tree-sitter-thrift">tree-sitter-thrift</a>
+     */
+    THRIFT(thrift(), "thrift"),
+
+    /**
      * TOML: Tom's Obvious Minimal Language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-toml">tree-sitter-toml</a>
@@ -441,6 +448,7 @@ public enum Language {
     private static native long scss();
     private static native long svelte();
     private static native long swift();
+    private static native long thrift();
     private static native long toml();
     private static native long tsx();
     private static native long typescript();
@@ -594,6 +602,7 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
+            case THRIFT:
                 return capitalize(name());
             /*
              * Space-Delimited Capital Case

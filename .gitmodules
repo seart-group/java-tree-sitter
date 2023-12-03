@@ -136,6 +136,9 @@
 [submodule "tree-sitter-swift"]
 	path = tree-sitter-swift
 	url = https://github.com/alex-pinkus/tree-sitter-swift.git
+[submodule "tree-sitter-thrift"]
+	path = tree-sitter-thrift
+	url = https://github.com/duskmoon314/tree-sitter-thrift.git
 [submodule "tree-sitter-toml"]
 	path = tree-sitter-toml
 	url = https://github.com/ikatyang/tree-sitter-toml.git
