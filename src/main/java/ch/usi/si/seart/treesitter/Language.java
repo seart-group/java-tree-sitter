@@ -186,6 +186,13 @@ public enum Language {
     GRAPHQL(graphQl(), "graphql"),
 
     /**
+     * HCL: HashiCorp Configuration Language.
+     *
+     * @see <a href="https://github.com/MichaHoffmann/tree-sitter-hcl">tree-sitter-hcl</a>
+     */
+    HCL(hcl(), "hcl", "tf", "tfvars"),
+
+    /**
      * Haskell programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter-haskell</a>
@@ -409,6 +416,7 @@ public enum Language {
     private static native long go();
     private static native long graphQl();
     private static native long haskell();
+    private static native long hcl();
     private static native long html();
     private static native long java();
     private static native long javascript();
@@ -542,6 +550,7 @@ public enum Language {
             case C:
             case CSS:
             case DOT:
+            case HCL:
             case HTML:
             case JSON:
             case PHP:

@@ -314,6 +314,9 @@ TSLanguage* tree_sitter_graphql();
 #ifdef TS_LANGUAGE_HASKELL
 TSLanguage* tree_sitter_haskell();
 #endif
+#ifdef TS_LANGUAGE_HCL
+TSLanguage* tree_sitter_hcl();
+#endif
 #ifdef TS_LANGUAGE_HTML
 TSLanguage* tree_sitter_html();
 #endif

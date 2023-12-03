@@ -179,6 +179,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_haskell
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    hcl
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_hcl
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    html
  * Signature: ()J
  */
