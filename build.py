@@ -48,18 +48,14 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     compiler = new_c_compiler()
     for repository in repositories:
-        if repository == "tree-sitter-dtd":
-            src_path = path(repository, "tree-sitter-dtd", "src")
-        elif repository == "tree-sitter-markdown":
-            src_path = path(repository, repository, "src")
-        elif repository == "tree-sitter-ocaml":
-            src_path = path(repository, "ocaml", "src")
-        elif repository == "tree-sitter-tsx":
-            src_path = path(repository, "tsx", "src")
-        elif repository == "tree-sitter-typescript":
-            src_path = path(repository, "typescript", "src")
-        elif repository == "tree-sitter-xml":
-            src_path = path(repository, "tree-sitter-xml", "src")
+        repository_name = split_path(repository.rstrip('/'))[1]
+        repository_language = repository_name.split('tree-sitter-')[-1]
+        repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
+        compiler.define_macro(repository_macro, "1")
+        if repository_name in ["tree-sitter-dtd", "tree-sitter-markdown", "tree-sitter-xml"]:
+            src_path = path(repository, repository_name, "src")
+        elif repository_name in ["tree-sitter-ocaml", "tree-sitter-tsx", "tree-sitter-typescript"]:
+            src_path = path(repository, repository_language, "src")
         else:
             src_path = path(repository, "src")
         source_paths.append(path(src_path, "parser.c"))
@@ -69,10 +65,6 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             source_paths.append(scanner_cc)
         elif exists(scanner_c):
             source_paths.append(scanner_c)
-
-        repository_name = split_path(repository.rstrip('/'))[1]
-        repository_lang = repository_name.split('tree-sitter-')[-1]
-        compiler.define_macro(f"TS_LANGUAGE_{repository_lang.replace('-', '_').upper()}", "1")
 
     source_mtimes = [getmtime(__file__)] + [getmtime(source_path) for source_path in source_paths]
     if find_cpp_library("stdc++"):
