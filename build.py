@@ -56,6 +56,8 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             src_path = path(repository, "tsx", "src")
         elif repository == "tree-sitter-typescript":
             src_path = path(repository, "typescript", "src")
+        elif repository == "tree-sitter-xml":
+            src_path = path(repository, "tree-sitter-xml", "src")
         else:
             src_path = path(repository, "src")
         source_paths.append(path(src_path, "parser.c"))
