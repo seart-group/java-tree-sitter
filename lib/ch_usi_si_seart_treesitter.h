@@ -416,6 +416,9 @@ TSLanguage* tree_sitter_xml();
 #ifdef TS_LANGUAGE_YAML
 TSLanguage* tree_sitter_yaml();
 #endif
+#ifdef TS_LANGUAGE_ZIG
+TSLanguage* tree_sitter_zig();
+#endif
 
 #ifdef __cplusplus
 }
