@@ -427,6 +427,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_zig(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_ZIG
+  return (jlong)tree_sitter_zig();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_version(
   JNIEnv* env, jclass self, jlong id) {
   return (jint)ts_language_version((const TSLanguage *)id);

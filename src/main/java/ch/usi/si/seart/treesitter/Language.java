@@ -372,7 +372,14 @@ public enum Language {
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
      */
-    YAML(yaml(), "yaml", "yml");
+    YAML(yaml(), "yaml", "yml"),
+
+    /**
+     * Zig programming language.
+     *
+     * @see <a href="https://github.com/maxxnino/tree-sitter-zig">tree-sitter-zig</a>
+     */
+    ZIG(zig(), "zig");
 
     private static native long ada();
     private static native long bash();
@@ -421,6 +428,7 @@ public enum Language {
     private static native long tsx();
     private static native long typescript();
     private static native long yaml();
+    private static native long zig();
 
     /**
      * Validates an enum value to ensure it is not null and has a valid (nonzero) identifier.
@@ -563,6 +571,7 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
+            case ZIG:
                 return capitalize(name());
             /*
              * Space-Delimited Capital Case
