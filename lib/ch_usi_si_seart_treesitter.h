@@ -284,6 +284,9 @@ TSLanguage* tree_sitter_dart();
 #ifdef TS_LANGUAGE_DOT
 TSLanguage* tree_sitter_dot();
 #endif
+#ifdef TS_LANGUAGE_DTD
+TSLanguage* tree_sitter_dtd();
+#endif
 #ifdef TS_LANGUAGE_ELIXIR
 TSLanguage* tree_sitter_elixir();
 #endif
@@ -299,6 +302,12 @@ TSLanguage* tree_sitter_erlang();
 #ifdef TS_LANGUAGE_FORTRAN
 TSLanguage* tree_sitter_fortran();
 #endif
+#ifdef TS_LANGUAGE_GITATTRIBUTES
+TSLanguage* tree_sitter_gitattributes();
+#endif
+#ifdef TS_LANGUAGE_GITIGNORE
+TSLanguage* tree_sitter_gitignore();
+#endif
 #ifdef TS_LANGUAGE_GO
 TSLanguage* tree_sitter_go();
 #endif
@@ -307,6 +316,9 @@ TSLanguage* tree_sitter_graphql();
 #endif
 #ifdef TS_LANGUAGE_HASKELL
 TSLanguage* tree_sitter_haskell();
+#endif
+#ifdef TS_LANGUAGE_HCL
+TSLanguage* tree_sitter_hcl();
 #endif
 #ifdef TS_LANGUAGE_HTML
 TSLanguage* tree_sitter_html();
@@ -380,17 +392,32 @@ TSLanguage* tree_sitter_svelte();
 #ifdef TS_LANGUAGE_SWIFT
 TSLanguage* tree_sitter_swift();
 #endif
+#ifdef TS_LANGUAGE_THRIFT
+TSLanguage* tree_sitter_thrift();
+#endif
 #ifdef TS_LANGUAGE_TOML
 TSLanguage* tree_sitter_toml();
 #endif
 #ifdef TS_LANGUAGE_TSX
 TSLanguage* tree_sitter_tsx();
 #endif
+#ifdef TS_LANGUAGE_TWIG
+TSLanguage* tree_sitter_twig();
+#endif
 #ifdef TS_LANGUAGE_TYPESCRIPT
 TSLanguage* tree_sitter_typescript();
 #endif
+#ifdef TS_LANGUAGE_VERILOG
+TSLanguage* tree_sitter_verilog();
+#endif
+#ifdef TS_LANGUAGE_XML
+TSLanguage* tree_sitter_xml();
+#endif
 #ifdef TS_LANGUAGE_YAML
 TSLanguage* tree_sitter_yaml();
+#endif
+#ifdef TS_LANGUAGE_ZIG
+TSLanguage* tree_sitter_zig();
 #endif
 
 #ifdef __cplusplus
