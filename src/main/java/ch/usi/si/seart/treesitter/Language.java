@@ -123,6 +123,13 @@ public enum Language {
     DOT(dot(), "dot", "gv"),
 
     /**
+     * DTD: Document Type Definition.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     */
+    DTD(dtd(), "dtd"),
+
+    /**
      * Elixir programming language.
      *
      * @see <a href="https://github.com/elixir-lang/tree-sitter-elixir">tree-sitter-elixir</a>
@@ -392,6 +399,7 @@ public enum Language {
     private static native long css();
     private static native long dart();
     private static native long dot();
+    private static native long dtd();
     private static native long elixir();
     private static native long elm();
     private static native long embeddedTemplate();
@@ -534,6 +542,7 @@ public enum Language {
             case C:
             case CSS:
             case DOT:
+            case DTD:
             case HTML:
             case JSON:
             case PHP:

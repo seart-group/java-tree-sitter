@@ -284,6 +284,9 @@ TSLanguage* tree_sitter_dart();
 #ifdef TS_LANGUAGE_DOT
 TSLanguage* tree_sitter_dot();
 #endif
+#ifdef TS_LANGUAGE_DTD
+TSLanguage* tree_sitter_dtd();
+#endif
 #ifdef TS_LANGUAGE_ELIXIR
 TSLanguage* tree_sitter_elixir();
 #endif
