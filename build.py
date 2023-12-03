@@ -48,7 +48,9 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     compiler = new_c_compiler()
     for repository in repositories:
-        if repository == "tree-sitter-markdown":
+        if repository == "tree-sitter-dtd":
+            src_path = path(repository, "tree-sitter-dtd", "src")
+        elif repository == "tree-sitter-markdown":
             src_path = path(repository, repository, "src")
         elif repository == "tree-sitter-ocaml":
             src_path = path(repository, "ocaml", "src")
