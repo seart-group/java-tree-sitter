@@ -157,6 +157,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_gitattributes(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_gitignore(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_GITIGNORE
+  return (jlong)tree_sitter_gitignore();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_GO

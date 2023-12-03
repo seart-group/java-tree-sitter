@@ -302,6 +302,9 @@ TSLanguage* tree_sitter_fortran();
 #ifdef TS_LANGUAGE_GITATTRIBUTES
 TSLanguage* tree_sitter_gitattributes();
 #endif
+#ifdef TS_LANGUAGE_GITIGNORE
+TSLanguage* tree_sitter_gitignore();
+#endif
 #ifdef TS_LANGUAGE_GO
 TSLanguage* tree_sitter_go();
 #endif
