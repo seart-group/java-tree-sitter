@@ -419,6 +419,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    verilog
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_verilog
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    yaml
  * Signature: ()J
  */

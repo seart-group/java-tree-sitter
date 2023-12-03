@@ -404,6 +404,9 @@ TSLanguage* tree_sitter_twig();
 #ifdef TS_LANGUAGE_TYPESCRIPT
 TSLanguage* tree_sitter_typescript();
 #endif
+#ifdef TS_LANGUAGE_VERILOG
+TSLanguage* tree_sitter_verilog();
+#endif
 #ifdef TS_LANGUAGE_YAML
 TSLanguage* tree_sitter_yaml();
 #endif
