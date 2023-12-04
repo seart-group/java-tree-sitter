@@ -311,7 +311,9 @@
           <releaseProfiles>release</releaseProfiles>
           <preparationProfiles>release</preparationProfiles>
           <tagNameFormat>v@{project.version}</tagNameFormat>
-          <completionGoals>resources:copy-resources@default-generate-docs scm:add -Dincludes=README.md</completionGoals>
+          <preparationGoals>
+            resources:copy-resources@default-generate-docs scm:add -Dincludes=README.md
+          </preparationGoals>
         </configuration>
       </plugin>
       <plugin>
