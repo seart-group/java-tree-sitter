@@ -80,8 +80,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.release.preparationGoals/>
-    <project.release.completionGoals/>
     <java.version>11</java.version>
   </properties>
 
@@ -301,8 +299,6 @@
         <version>3.0.1</version>
         <configuration>
           <tagNameFormat>v@{project.version}</tagNameFormat>
-          <preparationGoals>${project.release.preparationGoals}</preparationGoals>
-          <completionGoals>${project.release.completionGoals}</completionGoals>
         </configuration>
       </plugin>
       <plugin>
