@@ -62,9 +62,9 @@ To use in your own Maven project, include the following in your POM file:
 
 ```xml
 <dependency>
-  <groupId>ch.usi.si.seart</groupId>
-  <artifactId>java-tree-sitter</artifactId>
-  <version>1.9.1</version>
+  <groupId>${project.groupId}</groupId>
+  <artifactId>${project.artifactId}</artifactId>
+  <version>${project.version}</version>
 </dependency>
 ```
 
