@@ -430,14 +430,14 @@
             </configuration>
             <executions>
               <execution>
-                <id>default-format</id>
+                <id>default-license-format</id>
                 <phase>generate-sources</phase>
                 <goals>
                   <goal>format</goal>
                 </goals>
               </execution>
               <execution>
-                <id>default-remove</id>
+                <id>default-license-remove</id>
                 <phase>package</phase>
                 <goals>
                   <goal>remove</goal>
