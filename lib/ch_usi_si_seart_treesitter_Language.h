@@ -99,6 +99,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    dtd
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dtd
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    elixir
  * Signature: ()J
  */
@@ -139,6 +147,22 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fortran
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    gitattributes
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_gitattributes
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    gitignore
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_gitignore
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    go
  * Signature: ()J
  */
@@ -159,6 +183,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_haskell
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    hcl
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_hcl
   (JNIEnv *, jclass);
 
 /*
@@ -355,6 +387,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_swift
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    thrift
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_thrift
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    toml
  * Signature: ()J
  */
@@ -371,6 +411,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_tsx
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    twig
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_twig
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    typescript
  * Signature: ()J
  */
@@ -379,10 +427,34 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_typescript
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    verilog
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_verilog
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    xml
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_xml
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    yaml
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_yaml
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    zig
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_zig
   (JNIEnv *, jclass);
 
 /*

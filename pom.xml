@@ -4,7 +4,7 @@
 
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.9.1-SNAPSHOT</version>
+  <version>1.9.2-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java bindings for tree-sitter</description>
@@ -100,6 +100,16 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
       <version>4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.14.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.15.1</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -204,7 +214,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.2</version>
+        <version>3.6.3</version>
         <executions>
           <execution>
             <goals>

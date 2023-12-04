@@ -34,6 +34,9 @@
 [submodule "tree-sitter-dot"]
 	path = tree-sitter-dot
 	url = https://github.com/rydesun/tree-sitter-dot.git
+[submodule "tree-sitter-dtd"]
+	path = tree-sitter-dtd
+	url = https://github.com/ObserverOfTime/tree-sitter-xml.git
 [submodule "tree-sitter-elixir"]
 	path = tree-sitter-elixir
 	url = https://github.com/elixir-lang/tree-sitter-elixir.git
@@ -49,6 +52,12 @@
 [submodule "tree-sitter-fortran"]
 	path = tree-sitter-fortran
 	url = https://github.com/stadelmanma/tree-sitter-fortran.git
+[submodule "tree-sitter-gitattributes"]
+	path = tree-sitter-gitattributes
+	url = https://github.com/ObserverOfTime/tree-sitter-gitattributes.git
+[submodule "tree-sitter-gitignore"]
+	path = tree-sitter-gitignore
+	url = https://github.com/shunsambongi/tree-sitter-gitignore.git
 [submodule "tree-sitter-go"]
 	path = tree-sitter-go
 	url = https://github.com/tree-sitter/tree-sitter-go.git
@@ -58,6 +67,9 @@
 [submodule "tree-sitter-haskell"]
 	path = tree-sitter-haskell
 	url = https://github.com/tree-sitter/tree-sitter-haskell.git
+[submodule "tree-sitter-hcl"]
+	path = tree-sitter-hcl
+	url = https://github.com/MichaHoffmann/tree-sitter-hcl.git
 [submodule "tree-sitter-html"]
 	path = tree-sitter-html
 	url = https://github.com/tree-sitter/tree-sitter-html.git
@@ -94,6 +106,9 @@
 [submodule "tree-sitter-ocaml"]
 	path = tree-sitter-ocaml
 	url = https://github.com/tree-sitter/tree-sitter-ocaml.git
+[submodule "tree-sitter-pascal"]
+	path = tree-sitter-pascal
+	url = https://github.com/Isopod/tree-sitter-pascal.git
 [submodule "tree-sitter-php"]
 	path = tree-sitter-php
 	url = https://github.com/tree-sitter/tree-sitter-php.git
@@ -127,18 +142,30 @@
 [submodule "tree-sitter-swift"]
 	path = tree-sitter-swift
 	url = https://github.com/alex-pinkus/tree-sitter-swift.git
+[submodule "tree-sitter-thrift"]
+	path = tree-sitter-thrift
+	url = https://github.com/duskmoon314/tree-sitter-thrift.git
 [submodule "tree-sitter-toml"]
 	path = tree-sitter-toml
 	url = https://github.com/ikatyang/tree-sitter-toml.git
 [submodule "tree-sitter-tsx"]
 	path = tree-sitter-tsx
 	url = https://github.com/tree-sitter/tree-sitter-typescript.git
+[submodule "tree-sitter-twig"]
+	path = tree-sitter-twig
+	url = https://github.com/gbprod/tree-sitter-twig.git
 [submodule "tree-sitter-typescript"]
 	path = tree-sitter-typescript
 	url = https://github.com/tree-sitter/tree-sitter-typescript.git
+[submodule "tree-sitter-verilog"]
+	path = tree-sitter-verilog
+	url = https://github.com/tree-sitter/tree-sitter-verilog.git
+[submodule "tree-sitter-xml"]
+	path = tree-sitter-xml
+	url = https://github.com/ObserverOfTime/tree-sitter-xml.git
 [submodule "tree-sitter-yaml"]
 	path = tree-sitter-yaml
 	url = https://github.com/ikatyang/tree-sitter-yaml.git
-[submodule "tree-sitter-pascal"]
-	path = tree-sitter-pascal
-	url = https://github.com/Isopod/tree-sitter-pascal.git
+[submodule "tree-sitter-zig"]
+	path = tree-sitter-zig
+	url = https://github.com/maxxnino/tree-sitter-zig
