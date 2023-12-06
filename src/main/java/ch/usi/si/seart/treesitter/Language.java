@@ -130,6 +130,13 @@ public enum Language {
     DOT(dot(), "dot", "gv"),
 
     /**
+     * DTD: Document Type Definition.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     */
+    DTD(dtd(), "dtd"),
+
+    /**
      * Elixir programming language.
      *
      * @see <a href="https://github.com/elixir-lang/tree-sitter-elixir">tree-sitter-elixir</a>
@@ -165,6 +172,20 @@ public enum Language {
     FORTRAN(fortran(), "f", "F90", "f77", "f90", "f95"),
 
     /**
+     * Configurations used for associating attributes with file and path patterns in a repository.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-gitattributes">tree-sitter-gitattributes</a>
+     */
+    GITATTRIBUTES(gitattributes(), "gitattributes"),
+
+    /**
+     * Patterns for intentionally untracked files in a repository.
+     *
+     * @see <a href="https://github.com/shunsambongi/tree-sitter-gitignore">tree-sitter-gitignore</a>
+     */
+    GITIGNORE(gitignore(), "gitignore"),
+
+    /**
      * Go programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter-go</a>
@@ -177,6 +198,13 @@ public enum Language {
      * @see <a href="https://github.com/bkegley/tree-sitter-graphql">tree-sitter-graphql</a>
      */
     GRAPHQL(graphQl(), "graphql"),
+
+    /**
+     * HCL: HashiCorp Configuration Language.
+     *
+     * @see <a href="https://github.com/MichaHoffmann/tree-sitter-hcl">tree-sitter-hcl</a>
+     */
+    HCL(hcl(), "hcl", "tf", "tfvars"),
 
     /**
      * Haskell programming language.
@@ -354,6 +382,13 @@ public enum Language {
     SWIFT(swift(), "swift"),
 
     /**
+     * Thrift interface description language.
+     *
+     * @see <a href="https://github.com/duskmoon314/tree-sitter-thrift">tree-sitter-thrift</a>
+     */
+    THRIFT(thrift(), "thrift"),
+
+    /**
      * TOML: Tom's Obvious Minimal Language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-toml">tree-sitter-toml</a>
@@ -368,6 +403,13 @@ public enum Language {
     TSX(tsx(), "tsx"),
 
     /**
+     * Twig template language.
+     *
+     * @see <a href="https://github.com/gbprod/tree-sitter-twig">tree-sitter-twig</a>
+     */
+    TWIG(twig(), "twig"),
+
+    /**
      * TypeScript programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
@@ -375,11 +417,32 @@ public enum Language {
     TYPESCRIPT(typescript(), "ts"),
 
     /**
+     * Verilog hardware description language.
+     *
+     * @see <a href="https://github.com/tree-sitter/tree-sitter-verilog">tree-sitter-verilog</a>
+     */
+    VERILOG(verilog(), "v", "vh", "vlg", "verilog"),
+
+    /**
+     * XML: Extensible Markup Language.
+     *
+     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     */
+    XML(xml(), "svg", "xml", "xsd", "xslt"),
+
+    /**
      * YAML: YAML Ain't Markup Language.
      *
      * @see <a href="https://github.com/ikatyang/tree-sitter-yaml">tree-sitter-yaml</a>
      */
-    YAML(yaml(), "yaml", "yml");
+    YAML(yaml(), "yaml", "yml"),
+
+    /**
+     * Zig programming language.
+     *
+     * @see <a href="https://github.com/maxxnino/tree-sitter-zig">tree-sitter-zig</a>
+     */
+    ZIG(zig(), "zig");
 
     private static native long ada();
     private static native long bash();
@@ -393,14 +456,18 @@ public enum Language {
     private static native long dart();
     private static native long dockerfile();
     private static native long dot();
+    private static native long dtd();
     private static native long elixir();
     private static native long elm();
     private static native long embeddedTemplate();
     private static native long erlang();
     private static native long fortran();
+    private static native long gitattributes();
+    private static native long gitignore();
     private static native long go();
     private static native long graphQl();
     private static native long haskell();
+    private static native long hcl();
     private static native long html();
     private static native long java();
     private static native long javascript();
@@ -425,10 +492,15 @@ public enum Language {
     private static native long scss();
     private static native long svelte();
     private static native long swift();
+    private static native long thrift();
     private static native long toml();
     private static native long tsx();
+    private static native long twig();
     private static native long typescript();
+    private static native long verilog();
+    private static native long xml();
     private static native long yaml();
+    private static native long zig();
 
     /**
      * Validates an enum value to ensure it is not null and has a valid (nonzero) identifier.
@@ -543,6 +615,8 @@ public enum Language {
             case C:
             case CSS:
             case DOT:
+            case DTD:
+            case HCL:
             case HTML:
             case JSON:
             case PHP:
@@ -550,8 +624,15 @@ public enum Language {
             case SCSS:
             case TOML:
             case TSX:
+            case XML:
             case YAML:
                 return name();
+            /*
+             * Lowercase
+             */
+            case GITATTRIBUTES:
+            case GITIGNORE:
+                return name().toLowerCase();
             /*
              * Capital Case
              */
@@ -581,6 +662,10 @@ public enum Language {
             case SCHEME:
             case SVELTE:
             case SWIFT:
+            case THRIFT:
+            case TWIG:
+            case VERILOG:
+            case ZIG:
                 return capitalize(name());
             /*
              * Space-Delimited Capital Case

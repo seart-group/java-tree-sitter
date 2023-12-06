@@ -52,16 +52,6 @@ public class Query extends External {
     }
 
     /**
-     * @deprecated Use {@link Query#getFor(Language, String...)} or {@link Query#builder()} instead
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public Query(@NotNull Language language, @NotNull String pattern) {
-        throw new UnsupportedOperationException(
-                "This constructor should no longer be used"
-        );
-    }
-
-    /**
      * Static factory for obtaining new query instances.
      *
      * @param language The language for querying
@@ -205,41 +195,6 @@ public class Query extends External {
 
     @Override
     protected native void delete();
-
-    /**
-     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int countStrings() {
-        return strings.size();
-    }
-
-    /**
-     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int countCaptures() {
-        return captures.size();
-    }
-
-    /**
-     * @deprecated Just get dedicated collection, and compute {@link List#size() size()}
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int countPatterns() {
-        return patterns.size();
-    }
-
-    /**
-     * @deprecated Should not be used anymore
-     * @see QueryMatch
-     */
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public String getCaptureName(@NotNull Object ignored) {
-        throw new UnsupportedOperationException(
-                "This method should no longer be used"
-        );
-    }
 
     /**
      * Check if this query has captures.

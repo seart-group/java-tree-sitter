@@ -30,11 +30,6 @@ jfieldID _pointRowField;
 jfieldID _pointColumnField;
 jmethodID _pointOriginStaticMethod;
 
-jclass _queryCaptureClass;
-jmethodID _queryCaptureConstructor;
-jfieldID _queryCaptureNodeField;
-jfieldID _queryCaptureIndexField;
-
 jclass _queryMatchClass;
 jmethodID _queryMatchConstructor;
 jfieldID _queryMatchIdField;
@@ -178,11 +173,6 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_pointColumnField, _pointClass, "column", "I")
   _loadStaticMethod(_pointOriginStaticMethod, _pointClass, "ORIGIN", "()Lch/usi/si/seart/treesitter/Point;")
 
-  _loadClass(_queryCaptureClass, "ch/usi/si/seart/treesitter/QueryCapture")
-  _loadConstructor(_queryCaptureConstructor, _queryCaptureClass, "(Lch/usi/si/seart/treesitter/Node;I)V")
-  _loadField(_queryCaptureNodeField, _queryCaptureClass, "node", "Lch/usi/si/seart/treesitter/Node;")
-  _loadField(_queryCaptureIndexField, _queryCaptureClass, "index", "I")
-
   _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch")
   _loadConstructor(_queryMatchConstructor, _queryMatchClass,
     "(ILch/usi/si/seart/treesitter/Pattern;[Ljava/util/Map$Entry;)V")
@@ -313,7 +303,6 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
-  _unload(_queryCaptureClass)
   _unload(_queryMatchClass)
   _unload(_inputEditClass)
   _unload(_treeCursorNodeClass)

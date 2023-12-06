@@ -4,7 +4,7 @@
 
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.9.2-SNAPSHOT</version>
+  <version>1.10.1-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java bindings for tree-sitter</description>
@@ -102,9 +102,14 @@
       <version>4.4</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.14.0</version>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.15.0</version>
+      <version>2.15.1</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -209,7 +214,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.2</version>
+        <version>3.6.3</version>
         <executions>
           <execution>
             <goals>
@@ -303,39 +308,13 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>3.0.1</version>
         <configuration>
+          <releaseProfiles>release</releaseProfiles>
+          <preparationProfiles>release</preparationProfiles>
           <tagNameFormat>v@{project.version}</tagNameFormat>
+          <preparationGoals>
+            resources:copy-resources@default-generate-docs scm:add -Dincludes=README.md
+          </preparationGoals>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <version>4.3</version>
-        <configuration>
-          <licenseSets>
-            <licenseSet>
-              <header>${project.basedir}/LICENSE</header>
-              <includes>
-                <include>src/main/**</include>
-              </includes>
-            </licenseSet>
-          </licenseSets>
-        </configuration>
-        <executions>
-          <execution>
-            <id>default-format</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-remove</id>
-            <phase>package</phase>
-            <goals>
-              <goal>remove</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -396,4 +375,73 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.3.1</version>
+            <executions>
+              <execution>
+                <id>default-generate-docs</id>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <encoding>${project.build.sourceEncoding}</encoding>
+                  <outputDirectory>${project.basedir}</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>src/main/doc</directory>
+                      <includes>
+                        <include>README.md</include>
+                      </includes>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.mycila</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+            <version>4.3</version>
+            <configuration>
+              <licenseSets>
+                <licenseSet>
+                  <header>${project.basedir}/LICENSE</header>
+                  <includes>
+                    <include>src/main/**</include>
+                  </includes>
+                </licenseSet>
+              </licenseSets>
+            </configuration>
+            <executions>
+              <execution>
+                <id>default-license-format</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>format</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-license-remove</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>remove</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

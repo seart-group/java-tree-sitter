@@ -89,15 +89,6 @@ public class QueryMatch {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    /**
-     * @deprecated Use dedicated {@link QueryMatch#pattern} getter instead
-     */
-    @Generated
-    @Deprecated(since = "1.7.0", forRemoval = true)
-    public int getPatternIndex() {
-        return getPattern().getIndex();
-    }
-
     @Override
     @Generated
     public String toString() {

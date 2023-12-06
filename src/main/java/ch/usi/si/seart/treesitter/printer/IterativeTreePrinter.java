@@ -3,7 +3,6 @@ package ch.usi.si.seart.treesitter.printer;
 import ch.usi.si.seart.treesitter.TreeCursor;
 import ch.usi.si.seart.treesitter.function.IOExceptionThrowingConsumer;
 import lombok.AccessLevel;
-import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,15 +47,14 @@ abstract class IterativeTreePrinter implements TreePrinter {
      */
     public final File export() throws IOException {
         File file = Files.createTempFile("ts-export-", getFileExtension()).toFile();
-        @Cleanup Writer writer = new BufferedWriter(new FileWriter(file));
-        writer.append(getPreamble());
-        Consumer<String> appender = IOExceptionThrowingConsumer.toUnchecked(writer::append);
-        try {
+        try (Writer writer = new BufferedWriter(new FileWriter(file))) {
+            writer.append(getPreamble());
+            Consumer<String> appender = IOExceptionThrowingConsumer.toUnchecked(writer::append);
             write(appender);
+            return file;
         } catch (UncheckedIOException ex) {
             throw ex.getCause();
         }
-        return file;
     }
 
     protected String getPreamble() {

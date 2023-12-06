@@ -60,7 +60,9 @@ class LanguageTest extends TestBase {
             return Stream.of(
                     Arguments.of("requirements.txt", List.of()),
                     Arguments.of(".py", List.of(Language.PYTHON)),
+                    Arguments.of(".gitattributes", List.of(Language.GITATTRIBUTES)),
                     Arguments.of("__init__.py", List.of(Language.PYTHON)),
+                    Arguments.of(".gitignore", List.of(Language.GITIGNORE)),
                     Arguments.of("Main.java", List.of(Language.JAVA)),
                     Arguments.of("Dockerfile", List.of(Language.DOCKERFILE)),
                     Arguments.of("example.h", List.of(

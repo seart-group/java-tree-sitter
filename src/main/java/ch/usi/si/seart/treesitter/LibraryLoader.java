@@ -3,9 +3,11 @@ package ch.usi.si.seart.treesitter;
 import ch.usi.si.seart.treesitter.exception.TreeSitterException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Cleanup;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,6 +24,8 @@ import java.net.URL;
  */
 @UtilityClass
 public class LibraryLoader {
+
+    private static final String LIBRARY_FILE_NAME = "libjava-tree-sitter";
 
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -40,9 +44,7 @@ public class LibraryLoader {
      * Call this once prior to using any of the APIs.
      */
     public void load() {
-        String name = "libjava-tree-sitter";
-        String extension = getExtension();
-        String filename = name + "." + extension;
+        String filename = String.format("%s.%s", LIBRARY_FILE_NAME, getExtension());
         SystemResource systemResource = new SystemResource(filename);
         String libPath = getLibPath(systemResource);
         System.load(libPath);
@@ -54,14 +56,15 @@ public class LibraryLoader {
             case "file":
                 return systemResource.url.getPath();
             case "jar":
-                try {
-                    @Cleanup InputStream input = systemResource.url.openStream();
-                    String tmpdir = System.getProperty("java.io.tmpdir");
-                    File temporary = new File(tmpdir, systemResource.name);
-                    temporary.deleteOnExit();
-                    @Cleanup OutputStream output = new FileOutputStream(temporary, false);
-                    input.transferTo(output);
-                    return temporary.getPath();
+                File tmpdir = FileUtils.getTempDirectory();
+                File tmpfile = new File(tmpdir, systemResource.name);
+                tmpfile.deleteOnExit();
+                try (
+                    InputStream input = systemResource.url.openStream();
+                    OutputStream output = new FileOutputStream(tmpfile, false)
+                ) {
+                    IOUtils.copy(input, output);
+                    return tmpfile.getPath();
                 } catch (IOException cause) {
                     throw new TreeSitterException(cause);
                 }
@@ -72,15 +75,10 @@ public class LibraryLoader {
     }
 
     private String getExtension() {
-        String platform = System.getProperty("os.name").toLowerCase();
-        if (platform.contains("nix") || platform.contains("nux") || platform.contains("aix")) {
-            return "so";
-        } else if (platform.contains("mac") || platform.contains("darwin")) {
-            return "dylib";
-        } else {
-            throw new TreeSitterException(
-                    "The tree-sitter library was not compiled for this platform: " + platform
+        if (SystemUtils.IS_OS_LINUX) return "so";
+        else if (SystemUtils.IS_OS_MAC) return "dylib";
+        else throw new TreeSitterException(
+                "The tree-sitter library was not compiled for this platform: " + SystemUtils.OS_NAME.toLowerCase()
             );
-        }
     }
 }
