@@ -54,7 +54,7 @@ class DotGraphPrinterTest extends TestBase {
     }
 
     private void assertion(String result) {
-        Assertions.assertEquals(594, result.lines().count());
+        Assertions.assertEquals(626, result.lines().count());
         Assertions.assertTrue(result.startsWith("digraph tree {"));
         Assertions.assertTrue(result.endsWith("}\n"));
     }
