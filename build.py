@@ -32,7 +32,8 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
     if arch and system == "Darwin":
         arch = "arm64" if "aarch64" in arch else arch
 
-    output_path = f"{output_path}.{'dylib' if system == 'Darwin' else 'so'}"
+    output_extension = 'dylib' if system == 'Darwin' else 'so'
+    output_path = f"{output_path}.{output_extension}"
     env = ""
     if arch:
         env += (
@@ -41,8 +42,10 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
         )
 
-    cmd(f"make -C \"{path(here, 'tree-sitter')}\" clean {'> /dev/null' if not verbose else ''}")
-    cmd(f"{env} make -C \"{path(here, 'tree-sitter')}\" {'> /dev/null' if not verbose else ''}")
+    tree_sitter = path(here, 'tree-sitter')
+    redirect = '> /dev/null' if not verbose else ''
+    cmd(f"make -C \"{tree_sitter}\" clean {redirect}")
+    cmd(f"{env} make -C \"{tree_sitter}\" {redirect}")
 
     source_paths = find(path(here, "lib", "*.cc"))
 
