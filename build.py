@@ -32,7 +32,7 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
     if arch and system == "Darwin":
         arch = "arm64" if "aarch64" in arch else arch
 
-    output_extension = 'dylib' if system == 'Darwin' else 'so'
+    output_extension = "dylib" if system == "Darwin" else "so"
     output_path = f"{output_path}.{output_extension}"
     env = ""
     if arch:
@@ -42,8 +42,8 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
         )
 
-    tree_sitter = path(here, 'tree-sitter')
-    redirect = '> /dev/null' if not verbose else ''
+    tree_sitter = path(here, "tree-sitter")
+    redirect = "> /dev/null" if not verbose else ""
     cmd(f"make -C \"{tree_sitter}\" clean {redirect}")
     cmd(f"{env} make -C \"{tree_sitter}\" {redirect}")
 
@@ -51,9 +51,9 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     compiler = new_c_compiler()
     for repository in repositories:
-        repository_name = split_path(repository.rstrip('/'))[1]
-        repository_language = repository_name.split('tree-sitter-')[-1]
-        repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
+        repository_name = split_path(repository.rstrip("/"))[1]
+        repository_language = repository_name.split("tree-sitter-")[-1]
+        repository_macro = f"TS_LANGUAGE_{repository_language.replace("-", "_").upper()}"
         compiler.define_macro(repository_macro, "1")
         match repository_name:
             case "tree-sitter-dtd" |\
