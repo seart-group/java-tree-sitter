@@ -53,7 +53,7 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
     for repository in repositories:
         repository_name = split_path(repository.rstrip("/"))[1]
         repository_language = repository_name.split("tree-sitter-")[-1]
-        repository_macro = f"TS_LANGUAGE_{repository_language.replace("-", "_").upper()}"
+        repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
         compiler.define_macro(repository_macro, "1")
         match repository_name:
             case "tree-sitter-dtd" |\
