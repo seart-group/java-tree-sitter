@@ -32,7 +32,8 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
     if arch and system == "Darwin":
         arch = "arm64" if "aarch64" in arch else arch
 
-    output_path = f"{output_path}.{'dylib' if system == 'Darwin' else 'so'}"
+    output_extension = "dylib" if system == "Darwin" else "so"
+    output_path = f"{output_path}.{output_extension}"
     env = ""
     if arch:
         env += (
@@ -41,23 +42,30 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
             else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
         )
 
-    cmd(f"make -C \"{path(here, 'tree-sitter')}\" clean {'> /dev/null' if not verbose else ''}")
-    cmd(f"{env} make -C \"{path(here, 'tree-sitter')}\" {'> /dev/null' if not verbose else ''}")
+    tree_sitter = path(here, "tree-sitter")
+    redirect = "> /dev/null" if not verbose else ""
+    cmd(f"make -C \"{tree_sitter}\" clean {redirect}")
+    cmd(f"{env} make -C \"{tree_sitter}\" {redirect}")
 
     source_paths = find(path(here, "lib", "*.cc"))
 
     compiler = new_c_compiler()
     for repository in repositories:
-        repository_name = split_path(repository.rstrip('/'))[1]
-        repository_language = repository_name.split('tree-sitter-')[-1]
+        repository_name = split_path(repository.rstrip("/"))[1]
+        repository_language = repository_name.split("tree-sitter-")[-1]
         repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
         compiler.define_macro(repository_macro, "1")
-        if repository_name in ["tree-sitter-dtd", "tree-sitter-markdown", "tree-sitter-xml"]:
-            src_path = path(repository, repository_name, "src")
-        elif repository_name in ["tree-sitter-ocaml", "tree-sitter-tsx", "tree-sitter-typescript"]:
-            src_path = path(repository, repository_language, "src")
-        else:
-            src_path = path(repository, "src")
+        match repository_name:
+            case "tree-sitter-dtd" |\
+                 "tree-sitter-markdown" |\
+                 "tree-sitter-xml":
+                src_path = path(repository, repository_name, "src")
+            case "tree-sitter-ocaml" |\
+                 "tree-sitter-tsx" |\
+                 "tree-sitter-typescript":
+                src_path = path(repository, repository_language, "src")
+            case _:
+                src_path = path(repository, "src")
         source_paths.append(path(src_path, "parser.c"))
         scanner_c = path(src_path, "scanner.c")
         scanner_cc = path(src_path, "scanner.cc")
