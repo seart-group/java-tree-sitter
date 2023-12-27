@@ -167,7 +167,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.1</version>
         <configuration>
           <release>${java.version}</release>
           <compilerArgs>
@@ -183,7 +183,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>10.12.5</version>
+            <version>10.12.6</version>
           </dependency>
         </dependencies>
         <executions>
@@ -229,7 +229,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.3</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
