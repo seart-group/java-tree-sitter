@@ -43,8 +43,12 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     tree_sitter = path(here, "tree-sitter")
     redirect = DEVNULL if not verbose else None
-    cmd(["make", "-C", tree_sitter, "clean"], stdout=redirect)
-    cmd(["make", "-C", tree_sitter], stdout=redirect, env=env)
+    code = cmd(["make", "-C", tree_sitter, "clean"], stdout=redirect)
+    if code != 0:
+        raise RuntimeError("Failed to clean tree-sitter library.")
+    code = cmd(["make", "-C", tree_sitter], stdout=redirect, env=env)
+    if code != 0:
+        raise RuntimeError("Failed to build tree-sitter library.")
 
     source_paths = find(path(here, "lib", "*.cc"))
 
