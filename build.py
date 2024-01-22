@@ -6,11 +6,12 @@ from distutils.ccompiler import new_compiler as new_c_compiler
 from distutils.log import set_verbosity as set_log_verbosity
 from glob import glob as find
 from os import environ
-from os import system as cmd
 from os.path import basename, dirname, exists, getmtime, realpath
 from os.path import join as path
 from os.path import split as split_path
 from platform import system as os_name
+from subprocess import DEVNULL
+from subprocess import call as cmd
 from tempfile import TemporaryDirectory
 
 
@@ -34,18 +35,16 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     output_extension = "dylib" if system == "Darwin" else "so"
     output_path = f"{output_path}.{output_extension}"
-    env = ""
+    env = {}
     if arch:
-        env += (
-            f"CFLAGS='-arch {arch} -mmacosx-version-min=11.0' LDFLAGS='-arch {arch}'"
-            if system == "Darwin"
-            else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
-        )
+        env_macos = {"CFLAGS": f"-arch {arch} -mmacosx-version-min=11.0", "LDFLAGS": f"-arch {arch}"}
+        env_linux = {"CFLAGS": f"-m{arch}", "LDFLAGS": f"-m{arch}"}
+        env = env_macos if system == "Darwin" else env_linux
 
     tree_sitter = path(here, "tree-sitter")
-    redirect = "> /dev/null" if not verbose else ""
-    cmd(f"make -C \"{tree_sitter}\" clean {redirect}")
-    cmd(f"{env} make -C \"{tree_sitter}\" {redirect}")
+    redirect = DEVNULL if not verbose else None
+    cmd(["make", "-C", tree_sitter, "clean"], stdout=redirect)
+    cmd(["make", "-C", tree_sitter], stdout=redirect, env=env)
 
     source_paths = find(path(here, "lib", "*.cc"))
 
