@@ -8,11 +8,11 @@ ENV IMAGE_NAME="seart-group/java-tree-sitter" \
 RUN apk update --quiet && \
     apk add --quiet \
             --no-cache \
+            alpine-sdk \
+            make \
             openjdk11 \
             python3 \
-            py3-distutils-extra \
-            make \
-            g++
+            py3-distutils-extra
 
 WORKDIR /java-tree-sitter
 COPY . ./
