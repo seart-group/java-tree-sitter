@@ -5,8 +5,9 @@ ENV IMAGE_NAME="seart-group/java-tree-sitter" \
     IMAGE_REPO_URL="https://github.com/${IMAGE_NAME}/" \
     JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
-RUN apk update && \
-    apk add --no-cache \
+RUN apk update --quiet && \
+    apk add --quiet \
+            --no-cache \
             openjdk11 \
             python3 \
             py3-distutils-extra \
