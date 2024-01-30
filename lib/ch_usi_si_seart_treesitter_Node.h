@@ -177,6 +177,14 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    isError
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isError
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    isExtra
  * Signature: ()Z
  */

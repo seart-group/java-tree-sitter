@@ -303,6 +303,12 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError(
   return ts_node_has_error(node) ? JNI_TRUE : JNI_FALSE;
 }
 
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isError(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_error(node) ? JNI_TRUE : JNI_FALSE;
+}
+
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isExtra(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
