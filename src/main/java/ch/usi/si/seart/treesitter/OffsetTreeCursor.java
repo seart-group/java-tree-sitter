@@ -286,6 +286,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public boolean isError() {
+            return node.isError();
+        }
+
+        @Override
         public boolean isExtra() {
             return node.isExtra();
         }
