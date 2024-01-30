@@ -11,6 +11,12 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete(
   __clearPointer(env, thisObject);
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentDepth(
+  JNIEnv* env, jobject thisObject) {
+  TSTreeCursor* treeCursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  return (jint)ts_tree_cursor_current_depth(treeCursor);
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentNode(
   JNIEnv* env, jobject thisObject) {
   TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);

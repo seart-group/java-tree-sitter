@@ -55,6 +55,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     }
 
     @Override
+    public int getCurrentDepth() {
+        return cursor.getCurrentDepth();
+    }
+
+    @Override
     public String getCurrentFieldName() {
         return cursor.getCurrentFieldName();
     }

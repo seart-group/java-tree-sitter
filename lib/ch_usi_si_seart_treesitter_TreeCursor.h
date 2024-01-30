@@ -17,6 +17,14 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete
 
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    getCurrentDepth
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentDepth
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
  * Method:    getCurrentNode
  * Signature: ()Lch/usi/si/seart/treesitter/Node;
  */
