@@ -309,7 +309,7 @@ class NodeTest extends TestBase {
     @Test
     void testGetNextParseState() {
         Assertions.assertEquals(0, root.getNextParseState());
-        Assertions.assertEquals(-1, new Node.Null().getNextParseState());
+        Assertions.assertEquals(-1, empty.getNextParseState());
     }
 
     @Test
@@ -339,7 +339,7 @@ class NodeTest extends TestBase {
     @Test
     void testGetParseState() {
         Assertions.assertEquals(0, root.getParseState());
-        Assertions.assertEquals(-1, new Node.Null().getParseState());
+        Assertions.assertEquals(-1, empty.getParseState());
     }
 
     @Test
