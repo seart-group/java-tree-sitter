@@ -401,6 +401,19 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testIsError() {
+        @Cleanup Tree tree = parser.parse("def foo(bar baz):\n  pass");
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node parameters = function.getChildByFieldName("parameters");
+        Assertions.assertFalse(root.isError());
+        Assertions.assertFalse(function.isError());
+        Assertions.assertFalse(parameters.getChild(0).isError());
+        Assertions.assertFalse(parameters.getChild(1).isError());
+        Assertions.assertTrue(parameters.getChild(2).isError());
+    }
+
+    @Test
     void testIsExtra() {
         @Cleanup Tree tree = parser.parse("# this is just a comment");
         Node root = tree.getRootNode();
