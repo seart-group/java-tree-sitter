@@ -183,7 +183,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>10.12.7</version>
+            <version>10.13.0</version>
           </dependency>
         </dependencies>
         <executions>
@@ -229,7 +229,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.5</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
