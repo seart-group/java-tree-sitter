@@ -197,6 +197,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   return childObject;
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextParseState(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_null(node) ? (jint)-1 : (jint)ts_node_next_parse_state(node);
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
   JNIEnv* env, jobject thisObject, jboolean named) {
   TSNode (*next_sibling_getter)(TSNode) = (bool)named
@@ -231,6 +237,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
   jobject parentObject = __marshalNode(env, parent);
   __copyTree(env, thisObject, parentObject);
   return parentObject;
+}
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getParseState(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_null(node) ? (jint)-1 : (jint)ts_node_parse_state(node);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartByte(
