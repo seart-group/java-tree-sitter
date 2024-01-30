@@ -161,6 +161,16 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetDescendantCount() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertEquals(26, root.getDescendantCount());
+        Assertions.assertEquals(25, function.getDescendantCount());
+        Assertions.assertEquals(1, identifier.getDescendantCount());
+        Assertions.assertEquals(0, empty.getDescendantCount());
+    }
+
+    @Test
     void testGetEndByte() {
         Assertions.assertEquals(44, root.getEndByte());
         Assertions.assertEquals(0, empty.getEndByte());

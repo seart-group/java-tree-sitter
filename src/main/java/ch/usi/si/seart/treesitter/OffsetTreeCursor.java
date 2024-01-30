@@ -156,6 +156,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public int getDescendantCount() {
+            return node.getDescendantCount();
+        }
+
+        @Override
         public int getEndByte() {
             throw new UnsupportedOperationException(UOE_MESSAGE_1);
         }

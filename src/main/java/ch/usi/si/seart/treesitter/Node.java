@@ -140,6 +140,14 @@ public class Node implements Iterable<Node> {
     private native Node getDescendant(Point startPoint, Point endPoint, boolean named);
 
     /**
+     * Get the node's number of descendants, including one for the node itself.
+     *
+     * @return the count of this node's descendants
+     * @since 1.11.0
+     */
+    public native int getDescendantCount();
+
+    /**
      * Get the byte offset where this node ends.
      *
      * @return the node's end byte
