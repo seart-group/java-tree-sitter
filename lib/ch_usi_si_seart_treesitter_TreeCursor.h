@@ -97,6 +97,14 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNode
 
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    reset
+ * Signature: (Lch/usi/si/seart/treesitter/TreeCursor;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_reset
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
  * Method:    clone
  * Signature: ()Lch/usi/si/seart/treesitter/TreeCursor;
  */

@@ -159,6 +159,18 @@ public class TreeCursor extends External implements Cloneable {
     }
 
     /**
+     * Reset the cursor to the same state as another cursor.
+     *
+     * @param other the cursor to copy state from
+     * @return true if the cursor successfully moved,
+     * and false if it was already located at the same node
+     * @throws NullPointerException if {@code other} is null
+     * @throws IllegalArgumentException if the other cursor is not from the same tree
+     * @since 1.11.0
+     */
+    public native boolean reset(@NotNull TreeCursor other);
+
+    /**
      * Clone this cursor, creating a separate, independent instance.
      *
      * @return a clone of this instance
@@ -221,6 +233,11 @@ public class TreeCursor extends External implements Cloneable {
 
         @Override
         public void preorderTraversal(@NotNull Consumer<Node> callback) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean reset(@NotNull TreeCursor other) {
             throw new UnsupportedOperationException();
         }
 
