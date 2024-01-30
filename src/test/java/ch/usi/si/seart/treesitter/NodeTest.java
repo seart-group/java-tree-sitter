@@ -297,6 +297,12 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetNextParseState() {
+        Assertions.assertEquals(0, root.getNextParseState());
+        Assertions.assertEquals(-1, new Node.Null().getNextParseState());
+    }
+
+    @Test
     void testGetNextNamedSibling() {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
@@ -318,6 +324,12 @@ class NodeTest extends TestBase {
     void testGetParent() {
         Assertions.assertNull(root.getParent());
         Assertions.assertEquals(root, root.getChild(0).getParent());
+    }
+
+    @Test
+    void testGetParseState() {
+        Assertions.assertEquals(0, root.getParseState());
+        Assertions.assertEquals(-1, new Node.Null().getParseState());
     }
 
     @Test
