@@ -100,6 +100,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     }
 
     @Override
+    public boolean reset(@NotNull TreeCursor other) {
+        return cursor.reset(other);
+    }
+
+    @Override
     public Node getCurrentNode() {
         return new OffsetNode(cursor.getCurrentNode());
     }
