@@ -215,6 +215,11 @@ public class TreeCursor extends External implements Cloneable {
         }
 
         @Override
+        public boolean gotoNode(@NotNull Node node) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public void preorderTraversal(@NotNull Consumer<Node> callback) {
             throw new UnsupportedOperationException();
         }
