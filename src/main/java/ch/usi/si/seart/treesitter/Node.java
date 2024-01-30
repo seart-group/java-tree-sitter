@@ -283,6 +283,14 @@ public class Node implements Iterable<Node> {
     }
 
     /**
+     * Get the parse state after this {@code Node}.
+     *
+     * @return the next parse state
+     * @since 1.11.0
+     */
+    public native int getNextParseState();
+
+    /**
      * Get the next sibling {@code Node}.
      *
      * @return the next sibling, {@code null} if there is none
@@ -319,6 +327,14 @@ public class Node implements Iterable<Node> {
      * @return the parent, {@code null} if there is none
      */
     public native Node getParent();
+
+    /**
+     * Get the parse state of this {@code Node}.
+     *
+     * @return the parse state
+     * @since 1.11.0
+     */
+    public native int getParseState();
 
     /**
      * Get the node's {@link Range}, indicating its byte and row-column position span.
