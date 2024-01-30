@@ -327,7 +327,7 @@ public class Node implements Iterable<Node> {
         return getPrevSibling(false);
     }
 
-    public native Node getPrevSibling(boolean named);
+    private native Node getPrevSibling(boolean named);
 
     /**
      * Get the parent {@code Node}.
