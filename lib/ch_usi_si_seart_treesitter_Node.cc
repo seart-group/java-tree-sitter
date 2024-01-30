@@ -147,6 +147,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lc
   return descendantObject;
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantCount(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_null(node) ? (jint)0 : (jint)ts_node_descendant_count(node);
+}
+
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);

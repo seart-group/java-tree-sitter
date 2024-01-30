@@ -57,6 +57,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lc
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getDescendantCount
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantCount
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getEndByte
  * Signature: ()I
  */
