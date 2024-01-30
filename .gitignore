@@ -244,3 +244,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### Images template
+# Scalable Vector Graphics
+*.svg
+*.svgz
+
+# DOT files
+*.dot
