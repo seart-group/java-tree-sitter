@@ -281,6 +281,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public boolean hasChanges() {
+            return node.hasChanges();
+        }
+
+        @Override
         public boolean hasError() {
             return node.hasError();
         }

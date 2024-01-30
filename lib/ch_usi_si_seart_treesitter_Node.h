@@ -169,6 +169,14 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    hasChanges
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasChanges
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    hasError
  * Signature: ()Z
  */

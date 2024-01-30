@@ -383,6 +383,16 @@ public class Node implements Iterable<Node> {
     public native String getType();
 
     /**
+     * Check if this node, or any of its children, has been edited.
+     *
+     * @return {@code true} if the node has been edited,
+     * or contains one such child in its subtree,
+     * {@code false} otherwise
+     * @since 1.11.0
+     */
+    public native boolean hasChanges();
+
+    /**
      * Check if this node represents a syntax error
      * or contains any syntax errors anywhere within it.
      * Syntax errors represent parts of the code that
