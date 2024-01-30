@@ -395,6 +395,17 @@ public class Node implements Iterable<Node> {
     public native boolean hasError();
 
     /**
+     * Check if this node represents a syntax error.
+     * Syntax errors represent parts of the code that
+     * could not be incorporated into a valid syntax tree.
+     *
+     * @return {@code true} if the node is an {@code ERROR},
+     * {@code false} otherwise
+     * @since 1.11.0
+     */
+    public native boolean isError();
+
+    /**
      * Check if the node is an <em>extra</em>.
      * Extra nodes represent things like comments,
      * which are not required by the grammar,
