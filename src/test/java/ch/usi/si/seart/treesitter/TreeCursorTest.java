@@ -70,6 +70,21 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
+    void testGetCurrentDepth() {
+        Assertions.assertEquals(0, cursor.getCurrentDepth());
+        cursor.gotoFirstChild();
+        Assertions.assertEquals(1, cursor.getCurrentDepth());
+        cursor.gotoFirstChild();
+        Assertions.assertEquals(2, cursor.getCurrentDepth());
+        cursor.gotoNextSibling();
+        Assertions.assertEquals(2, cursor.getCurrentDepth());
+        cursor.gotoParent();
+        Assertions.assertEquals(1, cursor.getCurrentDepth());
+        cursor.gotoParent();
+        Assertions.assertEquals(0, cursor.getCurrentDepth());
+    }
+
+    @Test
     void testGotoFirstChildByteOffset() {
         cursor.gotoFirstChild(); // function_definition
         cursor.gotoFirstChild(4);
