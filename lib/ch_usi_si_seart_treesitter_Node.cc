@@ -297,6 +297,12 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType(
   return env->NewStringUTF(type);
 }
 
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasChanges(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_has_changes(node) ? JNI_TRUE : JNI_FALSE;
+}
+
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
