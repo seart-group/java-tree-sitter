@@ -221,6 +221,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public int getNextParseState() {
+            return node.getNextParseState();
+        }
+
+        @Override
         public Node getNextSibling() {
             return new OffsetNode(node.getNextSibling());
         }
@@ -238,6 +243,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         @Override
         public Node getParent() {
             return new OffsetNode(node.getParent());
+        }
+
+        @Override
+        public int getParseState() {
+            return node.getParseState();
         }
 
         @Override
