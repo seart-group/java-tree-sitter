@@ -332,6 +332,20 @@
             </configuration>
           </execution>
           <execution>
+            <id>generate-api-version-file</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+                <executable>python3</executable>
+                <workingDirectory>${project.basedir}</workingDirectory>
+                <arguments>
+                  <argument>generate.py</argument>
+                </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>build-shared-object-library-macos</id>
             <phase>compile</phase>
             <goals>
