@@ -275,6 +275,7 @@
             <exclude>**/error/**</exclude>
             <exclude>**/exception/**</exclude>
             <exclude>**/function/**</exclude>
+            <exclude>**/version/**</exclude>
             <exclude>**/External.class</exclude>
             <exclude>**/OffsetTreeCursor$*.class</exclude>
           </excludes>
