@@ -202,6 +202,31 @@
         </executions>
       </plugin>
       <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>default-generate-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <encoding>${project.build.sourceEncoding}</encoding>
+              <outputDirectory>
+                ${project.build.directory}/generated-sources/java
+              </outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/javaTemplates</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <version>3.3.0</version>
         <executions>
@@ -275,6 +300,7 @@
             <exclude>**/error/**</exclude>
             <exclude>**/exception/**</exclude>
             <exclude>**/function/**</exclude>
+            <exclude>**/version/**</exclude>
             <exclude>**/External.class</exclude>
             <exclude>**/OffsetTreeCursor$*.class</exclude>
           </excludes>
@@ -283,6 +309,14 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
@@ -332,6 +366,24 @@
             </configuration>
           </execution>
           <execution>
+            <id>generate-api-version-file</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+                <executable>python3</executable>
+                <workingDirectory>${project.basedir}</workingDirectory>
+                <arguments>
+                  <argument>generate.py</argument>
+                  <argument>-o</argument>
+                  <argument>
+                    ${project.build.directory}/generated-sources/java/ch/usi/si/seart/treesitter/version/TreeSitter.java
+                  </argument>
+                </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>build-shared-object-library-macos</id>
             <phase>compile</phase>
             <goals>
@@ -369,6 +421,24 @@
                 <argument>${project.build.outputDirectory}</argument>
                 <argument>.</argument>
               </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/java/</source>
+              </sources>
             </configuration>
           </execution>
         </executions>
@@ -426,7 +496,7 @@
             <executions>
               <execution>
                 <id>default-license-format</id>
-                <phase>generate-sources</phase>
+                <phase>initialize</phase>
                 <goals>
                   <goal>format</goal>
                 </goals>
