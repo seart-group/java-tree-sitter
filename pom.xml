@@ -321,7 +321,10 @@
           <preparationProfiles>release</preparationProfiles>
           <tagNameFormat>v@{project.version}</tagNameFormat>
           <preparationGoals>
-            resources:copy-resources@default-generate-docs scm:add -Dincludes=README.md
+            resources:copy-resources@default-generate-docs
+            resources:copy-resources@default-generate-version
+            scm:add -Dincludes=README.md
+            scm:add -Dincludes=src/main/java/ch/usi/si/seart/treesitter/version/Library.java
           </preparationGoals>
         </configuration>
       </plugin>
