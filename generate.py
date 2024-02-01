@@ -41,9 +41,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TreeSitter {{
 
-    private static final String SHA = \"{sha}\";
+    public static final String SHA = \"{sha}\";
 
-    private static final String TAG = \"{tag}\";
+    public static final String TAG = \"{tag}\";
 
     /**
      * Get the current version of {{@code tree-sitter}}.

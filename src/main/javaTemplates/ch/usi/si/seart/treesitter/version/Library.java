@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Library {
 
-    private static final String VERSION = "${project.version}";
+    public static final String VERSION = "${project.version}";
 
     /**
      * Get the current version of {@code ${project.artifactId}}.
