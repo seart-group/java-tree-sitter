@@ -49,7 +49,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_clojure(
 #endif
 }
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cMake(
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_CMAKE
   return (jlong)tree_sitter_cmake();

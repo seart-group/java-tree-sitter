@@ -51,10 +51,10 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_commonLisp
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
- * Method:    cMake
+ * Method:    cmake
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cMake
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake
   (JNIEnv *, jclass);
 
 /*

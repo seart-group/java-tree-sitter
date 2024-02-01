@@ -78,7 +78,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/uyha/tree-sitter-cmake">tree-sitter-cmake</a>
      */
-    CMAKE(cMake(), "cmake"),
+    CMAKE(cmake(), "cmake"),
 
     /**
      * Common Lisp programming language.
@@ -442,7 +442,7 @@ public enum Language {
     private static native long c();
     private static native long clojure();
     private static native long commonLisp();
-    private static native long cMake();
+    private static native long cmake();
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
