@@ -3,13 +3,11 @@ package ch.usi.si.seart.treesitter.version;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Optional;
-
 /**
  * Utility used for obtaining the current version of the {@code ${project.artifactId}} codebase.
- * It does this by fetching the "Implementation-Version" manifest attribute from the JAR file.
- * If the {@link ClassLoader} does not expose the manifest metadata,
- * it will fall back to a hard-coded value injected from the POM.
+ * Unlike attempting to access the "Implementation-Version" manifest attribute from the JAR file,
+ * this utility will work even if the {@link ClassLoader} does not expose the manifest metadata,
+ * or if the code is not packaged in a JAR file.
  *
  * @author Ozren Dabić
  * @since 1.11.0
@@ -25,9 +23,6 @@ public final class Version {
      * @return the semantic version string
      */
     public static String getVersion() {
-        Package pkg = Library.class.getPackage();
-        return Optional.ofNullable(pkg)
-                .map(Package::getImplementationVersion)
-                .orElse(VALUE);
+        return VALUE;
     }
 }
