@@ -92,7 +92,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
      */
-    CSHARP(cSharp(), "cs"),
+    C_SHARP(cSharp(), "cs"),
 
     /**
      * C++ programming language.
@@ -661,8 +661,8 @@ public enum Language {
             /*
              * Special Cases
              */
+            case C_SHARP: return "C#";
             case CMAKE: return "CMake";
-            case CSHARP: return "C#";
             case CPP: return "C++";
             case GRAPHQL: return "GraphQL";
             case JAVASCRIPT: return "JavaScript";
