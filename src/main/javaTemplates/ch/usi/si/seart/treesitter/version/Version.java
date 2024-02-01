@@ -9,15 +9,15 @@ import java.util.Optional;
  * Utility used for obtaining the current version of the {@code ${project.artifactId}} codebase.
  * It does this by fetching the "Implementation-Version" manifest attribute from the JAR file.
  * If the {@link ClassLoader} does not expose the manifest metadata,
- * it will fall back to using a hard-coded value injected from the POM.
+ * it will fall back to a hard-coded value injected from the POM.
  *
  * @author Ozren Dabić
  * @since 1.11.0
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Library {
+public final class Version {
 
-    public static final String VERSION = "${project.version}";
+    private static final String VALUE = "${project.version}";
 
     /**
      * Get the current version of {@code ${project.artifactId}}.
@@ -26,8 +26,8 @@ public final class Library {
      */
     public static String getVersion() {
         Package pkg = Library.class.getPackage();
-        return "v" + Optional.ofNullable(pkg)
+        return Optional.ofNullable(pkg)
                 .map(Package::getImplementationVersion)
-                .orElse(VERSION);
+                .orElse(VALUE);
     }
 }
