@@ -496,7 +496,7 @@
             <executions>
               <execution>
                 <id>default-license-format</id>
-                <phase>generate-sources</phase>
+                <phase>initialize</phase>
                 <goals>
                   <goal>format</goal>
                 </goals>
