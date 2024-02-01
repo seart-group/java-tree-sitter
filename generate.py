@@ -26,7 +26,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * Contains version information pertaining to the {{@code tree-sitter}} API.
+ * Utility used for obtaining the current version of the {{@code tree-sitter}} API.
  *
  * @author Ozren Dabić
  * @since 1.11.0
@@ -34,9 +34,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TreeSitter {{
 
-    public static final String SHA = \"{sha}\";
+    private static final String SHA = \"{sha}\";
 
-    public static final String TAG = \"{tag}\";
+    private static final String TAG = \"{tag}\";
+
+    /**
+     * Get the current version of {{@code tree-sitter}}.
+     *
+     * @return the semantic version string, along with a commit SHA
+     */
+    public static String getVersion() {{
+        return TAG + \" (\" + SHA + \")\";
+    }}
 }}
 """
     with open(path, "w") as f:
