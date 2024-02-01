@@ -4,7 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * Contains version information pertaining to this binding.
+ * Utility used for obtaining the current version of the {@code java-tree-sitter} codebase.
+ * It does this by fetching the "Implementation-Version" manifest attribute from the JAR file.
+ * If the {@link ClassLoader} does not expose the manifest metadata,
+ * it will fall back to using a hard-coded value injected from the POM.
  *
  * @author Ozren Dabić
  * @since 1.11.0
@@ -12,5 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Library {
 
-    public static final String VERSION = "v1.11.0";
+    private static final String VERSION = "1.11.0";
+
+    /**
+     * Get the current version of {@code java-tree-sitter}.
+     *
+     * @return the semantic version string
+     */
+    public static String getVersion() {
+        Package pkg = Library.class.getPackage();
+        return "v" + (pkg != null ? pkg.getImplementationVersion() : VERSION);
+    }
 }
