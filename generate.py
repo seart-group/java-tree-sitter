@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from argparse import ArgumentParser
 from os import getcwd as cwd
 from os.path import dirname, realpath
 from os.path import join as path
@@ -8,17 +9,23 @@ from subprocess import run
 
 
 __location__ = realpath(path(cwd(), dirname(__file__)))
-__java_dir__ = path(__location__, "src/main/java")
-__base_dir__ = path(__java_dir__, "ch/usi/si/seart/treesitter")
 
 # https://www.debuggex.com/r/6FsTee7fWKlzfqVb
 pattern = r"\s([0-9a-fA-F]+)\s[^\s]+\s\(([^)]+)\)"
 
 
 if __name__ == "__main__":
-    path = f"{__base_dir__}/version/TreeSitter.java"
-    args = ["git", "submodule", "status", f"{__location__}/tree-sitter"]
-    status = run(args, capture_output=True, text=True)
+    parser = ArgumentParser(description="Generate tree-sitter API version class.")
+    parser.add_argument(
+        "-o",
+        "--output",
+        default=f"{__location__}/TreeSitter.java",
+        help="Output file path.",
+    )
+    args = parser.parse_args()
+    path = args.output
+    cmd = ["git", "submodule", "status", f"{__location__}/tree-sitter"]
+    status = run(cmd, capture_output=True, text=True)
     sha, tag = match(pattern, status.stdout).groups()
     content = f"""package ch.usi.si.seart.treesitter.version;
 
