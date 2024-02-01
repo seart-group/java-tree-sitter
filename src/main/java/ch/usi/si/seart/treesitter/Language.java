@@ -190,7 +190,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/bkegley/tree-sitter-graphql">tree-sitter-graphql</a>
      */
-    GRAPHQL(graphQl(), "graphql"),
+    GRAPHQL(graphql(), "graphql"),
 
     /**
      * HCL: HashiCorp Configuration Language.
@@ -457,7 +457,7 @@ public enum Language {
     private static native long gitattributes();
     private static native long gitignore();
     private static native long go();
-    private static native long graphQl();
+    private static native long graphql();
     private static native long haskell();
     private static native long hcl();
     private static native long html();

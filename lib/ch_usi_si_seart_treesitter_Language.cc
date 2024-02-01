@@ -184,7 +184,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go(
 #endif
 }
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl(
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphql(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_GRAPHQL
   return (jlong)tree_sitter_graphql();
