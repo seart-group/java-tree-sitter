@@ -202,6 +202,31 @@
         </executions>
       </plugin>
       <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>default-generate-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <encoding>${project.build.sourceEncoding}</encoding>
+              <outputDirectory>
+                ${project.build.directory}/generated-sources/java
+              </outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/javaTemplates</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <version>3.3.0</version>
         <executions>
@@ -450,25 +475,6 @@
                       <directory>src/main/doc</directory>
                       <includes>
                         <include>README.md</include>
-                      </includes>
-                      <filtering>true</filtering>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>default-generate-version</id>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <encoding>${project.build.sourceEncoding}</encoding>
-                  <outputDirectory>${project.build.sourceDirectory}/ch/usi/si/seart/treesitter/version</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>src/main/template</directory>
-                      <includes>
-                        <include>Library.java</include>
                       </includes>
                       <filtering>true</filtering>
                     </resource>
