@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.error.ABIVersionError;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -697,5 +699,39 @@ public enum Language {
 
     private String getSubmoduleName() {
         return name().toLowerCase().replace("_", "-");
+    }
+
+    /**
+     * Represents Git metadata related to the grammar submodule that a language was built from.
+     * It is intended as a more fine-grained alternative to the {@link #getVersion()} method.
+     * Since community-developed grammars tend to veer from guidelines imposed by the original developers,
+     * the ABI version can not be used to reliably track the current iteration of the grammar.
+     * It is worth noting that some metadata (like tags) may not be present for all languages.
+     *
+     * @author Ozren Dabić
+     * @since 1.11.0
+     */
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    public static final class Metadata {
+
+        URL url;
+        String sha;
+        String tag;
+
+        @Generated
+        public URL getURL() {
+            return url;
+        }
+
+        @Generated
+        public String getSHA() {
+            return sha;
+        }
+
+        @Generated
+        public String getTag() {
+            return tag;
+        }
     }
 }
