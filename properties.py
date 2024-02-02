@@ -26,7 +26,7 @@ class PropertyWriter:
         for key, cmd in self.commands.items():
             result = run(["git", *cmd], cwd=self.workdir, capture_output=True, text=True)
             value = "" if result.returncode else result.stdout.strip()
-            outfile.write(f"tree-sitter.language.{self.language}.{key}={value}\n")
+            outfile.write(f"{key}.{self.language}={value}\n")
 
 
 if __name__ == "__main__":
