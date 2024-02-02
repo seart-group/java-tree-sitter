@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -696,6 +698,37 @@ public enum Language {
 
     private static String capitalize(String name) {
         return name.charAt(0) + name.substring(1).toLowerCase();
+    }
+
+    /**
+     * Get the Git metadata for the language.
+     *
+     * @return the language metadata
+     * @since 1.11.0
+     */
+    public Metadata getMetadata() {
+        return new Metadata(getURL(), getSHA(), getTag());
+    }
+
+    private URL getURL() {
+        String key = "url." + getSubmoduleName();
+        String value = PROPERTIES.getProperty(key);
+        if (value == null) return null;
+        try {
+            return new URL(value);
+        } catch (MalformedURLException ex) {
+            throw new UncheckedIOException(ex);
+        }
+    }
+
+    private String getSHA() {
+        String key = "sha." + getSubmoduleName();
+        return PROPERTIES.getProperty(key);
+    }
+
+    private String getTag() {
+        String key = "tag." + getSubmoduleName();
+        return PROPERTIES.getProperty(key);
     }
 
     private String getSubmoduleName() {
