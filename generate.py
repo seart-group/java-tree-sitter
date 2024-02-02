@@ -78,5 +78,5 @@ public final class TreeSitter {{
     }}
 }}
 """
-    with open(path, "w") as f:
-        f.write(content)
+    with open(path, "w") as file:
+        file.write(content)

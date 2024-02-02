@@ -40,6 +40,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     path = args.output
     directories = find(f"{__location__}/tree-sitter-*")
-    with open(path, "w") as f:
+    with open(path, "w") as file:
         for directory in sorted(directories):
-            PropertyWriter(directory).write(f)
+            PropertyWriter(directory).write(file)
