@@ -7,11 +7,9 @@ from os.path import join as path
 from re import search as match
 from subprocess import run
 
-
-__location__ = realpath(path(cwd(), dirname(__file__)))
-
 # https://www.debuggex.com/r/6FsTee7fWKlzfqVb
 pattern = r"\s([0-9a-fA-F]+)\s[^\s]+\s\(([^)]+)\)"
+__location__ = realpath(path(cwd(), dirname(__file__)))
 
 
 if __name__ == "__main__":
