@@ -681,4 +681,8 @@ public enum Language {
     private static String capitalize(String name) {
         return name.charAt(0) + name.substring(1).toLowerCase();
     }
+
+    private String getSubmoduleName() {
+        return name().toLowerCase().replace("_", "-");
+    }
 }
