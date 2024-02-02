@@ -79,6 +79,7 @@
   </distributionManagement>
 
   <properties>
+    <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
   </properties>
@@ -136,6 +137,14 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.resourceDirectory}</directory>
+        <excludes>
+          <exclude>**/.keep</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -381,6 +390,22 @@
                     ${project.build.directory}/generated-sources/java/ch/usi/si/seart/treesitter/version/TreeSitter.java
                   </argument>
                 </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-language-metadata-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python3</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>properties.py</argument>
+                <argument>-o</argument>
+                <argument>${project.build.resourceDirectory}/language.properties</argument>
+              </arguments>
             </configuration>
           </execution>
           <execution>
