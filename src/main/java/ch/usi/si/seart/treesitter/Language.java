@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -550,6 +552,17 @@ public enum Language {
     List<String> extensions;
 
     private static final long INVALID = 0L;
+
+    private static final Properties PROPERTIES = new Properties();
+
+    static {
+        ClassLoader loader = Language.class.getClassLoader();
+        try (InputStream stream = loader.getResourceAsStream("language.properties")) {
+            PROPERTIES.load(stream);
+        } catch (Exception ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
     private static final Map<String, List<Language>> EXTENSION_LOOKUP = Stream.of(Language.values())
             .flatMap(language -> language.getExtensions().stream().map(extension -> Map.entry(extension, language)))
