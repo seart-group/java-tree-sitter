@@ -17,12 +17,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o",
         "--output",
-        default=f"{__location__}/TreeSitter.java",
+        default=path(__location__, "TreeSitter.java"),
         help="Output file path.",
     )
     args = parser.parse_args()
-    path = args.output
-    cmd = ["git", "submodule", "status", f"{__location__}/tree-sitter"]
+    output = args.output
+    submodule = path(__location__, "tree-sitter")
+    cmd = ["git", "submodule", "status", submodule]
     status = run(cmd, capture_output=True, text=True)
     sha, tag = match(pattern, status.stdout).groups()
     content = f"""/*
@@ -76,5 +77,5 @@ public final class TreeSitter {{
     }}
 }}
 """
-    with open(path, "w") as file:
+    with open(output, "w") as file:
         file.write(content)

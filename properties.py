@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o",
         "--output",
-        default=f"{__location__}/language.properties",
+        default=path(__location__, "language.properties"),
         help="Output file path.",
     )
     args = parser.parse_args()
