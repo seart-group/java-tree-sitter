@@ -3,7 +3,6 @@
 from argparse import ArgumentParser
 from glob import glob as find
 from os import getcwd as cwd
-from os import makedirs
 from os.path import basename, dirname, realpath
 from os.path import join as path
 from subprocess import run
@@ -41,7 +40,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     path = args.output
     directories = find(f"{__location__}/tree-sitter-*")
-    makedirs(dirname(path), exist_ok=True)
     with open(path, "w") as f:
         for directory in sorted(directories):
             PropertyWriter(directory).write(f)
