@@ -393,6 +393,22 @@
             </configuration>
           </execution>
           <execution>
+            <id>generate-language-metadata-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python3</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>properties.py</argument>
+                <argument>-o</argument>
+                <argument>${project.build.resourceDirectory}/language.properties</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>build-shared-object-library-macos</id>
             <phase>compile</phase>
             <goals>
