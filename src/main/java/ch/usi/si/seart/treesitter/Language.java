@@ -561,6 +561,7 @@ public enum Language {
         ClassLoader loader = Language.class.getClassLoader();
         try (InputStream stream = loader.getResourceAsStream("language.properties")) {
             PROPERTIES.load(stream);
+            PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
         } catch (Exception ex) {
             throw new ExceptionInInitializerError(ex);
         }
