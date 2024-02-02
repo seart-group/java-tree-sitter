@@ -79,6 +79,7 @@
   </distributionManagement>
 
   <properties>
+    <project.build.generatedSourceDirectory>${project.build.directory}/generated-sources/java</project.build.generatedSourceDirectory>
     <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
@@ -222,9 +223,7 @@
             </goals>
             <configuration>
               <encoding>${project.build.sourceEncoding}</encoding>
-              <outputDirectory>
-                ${project.build.directory}/generated-sources/java
-              </outputDirectory>
+              <outputDirectory>${project.build.generatedSourceDirectory}</outputDirectory>
               <resources>
                 <resource>
                   <directory>${project.basedir}/src/main/javaTemplates</directory>
@@ -387,7 +386,7 @@
                   <argument>generate.py</argument>
                   <argument>-o</argument>
                   <argument>
-                    ${project.build.directory}/generated-sources/java/ch/usi/si/seart/treesitter/version/TreeSitter.java
+                    ${project.build.generatedSourceDirectory}/ch/usi/si/seart/treesitter/version/TreeSitter.java
                   </argument>
                 </arguments>
             </configuration>
@@ -462,7 +461,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/generated-sources/java/</source>
+                <source>${project.build.generatedSourceDirectory}</source>
               </sources>
             </configuration>
           </execution>
