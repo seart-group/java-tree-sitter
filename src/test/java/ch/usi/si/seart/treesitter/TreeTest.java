@@ -84,6 +84,7 @@ class TreeTest extends TestBase {
         Point end = range.getEndPoint();
         Assertions.assertEquals(new Point(0, 0), start);
         Assertions.assertEquals(new Point(3, 0), end);
+        Assertions.assertFalse(root.hasChanges());
         Node body = root.getChild(0).getChildByFieldName("body");
         int newEndByte = 13;
         Point newEndPoint = new Point(1, 1);
@@ -96,6 +97,7 @@ class TreeTest extends TestBase {
                 newEndPoint
         );
         tree.edit(inputEdit);
+        Assertions.assertTrue(root.hasChanges());
         tree = parser.parse("class Main {\n}\n", tree);
         root = tree.getRootNode();
         Assertions.assertEquals("program", root.getType());
@@ -104,6 +106,7 @@ class TreeTest extends TestBase {
         end = range.getEndPoint();
         Assertions.assertEquals(new Point(0, 0), start);
         Assertions.assertEquals(new Point(2, 0), end);
+        Assertions.assertFalse(root.hasChanges());
     }
 
     @Test

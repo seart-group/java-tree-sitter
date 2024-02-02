@@ -55,6 +55,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     }
 
     @Override
+    public int getCurrentDepth() {
+        return cursor.getCurrentDepth();
+    }
+
+    @Override
     public String getCurrentFieldName() {
         return cursor.getCurrentFieldName();
     }
@@ -92,6 +97,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     @Override
     public void preorderTraversal(@NotNull Consumer<Node> callback) {
         cursor.preorderTraversal(callback);
+    }
+
+    @Override
+    public boolean reset(@NotNull TreeCursor other) {
+        return cursor.reset(other);
     }
 
     @Override
@@ -153,6 +163,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
                     startPoint.subtract(offset),
                     endPoint.subtract(offset)
             );
+        }
+
+        @Override
+        public int getDescendantCount() {
+            return node.getDescendantCount();
         }
 
         @Override
@@ -221,6 +236,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public int getNextParseState() {
+            return node.getNextParseState();
+        }
+
+        @Override
         public Node getNextSibling() {
             return new OffsetNode(node.getNextSibling());
         }
@@ -238,6 +258,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         @Override
         public Node getParent() {
             return new OffsetNode(node.getParent());
+        }
+
+        @Override
+        public int getParseState() {
+            return node.getParseState();
         }
 
         @Override
@@ -266,8 +291,18 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public boolean hasChanges() {
+            return node.hasChanges();
+        }
+
+        @Override
         public boolean hasError() {
             return node.hasError();
+        }
+
+        @Override
+        public boolean isError() {
+            return node.isError();
         }
 
         @Override

@@ -70,6 +70,21 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
+    void testGetCurrentDepth() {
+        Assertions.assertEquals(0, cursor.getCurrentDepth());
+        cursor.gotoFirstChild();
+        Assertions.assertEquals(1, cursor.getCurrentDepth());
+        cursor.gotoFirstChild();
+        Assertions.assertEquals(2, cursor.getCurrentDepth());
+        cursor.gotoNextSibling();
+        Assertions.assertEquals(2, cursor.getCurrentDepth());
+        cursor.gotoParent();
+        Assertions.assertEquals(1, cursor.getCurrentDepth());
+        cursor.gotoParent();
+        Assertions.assertEquals(0, cursor.getCurrentDepth());
+    }
+
+    @Test
     void testGotoFirstChildByteOffset() {
         cursor.gotoFirstChild(); // function_definition
         cursor.gotoFirstChild(4);
@@ -131,6 +146,23 @@ class TreeCursorTest extends TestBase {
         Assertions.assertThrows(NullPointerException.class, () -> cursor.gotoNode(null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoNode(empty));
         Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.gotoNode(clone));
+    }
+
+    @Test
+    void testReset() {
+        @Cleanup TreeCursor external = tree.clone().getRootNode().walk();
+        Node root = tree.getRootNode();
+        @Cleanup TreeCursor other = root.walk();
+        Assertions.assertEquals(cursor.getCurrentNode(), other.getCurrentNode());
+        Assertions.assertFalse(cursor.reset(other));
+        other.gotoFirstChild(); // function_definition
+        other.gotoFirstChild(); // def
+        other.gotoNextSibling(); // identifier
+        Assertions.assertNotEquals(cursor.getCurrentNode(), other.getCurrentNode());
+        Assertions.assertTrue(cursor.reset(other));
+        Assertions.assertEquals(cursor.getCurrentNode(), other.getCurrentNode());
+        Assertions.assertThrows(NullPointerException.class, () -> cursor.reset(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cursor.reset(external));
     }
 
     @Test

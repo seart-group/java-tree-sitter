@@ -161,17 +161,14 @@ dkms.conf
 .idea/**/libraries
 
 # Gradle and Maven with auto-import
-# When using Gradle or Maven with auto-import, you should exclude module files,
-# since they will be recreated, and may cause churn.  Uncomment if using
-# auto-import.
-# .idea/artifacts
-# .idea/compiler.xml
-# .idea/jarRepositories.xml
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-# *.iml
-# *.ipr
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+*.iml
+*.ipr
 
 # CMake
 cmake-build-*/
@@ -209,6 +206,13 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+# Plugin files
+.idea/checkstyle-idea.xml
+.idea/git_toolbox_prj.xml
+.idea/jpa-buddy.xml
+.idea/misc.xml
+.idea/vcs.xml
+
 ### Xcode template
 ## User settings
 xcuserdata/
@@ -244,3 +248,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### Images template
+# Scalable Vector Graphics
+*.svg
+*.svgz
+
+# DOT files
+*.dot

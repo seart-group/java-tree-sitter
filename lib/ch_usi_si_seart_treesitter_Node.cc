@@ -147,6 +147,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lc
   return descendantObject;
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantCount(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_null(node) ? (jint)0 : (jint)ts_node_descendant_count(node);
+}
+
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getEndByte(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
@@ -197,6 +203,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
   return childObject;
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextParseState(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_null(node) ? (jint)-1 : (jint)ts_node_next_parse_state(node);
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextSibling(
   JNIEnv* env, jobject thisObject, jboolean named) {
   TSNode (*next_sibling_getter)(TSNode) = (bool)named
@@ -231,6 +243,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent(
   jobject parentObject = __marshalNode(env, parent);
   __copyTree(env, thisObject, parentObject);
   return parentObject;
+}
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getParseState(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_null(node) ? (jint)-1 : (jint)ts_node_parse_state(node);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartByte(
@@ -279,10 +297,22 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType(
   return env->NewStringUTF(type);
 }
 
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasChanges(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_has_changes(node) ? JNI_TRUE : JNI_FALSE;
+}
+
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError(
   JNIEnv* env, jobject thisObject) {
   TSNode node = __unmarshalNode(env, thisObject);
   return ts_node_has_error(node) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isError(
+  JNIEnv* env, jobject thisObject) {
+  TSNode node = __unmarshalNode(env, thisObject);
+  return ts_node_is_error(node) ? JNI_TRUE : JNI_FALSE;
 }
 
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isExtra(
