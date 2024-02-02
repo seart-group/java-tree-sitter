@@ -737,9 +737,9 @@ public enum Language {
 
     /**
      * Represents Git metadata related to the grammar submodule that a language was built from.
-     * It is intended as a more fine-grained alternative to the {@link #getVersion()} method.
+     * It is intended as a more fine-grained alternative to the ABI {@link Language#version}.
      * Since community-developed grammars tend to veer from guidelines imposed by the original developers,
-     * the ABI version can not be used to reliably track the current iteration of the grammar.
+     * said version number can not be used to reliably track the current iteration of the grammar.
      * It is worth noting that some metadata (like tags) may not be present for all languages.
      *
      * @author Ozren Dabić
