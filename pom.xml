@@ -80,6 +80,7 @@
 
   <properties>
     <project.build.generatedSourceDirectory>${project.build.directory}/generated-sources/java</project.build.generatedSourceDirectory>
+    <project.build.templateSourceDirectory>${project.basedir}/src/main/javaTemplates</project.build.templateSourceDirectory>
     <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
@@ -226,7 +227,7 @@
               <outputDirectory>${project.build.generatedSourceDirectory}</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${project.basedir}/src/main/javaTemplates</directory>
+                  <directory>${project.build.templateSourceDirectory}</directory>
                   <filtering>true</filtering>
                 </resource>
               </resources>
