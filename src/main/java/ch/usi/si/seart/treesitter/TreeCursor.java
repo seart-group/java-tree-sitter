@@ -112,6 +112,19 @@ public class TreeCursor extends External implements Cloneable {
     public native boolean gotoFirstChild(@NotNull Point point);
 
     /**
+     * Move the cursor to the last child of its current node.
+     * <p>
+     * Note that this method may be slower than {@link #gotoFirstChild()}
+     * because it needs to iterate through all the children to
+     * compute the child's position.
+     *
+     * @return true if the cursor successfully moved,
+     * and false if there were no children
+     * @since 1.12.0
+     */
+    public native boolean gotoLastChild();
+
+    /**
      * Move the cursor to the next sibling of its current node.
      *
      * @return true if the cursor successfully moved,
@@ -213,6 +226,11 @@ public class TreeCursor extends External implements Cloneable {
 
         @Override
         public boolean gotoFirstChild(@NotNull Point point) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoLastChild() {
             throw new UnsupportedOperationException();
         }
 

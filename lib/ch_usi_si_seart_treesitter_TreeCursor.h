@@ -73,6 +73,14 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstC
 
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    gotoLastChild
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoLastChild
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
  * Method:    gotoNextSibling
  * Signature: ()Z
  */
