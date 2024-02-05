@@ -133,6 +133,20 @@ public class TreeCursor extends External implements Cloneable {
     public native boolean gotoNextSibling();
 
     /**
+     * Move the cursor to the previous sibling of its current node.
+     * <p>
+     * Note that this method may be slower than {@link #gotoNextSibling()}
+     * due to how node positions are stored. In the worst case, this
+     * method may need to iterate through all the previous nodes
+     * up to the destination.
+     *
+     * @return true if the cursor successfully moved,
+     * and false if there was no previous sibling node
+     * @since 1.12.0
+     */
+    public native boolean gotoPrevSibling();
+
+    /**
      * Move the cursor to the parent of its current node.
      *
      * @return true if the cursor successfully moved,
@@ -236,6 +250,11 @@ public class TreeCursor extends External implements Cloneable {
 
         @Override
         public boolean gotoNextSibling() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoPrevSibling() {
             throw new UnsupportedOperationException();
         }
 
