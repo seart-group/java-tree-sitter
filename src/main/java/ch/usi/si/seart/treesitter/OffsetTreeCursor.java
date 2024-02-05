@@ -80,6 +80,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     }
 
     @Override
+    public boolean gotoLastChild() {
+        return cursor.gotoLastChild();
+    }
+
+    @Override
     public boolean gotoNextSibling() {
         return cursor.gotoNextSibling();
     }
