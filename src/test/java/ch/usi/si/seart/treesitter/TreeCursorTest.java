@@ -50,6 +50,7 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
 
+        Assertions.assertFalse(cursor.gotoPrevSibling());
         Assertions.assertEquals("def", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
@@ -65,8 +66,22 @@ class TreeCursorTest extends TestBase {
         Assertions.assertFalse(cursor.gotoNextSibling());
 
         Assertions.assertTrue(cursor.gotoParent());
-        Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
-        Assertions.assertTrue(cursor.gotoFirstChild());
+        Assertions.assertTrue(cursor.gotoLastChild());
+
+        Assertions.assertFalse(cursor.gotoNextSibling());
+        Assertions.assertEquals("block", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("body", cursor.getCurrentFieldName());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals(":", cursor.getCurrentNode().getType());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals("parameters", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("parameters", cursor.getCurrentFieldName());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("name", cursor.getCurrentFieldName());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals("def", cursor.getCurrentNode().getType());
+        Assertions.assertFalse(cursor.gotoPrevSibling());
     }
 
     @Test
