@@ -340,6 +340,10 @@ ComparisonResult intcmp(uint32_t x, uint32_t y) {
   return (x < y) ? LT : ((x == y) ? EQ : GT);
 }
 
+jint __throwNSE(JNIEnv* env, const char* message) {
+  return _throwNew(_noSuchElementExceptionClass, message);
+}
+
 jint __throwNPE(JNIEnv* env, const char* message) {
   return _throwNew(_nullPointerExceptionClass, message);
 }

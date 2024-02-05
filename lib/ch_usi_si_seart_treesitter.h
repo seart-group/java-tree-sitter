@@ -211,6 +211,8 @@ typedef enum {
 
 ComparisonResult intcmp(uint32_t x, uint32_t y);
 
+jint __throwNSE(JNIEnv* env, const char* message);
+
 jint __throwNPE(JNIEnv* env, const char* message);
 
 jint __throwIAE(JNIEnv* env, const char* message);
