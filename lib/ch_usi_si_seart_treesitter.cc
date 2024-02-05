@@ -104,6 +104,7 @@ jfieldID _treeCursorIdField;
 jfieldID _treeCursorTreeField;
 jmethodID _treeCursorConstructor;
 
+jclass _noSuchElementExceptionClass;
 jclass _nullPointerExceptionClass;
 jclass _illegalArgumentExceptionClass;
 jclass _illegalStateExceptionClass;
@@ -252,6 +253,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_treeCursorTreeField, _treeCursorClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
   _loadConstructor(_treeCursorConstructor, _treeCursorClass, "(JIIJLch/usi/si/seart/treesitter/Tree;)V")
 
+  _loadClass(_noSuchElementExceptionClass, "java/util/NoSuchElementException")
   _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException")
   _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException")
   _loadClass(_illegalStateExceptionClass, "java/lang/IllegalStateException")
@@ -315,6 +317,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_queryCursorClass)
   _unload(_symbolClass)
   _unload(_treeCursorClass)
+  _unload(_noSuchElementExceptionClass)
   _unload(_nullPointerExceptionClass)
   _unload(_illegalArgumentExceptionClass)
   _unload(_illegalStateExceptionClass)

@@ -13,6 +13,7 @@ extern jclass _mapClass;
 extern jclass _mapEntryClass;
 extern jmethodID _mapEntryStaticMethod;
 
+extern jclass _noSuchElementExceptionClass;
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;
