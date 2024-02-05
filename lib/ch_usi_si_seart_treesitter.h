@@ -117,6 +117,11 @@ extern jfieldID _treeCursorIdField;
 extern jfieldID _treeCursorTreeField;
 extern jmethodID _treeCursorConstructor;
 
+extern jclass _lookaheadIteratorClass;
+extern jfieldID _lookaheadIteratorHasNextField;
+extern jfieldID _lookaheadIteratorLanguageField;
+extern jmethodID _lookaheadIteratorConstructor;
+
 extern jclass _treeSitterExceptionClass;
 
 extern jclass _byteOffsetOutOfBoundsExceptionClass;
