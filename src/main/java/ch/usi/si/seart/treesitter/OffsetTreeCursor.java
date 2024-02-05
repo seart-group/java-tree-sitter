@@ -191,6 +191,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
         }
 
         @Override
+        public String getGrammarType() {
+            return node.getGrammarType();
+        }
+
+        @Override
         public Node getFirstChildForByte(int offset) {
             throw new UnsupportedOperationException(UOE_MESSAGE_2);
         }
