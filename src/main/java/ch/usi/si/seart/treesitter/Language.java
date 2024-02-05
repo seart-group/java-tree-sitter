@@ -548,10 +548,12 @@ public enum Language {
     private static native int symbols(long id);
     private static native Symbol symbol(long languageId, int symbolId);
     private static native int fields(long id);
+    private static native int states(long id);
 
     long id;
     int version;
     int totalFields;
+    int totalStates;
     Collection<Symbol> symbols;
     List<String> extensions;
 
@@ -584,17 +586,18 @@ public enum Language {
     }
 
     Language(long id) {
-        this(id, 0, 0, 0, Collections.emptyList());
+        this(id, 0, 0, 0, 0, Collections.emptyList());
     }
 
     Language(long id, String... extensions) {
-        this(id, version(id), fields(id), symbols(id), List.of(extensions));
+        this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));
     }
 
-    Language(long id, int version, int totalFields, int totalSymbols, List<String> extensions) {
+    Language(long id, int version, int totalFields, int totalStates, int totalSymbols, List<String> extensions) {
         this.id = id;
         this.version = version;
         this.totalFields = totalFields;
+        this.totalStates = totalStates;
         this.symbols = IntStream.range(0, totalSymbols)
                 .mapToObj(symbolId -> symbol(id, symbolId))
                 .collect(Collectors.toUnmodifiableList());

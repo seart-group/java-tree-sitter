@@ -489,6 +489,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    states
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif

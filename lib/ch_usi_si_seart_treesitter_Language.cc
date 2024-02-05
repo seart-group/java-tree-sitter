@@ -537,3 +537,8 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields(
   JNIEnv* env, jclass self, jlong id) {
   return (jint)ts_language_field_count((const TSLanguage *)id);
 }
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states(
+  JNIEnv* env, jclass self, jlong id) {
+  return (jint)ts_language_state_count((const TSLanguage *)id);
+}
