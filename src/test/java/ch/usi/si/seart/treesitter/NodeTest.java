@@ -398,6 +398,13 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetGrammarType() {
+        Assertions.assertEquals("module", root.getGrammarType());
+        Assertions.assertEquals("function_definition", root.getChild(0).getGrammarType());
+        Assertions.assertNull(empty.getGrammarType());
+    }
+
+    @Test
     void testHasError() {
         @Cleanup Tree tree = parser.parse("def foo(bar, baz):\n  print(bar.)");
         Node root = tree.getRootNode();
