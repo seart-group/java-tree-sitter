@@ -90,6 +90,11 @@ public class OffsetTreeCursor extends TreeCursor.Stub {
     }
 
     @Override
+    public boolean gotoPrevSibling() {
+        return cursor.gotoPrevSibling();
+    }
+
+    @Override
     public boolean gotoParent() {
         return cursor.gotoParent();
     }
