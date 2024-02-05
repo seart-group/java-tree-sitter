@@ -4,7 +4,7 @@
 
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.11.0-SNAPSHOT</version>
+  <version>1.12.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java bindings for tree-sitter</description>
@@ -79,6 +79,9 @@
   </distributionManagement>
 
   <properties>
+    <project.build.generatedSourceDirectory>${project.build.directory}/generated-sources/java</project.build.generatedSourceDirectory>
+    <project.build.templateSourceDirectory>${project.basedir}/src/main/javaTemplates</project.build.templateSourceDirectory>
+    <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
   </properties>
@@ -88,7 +91,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.10.1</version>
+        <version>5.10.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -136,6 +139,14 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.resourceDirectory}</directory>
+        <excludes>
+          <exclude>**/.keep</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -213,15 +224,32 @@
             </goals>
             <configuration>
               <encoding>${project.build.sourceEncoding}</encoding>
-              <outputDirectory>
-                ${project.build.directory}/generated-sources/java
-              </outputDirectory>
+              <outputDirectory>${project.build.generatedSourceDirectory}</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${project.basedir}/src/main/javaTemplates</directory>
+                  <directory>${project.build.templateSourceDirectory}</directory>
                   <filtering>true</filtering>
                 </resource>
               </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>7.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <configuration>
+              <commitIdGenerationMode>full</commitIdGenerationMode>
+              <generateGitPropertiesFile>true</generateGitPropertiesFile>
+              <generateGitPropertiesFilename>
+                ${project.build.outputDirectory}/git.properties
+              </generateGitPropertiesFilename>
             </configuration>
           </execution>
         </executions>
@@ -378,9 +406,25 @@
                   <argument>generate.py</argument>
                   <argument>-o</argument>
                   <argument>
-                    ${project.build.directory}/generated-sources/java/ch/usi/si/seart/treesitter/version/TreeSitter.java
+                    ${project.build.generatedSourceDirectory}/ch/usi/si/seart/treesitter/version/TreeSitter.java
                   </argument>
                 </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-language-metadata-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python3</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>properties.py</argument>
+                <argument>-o</argument>
+                <argument>${project.build.resourceDirectory}/language.properties</argument>
+              </arguments>
             </configuration>
           </execution>
           <execution>
@@ -437,7 +481,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/generated-sources/java/</source>
+                <source>${project.build.generatedSourceDirectory}</source>
               </sources>
             </configuration>
           </execution>

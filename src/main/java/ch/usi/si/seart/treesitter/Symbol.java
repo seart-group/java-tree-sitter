@@ -6,6 +6,8 @@ import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Objects;
+
 /**
  * Represents a symbol in an abstract syntax {@link Tree}.
  * Symbols are used to identify nodes in the AST.
@@ -32,6 +34,21 @@ public class Symbol {
     @Generated
     public String toString() {
         return String.format("Symbol(id: %d, type: %s, name: '%s')", id, type, name);
+    }
+
+    @Override
+    @Generated
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Symbol symbol = (Symbol) obj;
+        return id == symbol.id && type == symbol.type && Objects.equals(name, symbol.name);
+    }
+
+    @Override
+    @Generated
+    public int hashCode() {
+        return Objects.hash(id, type, name);
     }
 
     /**

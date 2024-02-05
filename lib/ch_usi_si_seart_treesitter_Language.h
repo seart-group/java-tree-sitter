@@ -51,10 +51,10 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_commonLisp
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
- * Method:    cMake
+ * Method:    cmake
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cMake
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake
   (JNIEnv *, jclass);
 
 /*
@@ -179,10 +179,10 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
- * Method:    graphQl
+ * Method:    graphql
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphql
   (JNIEnv *, jclass);
 
 /*
@@ -495,6 +495,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    states
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states
   (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus

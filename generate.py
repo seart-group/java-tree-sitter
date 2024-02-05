@@ -7,11 +7,9 @@ from os.path import join as path
 from re import search as match
 from subprocess import run
 
-
-__location__ = realpath(path(cwd(), dirname(__file__)))
-
 # https://www.debuggex.com/r/6FsTee7fWKlzfqVb
 pattern = r"\s([0-9a-fA-F]+)\s[^\s]+\s\(([^)]+)\)"
+__location__ = realpath(path(cwd(), dirname(__file__)))
 
 
 if __name__ == "__main__":
@@ -19,12 +17,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o",
         "--output",
-        default=f"{__location__}/TreeSitter.java",
+        default=path(__location__, "TreeSitter.java"),
         help="Output file path.",
     )
     args = parser.parse_args()
-    path = args.output
-    cmd = ["git", "submodule", "status", f"{__location__}/tree-sitter"]
+    output = args.output
+    submodule = path(__location__, "tree-sitter")
+    cmd = ["git", "submodule", "status", submodule]
     status = run(cmd, capture_output=True, text=True)
     sha, tag = match(pattern, status.stdout).groups()
     content = f"""/*
@@ -78,5 +77,5 @@ public final class TreeSitter {{
     }}
 }}
 """
-    with open(path, "w") as f:
-        f.write(content)
+    with open(output, "w") as file:
+        file.write(content)

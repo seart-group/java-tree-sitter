@@ -2,6 +2,7 @@ package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.error.ABIVersionError;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +10,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -17,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -78,7 +84,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/uyha/tree-sitter-cmake">tree-sitter-cmake</a>
      */
-    CMAKE(cMake(), "cmake"),
+    CMAKE(cmake(), "cmake"),
 
     /**
      * Common Lisp programming language.
@@ -92,7 +98,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter-c-sharp</a>
      */
-    CSHARP(cSharp(), "cs"),
+    C_SHARP(cSharp(), "cs"),
 
     /**
      * C++ programming language.
@@ -197,7 +203,7 @@ public enum Language {
      *
      * @see <a href="https://github.com/bkegley/tree-sitter-graphql">tree-sitter-graphql</a>
      */
-    GRAPHQL(graphQl(), "graphql"),
+    GRAPHQL(graphql(), "graphql"),
 
     /**
      * HCL: HashiCorp Configuration Language.
@@ -449,7 +455,7 @@ public enum Language {
     private static native long c();
     private static native long clojure();
     private static native long commonLisp();
-    private static native long cMake();
+    private static native long cmake();
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
@@ -465,7 +471,7 @@ public enum Language {
     private static native long gitattributes();
     private static native long gitignore();
     private static native long go();
-    private static native long graphQl();
+    private static native long graphql();
     private static native long haskell();
     private static native long hcl();
     private static native long html();
@@ -559,14 +565,28 @@ public enum Language {
     private static native int symbols(long id);
     private static native Symbol symbol(long languageId, int symbolId);
     private static native int fields(long id);
+    private static native int states(long id);
 
     long id;
     int version;
     int totalFields;
+    int totalStates;
     Collection<Symbol> symbols;
     List<String> extensions;
 
     private static final long INVALID = 0L;
+
+    private static final Properties PROPERTIES = new Properties();
+
+    static {
+        ClassLoader loader = Language.class.getClassLoader();
+        try (InputStream stream = loader.getResourceAsStream("language.properties")) {
+            PROPERTIES.load(stream);
+            PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
+        } catch (Exception ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
     private static final Map<String, List<Language>> EXTENSION_LOOKUP = Stream.of(Language.values())
             .flatMap(language -> language.getExtensions().stream().map(extension -> Map.entry(extension, language)))
@@ -583,17 +603,18 @@ public enum Language {
     }
 
     Language(long id) {
-        this(id, 0, 0, 0, Collections.emptyList());
+        this(id, 0, 0, 0, 0, Collections.emptyList());
     }
 
     Language(long id, String... extensions) {
-        this(id, version(id), fields(id), symbols(id), List.of(extensions));
+        this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));
     }
 
-    Language(long id, int version, int totalFields, int totalSymbols, List<String> extensions) {
+    Language(long id, int version, int totalFields, int totalStates, int totalSymbols, List<String> extensions) {
         this.id = id;
         this.version = version;
         this.totalFields = totalFields;
+        this.totalStates = totalStates;
         this.symbols = IntStream.range(0, totalSymbols)
                 .mapToObj(symbolId -> symbol(id, symbolId))
                 .collect(Collectors.toUnmodifiableList());
@@ -679,8 +700,8 @@ public enum Language {
             /*
              * Special Cases
              */
+            case C_SHARP: return "C#";
             case CMAKE: return "CMake";
-            case CSHARP: return "C#";
             case CPP: return "C++";
             case GRAPHQL: return "GraphQL";
             case JAVASCRIPT: return "JavaScript";
@@ -698,5 +719,74 @@ public enum Language {
 
     private static String capitalize(String name) {
         return name.charAt(0) + name.substring(1).toLowerCase();
+    }
+
+    /**
+     * Get the Git metadata for the language.
+     *
+     * @return the language metadata
+     * @since 1.11.0
+     */
+    public Metadata getMetadata() {
+        return new Metadata(getURL(), getSHA(), getTag());
+    }
+
+    private URL getURL() {
+        String key = "url." + getSubmoduleName();
+        String value = PROPERTIES.getProperty(key);
+        if (value == null) return null;
+        try {
+            return new URL(value);
+        } catch (MalformedURLException ex) {
+            throw new UncheckedIOException(ex);
+        }
+    }
+
+    private String getSHA() {
+        String key = "sha." + getSubmoduleName();
+        return PROPERTIES.getProperty(key);
+    }
+
+    private String getTag() {
+        String key = "tag." + getSubmoduleName();
+        return PROPERTIES.getProperty(key);
+    }
+
+    private String getSubmoduleName() {
+        return name().toLowerCase().replace("_", "-");
+    }
+
+    /**
+     * Represents Git metadata related to the grammar submodule that a language was built from.
+     * It is intended as a more fine-grained alternative to the ABI {@link Language#version}.
+     * Since community-developed grammars tend to veer from guidelines imposed by the original developers,
+     * said version number can not be used to reliably track the current iteration of the grammar.
+     * It is worth noting that some metadata (like tags) may not be present for all languages.
+     *
+     * @author Ozren Dabić
+     * @since 1.11.0
+     */
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    public static final class Metadata {
+
+        URL url;
+        String sha;
+        String tag;
+
+        @Generated
+        public URL getURL() {
+            return url;
+        }
+
+        @Generated
+        public String getSHA() {
+            return sha;
+        }
+
+        @Generated
+        public String getTag() {
+            return tag;
+        }
     }
 }

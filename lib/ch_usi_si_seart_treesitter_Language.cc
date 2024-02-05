@@ -49,7 +49,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_clojure(
 #endif
 }
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cMake(
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_CMAKE
   return (jlong)tree_sitter_cmake();
@@ -193,7 +193,7 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_go(
 #endif
 }
 
-JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphQl(
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_graphql(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_GRAPHQL
   return (jlong)tree_sitter_graphql();
@@ -545,4 +545,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields(
   JNIEnv* env, jclass self, jlong id) {
   return (jint)ts_language_field_count((const TSLanguage *)id);
+}
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states(
+  JNIEnv* env, jclass self, jlong id) {
+  return (jint)ts_language_state_count((const TSLanguage *)id);
 }
