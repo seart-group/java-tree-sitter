@@ -173,6 +173,18 @@ public class Node implements Iterable<Node> {
      */
     public native String getFieldNameForChild(int child);
 
+
+    /**
+     * Get the syntax tree {@link Symbol} associated with this node
+     * as it appears in the grammar, ignoring aliases.
+     *
+     * @return the node's symbol
+     * @since 1.12.0
+     */
+    public Symbol getGrammarSymbol() {
+        return getSymbol(true);
+    }
+
     /**
      * Get the first child {@code Node} that extends beyond the given byte offset.
      *
@@ -373,7 +385,11 @@ public class Node implements Iterable<Node> {
      * @return the node's symbol
      * @since 1.6.0
      */
-    public native Symbol getSymbol();
+    public Symbol getSymbol() {
+        return getSymbol(false);
+    }
+
+    private native Symbol getSymbol(boolean grammar);
 
     /**
      * Get the node's type as a string.

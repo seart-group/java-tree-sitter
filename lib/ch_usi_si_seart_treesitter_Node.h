@@ -154,10 +154,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getSymbol
- * Signature: ()Lch/usi/si/seart/treesitter/Symbol;
+ * Signature: (Z)Lch/usi/si/seart/treesitter/Symbol;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
