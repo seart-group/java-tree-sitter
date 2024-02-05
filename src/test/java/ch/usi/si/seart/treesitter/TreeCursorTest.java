@@ -42,14 +42,13 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
-    void testWalk() {
+    void testWalkLeftToRight() {
         Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("module", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
         Assertions.assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
-
         Assertions.assertFalse(cursor.gotoPrevSibling());
         Assertions.assertEquals("def", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
@@ -64,10 +63,19 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals("block", cursor.getCurrentNode().getType());
         Assertions.assertEquals("body", cursor.getCurrentFieldName());
         Assertions.assertFalse(cursor.gotoNextSibling());
-
         Assertions.assertTrue(cursor.gotoParent());
-        Assertions.assertTrue(cursor.gotoLastChild());
+        Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertFalse(cursor.gotoParent());
+    }
 
+    @Test
+    void testWalkRightToLeft() {
+        Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
+        Assertions.assertEquals("module", cursor.getCurrentNode().getType());
+        Assertions.assertTrue(cursor.gotoLastChild());
+        Assertions.assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
+        Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
+        Assertions.assertTrue(cursor.gotoLastChild());
         Assertions.assertFalse(cursor.gotoNextSibling());
         Assertions.assertEquals("block", cursor.getCurrentNode().getType());
         Assertions.assertEquals("body", cursor.getCurrentFieldName());
@@ -82,6 +90,9 @@ class TreeCursorTest extends TestBase {
         Assertions.assertTrue(cursor.gotoPrevSibling());
         Assertions.assertEquals("def", cursor.getCurrentNode().getType());
         Assertions.assertFalse(cursor.gotoPrevSibling());
+        Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertFalse(cursor.gotoParent());
     }
 
     @Test
