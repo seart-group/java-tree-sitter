@@ -510,12 +510,12 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_zig(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_version(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_version((const TSLanguage *)id);
+  return (jint)ts_language_version((const TSLanguage*)id);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_symbols(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_symbol_count((const TSLanguage *)id);
+  return (jint)ts_language_symbol_count((const TSLanguage*)id);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
@@ -535,12 +535,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_field_count((const TSLanguage *)id);
+  return (jint)ts_language_field_count((const TSLanguage*)id);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_state_count((const TSLanguage *)id);
+  return (jint)ts_language_state_count((const TSLanguage*)id);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
