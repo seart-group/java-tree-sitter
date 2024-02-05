@@ -186,6 +186,16 @@ public class Node implements Iterable<Node> {
     }
 
     /**
+     * Get the node's type as a string as it appears in the grammar, ignoring aliases.
+     *
+     * @return the node's type
+     * @since 1.12.0
+     */
+    public String getGrammarType() {
+        return getType(true);
+    }
+
+    /**
      * Get the first child {@code Node} that extends beyond the given byte offset.
      *
      * @param offset the offset in bytes
@@ -396,7 +406,11 @@ public class Node implements Iterable<Node> {
      *
      * @return the node's type
      */
-    public native String getType();
+    public String getType() {
+        return getType(false);
+    }
+
+    private native String getType(boolean grammar);
 
     /**
      * Check if this node, or any of its children, has been edited.

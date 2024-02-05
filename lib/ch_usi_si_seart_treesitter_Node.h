@@ -162,10 +162,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getType
- * Signature: ()Ljava/lang/String;
+ * Signature: (Z)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node

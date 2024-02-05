@@ -293,10 +293,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol(
 }
 
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType(
-  JNIEnv* env, jobject thisObject) {
+  JNIEnv* env, jobject thisObject, jboolean grammar) {
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) return NULL;
-  const char* type = ts_node_type(node);
+  const char* (*type_getter)(TSNode) = (bool)grammar
+    ? ts_node_grammar_type
+    : ts_node_type;
+  const char* type = type_getter(node);
   return env->NewStringUTF(type);
 }
 
