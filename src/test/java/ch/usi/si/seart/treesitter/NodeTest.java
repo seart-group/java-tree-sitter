@@ -383,6 +383,14 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetGrammarSymbol() {
+        Symbol symbol = root.getGrammarSymbol();
+        Assertions.assertEquals("module", symbol.getName());
+        Assertions.assertEquals(Symbol.Type.REGULAR, symbol.getType());
+        Assertions.assertNull(empty.getGrammarSymbol());
+    }
+
+    @Test
     void testGetType() {
         Assertions.assertEquals("module", root.getType());
         Assertions.assertEquals("function_definition", root.getChild(0).getType());
