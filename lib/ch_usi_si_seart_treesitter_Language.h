@@ -497,6 +497,14 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    iterator
+ * Signature: (I)Lch/usi/si/seart/treesitter/LookaheadIterator;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif

@@ -104,6 +104,12 @@ jfieldID _treeCursorIdField;
 jfieldID _treeCursorTreeField;
 jmethodID _treeCursorConstructor;
 
+jclass _lookaheadIteratorClass;
+jfieldID _lookaheadIteratorHasNextField;
+jfieldID _lookaheadIteratorLanguageField;
+jmethodID _lookaheadIteratorConstructor;
+
+jclass _noSuchElementExceptionClass;
 jclass _nullPointerExceptionClass;
 jclass _illegalArgumentExceptionClass;
 jclass _illegalStateExceptionClass;
@@ -252,6 +258,12 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_treeCursorTreeField, _treeCursorClass, "tree", "Lch/usi/si/seart/treesitter/Tree;")
   _loadConstructor(_treeCursorConstructor, _treeCursorClass, "(JIIJLch/usi/si/seart/treesitter/Tree;)V")
 
+  _loadClass(_lookaheadIteratorClass, "ch/usi/si/seart/treesitter/LookaheadIterator")
+  _loadField(_lookaheadIteratorHasNextField, _lookaheadIteratorClass, "hasNext", "Z")
+  _loadField(_lookaheadIteratorLanguageField, _lookaheadIteratorClass, "language", "Lch/usi/si/seart/treesitter/Language;")
+  _loadConstructor(_lookaheadIteratorConstructor, _lookaheadIteratorClass, "(JZLch/usi/si/seart/treesitter/Language;)V")
+
+  _loadClass(_noSuchElementExceptionClass, "java/util/NoSuchElementException")
   _loadClass(_nullPointerExceptionClass, "java/lang/NullPointerException")
   _loadClass(_illegalArgumentExceptionClass, "java/lang/IllegalArgumentException")
   _loadClass(_illegalStateExceptionClass, "java/lang/IllegalStateException")
@@ -315,6 +327,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_queryCursorClass)
   _unload(_symbolClass)
   _unload(_treeCursorClass)
+  _unload(_lookaheadIteratorClass)
+  _unload(_noSuchElementExceptionClass)
   _unload(_nullPointerExceptionClass)
   _unload(_illegalArgumentExceptionClass)
   _unload(_illegalStateExceptionClass)
@@ -335,6 +349,10 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
 
 ComparisonResult intcmp(uint32_t x, uint32_t y) {
   return (x < y) ? LT : ((x == y) ? EQ : GT);
+}
+
+jint __throwNSE(JNIEnv* env, const char* message) {
+  return _throwNew(_noSuchElementExceptionClass, message);
 }
 
 jint __throwNPE(JNIEnv* env, const char* message) {

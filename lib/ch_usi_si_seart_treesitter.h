@@ -13,6 +13,7 @@ extern jclass _mapClass;
 extern jclass _mapEntryClass;
 extern jmethodID _mapEntryStaticMethod;
 
+extern jclass _noSuchElementExceptionClass;
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;
@@ -116,6 +117,11 @@ extern jfieldID _treeCursorIdField;
 extern jfieldID _treeCursorTreeField;
 extern jmethodID _treeCursorConstructor;
 
+extern jclass _lookaheadIteratorClass;
+extern jfieldID _lookaheadIteratorHasNextField;
+extern jfieldID _lookaheadIteratorLanguageField;
+extern jmethodID _lookaheadIteratorConstructor;
+
 extern jclass _treeSitterExceptionClass;
 
 extern jclass _byteOffsetOutOfBoundsExceptionClass;
@@ -209,6 +215,8 @@ typedef enum {
 } ComparisonResult;
 
 ComparisonResult intcmp(uint32_t x, uint32_t y);
+
+jint __throwNSE(JNIEnv* env, const char* message);
 
 jint __throwNPE(JNIEnv* env, const char* message);
 

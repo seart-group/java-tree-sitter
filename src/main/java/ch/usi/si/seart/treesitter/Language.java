@@ -604,6 +604,20 @@ public enum Language {
         this.extensions = extensions;
     }
 
+    /**
+     * Create a lookahead iterator, beginning from a specific parse state.
+     *
+     * @param state the parse state
+     * @return a lookahead iterator
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code state} &lt; 0</li>
+     *     <li>{@code state} &ge; {@link #totalStates}</li>
+     * </ul>
+     * @since 1.12.0
+     */
+    public native LookaheadIterator iterator(int state);
+
     @Generated
     @SuppressWarnings("unused")
     public int getTotalSymbols() {
