@@ -618,6 +618,32 @@ public enum Language {
      */
     public native LookaheadIterator iterator(int state);
 
+    /**
+     * Obtain the next language parse state for a given {@link Node}.
+     * <p>
+     * Combine this with lookahead iterators to generate completion
+     * suggestions or valid symbols in {@code ERROR} nodes.
+     *
+     * @param node the node
+     * @return the next parse state
+     * @throws NullPointerException if {@code node} is null
+     * @throws IllegalArgumentException if this language
+     * was not used to parse the node and its syntax tree
+     * @since 1.12.0
+     */
+    public int nextState(@NotNull Node node) {
+        Objects.requireNonNull(node, "Node must not be null!");
+        Language language = node.getLanguage();
+        if (!this.equals(language)) throw new IllegalArgumentException(
+                "Node language does not match the language of this instance!"
+        );
+        int state = node.getParseState();
+        Symbol symbol = node.getGrammarSymbol();
+        return nextState(id, state, symbol.getId());
+    }
+
+    private static native int nextState(long id, int state, int symbol);
+
     @Generated
     @SuppressWarnings("unused")
     public int getTotalSymbols() {
