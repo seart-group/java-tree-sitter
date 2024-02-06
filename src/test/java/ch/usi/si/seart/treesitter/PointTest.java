@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class PointTest extends TestBase {
+class PointTest extends BaseTest {
 
     @Test
     void testIsOrigin() {

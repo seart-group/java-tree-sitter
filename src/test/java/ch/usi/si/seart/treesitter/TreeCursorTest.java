@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-class TreeCursorTest extends TestBase {
+class TreeCursorTest extends BaseTest {
 
     private static Parser parser;
     private static Tree tree;
@@ -42,14 +42,14 @@ class TreeCursorTest extends TestBase {
     }
 
     @Test
-    void testWalk() {
+    void testWalkLeftToRight() {
         Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("module", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
         Assertions.assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoFirstChild());
-
+        Assertions.assertFalse(cursor.gotoPrevSibling());
         Assertions.assertEquals("def", cursor.getCurrentNode().getType());
         Assertions.assertTrue(cursor.gotoNextSibling());
         Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
@@ -63,10 +63,36 @@ class TreeCursorTest extends TestBase {
         Assertions.assertEquals("block", cursor.getCurrentNode().getType());
         Assertions.assertEquals("body", cursor.getCurrentFieldName());
         Assertions.assertFalse(cursor.gotoNextSibling());
-
         Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertFalse(cursor.gotoParent());
+    }
+
+    @Test
+    void testWalkRightToLeft() {
+        Assertions.assertEquals("module", cursor.getCurrentTreeCursorNode().getType());
+        Assertions.assertEquals("module", cursor.getCurrentNode().getType());
+        Assertions.assertTrue(cursor.gotoLastChild());
+        Assertions.assertEquals("function_definition", cursor.getCurrentTreeCursorNode().getType());
         Assertions.assertEquals("function_definition", cursor.getCurrentNode().getType());
-        Assertions.assertTrue(cursor.gotoFirstChild());
+        Assertions.assertTrue(cursor.gotoLastChild());
+        Assertions.assertFalse(cursor.gotoNextSibling());
+        Assertions.assertEquals("block", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("body", cursor.getCurrentFieldName());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals(":", cursor.getCurrentNode().getType());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals("parameters", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("parameters", cursor.getCurrentFieldName());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals("identifier", cursor.getCurrentNode().getType());
+        Assertions.assertEquals("name", cursor.getCurrentFieldName());
+        Assertions.assertTrue(cursor.gotoPrevSibling());
+        Assertions.assertEquals("def", cursor.getCurrentNode().getType());
+        Assertions.assertFalse(cursor.gotoPrevSibling());
+        Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertTrue(cursor.gotoParent());
+        Assertions.assertFalse(cursor.gotoParent());
     }
 
     @Test

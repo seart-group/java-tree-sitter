@@ -519,12 +519,12 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_zig(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_version(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_version((const TSLanguage *)id);
+  return (jint)ts_language_version((const TSLanguage*)id);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_symbols(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_symbol_count((const TSLanguage *)id);
+  return (jint)ts_language_symbol_count((const TSLanguage*)id);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
@@ -544,10 +544,43 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_field_count((const TSLanguage *)id);
+  return (jint)ts_language_field_count((const TSLanguage*)id);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_state_count((const TSLanguage *)id);
+  return (jint)ts_language_state_count((const TSLanguage*)id);
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
+  JNIEnv* env, jobject thisObject, jint state) {
+  jclass _languageClass = env->GetObjectClass(thisObject);
+  jfieldID _languageIdField = env->GetFieldID(_languageClass, "id", "J");
+  TSLanguage* language = (TSLanguage*)env->GetLongField(thisObject, _languageIdField);
+  if (state < 0 || state >= ts_language_state_count(language)) {
+    __throwIAE(env, "Invalid parse state!");
+    return NULL;
+  }
+  TSLookaheadIterator* iterator = ts_lookahead_iterator_new(language, (TSStateId)state);
+  if (iterator == NULL) {
+    __throwISE(env, "Unable to create lookahead iterator!");
+    return NULL;
+  }
+  return env->NewObject(
+    _lookaheadIteratorClass,
+    _lookaheadIteratorConstructor,
+    (jlong)iterator,
+    ts_lookahead_iterator_next(iterator) ? JNI_TRUE : JNI_FALSE,
+    thisObject
+  );
+}
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_nextState(
+  JNIEnv* env, jclass self, jlong id, jint state, jint symbol) {
+  if (id == (jlong)ch_usi_si_seart_treesitter_Language_INVALID) return (jint)(-1);
+  return (jint)ts_language_next_state(
+    (const TSLanguage*)id,
+    (TSStateId)state,
+    (TSSymbol)symbol
+  );
 }

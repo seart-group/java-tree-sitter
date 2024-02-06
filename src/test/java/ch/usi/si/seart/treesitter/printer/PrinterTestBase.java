@@ -1,8 +1,8 @@
 package ch.usi.si.seart.treesitter.printer;
 
+import ch.usi.si.seart.treesitter.BaseTest;
 import ch.usi.si.seart.treesitter.Language;
 import ch.usi.si.seart.treesitter.Parser;
-import ch.usi.si.seart.treesitter.TestBase;
 import ch.usi.si.seart.treesitter.Tree;
 import ch.usi.si.seart.treesitter.TreeCursor;
 import lombok.Cleanup;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public abstract class PrinterTestBase extends TestBase {
+public abstract class PrinterTestBase extends BaseTest {
 
     @Test
     protected void testPrint() {

@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.TestOnly;
 
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -43,13 +42,6 @@ import java.util.stream.Stream;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
-
-    /**
-     * Represents an invalid language.
-     * Used primarily for testing.
-     */
-    @TestOnly
-    _INVALID_(),
 
     /**
      * Ada programming language.
@@ -598,14 +590,6 @@ public enum Language {
                     )
             ));
 
-    Language() {
-        this(INVALID);
-    }
-
-    Language(long id) {
-        this(id, 0, 0, 0, 0, Collections.emptyList());
-    }
-
     Language(long id, String... extensions) {
         this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));
     }
@@ -620,6 +604,46 @@ public enum Language {
                 .collect(Collectors.toUnmodifiableList());
         this.extensions = extensions;
     }
+
+    /**
+     * Create a lookahead iterator, beginning from a specific parse state.
+     *
+     * @param state the parse state
+     * @return a lookahead iterator
+     * @throws IllegalArgumentException if:
+     * <ul>
+     *     <li>{@code state} &lt; 0</li>
+     *     <li>{@code state} &ge; {@link #totalStates}</li>
+     * </ul>
+     * @since 1.12.0
+     */
+    public native LookaheadIterator iterator(int state);
+
+    /**
+     * Obtain the next language parse state for a given {@link Node}.
+     * <p>
+     * Combine this with lookahead iterators to generate completion
+     * suggestions or valid symbols in {@code ERROR} nodes.
+     *
+     * @param node the node
+     * @return the next parse state
+     * @throws NullPointerException if {@code node} is null
+     * @throws IllegalArgumentException if this language
+     * was not used to parse the node and its syntax tree
+     * @since 1.12.0
+     */
+    public int nextState(@NotNull Node node) {
+        Objects.requireNonNull(node, "Node must not be null!");
+        Language language = node.getLanguage();
+        if (!this.equals(language)) throw new IllegalArgumentException(
+                "Node language does not match the language of this instance!"
+        );
+        int state = node.getParseState();
+        Symbol symbol = node.getGrammarSymbol();
+        return nextState(id, state, symbol.getId());
+    }
+
+    private static native int nextState(long id, int state, int symbol);
 
     @Generated
     @SuppressWarnings("unused")

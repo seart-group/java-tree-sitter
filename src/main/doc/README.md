@@ -51,10 +51,10 @@ For it to work, you must have the following installed:
 
 | Dependency | Version |
 |:-----------|--------:|
-| Java       |     11+ |
-| Maven      |    3.9+ |
-| Python     |     3.9 |
-| Docker     |     23+ |
+| Java       |      11 |
+| Maven      |     3.9 |
+| Python     |    3.10 |
+| Docker     |      23 |
 
 ## Adding dependency to project
 

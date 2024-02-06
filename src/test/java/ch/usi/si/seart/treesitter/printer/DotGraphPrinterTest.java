@@ -1,8 +1,8 @@
 package ch.usi.si.seart.treesitter.printer;
 
+import ch.usi.si.seart.treesitter.BaseTest;
 import ch.usi.si.seart.treesitter.Language;
 import ch.usi.si.seart.treesitter.Parser;
-import ch.usi.si.seart.treesitter.TestBase;
 import ch.usi.si.seart.treesitter.Tree;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-class DotGraphPrinterTest extends TestBase {
+class DotGraphPrinterTest extends BaseTest {
 
     private static final String source =
             "package ch.usi.si;\n" +
