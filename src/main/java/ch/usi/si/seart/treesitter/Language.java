@@ -573,14 +573,6 @@ public enum Language {
                     )
             ));
 
-    Language() {
-        this(INVALID);
-    }
-
-    Language(long id) {
-        this(id, 0, 0, 0, 0, Collections.emptyList());
-    }
-
     Language(long id, String... extensions) {
         this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));
     }
