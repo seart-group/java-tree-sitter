@@ -43,6 +43,13 @@ extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
 extern jmethodID _pointOriginStaticMethod;
 
+extern jclass _rangeClass;
+extern jmethodID _rangeConstructor;
+extern jfieldID _rangeStartByteField;
+extern jfieldID _rangeEndByteField;
+extern jfieldID _rangeStartPointField;
+extern jfieldID _rangeEndPointField;
+
 extern jclass _queryMatchClass;
 extern jmethodID _queryMatchConstructor;
 extern jfieldID _queryMatchIdField;

@@ -30,6 +30,13 @@ jfieldID _pointRowField;
 jfieldID _pointColumnField;
 jmethodID _pointOriginStaticMethod;
 
+jclass _rangeClass;
+jmethodID _rangeConstructor;
+jfieldID _rangeStartByteField;
+jfieldID _rangeEndByteField;
+jfieldID _rangeStartPointField;
+jfieldID _rangeEndPointField;
+
 jclass _queryMatchClass;
 jmethodID _queryMatchConstructor;
 jfieldID _queryMatchIdField;
@@ -179,6 +186,14 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_pointColumnField, _pointClass, "column", "I")
   _loadStaticMethod(_pointOriginStaticMethod, _pointClass, "ORIGIN", "()Lch/usi/si/seart/treesitter/Point;")
 
+  _loadClass(_rangeClass, "ch/usi/si/seart/treesitter/Range")
+  _loadConstructor(_rangeConstructor, _rangeClass,
+    "(IILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V")
+  _loadField(_rangeStartByteField, _rangeClass, "startByte", "I")
+  _loadField(_rangeEndByteField, _rangeClass, "endByte", "I")
+  _loadField(_rangeStartPointField, _rangeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;")
+  _loadField(_rangeEndPointField, _rangeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;")
+
   _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch")
   _loadConstructor(_queryMatchConstructor, _queryMatchClass,
     "(ILch/usi/si/seart/treesitter/Pattern;[Ljava/util/Map$Entry;)V")
@@ -315,6 +330,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
+  _unload(_rangeClass)
   _unload(_queryMatchClass)
   _unload(_inputEditClass)
   _unload(_treeCursorNodeClass)
