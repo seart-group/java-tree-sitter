@@ -13,7 +13,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 class LanguageTest extends TestBase {
@@ -25,10 +24,7 @@ class LanguageTest extends TestBase {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            Predicate<Language> notInvalid = Predicate.not(Language._INVALID_::equals);
-            return Stream.of(Language.values())
-                    .filter(notInvalid)
-                    .map(Arguments::of);
+            return Stream.of(Language.values()).map(Arguments::of);
         }
     }
 
@@ -44,7 +40,7 @@ class LanguageTest extends TestBase {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
                     Arguments.of(NullPointerException.class, null),
-                    Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_)
+                    Arguments.of(UnsatisfiedLinkError.class, invalid)
             );
         }
     }
@@ -114,9 +110,10 @@ class LanguageTest extends TestBase {
 
     @Test
     void testNextStateThrows() {
-        Assertions.assertThrows(NullPointerException.class, () -> Language.JAVA.nextState(null));
-        Assertions.assertThrows(NullPointerException.class, () -> Language._INVALID_.nextState(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Language.JAVA.nextState(empty));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Language._INVALID_.nextState(empty));
+        Language language = Language.PYTHON;
+        Assertions.assertThrows(NullPointerException.class, () -> language.nextState(null));
+        Assertions.assertThrows(NullPointerException.class, () -> invalid.nextState(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> language.nextState(empty));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> invalid.nextState(empty));
     }
 }

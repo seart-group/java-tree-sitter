@@ -140,7 +140,7 @@ class ParserTest extends TestBase {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
                     Arguments.of(NullPointerException.class, null),
-                    Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_)
+                    Arguments.of(UnsatisfiedLinkError.class, invalid)
             );
         }
     }
