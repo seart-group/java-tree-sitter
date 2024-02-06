@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-class TreeCursorTest extends TestBase {
+class TreeCursorTest extends BaseTest {
 
     private static Parser parser;
     private static Tree tree;

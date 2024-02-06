@@ -4,7 +4,7 @@ import org.mockito.Mockito;
 
 import java.util.List;
 
-public abstract class TestBase {
+public abstract class BaseTest {
 
     protected static final Language invalid;
 

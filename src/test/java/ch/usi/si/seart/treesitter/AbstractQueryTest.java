@@ -3,7 +3,7 @@ package ch.usi.si.seart.treesitter;
 import lombok.Cleanup;
 import org.junit.jupiter.api.Test;
 
-public abstract class AbstractQueryTest extends TestBase {
+public abstract class AbstractQueryTest extends BaseTest {
 
     protected Language getLanguage() {
         return Language.PYTHON;

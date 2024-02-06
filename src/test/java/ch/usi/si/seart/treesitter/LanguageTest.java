@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-class LanguageTest extends TestBase {
+class LanguageTest extends BaseTest {
 
     @TempDir
     private static Path tmp;

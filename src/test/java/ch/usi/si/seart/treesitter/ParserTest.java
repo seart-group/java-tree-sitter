@@ -22,7 +22,7 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-class ParserTest extends TestBase {
+class ParserTest extends BaseTest {
 
     @TempDir
     private static Path tmp;

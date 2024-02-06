@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-class NodeTest extends TestBase {
+class NodeTest extends BaseTest {
 
     private static final String source = "def foo(bar, baz):\n  print(bar)\n  print(baz)";
     private static Parser parser;

@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-class QueryTest extends TestBase {
+class QueryTest extends BaseTest {
 
     private static final Language language = Language.JAVA;
 

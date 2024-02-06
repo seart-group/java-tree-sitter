@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.stream.Stream;
 
-class TreeTest extends TestBase {
+class TreeTest extends BaseTest {
 
     private static final String source = "class Main {\n    // This is a line comment\n}\n";
     private static Parser parser;
