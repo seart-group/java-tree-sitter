@@ -565,3 +565,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
     thisObject
   );
 }
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_nextState(
+  JNIEnv* env, jclass self, jlong id, jint state, jint symbol) {
+  if (id == (jlong)ch_usi_si_seart_treesitter_Language_INVALID) return (jint)(-1);
+  return (jint)ts_language_next_state(
+    (const TSLanguage*)id,
+    (TSStateId)state,
+    (TSSymbol)symbol
+  );
+}
