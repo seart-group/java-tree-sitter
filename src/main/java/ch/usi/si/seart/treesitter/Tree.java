@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A Tree represents the syntax tree of an entire source code file.
@@ -43,6 +44,24 @@ public class Tree extends External implements Iterable<Node>, Cloneable {
      * <strong>both</strong> byte offsets and row/column coordinates
      */
     public native void edit(@NotNull InputEdit edit);
+
+    /**
+     * Compare this old edited syntax tree to a new syntax tree representing the same document,
+     * returning a sequence of {@link Range} instances, their coordinates corresponding to changes
+     * made to the syntactic structure.
+     * <p>
+     * For this to work correctly, this syntax tree must have been edited such that its
+     * ranges match up to the new tree. Generally, you'll want to call this method right
+     * after calling one of the {@link Parser} methods.
+     *
+     * @param other the tree to compare with
+     * @return a list of ranges that have been changed
+     * @throws NullPointerException if {@code other} is null
+     * @since 1.12.0
+     * @see Parser#parse(String, Tree)
+     * @see Parser#parse(java.nio.file.Path, Tree) Parser.parse(Path, Tree)
+     */
+    public native List<Range> getChangedRanges(@NotNull Tree other);
 
     /**
      * Get the topmost {@link Node} of the syntax tree.
