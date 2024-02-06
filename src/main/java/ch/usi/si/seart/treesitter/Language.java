@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.TestOnly;
 
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -43,13 +42,6 @@ import java.util.stream.Stream;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum Language {
-
-    /**
-     * Represents an invalid language.
-     * Used primarily for testing.
-     */
-    @TestOnly
-    _INVALID_(),
 
     /**
      * Ada programming language.
@@ -580,14 +572,6 @@ public enum Language {
                             Collectors.toUnmodifiableList()
                     )
             ));
-
-    Language() {
-        this(INVALID);
-    }
-
-    Language(long id) {
-        this(id, 0, 0, 0, 0, Collections.emptyList());
-    }
 
     Language(long id, String... extensions) {
         this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));

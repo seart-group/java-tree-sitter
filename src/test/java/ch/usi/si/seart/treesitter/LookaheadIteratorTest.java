@@ -10,7 +10,7 @@ import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-class LookaheadIteratorTest extends TestBase {
+class LookaheadIteratorTest extends BaseTest {
 
     private static final Language language = Language.JAVA;
 
