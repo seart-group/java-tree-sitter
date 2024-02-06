@@ -1,6 +1,12 @@
 package ch.usi.si.seart.treesitter;
 
+import org.mockito.Mockito;
+
+import java.util.List;
+
 public abstract class TestBase {
+
+    protected static final Language invalid;
 
     protected final Node empty = new Node.Null();
     protected final Node treeless = new Node(1, 1, 1, 1, 1L, null);
@@ -12,5 +18,18 @@ public abstract class TestBase {
 
     static {
         LibraryLoader.load();
+        invalid = Mockito.mock(Language.class);
+
+        Mockito.when(invalid.name()).thenReturn("INVALID");
+        Mockito.when(invalid.ordinal()).thenReturn(Language.values().length);
+
+        Mockito.when(invalid.getId()).thenReturn(0L);
+        Mockito.when(invalid.getVersion()).thenReturn(0);
+        Mockito.when(invalid.getTotalFields()).thenReturn(0);
+        Mockito.when(invalid.getTotalStates()).thenReturn(0);
+        Mockito.when(invalid.getTotalSymbols()).thenReturn(0);
+        Mockito.when(invalid.getSymbols()).thenReturn(List.of());
+
+        Mockito.when(invalid.nextState(Mockito.any())).thenCallRealMethod();
     }
 }
