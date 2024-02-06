@@ -1,6 +1,8 @@
 package ch.usi.si.seart.treesitter;
 
+import lombok.Cleanup;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -99,5 +101,22 @@ class LanguageTest extends TestBase {
     @ArgumentsSource(AssociatedWithExceptionProvider.class)
     void testAssociatedWithThrows(Class<Throwable> throwableType, Path path) {
         Assertions.assertThrows(throwableType, () -> Language.associatedWith(path));
+    }
+
+    @Test
+    void testNextState() {
+        Language language = Language.PYTHON;
+        @Cleanup Parser parser = Parser.getFor(language);
+        @Cleanup Tree tree = parser.parse("pass");
+        Node root = tree.getRootNode();
+        Assertions.assertEquals(0, language.nextState(root));
+    }
+
+    @Test
+    void testNextStateThrows() {
+        Assertions.assertThrows(NullPointerException.class, () -> Language.JAVA.nextState(null));
+        Assertions.assertThrows(NullPointerException.class, () -> Language._INVALID_.nextState(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Language.JAVA.nextState(empty));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Language._INVALID_.nextState(empty));
     }
 }
