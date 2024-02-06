@@ -492,6 +492,26 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
   };
 }
 
+jobject __marshalRange(JNIEnv* env, TSRange range) {
+  return env->NewObject(
+    _rangeClass,
+    _rangeConstructor,
+    (jint)range.start_byte,
+    (jint)range.end_byte,
+    __marshalPoint(env, range.start_point),
+    __marshalPoint(env, range.end_point)
+  );
+}
+
+TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject) {
+  return (TSRange) {
+    __unmarshalPoint(env, env->GetObjectField(rangeObject, _rangeStartPointField)),
+    __unmarshalPoint(env, env->GetObjectField(rangeObject, _rangeEndPointField)),
+    (uint32_t)env->GetIntField(rangeObject, _rangeStartByteField),
+    (uint32_t)env->GetIntField(rangeObject, _rangeEndByteField)
+  };
+}
+
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
   return (TSInputEdit) {
     (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField),

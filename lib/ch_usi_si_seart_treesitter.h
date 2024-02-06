@@ -257,6 +257,10 @@ jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
 
+jobject __marshalRange(JNIEnv* env, TSRange range);
+
+TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
+
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
