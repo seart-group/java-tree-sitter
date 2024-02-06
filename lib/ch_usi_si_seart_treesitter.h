@@ -8,6 +8,7 @@ extern jclass _stringClass;
 
 extern jclass _listClass;
 extern jmethodID _listGet;
+extern jmethodID _listOfStaticMethod;
 
 extern jclass _mapClass;
 extern jclass _mapEntryClass;

@@ -7,6 +7,7 @@ jclass _stringClass;
 
 jclass _listClass;
 jmethodID _listGet;
+jmethodID _listOfStaticMethod;
 
 jclass _mapClass;
 jclass _mapEntryClass;
@@ -162,6 +163,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_listClass, "java/util/List")
   _loadMethod(_listGet, _listClass, "get", "(I)Ljava/lang/Object;")
+  _loadStaticMethod(_listOfStaticMethod, _listClass, "of", "([Ljava/lang/Object;)Ljava/util/List;")
 
   _loadClass(_mapClass, "java/util/Map")
   _loadClass(_mapEntryClass, "java/util/Map$Entry")
