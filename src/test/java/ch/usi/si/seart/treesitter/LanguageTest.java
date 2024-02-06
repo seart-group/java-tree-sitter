@@ -19,6 +19,7 @@ class LanguageTest extends BaseTest {
 
     @TempDir
     private static Path tmp;
+    private static final Language language = Language.PYTHON;
 
     private static class ValidateProvider implements ArgumentsProvider {
 
@@ -101,7 +102,6 @@ class LanguageTest extends BaseTest {
 
     @Test
     void testNextState() {
-        Language language = Language.PYTHON;
         @Cleanup Parser parser = Parser.getFor(language);
         @Cleanup Tree tree = parser.parse("pass");
         Node root = tree.getRootNode();
@@ -110,7 +110,6 @@ class LanguageTest extends BaseTest {
 
     @Test
     void testNextStateThrows() {
-        Language language = Language.PYTHON;
         Assertions.assertThrows(NullPointerException.class, () -> language.nextState(null));
         Assertions.assertThrows(NullPointerException.class, () -> invalid.nextState(null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> language.nextState(empty));
