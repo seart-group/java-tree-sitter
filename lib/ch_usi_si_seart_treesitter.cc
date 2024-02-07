@@ -516,9 +516,9 @@ TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject) {
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
   return (TSInputEdit) {
-    (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField),
-    (uint32_t)env->GetIntField(inputEditObject, _inputEditOldEndByteField),
-    (uint32_t)env->GetIntField(inputEditObject, _inputEditNewEndByteField),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField) * 2,
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditOldEndByteField) * 2,
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditNewEndByteField) * 2,
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditStartPointField)),
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditOldEndPointField)),
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
