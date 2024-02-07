@@ -19,10 +19,10 @@ import java.util.stream.Stream;
 class TreeTest extends BaseTest {
 
     private static final String source = "class Main {\n    // This is a line comment\n}\n";
+    private static final String target = "class Main {\n}\n";
     private static Parser parser;
     private Tree tree;
     private Node root;
-    private Range range;
 
     @BeforeAll
     static void beforeAll() {
@@ -33,7 +33,6 @@ class TreeTest extends BaseTest {
     void setUp() {
         tree = parser.parse(source);
         root = tree.getRootNode();
-        range = root.getRange();
     }
 
     @AfterEach
@@ -82,32 +81,30 @@ class TreeTest extends BaseTest {
 
     @Test
     void testEdit() {
-        Assertions.assertEquals(new Point(0, 0), range.getStartPoint());
-        Assertions.assertEquals(new Point(3, 0), range.getEndPoint());
+        Assertions.assertEquals(new Point(0, 0), root.getStartPoint());
+        Assertions.assertEquals(new Point(3, 0), root.getEndPoint());
         Assertions.assertFalse(root.hasChanges());
-        Node body = root.getChild(0).getChildByFieldName("body");
-        int newEndByte = 13;
-        Point newEndPoint = new Point(1, 1);
         InputEdit inputEdit = new InputEdit(
-                body.getStartByte(),
-                body.getEndByte(),
-                newEndByte,
-                body.getStartPoint(),
-                body.getEndPoint(),
-                newEndPoint
+                source.indexOf("// This is a line comment"),
+                source.length(),
+                target.length(),
+                new Point(1, 4), // comment start
+                new Point(3, 0), // old root end
+                new Point(2, 0)  // new root end
         );
         tree.edit(inputEdit);
         Assertions.assertTrue(root.hasChanges());
-        Tree modified = parser.parse("class Main {\n}\n", tree);
+        Tree modified = parser.parse(target, tree);
         List<Range> ranges = tree.getChangedRanges(modified);
         Assertions.assertNotNull(ranges);
-        Assertions.assertFalse(ranges.isEmpty());
         Assertions.assertEquals(1, ranges.size());
-        root = modified.getRootNode();
-        range = root.getRange();
-        Assertions.assertEquals("program", root.getType());
-        Assertions.assertEquals(new Point(0, 0), range.getStartPoint());
+        Range range = ranges.stream().findFirst().orElseGet(Assertions::fail);
+        Assertions.assertEquals(new Point(1, 0), range.getStartPoint());
         Assertions.assertEquals(new Point(2, 0), range.getEndPoint());
+        root = modified.getRootNode();
+        Assertions.assertEquals("program", root.getType());
+        Assertions.assertEquals(new Point(0, 0), root.getStartPoint());
+        Assertions.assertEquals(new Point(2, 0), root.getEndPoint());
         Assertions.assertFalse(root.hasChanges());
     }
 
