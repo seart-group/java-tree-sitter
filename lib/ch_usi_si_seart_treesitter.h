@@ -8,11 +8,13 @@ extern jclass _stringClass;
 
 extern jclass _listClass;
 extern jmethodID _listGet;
+extern jmethodID _listOfStaticMethod;
 
 extern jclass _mapClass;
 extern jclass _mapEntryClass;
 extern jmethodID _mapEntryStaticMethod;
 
+extern jclass _noSuchElementExceptionClass;
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
 extern jclass _illegalStateExceptionClass;
@@ -41,6 +43,13 @@ extern jmethodID _pointConstructor;
 extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
 extern jmethodID _pointOriginStaticMethod;
+
+extern jclass _rangeClass;
+extern jmethodID _rangeConstructor;
+extern jfieldID _rangeStartByteField;
+extern jfieldID _rangeEndByteField;
+extern jfieldID _rangeStartPointField;
+extern jfieldID _rangeEndPointField;
 
 extern jclass _queryMatchClass;
 extern jmethodID _queryMatchConstructor;
@@ -115,6 +124,11 @@ extern jfieldID _treeCursorContext1Field;
 extern jfieldID _treeCursorIdField;
 extern jfieldID _treeCursorTreeField;
 extern jmethodID _treeCursorConstructor;
+
+extern jclass _lookaheadIteratorClass;
+extern jfieldID _lookaheadIteratorHasNextField;
+extern jfieldID _lookaheadIteratorLanguageField;
+extern jmethodID _lookaheadIteratorConstructor;
 
 extern jclass _treeSitterExceptionClass;
 
@@ -210,6 +224,8 @@ typedef enum {
 
 ComparisonResult intcmp(uint32_t x, uint32_t y);
 
+jint __throwNSE(JNIEnv* env, const char* message);
+
 jint __throwNPE(JNIEnv* env, const char* message);
 
 jint __throwIAE(JNIEnv* env, const char* message);
@@ -241,6 +257,10 @@ ComparisonResult __comparePoints(TSPoint left, TSPoint right);
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
+
+jobject __marshalRange(JNIEnv* env, TSRange range);
+
+TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 

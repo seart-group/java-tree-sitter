@@ -4,7 +4,7 @@
 
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.10.1-SNAPSHOT</version>
+  <version>1.12.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java bindings for tree-sitter</description>
@@ -79,6 +79,9 @@
   </distributionManagement>
 
   <properties>
+    <project.build.generatedSourceDirectory>${project.build.directory}/generated-sources/java</project.build.generatedSourceDirectory>
+    <project.build.templateSourceDirectory>${project.basedir}/src/main/javaTemplates</project.build.templateSourceDirectory>
+    <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
   </properties>
@@ -88,7 +91,14 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.10.1</version>
+        <version>5.10.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-bom</artifactId>
+        <version>5.10.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -133,9 +143,27 @@
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.resourceDirectory}</directory>
+        <excludes>
+          <exclude>**/.keep</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -167,7 +195,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.1</version>
         <configuration>
           <release>${java.version}</release>
           <compilerArgs>
@@ -183,7 +211,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>10.12.6</version>
+            <version>10.13.0</version>
           </dependency>
         </dependencies>
         <executions>
@@ -197,6 +225,48 @@
               <includeTestSourceDirectory>false</includeTestSourceDirectory>
               <consoleOutput>true</consoleOutput>
               <failsOnError>true</failsOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>default-generate-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <encoding>${project.build.sourceEncoding}</encoding>
+              <outputDirectory>${project.build.generatedSourceDirectory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.templateSourceDirectory}</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>7.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <configuration>
+              <commitIdGenerationMode>full</commitIdGenerationMode>
+              <generateGitPropertiesFile>true</generateGitPropertiesFile>
+              <generateGitPropertiesFilename>
+                ${project.build.outputDirectory}/git.properties
+              </generateGitPropertiesFilename>
             </configuration>
           </execution>
         </executions>
@@ -229,7 +299,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.5</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -275,6 +345,7 @@
             <exclude>**/error/**</exclude>
             <exclude>**/exception/**</exclude>
             <exclude>**/function/**</exclude>
+            <exclude>**/version/**</exclude>
             <exclude>**/External.class</exclude>
             <exclude>**/OffsetTreeCursor$*.class</exclude>
           </excludes>
@@ -283,6 +354,14 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
@@ -332,6 +411,40 @@
             </configuration>
           </execution>
           <execution>
+            <id>generate-api-version-file</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+                <executable>python3</executable>
+                <workingDirectory>${project.basedir}</workingDirectory>
+                <arguments>
+                  <argument>generate.py</argument>
+                  <argument>-o</argument>
+                  <argument>
+                    ${project.build.generatedSourceDirectory}/ch/usi/si/seart/treesitter/version/TreeSitter.java
+                  </argument>
+                </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-language-metadata-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python3</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>properties.py</argument>
+                <argument>-o</argument>
+                <argument>${project.build.resourceDirectory}/language.properties</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>build-shared-object-library-macos</id>
             <phase>compile</phase>
             <goals>
@@ -369,6 +482,24 @@
                 <argument>${project.build.outputDirectory}</argument>
                 <argument>.</argument>
               </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.generatedSourceDirectory}</source>
+              </sources>
             </configuration>
           </execution>
         </executions>
@@ -426,7 +557,7 @@
             <executions>
               <execution>
                 <id>default-license-format</id>
-                <phase>generate-sources</phase>
+                <phase>initialize</phase>
                 <goals>
                   <goal>format</goal>
                 </goals>

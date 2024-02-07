@@ -57,6 +57,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendant__Lc
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getDescendantCount
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getDescendantCount
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getEndByte
  * Signature: ()I
  */
@@ -89,6 +97,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getFirstChildForB
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getNextParseState
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getNextParseState
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getNextSibling
  * Signature: (Z)Lch/usi/si/seart/treesitter/Node;
  */
@@ -113,6 +129,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getParent
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    getParseState
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Node_getParseState
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getStartByte
  * Signature: ()I
  */
@@ -130,17 +154,25 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getStartPoint
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getSymbol
- * Signature: ()Lch/usi/si/seart/treesitter/Symbol;
+ * Signature: (Z)Lch/usi/si/seart/treesitter/Symbol;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jboolean);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Node
  * Method:    getType
- * Signature: ()Ljava/lang/String;
+ * Signature: (Z)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType
+  (JNIEnv *, jobject, jboolean);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    hasChanges
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasChanges
   (JNIEnv *, jobject);
 
 /*
@@ -149,6 +181,14 @@ JNIEXPORT jstring JNICALL Java_ch_usi_si_seart_treesitter_Node_getType
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_hasError
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Node
+ * Method:    isError
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_Node_isError
   (JNIEnv *, jobject);
 
 /*

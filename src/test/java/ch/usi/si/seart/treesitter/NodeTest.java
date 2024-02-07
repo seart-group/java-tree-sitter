@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-class NodeTest extends TestBase {
+class NodeTest extends BaseTest {
 
     private static final String source = "def foo(bar, baz):\n  print(bar)\n  print(baz)";
     private static Parser parser;
@@ -161,6 +161,16 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetDescendantCount() {
+        Node function = root.getChild(0);
+        Node identifier = function.getChild(1);
+        Assertions.assertEquals(26, root.getDescendantCount());
+        Assertions.assertEquals(25, function.getDescendantCount());
+        Assertions.assertEquals(1, identifier.getDescendantCount());
+        Assertions.assertEquals(0, empty.getDescendantCount());
+    }
+
+    @Test
     void testGetEndByte() {
         Assertions.assertEquals(44, root.getEndByte());
         Assertions.assertEquals(0, empty.getEndByte());
@@ -297,6 +307,12 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetNextParseState() {
+        Assertions.assertEquals(0, root.getNextParseState());
+        Assertions.assertEquals(-1, empty.getNextParseState());
+    }
+
+    @Test
     void testGetNextNamedSibling() {
         Node function = root.getChild(0);
         Node def = function.getChild(0);
@@ -318,6 +334,12 @@ class NodeTest extends TestBase {
     void testGetParent() {
         Assertions.assertNull(root.getParent());
         Assertions.assertEquals(root, root.getChild(0).getParent());
+    }
+
+    @Test
+    void testGetParseState() {
+        Assertions.assertEquals(0, root.getParseState());
+        Assertions.assertEquals(-1, empty.getParseState());
     }
 
     @Test
@@ -361,10 +383,25 @@ class NodeTest extends TestBase {
     }
 
     @Test
+    void testGetGrammarSymbol() {
+        Symbol symbol = root.getGrammarSymbol();
+        Assertions.assertEquals("module", symbol.getName());
+        Assertions.assertEquals(Symbol.Type.REGULAR, symbol.getType());
+        Assertions.assertNull(empty.getGrammarSymbol());
+    }
+
+    @Test
     void testGetType() {
         Assertions.assertEquals("module", root.getType());
         Assertions.assertEquals("function_definition", root.getChild(0).getType());
         Assertions.assertNull(empty.getType());
+    }
+
+    @Test
+    void testGetGrammarType() {
+        Assertions.assertEquals("module", root.getGrammarType());
+        Assertions.assertEquals("function_definition", root.getChild(0).getGrammarType());
+        Assertions.assertNull(empty.getGrammarType());
     }
 
     @Test
@@ -376,6 +413,19 @@ class NodeTest extends TestBase {
         Assertions.assertTrue(root.hasError());
         Assertions.assertTrue(function.hasError());
         Assertions.assertFalse(def.hasError());
+    }
+
+    @Test
+    void testIsError() {
+        @Cleanup Tree tree = parser.parse("def foo(bar baz):\n  pass");
+        Node root = tree.getRootNode();
+        Node function = root.getChild(0);
+        Node parameters = function.getChildByFieldName("parameters");
+        Assertions.assertFalse(root.isError());
+        Assertions.assertFalse(function.isError());
+        Assertions.assertFalse(parameters.getChild(0).isError());
+        Assertions.assertFalse(parameters.getChild(1).isError());
+        Assertions.assertTrue(parameters.getChild(2).isError());
     }
 
     @Test

@@ -140,6 +140,14 @@ public class Node implements Iterable<Node> {
     private native Node getDescendant(Point startPoint, Point endPoint, boolean named);
 
     /**
+     * Get the node's number of descendants, including one for the node itself.
+     *
+     * @return the count of this node's descendants
+     * @since 1.11.0
+     */
+    public native int getDescendantCount();
+
+    /**
      * Get the byte offset where this node ends.
      *
      * @return the node's end byte
@@ -164,6 +172,28 @@ public class Node implements Iterable<Node> {
      * greater or equal to the total number of children
      */
     public native String getFieldNameForChild(int child);
+
+
+    /**
+     * Get the syntax tree {@link Symbol} associated with this node
+     * as it appears in the grammar, ignoring aliases.
+     *
+     * @return the node's symbol
+     * @since 1.12.0
+     */
+    public Symbol getGrammarSymbol() {
+        return getSymbol(true);
+    }
+
+    /**
+     * Get the node's type as a string as it appears in the grammar, ignoring aliases.
+     *
+     * @return the node's type
+     * @since 1.12.0
+     */
+    public String getGrammarType() {
+        return getType(true);
+    }
 
     /**
      * Get the first child {@code Node} that extends beyond the given byte offset.
@@ -283,6 +313,14 @@ public class Node implements Iterable<Node> {
     }
 
     /**
+     * Get the parse state after this {@code Node}.
+     *
+     * @return the next parse state
+     * @since 1.11.0
+     */
+    public native int getNextParseState();
+
+    /**
      * Get the next sibling {@code Node}.
      *
      * @return the next sibling, {@code null} if there is none
@@ -311,7 +349,7 @@ public class Node implements Iterable<Node> {
         return getPrevSibling(false);
     }
 
-    public native Node getPrevSibling(boolean named);
+    private native Node getPrevSibling(boolean named);
 
     /**
      * Get the parent {@code Node}.
@@ -319,6 +357,14 @@ public class Node implements Iterable<Node> {
      * @return the parent, {@code null} if there is none
      */
     public native Node getParent();
+
+    /**
+     * Get the parse state of this {@code Node}.
+     *
+     * @return the parse state
+     * @since 1.11.0
+     */
+    public native int getParseState();
 
     /**
      * Get the node's {@link Range}, indicating its byte and row-column position span.
@@ -349,14 +395,32 @@ public class Node implements Iterable<Node> {
      * @return the node's symbol
      * @since 1.6.0
      */
-    public native Symbol getSymbol();
+    public Symbol getSymbol() {
+        return getSymbol(false);
+    }
+
+    private native Symbol getSymbol(boolean grammar);
 
     /**
      * Get the node's type as a string.
      *
      * @return the node's type
      */
-    public native String getType();
+    public String getType() {
+        return getType(false);
+    }
+
+    private native String getType(boolean grammar);
+
+    /**
+     * Check if this node, or any of its children, has been edited.
+     *
+     * @return {@code true} if the node has been edited,
+     * or contains one such child in its subtree,
+     * {@code false} otherwise
+     * @since 1.11.0
+     */
+    public native boolean hasChanges();
 
     /**
      * Check if this node represents a syntax error
@@ -369,6 +433,17 @@ public class Node implements Iterable<Node> {
      * {@code false} otherwise
      */
     public native boolean hasError();
+
+    /**
+     * Check if this node represents a syntax error.
+     * Syntax errors represent parts of the code that
+     * could not be incorporated into a valid syntax tree.
+     *
+     * @return {@code true} if the node is an {@code ERROR},
+     * {@code false} otherwise
+     * @since 1.11.0
+     */
+    public native boolean isError();
 
     /**
      * Check if the node is an <em>extra</em>.

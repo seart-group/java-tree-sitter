@@ -44,6 +44,15 @@ public class TreeCursor extends External implements Cloneable {
     protected native void delete();
 
     /**
+     * Get the depth of the cursor's current {@link Node} relative
+     * to the original {@link Node} that the cursor was constructed from.
+     *
+     * @return the relative depth of the tree cursor's current node
+     * @since 1.11.0
+     */
+    public native int getCurrentDepth();
+
+    /**
      * Get the {@link Node} that the cursor is currently pointing to.
      *
      * @return the tree cursor's current node
@@ -103,12 +112,39 @@ public class TreeCursor extends External implements Cloneable {
     public native boolean gotoFirstChild(@NotNull Point point);
 
     /**
+     * Move the cursor to the last child of its current node.
+     * <p>
+     * Note that this method may be slower than {@link #gotoFirstChild()}
+     * because it needs to iterate through all the children to
+     * compute the child's position.
+     *
+     * @return true if the cursor successfully moved,
+     * and false if there were no children
+     * @since 1.12.0
+     */
+    public native boolean gotoLastChild();
+
+    /**
      * Move the cursor to the next sibling of its current node.
      *
      * @return true if the cursor successfully moved,
      * and false if there was no next sibling node
      */
     public native boolean gotoNextSibling();
+
+    /**
+     * Move the cursor to the previous sibling of its current node.
+     * <p>
+     * Note that this method may be slower than {@link #gotoNextSibling()}
+     * due to how node positions are stored. In the worst case, this
+     * method may need to iterate through all the previous nodes
+     * up to the destination.
+     *
+     * @return true if the cursor successfully moved,
+     * and false if there was no previous sibling node
+     * @since 1.12.0
+     */
+    public native boolean gotoPrevSibling();
 
     /**
      * Move the cursor to the parent of its current node.
@@ -150,6 +186,18 @@ public class TreeCursor extends External implements Cloneable {
     }
 
     /**
+     * Reset the cursor to the same state as another cursor.
+     *
+     * @param other the cursor to copy state from
+     * @return true if the cursor successfully moved,
+     * and false if it was already located at the same node
+     * @throws NullPointerException if {@code other} is null
+     * @throws IllegalArgumentException if the other cursor is not from the same tree
+     * @since 1.11.0
+     */
+    public native boolean reset(@NotNull TreeCursor other);
+
+    /**
      * Clone this cursor, creating a separate, independent instance.
      *
      * @return a clone of this instance
@@ -159,6 +207,11 @@ public class TreeCursor extends External implements Cloneable {
     public native TreeCursor clone();
 
     static class Stub extends TreeCursor {
+
+        @Override
+        public int getCurrentDepth() {
+            throw new UnsupportedOperationException();
+        }
 
         @Override
         public Node getCurrentNode() {
@@ -191,7 +244,17 @@ public class TreeCursor extends External implements Cloneable {
         }
 
         @Override
+        public boolean gotoLastChild() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public boolean gotoNextSibling() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean gotoPrevSibling() {
             throw new UnsupportedOperationException();
         }
 
@@ -201,7 +264,17 @@ public class TreeCursor extends External implements Cloneable {
         }
 
         @Override
+        public boolean gotoNode(@NotNull Node node) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public void preorderTraversal(@NotNull Consumer<Node> callback) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean reset(@NotNull TreeCursor other) {
             throw new UnsupportedOperationException();
         }
 

@@ -31,27 +31,18 @@ public class SyntaxTreePrinter extends IterativeTreePrinter {
     }
 
     protected void write(Consumer<String> appender) {
-        int depth = 0;
         for (;;) {
             TreeCursorNode cursorNode = cursor.getCurrentTreeCursorNode();
             if (cursorNode.isNamed()) {
+                int depth = cursor.getCurrentDepth();
                 String indent = "  ".repeat(depth);
                 appender.accept(indent);
                 appender.accept(cursorNode.toString());
                 appender.accept("\n");
             }
-            if (cursor.gotoFirstChild()) {
-                depth++;
-                continue;
-            } else if (cursor.gotoNextSibling()) {
-                continue;
-            }
+            if (cursor.gotoFirstChild() || cursor.gotoNextSibling()) continue;
             do {
-                if (cursor.gotoParent()) {
-                    depth--;
-                } else {
-                    return;
-                }
+                if (!cursor.gotoParent()) return;
             } while (!cursor.gotoNextSibling());
         }
     }

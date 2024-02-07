@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-class QueryCursorTest extends TestBase {
+class QueryCursorTest extends BaseTest {
 
     private static final String source = "class Hello { /* Comment 1 */ /* Comment 2 */ /* Comment 3 */ }";
     private static final String pattern = "(block_comment) @comment";

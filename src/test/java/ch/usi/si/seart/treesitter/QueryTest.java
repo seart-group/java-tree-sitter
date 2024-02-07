@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-class QueryTest extends TestBase {
+class QueryTest extends BaseTest {
 
     private static final Language language = Language.JAVA;
 
@@ -63,7 +63,7 @@ class QueryTest extends TestBase {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                    Arguments.of(UnsatisfiedLinkError.class, Language._INVALID_, "(_)"),
+                    Arguments.of(UnsatisfiedLinkError.class, invalid, "(_)"),
                     Arguments.of(QueryCaptureException.class, Language.JAVA, "(#eq? @key @value)"),
                     Arguments.of(QueryFieldException.class, Language.JAVA, "(program unknown: (_))"),
                     Arguments.of(QueryNodeTypeException.class, Language.JAVA, "(null)"),

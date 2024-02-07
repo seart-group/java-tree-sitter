@@ -25,6 +25,14 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Tree
+ * Method:    getChangedRanges
+ * Signature: (Lch/usi/si/seart/treesitter/Tree;)Ljava/util/List;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getChangedRanges
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Tree
  * Method:    getRootNode
  * Signature: ()Lch/usi/si/seart/treesitter/Node;
  */

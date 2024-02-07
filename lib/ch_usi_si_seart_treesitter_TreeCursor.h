@@ -17,6 +17,14 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete
 
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    getCurrentDepth
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentDepth
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
  * Method:    getCurrentNode
  * Signature: ()Lch/usi/si/seart/treesitter/Node;
  */
@@ -65,10 +73,26 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstC
 
 /*
  * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    gotoLastChild
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoLastChild
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
  * Method:    gotoNextSibling
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNextSibling
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    gotoPrevSibling
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoPrevSibling
   (JNIEnv *, jobject);
 
 /*
@@ -85,6 +109,14 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoParent
  * Signature: (Lch/usi/si/seart/treesitter/Node;)Z
  */
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNode
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_TreeCursor
+ * Method:    reset
+ * Signature: (Lch/usi/si/seart/treesitter/TreeCursor;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_reset
   (JNIEnv *, jobject, jobject);
 
 /*

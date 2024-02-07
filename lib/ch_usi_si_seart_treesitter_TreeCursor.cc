@@ -11,6 +11,12 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_delete(
   __clearPointer(env, thisObject);
 }
 
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentDepth(
+  JNIEnv* env, jobject thisObject) {
+  TSTreeCursor* treeCursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  return (jint)ts_tree_cursor_current_depth(treeCursor);
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentNode(
   JNIEnv* env, jobject thisObject) {
   TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
@@ -108,10 +114,28 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoFirstC
   return (result > -1) ? JNI_TRUE : JNI_FALSE;
 }
 
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoLastChild(
+  JNIEnv* env, jobject thisObject) {
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  bool result = ts_tree_cursor_goto_last_child(cursor);
+  env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
+  env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
+  return result ? JNI_TRUE : JNI_FALSE;
+}
+
 JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNextSibling(
   JNIEnv* env, jobject thisObject) {
   TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
   bool result = ts_tree_cursor_goto_next_sibling(cursor);
+  env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
+  env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
+  return result ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoPrevSibling(
+  JNIEnv* env, jobject thisObject) {
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  bool result = ts_tree_cursor_goto_previous_sibling(cursor);
   env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
   env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
   return result ? JNI_TRUE : JNI_FALSE;
@@ -147,6 +171,31 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_gotoNode(
   ts_tree_cursor_reset(cursor, target);
   env->SetIntField(thisObject, _treeCursorContext0Field, cursor->context[0]);
   env->SetIntField(thisObject, _treeCursorContext1Field, cursor->context[1]);
+  return JNI_TRUE;
+}
+
+JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_reset(
+  JNIEnv* env, jobject thisObject, jobject otherObject) {
+  if (otherObject == NULL) {
+    __throwNPE(env, "Cursor must not be null!");
+    return JNI_FALSE;
+  }
+  jobject thisTreeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
+  jobject otherTreeObject = env->GetObjectField(otherObject, _treeCursorTreeField);
+  TSTree* thisTree = (TSTree*)__getPointer(env, thisTreeObject);
+  TSTree* otherTree = (TSTree*)__getPointer(env, otherTreeObject);
+  if (thisTree != otherTree) {
+    __throwIAE(env, "Cursor must be from the same tree!");
+    return JNI_FALSE;
+  }
+  TSTreeCursor* thisCursor = (TSTreeCursor*)__getPointer(env, thisObject);
+  TSTreeCursor* otherCursor = (TSTreeCursor*)__getPointer(env, otherObject);
+  TSNode thisNode = ts_tree_cursor_current_node(thisCursor);
+  TSNode otherNode = ts_tree_cursor_current_node(otherCursor);
+  if (ts_node_eq(thisNode, otherNode)) return JNI_FALSE;
+  ts_tree_cursor_reset_to(otherCursor, thisCursor);
+  env->SetIntField(thisObject, _treeCursorContext0Field, thisCursor->context[0]);
+  env->SetIntField(thisObject, _treeCursorContext1Field, thisCursor->context[1]);
   return JNI_TRUE;
 }
 
