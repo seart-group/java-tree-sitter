@@ -19,11 +19,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
       {
         uint32_t patternsLength = ts_query_pattern_count(query);
         uint32_t patternStartBytes[patternsLength];
-        for (int i = 0; i < patternsLength; i++) {
+        for (uint32_t i = 0; i < patternsLength; i++) {
           patternStartBytes[i] = ts_query_start_byte_for_pattern(query, i);
         }
         jobjectArray patterns = env->NewObjectArray(patternsLength, _patternClass, NULL);
-        for (int i = 0; i < patternsLength; i++) {
+        for (uint32_t i = 0; i < patternsLength; i++) {
           uint32_t patternStartByte = patternStartBytes[i];
           uint32_t patternEndByte = (i < patternsLength - 1) ? patternStartBytes[i + 1] : length;
           uint32_t patternLength = patternEndByte - patternStartByte;
@@ -45,7 +45,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
 
         uint32_t capturesLength = ts_query_capture_count(query);
         jobjectArray captures = env->NewObjectArray(capturesLength, _captureClass, NULL);
-        for (int i = 0; i < capturesLength; i++) {
+        for (uint32_t i = 0; i < capturesLength; i++) {
           const char* capture = ts_query_capture_name_for_id(query, i, new uint32_t);
           jobject captureObject = env->NewObject(
             _captureClass,
@@ -58,7 +58,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
 
         uint32_t stringsLength = ts_query_string_count(query);
         jobjectArray strings = env->NewObjectArray(stringsLength, _stringClass, NULL);
-        for (int i = 0; i < stringsLength; i++) {
+        for (uint32_t i = 0; i < stringsLength; i++) {
           const char* string = ts_query_string_value_for_id(query, i, new uint32_t);
           jstring stringString = env->NewStringUTF(string);
           env->SetObjectArrayElement(strings, i, stringString);
@@ -74,12 +74,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           strings
         );
 
-        for (int i = 0; i < capturesLength; i++) {
+        for (uint32_t i = 0; i < capturesLength; i++) {
           jobject captureObject = env->GetObjectArrayElement(captures, i);
           env->SetObjectField(captureObject, _captureQueryField, queryObject);
         }
 
-        for (int i = 0; i < patternsLength; i++) {
+        for (uint32_t i = 0; i < patternsLength; i++) {
           jobject patternObject = env->GetObjectArrayElement(patterns, i);
           env->SetObjectField(patternObject, _patternQueryField, queryObject);
         }

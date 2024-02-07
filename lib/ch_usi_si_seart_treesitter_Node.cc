@@ -61,7 +61,7 @@ JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren(
   TSNode node = __unmarshalNode(env, nodeObject);
   uint32_t count = ts_node_is_null(node) ? 0 : child_counter(node);
   jobjectArray children = env->NewObjectArray(count, _nodeClass, NULL);
-  for (int i = 0; i < count; i++) {
+  for (uint32_t i = 0; i < count; i++) {
     TSNode child = child_getter(node, i);
     jobject childObject = __marshalNode(env, child);
     __copyTree(env, nodeObject, childObject);
