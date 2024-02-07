@@ -8,6 +8,7 @@ extern jclass _stringClass;
 
 extern jclass _listClass;
 extern jmethodID _listGet;
+extern jmethodID _listOfStaticMethod;
 
 extern jclass _mapClass;
 extern jclass _mapEntryClass;
@@ -42,6 +43,13 @@ extern jmethodID _pointConstructor;
 extern jfieldID _pointRowField;
 extern jfieldID _pointColumnField;
 extern jmethodID _pointOriginStaticMethod;
+
+extern jclass _rangeClass;
+extern jmethodID _rangeConstructor;
+extern jfieldID _rangeStartByteField;
+extern jfieldID _rangeEndByteField;
+extern jfieldID _rangeStartPointField;
+extern jfieldID _rangeEndPointField;
 
 extern jclass _queryMatchClass;
 extern jmethodID _queryMatchConstructor;
@@ -249,6 +257,10 @@ ComparisonResult __comparePoints(TSPoint left, TSPoint right);
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
+
+jobject __marshalRange(JNIEnv* env, TSRange range);
+
+TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 

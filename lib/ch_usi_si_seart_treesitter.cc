@@ -7,6 +7,7 @@ jclass _stringClass;
 
 jclass _listClass;
 jmethodID _listGet;
+jmethodID _listOfStaticMethod;
 
 jclass _mapClass;
 jclass _mapEntryClass;
@@ -29,6 +30,13 @@ jmethodID _pointConstructor;
 jfieldID _pointRowField;
 jfieldID _pointColumnField;
 jmethodID _pointOriginStaticMethod;
+
+jclass _rangeClass;
+jmethodID _rangeConstructor;
+jfieldID _rangeStartByteField;
+jfieldID _rangeEndByteField;
+jfieldID _rangeStartPointField;
+jfieldID _rangeEndPointField;
 
 jclass _queryMatchClass;
 jmethodID _queryMatchConstructor;
@@ -155,6 +163,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_listClass, "java/util/List")
   _loadMethod(_listGet, _listClass, "get", "(I)Ljava/lang/Object;")
+  _loadStaticMethod(_listOfStaticMethod, _listClass, "of", "([Ljava/lang/Object;)Ljava/util/List;")
 
   _loadClass(_mapClass, "java/util/Map")
   _loadClass(_mapEntryClass, "java/util/Map$Entry")
@@ -178,6 +187,14 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_pointRowField, _pointClass, "row", "I")
   _loadField(_pointColumnField, _pointClass, "column", "I")
   _loadStaticMethod(_pointOriginStaticMethod, _pointClass, "ORIGIN", "()Lch/usi/si/seart/treesitter/Point;")
+
+  _loadClass(_rangeClass, "ch/usi/si/seart/treesitter/Range")
+  _loadConstructor(_rangeConstructor, _rangeClass,
+    "(IILch/usi/si/seart/treesitter/Point;Lch/usi/si/seart/treesitter/Point;)V")
+  _loadField(_rangeStartByteField, _rangeClass, "startByte", "I")
+  _loadField(_rangeEndByteField, _rangeClass, "endByte", "I")
+  _loadField(_rangeStartPointField, _rangeClass, "startPoint", "Lch/usi/si/seart/treesitter/Point;")
+  _loadField(_rangeEndPointField, _rangeClass, "endPoint", "Lch/usi/si/seart/treesitter/Point;")
 
   _loadClass(_queryMatchClass, "ch/usi/si/seart/treesitter/QueryMatch")
   _loadConstructor(_queryMatchConstructor, _queryMatchClass,
@@ -315,6 +332,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
+  _unload(_rangeClass)
   _unload(_queryMatchClass)
   _unload(_inputEditClass)
   _unload(_treeCursorNodeClass)
@@ -476,11 +494,31 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
   };
 }
 
+jobject __marshalRange(JNIEnv* env, TSRange range) {
+  return env->NewObject(
+    _rangeClass,
+    _rangeConstructor,
+    (jint)range.start_byte / 2,
+    (jint)range.end_byte / 2,
+    __marshalPoint(env, range.start_point),
+    __marshalPoint(env, range.end_point)
+  );
+}
+
+TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject) {
+  return (TSRange) {
+    __unmarshalPoint(env, env->GetObjectField(rangeObject, _rangeStartPointField)),
+    __unmarshalPoint(env, env->GetObjectField(rangeObject, _rangeEndPointField)),
+    (uint32_t)env->GetIntField(rangeObject, _rangeStartByteField) * 2,
+    (uint32_t)env->GetIntField(rangeObject, _rangeEndByteField) * 2
+  };
+}
+
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
   return (TSInputEdit) {
-    (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField),
-    (uint32_t)env->GetIntField(inputEditObject, _inputEditOldEndByteField),
-    (uint32_t)env->GetIntField(inputEditObject, _inputEditNewEndByteField),
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditStartByteField) * 2,
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditOldEndByteField) * 2,
+    (uint32_t)env->GetIntField(inputEditObject, _inputEditNewEndByteField) * 2,
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditStartPointField)),
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditOldEndPointField)),
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
