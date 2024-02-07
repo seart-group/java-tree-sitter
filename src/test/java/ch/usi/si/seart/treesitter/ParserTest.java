@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -80,6 +81,12 @@ class ParserTest extends BaseTest {
         Point end = range.getEndPoint();
         Assertions.assertEquals(_0_0_, start);
         Assertions.assertEquals(_1_0_, end);
+    }
+
+    @Test
+    void testSetIncludedRanges() {
+        List<Range> ranges = parser.getIncludedRanges();
+        Assertions.assertTrue(ranges.isEmpty());
     }
 
     @Test
