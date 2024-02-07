@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ozren Dabić
  */
 @Getter
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Range {
 
@@ -30,7 +30,7 @@ public class Range {
     Point startPoint;
     Point endPoint;
 
-    public Range(@NotNull Node node) {
+    Range(@NotNull Node node) {
         this(node.getStartByte(), node.getEndByte(), node.getStartPoint(), node.getEndPoint());
     }
 
