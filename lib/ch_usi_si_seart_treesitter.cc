@@ -153,6 +153,23 @@ jmethodID _parsingExceptionConstructor;
 jclass _incompatibleLanguageExceptionClass;
 jmethodID _incompatibleLanguageExceptionConstructor;
 
+const TSPoint POINT_ORIGIN = {
+  .row = 0,
+  .column = 0,
+};
+
+const TSPoint POINT_MAX = {
+  .row = UINT32_MAX,
+  .column = UINT32_MAX,
+};
+
+const TSRange RANGE_FULL = {
+  .start_point = POINT_ORIGIN,
+  .end_point = POINT_MAX,
+  .start_byte = 0,
+  .end_byte = UINT32_MAX,
+};
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
