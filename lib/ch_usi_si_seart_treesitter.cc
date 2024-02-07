@@ -476,6 +476,17 @@ ComparisonResult __comparePoints(TSPoint left, TSPoint right) {
   return (result != EQ) ? result : intcmp(left.column, right.column);
 }
 
+ComparisonResult __compareRanges(TSRange left, TSRange right) {
+  ComparisonResult result;
+  result = __comparePoints(left.start_point, right.start_point);
+  if (result != EQ) return result;
+  result = __comparePoints(left.end_point, right.end_point);
+  if (result != EQ) return result;
+  result = intcmp(left.start_byte, right.start_byte);
+  if (result != EQ) return result;
+  return intcmp(left.end_byte, right.end_byte);
+}
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
   // Not sure why I need to divide by two, probably because of utf-16
   return env->NewObject(
