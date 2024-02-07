@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -221,6 +222,17 @@ public class Parser extends External {
     }
 
     private static native void setLanguage(Parser parser, Language language) throws IncompatibleLanguageException;
+
+    /**
+     * Get an ordered, immutable {@link Range} sequence that corresponds
+     * to segments of source code included by the parser during parsing.
+     * Returns an empty list when the included ranges were not set, i.e.
+     * when the parser is configured to include the entire source code.
+     *
+     * @return the included text ranges
+     * @since 1.12.0
+     */
+    public native List<Range> getIncludedRanges();
 
     /**
      * Get the duration in microseconds that parsing is allowed to take.
