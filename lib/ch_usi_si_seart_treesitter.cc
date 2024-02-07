@@ -498,8 +498,8 @@ jobject __marshalRange(JNIEnv* env, TSRange range) {
   return env->NewObject(
     _rangeClass,
     _rangeConstructor,
-    (jint)range.start_byte,
-    (jint)range.end_byte,
+    (jint)range.start_byte / 2,
+    (jint)range.end_byte / 2,
     __marshalPoint(env, range.start_point),
     __marshalPoint(env, range.end_point)
   );
@@ -509,8 +509,8 @@ TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject) {
   return (TSRange) {
     __unmarshalPoint(env, env->GetObjectField(rangeObject, _rangeStartPointField)),
     __unmarshalPoint(env, env->GetObjectField(rangeObject, _rangeEndPointField)),
-    (uint32_t)env->GetIntField(rangeObject, _rangeStartByteField),
-    (uint32_t)env->GetIntField(rangeObject, _rangeEndByteField)
+    (uint32_t)env->GetIntField(rangeObject, _rangeStartByteField) * 2,
+    (uint32_t)env->GetIntField(rangeObject, _rangeEndByteField) * 2
   };
 }
 
