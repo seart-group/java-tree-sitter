@@ -504,6 +504,10 @@ ComparisonResult __compareRanges(TSRange left, TSRange right) {
   return intcmp(left.end_byte, right.end_byte);
 }
 
+bool __rangeIsFull(TSRange range) {
+  return __compareRanges(range, RANGE_FULL) == EQ;
+}
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
   // Not sure why I need to divide by two, probably because of utf-16
   return env->NewObject(
