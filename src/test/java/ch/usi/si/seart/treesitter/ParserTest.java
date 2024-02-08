@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,6 +20,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -85,7 +87,18 @@ class ParserTest extends BaseTest {
 
     @Test
     void testSetIncludedRanges() {
-        List<Range> ranges = parser.getIncludedRanges();
+        List<Range> ranges;
+        ranges = parser.getIncludedRanges();
+        Assertions.assertTrue(ranges.isEmpty());
+        Range range = new Range(0, 1, _0_0_, _1_0_);
+        parser.setIncludedRanges(range);
+        ranges = parser.getIncludedRanges();
+        Assertions.assertFalse(ranges.isEmpty());
+        Assertions.assertEquals(1, ranges.size());
+        Range copy = ranges.stream().findFirst().orElseGet(Assertions::fail);
+        Assertions.assertEquals(range, copy);
+        parser.setIncludedRanges();
+        ranges = parser.getIncludedRanges();
         Assertions.assertTrue(ranges.isEmpty());
     }
 
@@ -168,6 +181,27 @@ class ParserTest extends BaseTest {
     @ArgumentsSource(ConstructorExceptionProvider.class)
     void testSetLanguageThrows(Class<Throwable> throwableType, Language language) {
         Assertions.assertThrows(throwableType, () -> parser.setLanguage(language));
+    }
+
+    private static class SetIncludedRangesExceptionProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            Range[] array = new Range[]{ null };
+            List<Range> list = Arrays.asList(array);
+            Executable callArraySetter = () -> parser.setIncludedRanges(array);
+            Executable callListSetter = () -> parser.setIncludedRanges(list);
+            return Stream.of(
+                    Arguments.of(NullPointerException.class, callArraySetter),
+                    Arguments.of(NullPointerException.class, callListSetter)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ArgumentsSource(SetIncludedRangesExceptionProvider.class)
+    void testSetIncludedRangesThrows(Class<Throwable> throwableType, Executable executable) {
+        Assertions.assertThrows(throwableType, executable);
     }
 
     private static class SetTimeoutExceptionProvider implements ArgumentsProvider {
