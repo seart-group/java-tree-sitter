@@ -59,6 +59,18 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRang
   return result;
 }
 
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges(
+  JNIEnv* env, jobject thisObject, jobjectArray rangeObjectArray, jint length) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSRange* ranges = new TSRange[length];
+  for (int i = 0; i < length; i++) {
+    jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
+    ranges[i] = __unmarshalRange(env, rangeObject);
+  }
+  bool success = ts_parser_set_included_ranges(parser, ranges, length);
+  if (!success) __throwISE(env, NULL);
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);

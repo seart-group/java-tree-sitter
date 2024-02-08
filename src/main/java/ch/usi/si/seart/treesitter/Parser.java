@@ -235,6 +235,57 @@ public class Parser extends External {
     public native List<Range> getIncludedRanges();
 
     /**
+     * Specify a list of {@link Range} text segments that the parser should
+     * include when parsing source code. This function allows you to parse
+     * only a <em>portion</em> of a document, while yielding a syntax tree
+     * whose ranges match up with the document as a whole. Although ranges
+     * can be disjoint, they must be ordered from earliest to latest in the
+     * source, and they must not overlap. In other words, the following must
+     * hold for each {@code Range} at index {@code i}:
+     * <pre>{@code
+     * ranges[i].end_byte <= ranges[i + 1].start_byte
+     * }</pre>
+     * Passing an empty list will clear any previously set ranges,
+     * causing the parser to include the entire source code.
+     *
+     * @param ranges the included text ranges
+     * @throws NullPointerException
+     * if the list is {@code null}
+     * or contains {@code null} values
+     * @since 1.12.0
+     */
+    public void setIncludedRanges(@NotNull List<@NotNull Range> ranges) {
+        Objects.requireNonNull(ranges, "Ranges must not be null!");
+        setIncludedRanges(ranges.toArray(Range[]::new));
+    }
+
+    /**
+     * Specify an arbitrary number of {@link Range} text segments that the
+     * parser should include when parsing source code. This function allows
+     * you to parse only a <em>portion</em> of a document, while yielding a
+     * syntax tree whose ranges match up with the document as a whole.
+     * Although ranges can be disjoint, they must be ordered from earliest
+     * to latest in the source, and they must not overlap. In other words,
+     * the following must hold for each {@code Range} at index {@code i}:
+     * <pre>{@code
+     * ranges[i].end_byte <= ranges[i + 1].start_byte
+     * }</pre>
+     * Passing no arguments will clear any previously set ranges,
+     * causing the parser to include the entire source code.
+     *
+     * @param ranges the included text ranges
+     * @throws NullPointerException if any value is {@code null}
+     * @since 1.12.0
+     */
+    public void setIncludedRanges(@NotNull Range... ranges) {
+        for (Range range : ranges)
+            Objects.requireNonNull(range, "Range must not be null!");
+        setIncludedRanges(ranges, ranges.length);
+    }
+
+    private native void setIncludedRanges(Range[] ranges, int length);
+
+    /**
      * Get the duration in microseconds that parsing is allowed to take.
      *
      * @return the timeout duration set for parsing, 0 if it was not set

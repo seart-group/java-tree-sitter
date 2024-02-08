@@ -49,6 +49,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRang
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    setIncludedRanges
+ * Signature: ([Lch/usi/si/seart/treesitter/Range;I)V
+ */
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges
+  (JNIEnv *, jobject, jobjectArray, jint);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    getTimeout
  * Signature: ()J
  */
