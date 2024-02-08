@@ -166,7 +166,7 @@ const TSPoint POINT_MAX = {
   .column = UINT32_MAX,
 };
 
-const TSRange RANGE_FULL = {
+const TSRange RANGE_DEFAULT = {
   .start_point = POINT_ORIGIN,
   .end_point = POINT_MAX,
   .start_byte = 0,
@@ -500,19 +500,19 @@ ComparisonResult __comparePoints(TSPoint left, TSPoint right) {
   return (result != EQ) ? result : intcmp(left.column, right.column);
 }
 
-ComparisonResult __compareRanges(TSRange left, TSRange right) {
-  ComparisonResult result;
-  result = __comparePoints(left.start_point, right.start_point);
-  if (result != EQ) return result;
-  result = __comparePoints(left.end_point, right.end_point);
-  if (result != EQ) return result;
-  result = intcmp(left.start_byte, right.start_byte);
-  if (result != EQ) return result;
-  return intcmp(left.end_byte, right.end_byte);
+bool __pointEqual(TSPoint left, TSPoint right) {
+  return left.row == right.row && left.column == right.column;
 }
 
-bool __rangeIsFull(TSRange range) {
-  return __compareRanges(range, RANGE_FULL) == EQ;
+bool __rangeEqual(TSRange left, TSRange right) {
+  return left.start_byte == right.start_byte &&
+  left.end_byte == right.end_byte &&
+    __pointEqual(left.start_point, right.start_point) &&
+    __pointEqual(left.end_point, right.end_point);
+}
+
+bool __isDefaultRange(TSRange range) {
+  return __rangeEqual(range, RANGE_DEFAULT);
 }
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {

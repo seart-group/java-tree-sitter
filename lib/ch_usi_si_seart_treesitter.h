@@ -257,9 +257,11 @@ void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject)
 
 ComparisonResult __comparePoints(TSPoint left, TSPoint right);
 
-ComparisonResult __compareRanges(TSRange left, TSRange right);
+bool __pointEqual(TSPoint left, TSPoint right);
 
-bool __rangeIsFull(TSRange range);
+bool __rangeEqual(TSRange left, TSRange right);
+
+bool __isDefaultRange(TSRange range);
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 

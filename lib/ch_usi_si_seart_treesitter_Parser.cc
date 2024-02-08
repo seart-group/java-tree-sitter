@@ -44,7 +44,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRang
   jobject result;
   if (
     *length == 0 ||
-    (*length == 1 && __rangeIsFull(ranges[0]))
+    (*length == 1 && __isDefaultRange(ranges[0]))
   ) {
     result = env->CallStaticObjectMethod(_collectionsClass, _collectionsEmptyListStaticMethod);
   } else {
