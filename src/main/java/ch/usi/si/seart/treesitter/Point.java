@@ -19,6 +19,10 @@ import java.util.Objects;
  * be negative, instances of this class can be created with negative row
  * and column values for other purposes, such as representing relative
  * positions within a file or snippet.
+ * <p>
+ * Points are immutable, and operations on them will either yield a new
+ * instance, or existing instances under certain conditions. For example,
+ * adding the origin point to any other point will return the same instance.
  *
  * @since 1.0.0
  * @author Ozren Dabić
@@ -82,7 +86,7 @@ public class Point implements Comparable<Point> {
      * of this point and the other point.
      *
      * @param other the point to be added to this point
-     * @return a new point
+     * @return the resulting point
      * @throws NullPointerException if {@code other} is null
      * @since 1.5.1
      */
@@ -100,7 +104,7 @@ public class Point implements Comparable<Point> {
      * between the coordinates of this point and the other point.
      *
      * @param other the point to be subtracted from this point
-     * @return a new point
+     * @return the resulting point
      * @throws NullPointerException if {@code other} is null
      * @since 1.5.1
      */
@@ -117,7 +121,7 @@ public class Point implements Comparable<Point> {
      * resulting in a new point with scaled coordinates.
      *
      * @param value the scalar value by which to multiply the coordinates of this point
-     * @return a new point
+     * @return the resulting point
      * @since 1.5.1
      */
     public Point multiply(int value) {
