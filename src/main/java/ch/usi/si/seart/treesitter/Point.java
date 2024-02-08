@@ -94,7 +94,7 @@ public class Point implements Comparable<Point> {
         Objects.requireNonNull(other, "Other point must not be null!");
         if (isOrigin()) return other;
         if (other.isOrigin()) return this;
-        return new Point(row + other.row, column + other.column);
+        return add(other.row, other.column);
     }
 
     /**
@@ -111,7 +111,11 @@ public class Point implements Comparable<Point> {
         Objects.requireNonNull(other, "Other point must not be null!");
         if (other.isOrigin()) return this;
         if (equals(other)) return ORIGIN();
-        return new Point(row - other.row, column - other.column);
+        return add(-other.row, -other.column);
+    }
+
+    private Point add(int row, int column) {
+        return new Point(this.row + row, this.column + column);
     }
 
     /**
