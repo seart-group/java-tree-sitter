@@ -121,8 +121,10 @@ public class Point implements Comparable<Point> {
      * @since 1.5.1
      */
     public Point multiply(int value) {
-        if (value == 0) return ORIGIN();
-        if (value == 1) return this;
-        return new Point(row * value, column * value);
+        switch (value) {
+            case 0: return ORIGIN();
+            case 1: return this;
+            default: return new Point(row * value, column * value);
+        }
     }
 }
