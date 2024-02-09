@@ -77,7 +77,11 @@ public class Point implements Comparable<Point> {
      * @since 1.5.1
      */
     @Override
-    public native int compareTo(@NotNull Point other);
+    public int compareTo(@NotNull Point other) {
+        Objects.requireNonNull(other, "Other point must not be null!");
+        int compare = Integer.compare(row, other.row);
+        return compare != 0 ? compare : Integer.compare(column, other.column);
+    }
 
     /**
      * Adds another point to this point,
