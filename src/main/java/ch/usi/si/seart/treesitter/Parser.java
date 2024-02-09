@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -252,6 +253,8 @@ public class Parser extends External {
      * @throws NullPointerException
      * if the list is {@code null}
      * or contains {@code null} values
+     * @throws IllegalArgumentException
+     * if the range overlap invariant is violated
      * @since 1.12.0
      */
     public void setIncludedRanges(@NotNull List<@NotNull Range> ranges) {
@@ -275,12 +278,31 @@ public class Parser extends External {
      *
      * @param ranges the included text ranges
      * @throws NullPointerException if any value is {@code null}
+     * @throws IllegalArgumentException
+     * if the range overlap invariant is violated
      * @since 1.12.0
      */
     public void setIncludedRanges(@NotNull Range... ranges) {
-        for (Range range : ranges)
-            Objects.requireNonNull(range, "Range must not be null!");
-        setIncludedRanges(ranges, ranges.length);
+        Objects.requireNonNull(ranges, "Ranges must not be null!");
+        setIncludedRanges(validated(ranges), ranges.length);
+    }
+
+    private static Range[] validated(Range[] ranges) {
+        switch (ranges.length) {
+            case 0: break;
+            case 1: Objects.requireNonNull(ranges[0], "Range must not be null!");
+                    break;
+            default:
+                Range[] left = Arrays.copyOfRange(ranges, 0, ranges.length - 1);
+                Range[] right = Arrays.copyOfRange(ranges, 1, ranges.length);
+                for (int i = 0; i < ranges.length - 1; i++) {
+                    Objects.requireNonNull(left[i], "Range must not be null!");
+                    Objects.requireNonNull(right[i], "Range must not be null!");
+                    if (left[i].getEndByte() > right[i].getStartByte())
+                        throw new IllegalArgumentException("Ranges must not overlap!");
+                }
+        }
+        return ranges;
     }
 
     private native void setIncludedRanges(Range[] ranges, int length);
