@@ -36,10 +36,13 @@ public class Parser extends External {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
+    private static final String NULL_RANGE = "Range must not be null!";
+    private static final String NULL_RANGES = "Ranges must not be null!";
     private static final String NULL_LANGUAGE = "Language must not be null!";
     private static final String NULL_DURATION = "Duration must not be null!";
     private static final String NULL_TIME_UNIT = "Time unit must not be null!";
     private static final String NEGATIVE_TIMEOUT = "Timeout must not be negative!";
+    private static final String OVERLAPPING_RANGES = "Ranges must not overlap!";
 
     @SuppressWarnings("unused")
     Parser(long pointer, @NotNull Language language) {
@@ -185,7 +188,7 @@ public class Parser extends External {
          * @since 1.12.0
          */
         public Builder ranges(@NotNull List<@NotNull Range> ranges) {
-            Objects.requireNonNull(ranges, "Ranges must not be null!");
+            Objects.requireNonNull(ranges, NULL_RANGES);
             this.ranges = new ArrayList<>(List.copyOf(ranges));
             return this;
         }
@@ -207,7 +210,7 @@ public class Parser extends External {
          * @since 1.12.0
          */
         public Builder ranges(@NotNull Range... ranges) {
-            Objects.requireNonNull(ranges, "Ranges must not be null!");
+            Objects.requireNonNull(ranges, NULL_RANGES);
             for (Range range: ranges) range(range);
             return this;
         }
@@ -228,7 +231,7 @@ public class Parser extends External {
          * @since 1.12.0
          */
         public Builder range(@NotNull Range range) {
-            Objects.requireNonNull(range, "Range must not be null!");
+            Objects.requireNonNull(range, NULL_RANGE);
             ranges.add(range);
             return this;
         }
@@ -339,7 +342,7 @@ public class Parser extends External {
      * @since 1.12.0
      */
     public void setIncludedRanges(@NotNull List<@NotNull Range> ranges) {
-        Objects.requireNonNull(ranges, "Ranges must not be null!");
+        Objects.requireNonNull(ranges, NULL_RANGES);
         setIncludedRanges(ranges.toArray(Range[]::new));
     }
 
@@ -364,23 +367,23 @@ public class Parser extends External {
      * @since 1.12.0
      */
     public void setIncludedRanges(@NotNull Range... ranges) {
-        Objects.requireNonNull(ranges, "Ranges must not be null!");
+        Objects.requireNonNull(ranges, NULL_RANGES);
         setIncludedRanges(validated(ranges), ranges.length);
     }
 
     private static Range[] validated(Range[] ranges) {
         switch (ranges.length) {
             case 0: break;
-            case 1: Objects.requireNonNull(ranges[0], "Range must not be null!");
+            case 1: Objects.requireNonNull(ranges[0], NULL_RANGE);
                     break;
             default:
                 Range[] left = Arrays.copyOfRange(ranges, 0, ranges.length - 1);
                 Range[] right = Arrays.copyOfRange(ranges, 1, ranges.length);
                 for (int i = 0; i < ranges.length - 1; i++) {
-                    Objects.requireNonNull(left[i], "Range must not be null!");
-                    Objects.requireNonNull(right[i], "Range must not be null!");
+                    Objects.requireNonNull(left[i], NULL_RANGE);
+                    Objects.requireNonNull(right[i], NULL_RANGE);
                     if (left[i].getEndByte() > right[i].getStartByte())
-                        throw new IllegalArgumentException("Ranges must not overlap!");
+                        throw new IllegalArgumentException(OVERLAPPING_RANGES);
                 }
         }
         return ranges;
