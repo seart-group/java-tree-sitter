@@ -36,6 +36,41 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
   );
 }
 
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRanges(
+  JNIEnv* env, jobject thisObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  uint32_t* length = new uint32_t;
+  const TSRange* ranges = ts_parser_included_ranges(parser, length);
+  jobject result;
+  if (
+    *length == 0 ||
+    (*length == 1 && __isDefaultRange(ranges[0]))
+  ) {
+    result = env->CallStaticObjectMethod(_collectionsClass, _collectionsEmptyListStaticMethod);
+  } else {
+    jobjectArray array = env->NewObjectArray(*length, _rangeClass, NULL);
+    for (uint32_t i = 0; i < *length; i++) {
+      TSRange range = ranges[i];
+      jobject rangeObject = __marshalRange(env, range);
+      env->SetObjectArrayElement(array, i, rangeObject);
+    }
+    result = env->CallStaticObjectMethod(_listClass, _listOfStaticMethod, array);
+  }
+  return result;
+}
+
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges(
+  JNIEnv* env, jobject thisObject, jobjectArray rangeObjectArray, jint length) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSRange* ranges = new TSRange[length];
+  for (int i = 0; i < length; i++) {
+    jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
+    ranges[i] = __unmarshalRange(env, rangeObject);
+  }
+  bool success = ts_parser_set_included_ranges(parser, ranges, length);
+  if (!success) __throwISE(env, NULL);
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);

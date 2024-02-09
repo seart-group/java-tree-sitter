@@ -13,6 +13,9 @@ jclass _mapClass;
 jclass _mapEntryClass;
 jmethodID _mapEntryStaticMethod;
 
+jclass _collectionsClass;
+jmethodID _collectionsEmptyListStaticMethod;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -153,6 +156,23 @@ jmethodID _parsingExceptionConstructor;
 jclass _incompatibleLanguageExceptionClass;
 jmethodID _incompatibleLanguageExceptionConstructor;
 
+const TSPoint POINT_ORIGIN = {
+  .row = 0,
+  .column = 0,
+};
+
+const TSPoint POINT_MAX = {
+  .row = UINT32_MAX,
+  .column = UINT32_MAX,
+};
+
+const TSRange RANGE_DEFAULT = {
+  .start_point = POINT_ORIGIN,
+  .end_point = POINT_MAX,
+  .start_byte = 0,
+  .end_byte = UINT32_MAX,
+};
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -169,6 +189,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_mapEntryClass, "java/util/Map$Entry")
   _loadStaticMethod(_mapEntryStaticMethod, _mapClass, "entry",
     "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;")
+
+  _loadClass(_collectionsClass, "java/util/Collections")
+  _loadStaticMethod(_collectionsEmptyListStaticMethod, _collectionsClass, "emptyList", "()Ljava/util/List;")
 
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
@@ -329,6 +352,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_listClass)
   _unload(_mapClass)
   _unload(_mapEntryClass)
+  _unload(_collectionsClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
@@ -474,6 +498,21 @@ void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject)
 ComparisonResult __comparePoints(TSPoint left, TSPoint right) {
   ComparisonResult result = intcmp(left.row, right.row);
   return (result != EQ) ? result : intcmp(left.column, right.column);
+}
+
+bool __pointEqual(TSPoint left, TSPoint right) {
+  return left.row == right.row && left.column == right.column;
+}
+
+bool __rangeEqual(TSRange left, TSRange right) {
+  return left.start_byte == right.start_byte &&
+  left.end_byte == right.end_byte &&
+    __pointEqual(left.start_point, right.start_point) &&
+    __pointEqual(left.end_point, right.end_point);
+}
+
+bool __isDefaultRange(TSRange range) {
+  return __rangeEqual(range, RANGE_DEFAULT);
 }
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {

@@ -14,6 +14,9 @@ extern jclass _mapClass;
 extern jclass _mapEntryClass;
 extern jmethodID _mapEntryStaticMethod;
 
+extern jclass _collectionsClass;
+extern jmethodID _collectionsEmptyListStaticMethod;
+
 extern jclass _noSuchElementExceptionClass;
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
@@ -253,6 +256,12 @@ TSNode __unmarshalNode(JNIEnv* env, jobject nodeObject);
 void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject);
 
 ComparisonResult __comparePoints(TSPoint left, TSPoint right);
+
+bool __pointEqual(TSPoint left, TSPoint right);
+
+bool __rangeEqual(TSRange left, TSRange right);
+
+bool __isDefaultRange(TSRange range);
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 

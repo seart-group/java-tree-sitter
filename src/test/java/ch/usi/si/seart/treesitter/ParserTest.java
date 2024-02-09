@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,6 +20,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -83,6 +86,32 @@ class ParserTest extends BaseTest {
     }
 
     @Test
+    void testSetIncludedRanges() {
+        List<Range> ranges;
+        ranges = parser.getIncludedRanges();
+        Assertions.assertTrue(ranges.isEmpty());
+        Range range = new Range(0, 1, _0_0_, _1_0_);
+        parser.setIncludedRanges(range);
+        ranges = parser.getIncludedRanges();
+        Assertions.assertFalse(ranges.isEmpty());
+        Assertions.assertEquals(1, ranges.size());
+        Range copy = ranges.stream().findFirst().orElseGet(Assertions::fail);
+        Assertions.assertEquals(range, copy);
+        parser.setIncludedRanges();
+        ranges = parser.getIncludedRanges();
+        Assertions.assertTrue(ranges.isEmpty());
+        List<Range> list = List.of(
+                new Range(0, 1, _0_0_, _1_0_),
+                new Range(1, 2, _1_0_, _1_1_)
+        );
+        parser.setIncludedRanges(list);
+        ranges = parser.getIncludedRanges();
+        Assertions.assertFalse(ranges.isEmpty());
+        Assertions.assertEquals(2, ranges.size());
+        Assertions.assertEquals(list, ranges);
+    }
+
+    @Test
     @SuppressWarnings("DataFlowIssue")
     @SneakyThrows(URISyntaxException.class)
     void testSetTimeout() {
@@ -114,88 +143,130 @@ class ParserTest extends BaseTest {
     @Test
     void testBuilder() {
         Duration duration = Duration.ofSeconds(3);
+        Range range = new Range(0, 1, _0_0_, _1_0_);
         @Cleanup Parser parser = Parser.builder()
                 .language(Language.JAVA)
                 .timeout(duration)
+                .range(range)
                 .build();
         Assertions.assertFalse(parser.isNull());
         Assertions.assertEquals(duration.toMillis() * 1000, parser.getTimeout());
+        List<Range> ranges = parser.getIncludedRanges();
+        Assertions.assertFalse(ranges.isEmpty());
+        Assertions.assertEquals(1, ranges.size());
+        Range copy = ranges.stream().findFirst().orElseGet(Assertions::fail);
+        Assertions.assertEquals(range, copy);
     }
 
     @Test
     void testToBuilder() {
         Parser.Builder builder = parser.toBuilder();
+        Duration duration = Duration.ofSeconds(1);
+        Range range = new Range(0, 2, _0_0_, _1_1_);
         @Cleanup Parser other = builder.language(Language.JAVA)
-                .timeout(Duration.ofSeconds(1))
+                .timeout(duration)
+                .ranges(List.of(range))
                 .build();
         Assertions.assertFalse(other.isNull());
         Assertions.assertNotEquals(parser, other);
         Assertions.assertNotEquals(parser.getTimeout(), other.getTimeout());
         Assertions.assertNotEquals(parser.getLanguage(), other.getLanguage());
+        Assertions.assertNotEquals(parser.getIncludedRanges(), other.getIncludedRanges());
     }
 
-    private static class ConstructorExceptionProvider implements ArgumentsProvider {
+    private static class SetterExceptionProvider implements ArgumentsProvider {
 
         @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+            Range[] array = new Range[]{ null };
+            List<Range> list = Arrays.asList(array);
+            Executable nullLanguage = () -> parser.setLanguage(null);
+            Executable invalidLanguage = () -> parser.setLanguage(invalid);
+            Executable nullDuration = () -> parser.setTimeout(null);
+            Executable nullTimeUnit = () -> parser.setTimeout(100L, null);
+            Executable negativeTimeUnit = () -> parser.setTimeout(-1L, TimeUnit.SECONDS);
+            Executable negativeTimeout = () -> parser.setTimeout(-1L);
+            Executable nullRangeList = () -> parser.setIncludedRanges((List<Range>) null);
+            Executable rangeListWithNulls = () -> parser.setIncludedRanges(list);
+            Executable rangeListUnordered = () -> parser.setIncludedRanges(
+                    List.of(
+                            new Range(1, 2, _1_0_, _1_1_),
+                            new Range(0, 1, _0_0_, _1_0_)
+                    )
+            );
+            Executable nullRangeArray = () -> parser.setIncludedRanges((Range[]) null);
+            Executable rangeArrayWithNulls = () -> parser.setIncludedRanges(array);
+            Executable rangeArrayUnordered = () -> parser.setIncludedRanges(
+                    new Range(1, 2, _1_0_, _1_1_),
+                    new Range(0, 1, _0_0_, _1_0_)
+            );
             return Stream.of(
-                    Arguments.of(NullPointerException.class, null),
-                    Arguments.of(UnsatisfiedLinkError.class, invalid)
+                    Arguments.of(NullPointerException.class, nullLanguage),
+                    Arguments.of(UnsatisfiedLinkError.class, invalidLanguage),
+                    Arguments.of(NullPointerException.class, nullDuration),
+                    Arguments.of(NullPointerException.class, nullTimeUnit),
+                    Arguments.of(IllegalArgumentException.class, negativeTimeUnit),
+                    Arguments.of(IllegalArgumentException.class, negativeTimeout),
+                    Arguments.of(NullPointerException.class, nullRangeList),
+                    Arguments.of(NullPointerException.class, rangeListWithNulls),
+                    Arguments.of(IllegalArgumentException.class, rangeListUnordered),
+                    Arguments.of(NullPointerException.class, nullRangeArray),
+                    Arguments.of(NullPointerException.class, rangeArrayWithNulls),
+                    Arguments.of(IllegalArgumentException.class, rangeArrayUnordered)
             );
         }
     }
 
     @ParameterizedTest(name = "[{index}] {0}")
-    @ArgumentsSource(ConstructorExceptionProvider.class)
-    void testBuilderThrows(Class<Throwable> throwableType, Language language) {
-        Assertions.assertThrows(throwableType, () -> Parser.builder().language(language));
+    @ArgumentsSource(SetterExceptionProvider.class)
+    void testSetterThrows(Class<Throwable> type, Executable executable) {
+        Assertions.assertThrows(type, executable);
     }
 
-    @Test
-    void testBuildThrows() {
-        Parser.Builder builder = Parser.builder();
-        Assertions.assertThrows(NullPointerException.class, builder::build);
-    }
-
-    @ParameterizedTest(name = "[{index}] {0}")
-    @ArgumentsSource(ConstructorExceptionProvider.class)
-    void testSetLanguageThrows(Class<Throwable> throwableType, Language language) {
-        Assertions.assertThrows(throwableType, () -> parser.setLanguage(language));
-    }
-
-    private static class SetTimeoutExceptionProvider implements ArgumentsProvider {
+    private static class BuilderExceptionProvider implements ArgumentsProvider {
 
         @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+        @SuppressWarnings("resource")
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+            Executable nothing = () -> Parser.builder().build();
+            Executable nullLanguage = () -> Parser.builder().language(null);
+            Executable invalidLanguage = () -> Parser.builder().language(invalid);
+            Executable nullDuration = () -> Parser.builder().timeout(null);
+            Executable nullTimeUnit = () -> Parser.builder().timeout(100L, null);
+            Executable negativeTimeUnit = () -> Parser.builder().timeout(-1L, TimeUnit.SECONDS);
+            Executable negativeTimeout = () -> Parser.builder().timeout(-1L);
+            Executable nullRangeList = () -> Parser.builder().ranges((List<Range>) null);
+            Executable rangeListWithNulls = () -> Parser.builder().ranges(Arrays.asList(new Range[]{ null }));
+            Executable nullRangeArray = () -> Parser.builder().ranges((Range[]) null);
+            Executable rangeArrayWithNulls = () -> Parser.builder().ranges(new Range[]{ null });
+            Executable nullRange = () -> Parser.builder().range(null);
+            Executable unorderedRanges = () -> Parser.builder()
+                    .language(Language.JAVA)
+                    .ranges(
+                            new Range(1, 2, _1_0_, _1_1_),
+                            new Range(0, 1, _0_0_, _1_0_)
+                    ).build();
             return Stream.of(
-                    Arguments.of(NullPointerException.class, null),
-                    Arguments.of(IllegalArgumentException.class, -1L)
+                    Arguments.of(NullPointerException.class, nothing),
+                    Arguments.of(NullPointerException.class, nullLanguage),
+                    Arguments.of(UnsatisfiedLinkError.class, invalidLanguage),
+                    Arguments.of(NullPointerException.class, nullDuration),
+                    Arguments.of(NullPointerException.class, nullTimeUnit),
+                    Arguments.of(IllegalArgumentException.class, negativeTimeUnit),
+                    Arguments.of(IllegalArgumentException.class, negativeTimeout),
+                    Arguments.of(NullPointerException.class, nullRangeList),
+                    Arguments.of(NullPointerException.class, rangeListWithNulls),
+                    Arguments.of(NullPointerException.class, nullRangeArray),
+                    Arguments.of(NullPointerException.class, rangeArrayWithNulls),
+                    Arguments.of(NullPointerException.class, nullRange),
+                    Arguments.of(IllegalArgumentException.class, unorderedRanges)
             );
         }
     }
 
     @ParameterizedTest(name = "[{index}] {0}")
-    @ArgumentsSource(SetTimeoutExceptionProvider.class)
-    void testSetTimeoutThrows(Class<Throwable> throwableType, Long timeout) {
-        Assertions.assertThrows(throwableType, () -> parser.setTimeout(timeout));
-        Assertions.assertThrows(throwableType, () -> Parser.builder().timeout(timeout));
-    }
-
-    private static class SetTimeoutWitTimeUnitExceptionProvider implements ArgumentsProvider {
-
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            return Stream.of(
-                    Arguments.of(NullPointerException.class, 100L, null),
-                    Arguments.of(IllegalArgumentException.class, -1L, TimeUnit.MICROSECONDS)
-            );
-        }
-    }
-
-    @ParameterizedTest(name = "[{index}] {0}")
-    @ArgumentsSource(SetTimeoutWitTimeUnitExceptionProvider.class)
-    void testSetTimeoutThrows(Class<Throwable> throwableType, Long timeout, TimeUnit timeUnit) {
-        Assertions.assertThrows(throwableType, () -> parser.setTimeout(timeout, timeUnit));
-        Assertions.assertThrows(throwableType, () -> Parser.builder().timeout(timeout, timeUnit));
+    @ArgumentsSource(BuilderExceptionProvider.class)
+    void testBuilderThrows(Class<Throwable> type, Executable executable) {
+        Assertions.assertThrows(type, executable);
     }
 }

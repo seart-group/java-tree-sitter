@@ -24,7 +24,7 @@ class PointTest extends BaseTest {
 
     @Test
     void testCompareTo() {
-        List<Point> sorted = List.of(_0_0_, _0_1_, _1_0_, _1_1_);
+        List<Point> sorted = List.of(new Point(-1, -1), new Point(-1, 0), _0_0_, _0_1_, _1_0_, _1_1_);
         ArrayList<Point> unsorted = new ArrayList<>(sorted);
         Collections.shuffle(unsorted);
         Collections.sort(unsorted);

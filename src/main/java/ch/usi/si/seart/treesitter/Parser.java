@@ -14,6 +14,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -33,10 +36,13 @@ public class Parser extends External {
 
     private static final Charset CHARSET = StandardCharsets.UTF_16LE;
 
+    private static final String NULL_RANGE = "Range must not be null!";
+    private static final String NULL_RANGES = "Ranges must not be null!";
     private static final String NULL_LANGUAGE = "Language must not be null!";
     private static final String NULL_DURATION = "Duration must not be null!";
     private static final String NULL_TIME_UNIT = "Time unit must not be null!";
     private static final String NEGATIVE_TIMEOUT = "Timeout must not be negative!";
+    private static final String OVERLAPPING_RANGES = "Ranges must not overlap!";
 
     @SuppressWarnings("unused")
     Parser(long pointer, @NotNull Language language) {
@@ -90,6 +96,8 @@ public class Parser extends External {
         Language language = null;
 
         long timeout = 0L;
+
+        List<Range> ranges = new ArrayList<>();
 
         /**
          * Sets the programming language intended for parsing.
@@ -164,18 +172,96 @@ public class Parser extends External {
         }
 
         /**
+         * Sets the collection of ranges that the parser will include when parsing.
+         * Although ranges can be disjoint, they must be ordered from earliest to
+         * latest in the source, and they must not overlap. In other words,
+         * the following must hold for each {@code Range} at index {@code i}:
+         * <pre>{@code
+         * ranges[i].end_byte <= ranges[i + 1].start_byte
+         * }</pre>
+         * This method <em>will overwrite</em> all the currently specified ranges.
+         *
+         * @param ranges the included text ranges
+         * @return this builder
+         * @throws NullPointerException if the ranges list is {@code null},
+         * or contains {@code null} elements
+         * @since 1.12.0
+         */
+        public Builder ranges(@NotNull List<@NotNull Range> ranges) {
+            Objects.requireNonNull(ranges, NULL_RANGES);
+            this.ranges = new ArrayList<>(List.copyOf(ranges));
+            return this;
+        }
+
+        /**
+         * Specify additional ranges that the parser should include when parsing.
+         * The added ranges can be disjoint, both with respect to the already specified
+         * ranges, and among themselves. At the same time, the union of the already
+         * specified ranges and the added ranges must satisfy the range overlap invariant.
+         * In other words, the following must hold for each {@code Range} at index {@code i}:
+         * <pre>{@code
+         * ranges[i].end_byte <= ranges[i + 1].start_byte
+         * }</pre>
+         *
+         * @param ranges the included text ranges
+         * @return this builder
+         * @throws NullPointerException if the range sequence is {@code null},
+         * or contains {@code null} elements
+         * @since 1.12.0
+         */
+        public Builder ranges(@NotNull Range... ranges) {
+            Objects.requireNonNull(ranges, NULL_RANGES);
+            for (Range range: ranges) range(range);
+            return this;
+        }
+
+        /**
+         * Specify an additional range that the parser should include when parsing.
+         * The added range can be disjoint with respect to the already specified ranges.
+         * At the same time, the union of the already specified ranges and the added range
+         * must satisfy the range overlap invariant. In other words, the following must
+         * hold for each {@code Range} at index {@code i}:
+         * <pre>{@code
+         * ranges[i].end_byte <= ranges[i + 1].start_byte
+         * }</pre>
+         *
+         * @param range the included text range
+         * @return this builder
+         * @throws NullPointerException if the range is {@code null}
+         * @since 1.12.0
+         */
+        public Builder range(@NotNull Range range) {
+            Objects.requireNonNull(range, NULL_RANGE);
+            ranges.add(range);
+            return this;
+        }
+
+        /**
+         * Removes all currently specified ranges.
+         *
+         * @return this builder
+         * @since 1.12.0
+         */
+        public Builder range() {
+            ranges.clear();
+            return this;
+        }
+
+        /**
          * Builds and returns a new Parser instance with the configured language.
          *
          * @return a new parser instance
          * @throws NullPointerException if the language was not previously set
+         * @throws IllegalArgumentException if the range overlap invariant is violated
          * @throws IncompatibleLanguageException if the language can not be set
          */
         public Parser build() {
             Objects.requireNonNull(language, NULL_LANGUAGE);
-            return build(language, timeout);
+            Range[] array = validated(ranges.toArray(Range[]::new));
+            return build(language, timeout, array, array.length);
         }
 
-        private static native Parser build(Language language, long timeout);
+        private static native Parser build(Language language, long timeout, Range[] ranges, int length);
     }
 
     /**
@@ -221,6 +307,89 @@ public class Parser extends External {
     }
 
     private static native void setLanguage(Parser parser, Language language) throws IncompatibleLanguageException;
+
+    /**
+     * Get an ordered, immutable {@link Range} sequence that corresponds
+     * to segments of source code included by the parser during parsing.
+     * Returns an empty list when the included ranges were not set, i.e.
+     * when the parser is configured to include the entire source code.
+     *
+     * @return the included text ranges
+     * @since 1.12.0
+     */
+    public native List<Range> getIncludedRanges();
+
+    /**
+     * Specify a list of {@link Range} text segments that the parser should
+     * include when parsing source code. This function allows you to parse
+     * only a <em>portion</em> of a document, while yielding a syntax tree
+     * whose ranges match up with the document as a whole. Although ranges
+     * can be disjoint, they must be ordered from earliest to latest in the
+     * source, and they must not overlap. In other words, the following must
+     * hold for each {@code Range} at index {@code i}:
+     * <pre>{@code
+     * ranges[i].end_byte <= ranges[i + 1].start_byte
+     * }</pre>
+     * Passing an empty list will clear any previously set ranges,
+     * causing the parser to include the entire source code.
+     *
+     * @param ranges the included text ranges
+     * @throws NullPointerException
+     * if the list is {@code null}
+     * or contains {@code null} values
+     * @throws IllegalArgumentException
+     * if the range overlap invariant is violated
+     * @since 1.12.0
+     */
+    public void setIncludedRanges(@NotNull List<@NotNull Range> ranges) {
+        Objects.requireNonNull(ranges, NULL_RANGES);
+        setIncludedRanges(ranges.toArray(Range[]::new));
+    }
+
+    /**
+     * Specify an arbitrary number of {@link Range} text segments that the
+     * parser should include when parsing source code. This function allows
+     * you to parse only a <em>portion</em> of a document, while yielding a
+     * syntax tree whose ranges match up with the document as a whole.
+     * Although ranges can be disjoint, they must be ordered from earliest
+     * to latest in the source, and they must not overlap. In other words,
+     * the following must hold for each {@code Range} at index {@code i}:
+     * <pre>{@code
+     * ranges[i].end_byte <= ranges[i + 1].start_byte
+     * }</pre>
+     * Passing no arguments will clear any previously set ranges,
+     * causing the parser to include the entire source code.
+     *
+     * @param ranges the included text ranges
+     * @throws NullPointerException if any value is {@code null}
+     * @throws IllegalArgumentException
+     * if the range overlap invariant is violated
+     * @since 1.12.0
+     */
+    public void setIncludedRanges(@NotNull Range... ranges) {
+        Objects.requireNonNull(ranges, NULL_RANGES);
+        setIncludedRanges(validated(ranges), ranges.length);
+    }
+
+    private static Range[] validated(Range[] ranges) {
+        switch (ranges.length) {
+            case 0: break;
+            case 1: Objects.requireNonNull(ranges[0], NULL_RANGE);
+                    break;
+            default:
+                Range[] left = Arrays.copyOfRange(ranges, 0, ranges.length - 1);
+                Range[] right = Arrays.copyOfRange(ranges, 1, ranges.length);
+                for (int i = 0; i < ranges.length - 1; i++) {
+                    Objects.requireNonNull(left[i], NULL_RANGE);
+                    Objects.requireNonNull(right[i], NULL_RANGE);
+                    if (left[i].getEndByte() > right[i].getStartByte())
+                        throw new IllegalArgumentException(OVERLAPPING_RANGES);
+                }
+        }
+        return ranges;
+    }
+
+    private native void setIncludedRanges(Range[] ranges, int length);
 
     /**
      * Get the duration in microseconds that parsing is allowed to take.
