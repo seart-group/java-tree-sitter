@@ -271,10 +271,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol(
   if (treeObject == NULL) return NULL;
   jobject languageObject = env->GetObjectField(treeObject, _treeLanguageField);
   if (languageObject == NULL) return NULL;
-  jclass languageClass = env->GetObjectClass(languageObject);
-  jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
-  jlong languageId = env->GetLongField(languageObject, languageIdField);
-  const TSLanguage* language = (const TSLanguage*)languageId;
+  const TSLanguage* language = __unmarshalLanguage(env, languageObject);
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) return NULL;
   TSSymbol (*symbol_getter)(TSNode) = (bool)grammar
