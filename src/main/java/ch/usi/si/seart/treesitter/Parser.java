@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -93,6 +94,8 @@ public class Parser extends External {
 
         long timeout = 0L;
 
+        List<Range> ranges = new ArrayList<>();
+
         /**
          * Sets the programming language intended for parsing.
          *
@@ -166,18 +169,96 @@ public class Parser extends External {
         }
 
         /**
+         * Sets the collection of ranges that the parser will include when parsing.
+         * Although ranges can be disjoint, they must be ordered from earliest to
+         * latest in the source, and they must not overlap. In other words,
+         * the following must hold for each {@code Range} at index {@code i}:
+         * <pre>{@code
+         * ranges[i].end_byte <= ranges[i + 1].start_byte
+         * }</pre>
+         * This method <em>will overwrite</em> all the currently specified ranges.
+         *
+         * @param ranges the included text ranges
+         * @return this builder
+         * @throws NullPointerException if the ranges list is {@code null},
+         * or contains {@code null} elements
+         * @since 1.12.0
+         */
+        public Builder ranges(@NotNull List<@NotNull Range> ranges) {
+            Objects.requireNonNull(ranges, "Ranges must not be null!");
+            this.ranges = new ArrayList<>(List.copyOf(ranges));
+            return this;
+        }
+
+        /**
+         * Specify additional ranges that the parser should include when parsing.
+         * The added ranges can be disjoint, both with respect to the already specified
+         * ranges, and among themselves. At the same time, the union of the already
+         * specified ranges and the added ranges must satisfy the range overlap invariant.
+         * In other words, the following must hold for each {@code Range} at index {@code i}:
+         * <pre>{@code
+         * ranges[i].end_byte <= ranges[i + 1].start_byte
+         * }</pre>
+         *
+         * @param ranges the included text ranges
+         * @return this builder
+         * @throws NullPointerException if the range sequence is {@code null},
+         * or contains {@code null} elements
+         * @since 1.12.0
+         */
+        public Builder ranges(@NotNull Range... ranges) {
+            Objects.requireNonNull(ranges, "Ranges must not be null!");
+            for (Range range: ranges) range(range);
+            return this;
+        }
+
+        /**
+         * Specify an additional range that the parser should include when parsing.
+         * The added range can be disjoint with respect to the already specified ranges.
+         * At the same time, the union of the already specified ranges and the added range
+         * must satisfy the range overlap invariant. In other words, the following must
+         * hold for each {@code Range} at index {@code i}:
+         * <pre>{@code
+         * ranges[i].end_byte <= ranges[i + 1].start_byte
+         * }</pre>
+         *
+         * @param range the included text range
+         * @return this builder
+         * @throws NullPointerException if the range is {@code null}
+         * @since 1.12.0
+         */
+        public Builder range(@NotNull Range range) {
+            Objects.requireNonNull(range, "Range must not be null!");
+            ranges.add(range);
+            return this;
+        }
+
+        /**
+         * Removes all currently specified ranges.
+         *
+         * @return this builder
+         * @since 1.12.0
+         */
+        public Builder range() {
+            ranges.clear();
+            return this;
+        }
+
+        /**
          * Builds and returns a new Parser instance with the configured language.
          *
          * @return a new parser instance
          * @throws NullPointerException if the language was not previously set
+         * @throws IllegalArgumentException if the range overlap invariant is violated
          * @throws IncompatibleLanguageException if the language can not be set
          */
         public Parser build() {
             Objects.requireNonNull(language, NULL_LANGUAGE);
-            return build(language, timeout);
+            Range[] array = validated(ranges.toArray(Range[]::new));
+            return build(language, timeout, array, array.length);
         }
 
-        private static native Parser build(Language language, long timeout);
+        private static native Parser build(Language language, long timeout, Range[] ranges, int length);
     }
 
     /**
