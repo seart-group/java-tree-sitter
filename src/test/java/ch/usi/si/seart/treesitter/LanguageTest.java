@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -21,16 +22,8 @@ class LanguageTest extends BaseTest {
     private static Path tmp;
     private static final Language language = Language.PYTHON;
 
-    private static class ValidateProvider implements ArgumentsProvider {
-
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            return Stream.of(Language.values()).map(Arguments::of);
-        }
-    }
-
     @ParameterizedTest
-    @ArgumentsSource(ValidateProvider.class)
+    @EnumSource(Language.class)
     void testValidate(Language language) {
         Assertions.assertDoesNotThrow(() -> Language.validate(language));
     }
