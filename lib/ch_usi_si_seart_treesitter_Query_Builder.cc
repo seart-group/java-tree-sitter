@@ -9,12 +9,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
   uint32_t length = env->GetStringLength(patterns);
   const char* characters = env->GetStringUTFChars(patterns, NULL);
-  uint32_t* offset = new uint32_t;
-  TSQueryError* errorType = new TSQueryError;
-  TSQuery* query = ts_query_new(language, characters, length, offset, errorType);
+  uint32_t offset;
+  TSQueryError type = TSQueryErrorNone;
+  TSQuery* query = ts_query_new(language, characters, length, &offset, &type);
   jclass exceptionClass;
   jmethodID exceptionConstructor;
-  switch (*errorType) {
+  switch (type) {
     case TSQueryErrorNone:
       {
         uint32_t patternsLength = ts_query_pattern_count(query);
@@ -46,7 +46,8 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         uint32_t capturesLength = ts_query_capture_count(query);
         jobjectArray captures = env->NewObjectArray(capturesLength, _captureClass, NULL);
         for (uint32_t i = 0; i < capturesLength; i++) {
-          const char* capture = ts_query_capture_name_for_id(query, i, new uint32_t);
+          uint32_t ignored;
+          const char* capture = ts_query_capture_name_for_id(query, i, &ignored);
           jobject captureObject = env->NewObject(
             _captureClass,
             _captureConstructor,
@@ -59,7 +60,8 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         uint32_t stringsLength = ts_query_string_count(query);
         jobjectArray strings = env->NewObjectArray(stringsLength, _stringClass, NULL);
         for (uint32_t i = 0; i < stringsLength; i++) {
-          const char* string = ts_query_string_value_for_id(query, i, new uint32_t);
+          uint32_t ignored;
+          const char* string = ts_query_string_value_for_id(query, i, &ignored);
           jstring stringString = env->NewStringUTF(string);
           env->SetObjectArrayElement(strings, i, stringString);
         }
@@ -108,9 +110,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
       break;
     default:
       env->ThrowNew(_treeSitterExceptionClass, NULL);
+      env->ReleaseStringUTFChars(patterns, characters);
       return NULL;
   }
-  jobject exception = env->NewObject(exceptionClass, exceptionConstructor, *offset);
+  jobject exception = env->NewObject(exceptionClass, exceptionConstructor, offset);
   env->Throw((jthrowable)exception);
+  env->ReleaseStringUTFChars(patterns, characters);
   return NULL;
 }

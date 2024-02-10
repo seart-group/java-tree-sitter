@@ -34,6 +34,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
   const char* childName = env->GetStringUTFChars(name, NULL);
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode child = ts_node_child_by_field_name(node, childName, length);
+  env->ReleaseStringUTFChars(name, childName);
   if (ts_node_is_null(child)) return NULL;
   jobject childObject = __marshalNode(env, child);
   __copyTree(env, thisObject, childObject);
