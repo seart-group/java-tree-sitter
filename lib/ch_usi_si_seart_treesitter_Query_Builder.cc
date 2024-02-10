@@ -124,6 +124,13 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         offset
       );
       break;
+    case TSQueryErrorLanguage:
+      exception = (jthrowable)env->NewObject(
+        _incompatibleLanguageExceptionClass,
+        _incompatibleLanguageExceptionConstructor,
+        languageObject
+      );
+      break;
     default:
       exception = (jthrowable)env->NewObject(
         _treeSitterExceptionClass,
