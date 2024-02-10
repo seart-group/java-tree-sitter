@@ -61,7 +61,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRang
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges(
   JNIEnv* env, jobject thisObject, jobjectArray rangeObjectArray, jint length) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
-  TSRange* ranges = new TSRange[length];
+  TSRange ranges[length];
   for (int i = 0; i < length; i++) {
     jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
     ranges[i] = __unmarshalRange(env, rangeObject);
