@@ -25,14 +25,15 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getChangedRanges(
   JNIEnv* env, jobject thisObject, jobject otherObject) {
   TSTree* old_tree = (TSTree*)__getPointer(env, thisObject);
   TSTree* new_tree = (TSTree*)__getPointer(env, otherObject);
-  uint32_t* length = new uint32_t;
-  TSRange* ranges = ts_tree_get_changed_ranges(old_tree, new_tree, length);
-  jobjectArray array = env->NewObjectArray(*length, _rangeClass, NULL);
-  for (uint32_t i = 0; i < *length; i++) {
+  uint32_t length = 0;
+  TSRange* ranges = ts_tree_get_changed_ranges(old_tree, new_tree, &length);
+  jobjectArray array = env->NewObjectArray(length, _rangeClass, NULL);
+  for (uint32_t i = 0; i < length; i++) {
     TSRange range = ranges[i];
     jobject rangeObject = __marshalRange(env, range);
     env->SetObjectArrayElement(array, i, rangeObject);
   }
+  delete[] ranges;
   return env->CallStaticObjectMethod(_listClass, _listOfStaticMethod, array);
 }
 
