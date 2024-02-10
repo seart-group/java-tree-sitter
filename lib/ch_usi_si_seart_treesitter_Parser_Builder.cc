@@ -19,7 +19,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_00024Builder_bu
   } else if (timeout > 0) {
     ts_parser_set_timeout_micros(parser, (uint64_t)timeout);
   }
-  TSRange* ranges = new TSRange[length];
+  TSRange ranges[length];
   for (int i = 0; i < length; i++) {
     jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
     ranges[i] = __unmarshalRange(env, rangeObject);
@@ -34,6 +34,6 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_00024Builder_bu
       _parserConstructor,
       (jlong)parser,
       languageObject
-    );    
+    );
   }
 }
