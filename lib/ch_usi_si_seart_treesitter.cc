@@ -133,6 +133,7 @@ jclass _indexOutOfBoundsExceptionClass;
 jmethodID _indexOutOfBoundsExceptionConstructor;
 
 jclass _treeSitterExceptionClass;
+jmethodID _treeSitterExceptionConstructor;
 
 jclass _byteOffsetOutOfBoundsExceptionClass;
 jmethodID _byteOffsetOutOfBoundsExceptionConstructor;
@@ -316,6 +317,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadConstructor(_indexOutOfBoundsExceptionConstructor, _indexOutOfBoundsExceptionClass, "(I)V")
 
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException")
+  _loadConstructor(_treeSitterExceptionConstructor, _treeSitterExceptionClass, "()V")
 
   _loadClass(_byteOffsetOutOfBoundsExceptionClass, "ch/usi/si/seart/treesitter/exception/ByteOffsetOutOfBoundsException")
   _loadConstructor(_byteOffsetOutOfBoundsExceptionConstructor, _byteOffsetOutOfBoundsExceptionClass, "(I)V")

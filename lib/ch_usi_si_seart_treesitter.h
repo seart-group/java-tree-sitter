@@ -134,6 +134,7 @@ extern jfieldID _lookaheadIteratorLanguageField;
 extern jmethodID _lookaheadIteratorConstructor;
 
 extern jclass _treeSitterExceptionClass;
+extern jmethodID _treeSitterExceptionConstructor;
 
 extern jclass _byteOffsetOutOfBoundsExceptionClass;
 extern jmethodID _byteOffsetOutOfBoundsExceptionConstructor;
