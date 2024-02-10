@@ -12,13 +12,13 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_delete(
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Tree_edit(
   JNIEnv* env, jobject thisObject, jobject inputEditObject) {
-  jlong tree = __getPointer(env, thisObject);
+  TSTree* tree = (TSTree*)__getPointer(env, thisObject);
   if (inputEditObject == NULL) {
     __throwNPE(env, "Input edit must not be null!");
-    return;
+  } else {
+    TSInputEdit inputEdit = __unmarshalInputEdit(env, inputEditObject);
+    ts_tree_edit(tree, &inputEdit);
   }
-  TSInputEdit inputEdit = __unmarshalInputEdit(env, inputEditObject);
-  ts_tree_edit((TSTree*)tree, &inputEdit);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getChangedRanges(
@@ -39,8 +39,8 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getChangedRanges(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_getRootNode(
   JNIEnv* env, jobject thisObject) {
-  jlong tree = __getPointer(env, thisObject);
-  TSNode node = ts_tree_root_node((TSTree*)tree);
+  TSTree* tree = (TSTree*)__getPointer(env, thisObject);
+  TSNode node = ts_tree_root_node(tree);
   jobject nodeObject = __marshalNode(env, node);
   _setNodeTreeField(nodeObject, thisObject);
   return nodeObject;
@@ -50,7 +50,12 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_clone(
   JNIEnv* env, jobject thisObject) {
   jobject languageObject = env->GetObjectField(thisObject, _treeLanguageField);
   jobject sourceObject = env->GetObjectField(thisObject, _treeSourceField);
-  jlong tree = __getPointer(env, thisObject);
-  jlong copy = (jlong)ts_tree_copy((const TSTree*)tree);
-  return env->NewObject(_treeClass, _treeConstructor, copy, languageObject, sourceObject);
+  TSTree* tree = (TSTree*)__getPointer(env, thisObject);
+  return env->NewObject(
+    _treeClass,
+    _treeConstructor,
+    (jlong)ts_tree_copy(tree),
+    languageObject,
+    sourceObject
+  );
 }
