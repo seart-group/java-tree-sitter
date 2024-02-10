@@ -16,4 +16,5 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Capture_disable(
   uint32_t length = env->GetStringLength(name);
   const char* characters = env->GetStringUTFChars(name, NULL);
   ts_query_disable_capture(query, characters, length);
+  env->ReleaseStringUTFChars(name, characters);
 }
