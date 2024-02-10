@@ -202,7 +202,7 @@ JNIEXPORT jboolean JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_reset(
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_clone(
   JNIEnv* env, jobject thisObject) {
   jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
-  const TSTreeCursor* cursor = (const TSTreeCursor*)__getPointer(env, thisObject);
+  TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
   TSTreeCursor copy = ts_tree_cursor_copy(cursor);
   return env->NewObject(
     _treeCursorClass,
