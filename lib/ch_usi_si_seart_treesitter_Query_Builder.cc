@@ -5,15 +5,15 @@
 #include <tree_sitter/api.h>
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_build(
-  JNIEnv* env, jclass thisClass, jobject languageObject, jstring patterns) {
+  JNIEnv* env, jclass thisClass, jobject languageObject, jstring patternString) {
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
-  uint32_t length = env->GetStringLength(patterns);
-  const char* characters = env->GetStringUTFChars(patterns, NULL);
+  uint32_t length = env->GetStringLength(patternString);
+  const char* characters = env->GetStringUTFChars(patternString, NULL);
   uint32_t offset;
   TSQueryError type = TSQueryErrorNone;
   TSQuery* query = ts_query_new(language, characters, length, &offset, &type);
-  jclass exceptionClass;
-  jmethodID exceptionConstructor;
+  jobject result = NULL;
+  jthrowable exception = NULL;
   switch (type) {
     case TSQueryErrorNone:
       {
@@ -86,35 +86,51 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           env->SetObjectField(patternObject, _patternQueryField, queryObject);
         }
 
-        return queryObject;
+        result = queryObject;
+        break;
       }
     case TSQueryErrorSyntax:
-      exceptionClass = _querySyntaxExceptionClass;
-      exceptionConstructor = _querySyntaxExceptionConstructor;
+      exception = (jthrowable)env->NewObject(
+        _querySyntaxExceptionClass,
+        _querySyntaxExceptionConstructor,
+        offset
+      );
       break;
     case TSQueryErrorNodeType:
-      exceptionClass = _queryNodeTypeExceptionClass;
-      exceptionConstructor = _queryNodeTypeExceptionConstructor;
+      exception = (jthrowable)env->NewObject(
+        _queryNodeTypeExceptionClass,
+        _queryNodeTypeExceptionConstructor,
+        offset
+      );
       break;
     case TSQueryErrorField:
-      exceptionClass = _queryFieldExceptionClass;
-      exceptionConstructor = _queryFieldExceptionConstructor;
+      exception = (jthrowable)env->NewObject(
+        _queryFieldExceptionClass,
+        _queryFieldExceptionConstructor,
+        offset
+      );
       break;
     case TSQueryErrorCapture:
-      exceptionClass = _queryCaptureExceptionClass;
-      exceptionConstructor = _queryCaptureExceptionConstructor;
+      exception = (jthrowable)env->NewObject(
+        _queryCaptureExceptionClass,
+        _queryCaptureExceptionConstructor,
+        offset
+      );
       break;
     case TSQueryErrorStructure:
-      exceptionClass = _queryStructureExceptionClass;
-      exceptionConstructor = _queryStructureExceptionConstructor;
+      exception = (jthrowable)env->NewObject(
+        _queryStructureExceptionClass,
+        _queryStructureExceptionConstructor,
+        offset
+      );
       break;
     default:
-      env->ThrowNew(_treeSitterExceptionClass, NULL);
-      env->ReleaseStringUTFChars(patterns, characters);
-      return NULL;
+      exception = (jthrowable)env->NewObject(
+        _treeSitterExceptionClass,
+        _treeSitterExceptionConstructor
+      );
   }
-  jobject exception = env->NewObject(exceptionClass, exceptionConstructor, offset);
-  env->Throw((jthrowable)exception);
-  env->ReleaseStringUTFChars(patterns, characters);
-  return NULL;
+  env->ReleaseStringUTFChars(patternString, characters);
+  if (exception != NULL) env->Throw(exception);
+  return result;
 }
