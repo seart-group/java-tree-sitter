@@ -510,18 +510,20 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_zig(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_version(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_version((const TSLanguage*)id);
+  TSLanguage* language = (TSLanguage*)id;
+  return (jint)ts_language_version(language);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_symbols(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_symbol_count((const TSLanguage*)id);
+  TSLanguage* language = (TSLanguage*)id;
+  return (jint)ts_language_symbol_count(language);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
   JNIEnv* env, jclass self, jlong languageId, jint symbolId) {
   TSSymbol symbol = (TSSymbol)symbolId;
-  const TSLanguage* language = (const TSLanguage*)languageId;
+  TSLanguage* language = (TSLanguage*)languageId;
   const char* name = ts_language_symbol_name(language, symbol);
   TSSymbolType type = ts_language_symbol_type(language, symbol);
   return env->NewObject(
@@ -535,12 +537,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_fields(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_field_count((const TSLanguage*)id);
+  TSLanguage* language = (TSLanguage*)id;
+  return (jint)ts_language_field_count(language);
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states(
   JNIEnv* env, jclass self, jlong id) {
-  return (jint)ts_language_state_count((const TSLanguage*)id);
+  TSLanguage* language = (TSLanguage*)id;
+  return (jint)ts_language_state_count(language);
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
@@ -568,9 +572,9 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_nextState(
   JNIEnv* env, jclass self, jlong id, jint state, jint symbol) {
-  if (id == (jlong)ch_usi_si_seart_treesitter_Language_INVALID) return (jint)(-1);
+  if (id == (jlong)(ch_usi_si_seart_treesitter_Language_INVALID)) return (jint)(-1);
   return (jint)ts_language_next_state(
-    (const TSLanguage*)id,
+    (TSLanguage*)id,
     (TSStateId)state,
     (TSSymbol)symbol
   );
