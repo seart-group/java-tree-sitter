@@ -435,39 +435,39 @@ jint __throwIOE(JNIEnv* env, const char* message) {
 }
 
 jint __throwIOB(JNIEnv* env, jint index) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _indexOutOfBoundsExceptionClass,
     _indexOutOfBoundsExceptionConstructor,
     index
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jint __throwBOB(JNIEnv* env, jint index) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _byteOffsetOutOfBoundsExceptionClass,
     _byteOffsetOutOfBoundsExceptionConstructor,
     index
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jint __throwPOB(JNIEnv* env, jobject pointObject) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _pointOutOfBoundsExceptionClass,
     _pointOutOfBoundsExceptionConstructor,
     pointObject
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jint __throwILE(JNIEnv* env, jobject languageObject) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _incompatibleLanguageExceptionClass,
     _incompatibleLanguageExceptionConstructor,
     languageObject
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jclass __getQueryExceptionClass(TSQueryError error) {
@@ -490,7 +490,7 @@ jobject __marshalNode(JNIEnv* env, TSNode node) {
   if (node.id == 0) {
     return NULL;
   } else {
-    return env->NewObject(
+    return _newObject(
       _nodeClass,
       _nodeConstructor,
       node.context[0],
@@ -546,7 +546,7 @@ bool __isDefaultRange(TSRange range) {
 
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
   // Not sure why I need to divide by two, probably because of utf-16
-  return env->NewObject(
+  return _newObject(
     _pointClass,
     _pointConstructor,
     point.row,
@@ -563,7 +563,7 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
 }
 
 jobject __marshalRange(JNIEnv* env, TSRange range) {
-  return env->NewObject(
+  return _newObject(
     _rangeClass,
     _rangeConstructor,
     (jint)range.start_byte / 2,

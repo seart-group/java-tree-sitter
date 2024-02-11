@@ -51,10 +51,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Tree_clone(
   jobject languageObject = env->GetObjectField(thisObject, _treeLanguageField);
   jobject sourceObject = env->GetObjectField(thisObject, _treeSourceField);
   TSTree* tree = (TSTree*)__getPointer(env, thisObject);
-  return env->NewObject(
+  return _newObject(
     _treeClass,
     _treeConstructor,
-    (jlong)ts_tree_copy(tree),
+    ts_tree_copy(tree),
     languageObject,
     sourceObject
   );

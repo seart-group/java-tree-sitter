@@ -85,11 +85,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
   env->ReleaseByteArrayElements(bytes, elements, JNI_ABORT);
   ts_parser_reset(parser);
   if (result == 0) {
-    jthrowable cause = (jthrowable)env->NewObject(
+    jthrowable cause = _newThrowable(
       _timeoutExceptionClass,
       _timeoutExceptionConstructor
     );
-    jthrowable exception = (jthrowable)env->NewObject(
+    jthrowable exception = _newThrowable(
       _parsingExceptionClass,
       _parsingExceptionConstructor,
       cause
@@ -98,7 +98,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
     return NULL;
   }
   jobject languageObject = env->GetObjectField(thisObject, _parserLanguageField);
-  return env->NewObject(
+  return _newObject(
     _treeClass,
     _treeConstructor,
     (jlong)result,

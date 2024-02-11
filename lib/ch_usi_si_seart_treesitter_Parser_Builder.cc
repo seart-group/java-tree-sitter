@@ -29,7 +29,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_00024Builder_bu
     __throwISE(env, NULL);
     return NULL;
   } else {
-    return env->NewObject(
+    return _newObject(
       _parserClass,
       _parserConstructor,
       (jlong)parser,

@@ -526,7 +526,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_symbol(
   TSLanguage* language = (TSLanguage*)languageId;
   const char* name = ts_language_symbol_name(language, symbol);
   TSSymbolType type = ts_language_symbol_type(language, symbol);
-  return env->NewObject(
+  return _newObject(
     _symbolClass,
     _symbolConstructor,
     (jint)symbol,
@@ -561,21 +561,19 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
     __throwISE(env, "Unable to create lookahead iterator!");
     return NULL;
   }
-  return env->NewObject(
+  jboolean hasNext = ts_lookahead_iterator_next(iterator) ? JNI_TRUE : JNI_FALSE;
+  return _newObject(
     _lookaheadIteratorClass,
     _lookaheadIteratorConstructor,
     (jlong)iterator,
-    ts_lookahead_iterator_next(iterator) ? JNI_TRUE : JNI_FALSE,
+    hasNext,
     thisObject
   );
 }
 
 JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_nextState(
   JNIEnv* env, jclass self, jlong id, jint state, jint symbol) {
-  if (id == (jlong)(ch_usi_si_seart_treesitter_Language_INVALID)) return (jint)(-1);
-  return (jint)ts_language_next_state(
-    (TSLanguage*)id,
-    (TSStateId)state,
-    (TSSymbol)symbol
-  );
+  return (id != ch_usi_si_seart_treesitter_Language_INVALID)
+    ? ts_language_next_state((TSLanguage*)id, (TSStateId)state, (TSSymbol)symbol)
+    : -1;
 }

@@ -281,7 +281,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol(
   TSSymbol symbol = symbol_getter(node);
   const char* name = ts_language_symbol_name(language, symbol);
   TSSymbolType type = ts_language_symbol_type(language, symbol);
-  return env->NewObject(
+  return _newObject(
     _symbolClass,
     _symbolConstructor,
     (jint)symbol,
@@ -363,7 +363,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
     return NULL;
   }
   TSTreeCursor cursor = ts_tree_cursor_new(node);
-  return env->NewObject(
+  return _newObject(
     _treeCursorClass,
     _treeCursorConstructor,
     new TSTreeCursor(cursor),
@@ -390,11 +390,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_
     __throwISE(env, "Cannot construct a QueryCursor instance from a `null` Node!");
     return NULL;
   }
-  TSQueryCursor* cursor = ts_query_cursor_new();
-  return env->NewObject(
+  return _newObject(
     _queryCursorClass,
     _queryCursorConstructor,
-    cursor,
+    ts_query_cursor_new(),
     thisObject,
     queryObject
   );

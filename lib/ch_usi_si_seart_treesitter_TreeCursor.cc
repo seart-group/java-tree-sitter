@@ -42,7 +42,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_getCurrentT
   jobject nodeObject = __marshalNode(env, node);
   jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
   _setNodeTreeField(nodeObject, treeObject);
-  return env->NewObject(
+  return _newObject(
     _treeCursorNodeClass,
     _treeCursorNodeConstructor,
     env->NewStringUTF(name),
@@ -204,7 +204,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_TreeCursor_clone(
   jobject treeObject = env->GetObjectField(thisObject, _treeCursorTreeField);
   TSTreeCursor* cursor = (TSTreeCursor*)__getPointer(env, thisObject);
   TSTreeCursor copy = ts_tree_cursor_copy(cursor);
-  return env->NewObject(
+  return _newObject(
     _treeCursorClass,
     _treeCursorConstructor,
     new TSTreeCursor(copy),

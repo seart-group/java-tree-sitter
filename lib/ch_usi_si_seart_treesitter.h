@@ -220,6 +220,12 @@ extern "C" {
 #define _setNodeTreeField(NODE, TREE) \
   env->SetObjectField(NODE, _nodeTreeField, TREE)
 
+#define _newObject(CLASS, CONSTRUCTOR, ...) \
+  env->NewObject(CLASS, CONSTRUCTOR __VA_OPT__(,) __VA_ARGS__)
+
+#define _newThrowable(CLASS, CONSTRUCTOR, ...) \
+  (jthrowable)_newObject(CLASS, CONSTRUCTOR __VA_OPT__(,) __VA_ARGS__)
+
 typedef enum {
   LT = -1,
   EQ =  0,

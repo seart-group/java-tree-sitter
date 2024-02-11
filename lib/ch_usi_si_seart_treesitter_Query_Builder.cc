@@ -32,7 +32,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           substring[patternLength] = '\0';
           bool rooted = ts_query_is_pattern_rooted(query, i);
           bool nonLocal = ts_query_is_pattern_non_local(query, i);
-          jobject patternObject = env->NewObject(
+          jobject patternObject = _newObject(
             _patternClass,
             _patternConstructor,
             (jint)i,
@@ -48,7 +48,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         for (uint32_t i = 0; i < capturesLength; i++) {
           uint32_t ignored;
           const char* capture = ts_query_capture_name_for_id(query, i, &ignored);
-          jobject captureObject = env->NewObject(
+          jobject captureObject = _newObject(
             _captureClass,
             _captureConstructor,
             (jint)i,
@@ -66,7 +66,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           env->SetObjectArrayElement(strings, i, stringString);
         }
 
-        jobject queryObject = env->NewObject(
+        jobject queryObject = _newObject(
           _queryClass,
           _queryConstructor,
           (jlong)query,
@@ -94,21 +94,21 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
     case TSQueryErrorField:
     case TSQueryErrorCapture:
     case TSQueryErrorStructure:
-      exception = (jthrowable)env->NewObject(
+      exception = _newThrowable(
         __getQueryExceptionClass(type),
         __getQueryExceptionConstructor(type),
         (jint)offset
       );
       break;
     case TSQueryErrorLanguage:
-      exception = (jthrowable)env->NewObject(
+      exception = _newThrowable(
         __getQueryExceptionClass(type),
         __getQueryExceptionConstructor(type),
         languageObject
       );
       break;
     default:
-      exception = (jthrowable)env->NewObject(
+      exception = _newThrowable(
         _treeSitterExceptionClass,
         _treeSitterExceptionConstructor
       );
