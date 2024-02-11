@@ -14,16 +14,15 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
   JNIEnv* env, jclass thisClass, jobject parserObject, jobject languageObject) {
   TSParser* parser = (TSParser*)__getPointer(env, parserObject);
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
-  bool succeeded = ts_parser_set_language(parser, language);
-  if (!succeeded) {
+  if (!ts_parser_set_language(parser, language)) {
     __throwILE(env, languageObject);
-    return;
+  } else {
+    env->SetObjectField(
+      parserObject,
+      _parserLanguageField,
+      languageObject
+    );
   }
-  env->SetObjectField(
-    parserObject,
-    _parserLanguageField,
-    languageObject
-  );
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRanges(
@@ -31,11 +30,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRang
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
   uint32_t length = 0;
   const TSRange* ranges = ts_parser_included_ranges(parser, &length);
-  jobject result;
   if (
     length == 0 || (length == 1 && __isDefaultRange(ranges[0]))
   ) {
-    result = env->CallStaticObjectMethod(_collectionsClass, _collectionsEmptyListStaticMethod);
+    return env->CallStaticObjectMethod(_collectionsClass, _collectionsEmptyListStaticMethod);
   } else {
     jobjectArray array = env->NewObjectArray(length, _rangeClass, NULL);
     for (uint32_t i = 0; i < length; i++) {
@@ -43,9 +41,8 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRang
       jobject rangeObject = __marshalRange(env, range);
       env->SetObjectArrayElement(array, i, rangeObject);
     }
-    result = env->CallStaticObjectMethod(_listClass, _listOfStaticMethod, array);
+    return env->CallStaticObjectMethod(_listClass, _listOfStaticMethod, array);
   }
-  return result;
 }
 
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges(
@@ -56,8 +53,9 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges(
     jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
     ranges[i] = __unmarshalRange(env, rangeObject);
   }
-  bool success = ts_parser_set_included_ranges(parser, ranges, length);
-  if (!success) __throwISE(env, NULL);
+  if (!ts_parser_set_included_ranges(parser, ranges, length)) {
+    __throwISE(env, NULL);
+  }
 }
 
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
@@ -77,28 +75,34 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
-  JNIEnv* env, jobject thisObject, jstring source, jbyteArray bytes, jint length, jobject oldTreeObject) {
+  JNIEnv* env, jobject thisObject, jstring source, jbyteArray bytes, jint length, jobject treeObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
-  TSTree* oldTree = (oldTreeObject != NULL) ? (TSTree*)__getPointer(env, oldTreeObject) : NULL;
+  TSTree* tree = (treeObject != NULL) ? (TSTree*)__getPointer(env, treeObject) : NULL;
   jbyte* elements = env->GetByteArrayElements(bytes, NULL);
   TSTree* result = ts_parser_parse_string_encoding(
-    parser, oldTree, reinterpret_cast<const char*>(elements), length, TSInputEncodingUTF16
+    parser, tree, reinterpret_cast<const char*>(elements), length, TSInputEncodingUTF16
   );
   env->ReleaseByteArrayElements(bytes, elements, JNI_ABORT);
   ts_parser_reset(parser);
   if (result == 0) {
-    jobject cause = env->NewObject(
+    jthrowable cause = (jthrowable)env->NewObject(
       _timeoutExceptionClass,
       _timeoutExceptionConstructor
     );
-    jobject exception = env->NewObject(
+    jthrowable exception = (jthrowable)env->NewObject(
       _parsingExceptionClass,
       _parsingExceptionConstructor,
-      (jthrowable)cause
+      cause
     );
-    env->Throw((jthrowable)exception);
+    env->Throw(exception);
     return NULL;
   }
-  jobject language = env->GetObjectField(thisObject, _parserLanguageField);
-  return env->NewObject(_treeClass, _treeConstructor, (jlong)result, language, source);
+  jobject languageObject = env->GetObjectField(thisObject, _parserLanguageField);
+  return env->NewObject(
+    _treeClass,
+    _treeConstructor,
+    (jlong)result,
+    languageObject,
+    source
+  );
 }
