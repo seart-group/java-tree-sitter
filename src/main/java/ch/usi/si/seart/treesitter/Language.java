@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.error.ABIVersionError;
+import ch.usi.si.seart.treesitter.version.TreeSitter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
@@ -507,8 +508,8 @@ public enum Language {
                 "Language binding has not been defined for: " + language
         );
         int version = language.getVersion();
-        int minimum = Parser.getMinimumCompatibleLanguageVersion();
-        int maximum = Parser.getLanguageVersion();
+        int minimum = TreeSitter.getMinimumABIVersion();
+        int maximum = TreeSitter.getCurrentABIVersion();
         if (version < minimum || version > maximum)
             throw new ABIVersionError(version);
     }
