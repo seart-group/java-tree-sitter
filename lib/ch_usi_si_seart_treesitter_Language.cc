@@ -549,9 +549,7 @@ JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Language_states(
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Language_iterator(
   JNIEnv* env, jobject thisObject, jint state) {
-  jclass _languageClass = env->GetObjectClass(thisObject);
-  jfieldID _languageIdField = env->GetFieldID(_languageClass, "id", "J");
-  TSLanguage* language = (TSLanguage*)env->GetLongField(thisObject, _languageIdField);
+  const TSLanguage* language = __unmarshalLanguage(env, thisObject);
   if (state < 0 || state >= ts_language_state_count(language)) {
     __throwIAE(env, "Invalid parse state!");
     return NULL;
