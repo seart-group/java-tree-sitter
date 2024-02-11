@@ -29,12 +29,11 @@ import java.util.stream.Stream;
 
 /**
  * Enum that consists of all the officially recognized programming languages.
- *
  * <p>
- * In terms of ABI, these include only languages with a version of either 13 or 14.
- * The version of the underlying parser we use requires as a bare minimum the former.
- * For this reason, languages that have not been maintained for a significant
- * amount of time will not be supported by the library.
+ * Only languages whose ABI version is within the range of the library's
+ * supported versions are included in this enum. For this reason, the enum
+ * is not exhaustive and may not include all languages developed by the
+ * community.
  *
  * @since 1.0.0
  * @author Ozren Dabić
