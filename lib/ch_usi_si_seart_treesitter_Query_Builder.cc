@@ -90,44 +90,20 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
         break;
       }
     case TSQueryErrorSyntax:
-      exception = (jthrowable)env->NewObject(
-        _querySyntaxExceptionClass,
-        _querySyntaxExceptionConstructor,
-        offset
-      );
-      break;
     case TSQueryErrorNodeType:
-      exception = (jthrowable)env->NewObject(
-        _queryNodeTypeExceptionClass,
-        _queryNodeTypeExceptionConstructor,
-        offset
-      );
-      break;
     case TSQueryErrorField:
-      exception = (jthrowable)env->NewObject(
-        _queryFieldExceptionClass,
-        _queryFieldExceptionConstructor,
-        offset
-      );
-      break;
     case TSQueryErrorCapture:
-      exception = (jthrowable)env->NewObject(
-        _queryCaptureExceptionClass,
-        _queryCaptureExceptionConstructor,
-        offset
-      );
-      break;
     case TSQueryErrorStructure:
       exception = (jthrowable)env->NewObject(
-        _queryStructureExceptionClass,
-        _queryStructureExceptionConstructor,
-        offset
+        __getQueryExceptionClass(type),
+        __getQueryExceptionConstructor(type),
+        (jint)offset
       );
       break;
     case TSQueryErrorLanguage:
       exception = (jthrowable)env->NewObject(
-        _incompatibleLanguageExceptionClass,
-        _incompatibleLanguageExceptionConstructor,
+        __getQueryExceptionClass(type),
+        __getQueryExceptionConstructor(type),
         languageObject
       );
       break;
