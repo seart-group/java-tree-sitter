@@ -3,16 +3,6 @@
 #include <jni.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion(
-  JNIEnv* env, jclass thisClass) {
-  return (jint)TREE_SITTER_LANGUAGE_VERSION;
-}
-
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatibleLanguageVersion(
-  JNIEnv* env, jclass thisClass) {
-  return (jint)TREE_SITTER_MIN_COMPATIBLE_LANGUAGE_VERSION;
-}
-
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
