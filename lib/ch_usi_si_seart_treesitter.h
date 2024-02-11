@@ -246,6 +246,10 @@ jint __throwPOB(JNIEnv* env, jobject pointObject);
 
 jint __throwILE(JNIEnv* env, jobject languageObject);
 
+jclass __getQueryExceptionClass(TSQueryError error);
+
+jmethodID __getQueryExceptionConstructor(TSQueryError error);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 void __clearPointer(JNIEnv* env, jobject objectInstance);

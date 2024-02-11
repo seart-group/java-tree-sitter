@@ -9,22 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    getLanguageVersion
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    getMinimumCompatibleLanguageVersion
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatibleLanguageVersion
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    delete
  * Signature: ()V
  */

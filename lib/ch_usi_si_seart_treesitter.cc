@@ -174,6 +174,9 @@ const TSRange RANGE_DEFAULT = {
   .end_byte = UINT32_MAX,
 };
 
+jclass QUERY_EXCEPTION_CLASSES[7];
+jmethodID QUERY_EXCEPTION_CONSTRUCTORS[7];
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
@@ -344,6 +347,22 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadConstructor(_incompatibleLanguageExceptionConstructor, _incompatibleLanguageExceptionClass,
     "(Lch/usi/si/seart/treesitter/Language;)V")
 
+  QUERY_EXCEPTION_CLASSES[0] = NULL;
+  QUERY_EXCEPTION_CLASSES[1] = _querySyntaxExceptionClass;
+  QUERY_EXCEPTION_CLASSES[2] = _queryNodeTypeExceptionClass;
+  QUERY_EXCEPTION_CLASSES[3] = _queryFieldExceptionClass;
+  QUERY_EXCEPTION_CLASSES[4] = _queryCaptureExceptionClass;
+  QUERY_EXCEPTION_CLASSES[5] = _queryStructureExceptionClass;
+  QUERY_EXCEPTION_CLASSES[6] = _incompatibleLanguageExceptionClass;
+
+  QUERY_EXCEPTION_CONSTRUCTORS[0] = NULL;
+  QUERY_EXCEPTION_CONSTRUCTORS[1] = _querySyntaxExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[2] = _queryNodeTypeExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[3] = _queryFieldExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[4] = _queryCaptureExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[5] = _queryStructureExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[6] = _incompatibleLanguageExceptionConstructor;
+
   return JNI_VERSION;
 }
 
@@ -449,6 +468,14 @@ jint __throwILE(JNIEnv* env, jobject languageObject) {
     languageObject
   );
   return env->Throw((jthrowable)exception);
+}
+
+jclass __getQueryExceptionClass(TSQueryError error) {
+  return QUERY_EXCEPTION_CLASSES[error];
+}
+
+jmethodID __getQueryExceptionConstructor(TSQueryError error) {
+  return QUERY_EXCEPTION_CONSTRUCTORS[error];
 }
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
