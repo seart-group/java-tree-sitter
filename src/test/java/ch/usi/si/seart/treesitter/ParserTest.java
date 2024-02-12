@@ -14,6 +14,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.NullSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.NOPLogger;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -83,6 +87,30 @@ class ParserTest extends BaseTest {
         Point end = range.getEndPoint();
         Assertions.assertEquals(_0_0_, start);
         Assertions.assertEquals(_1_0_, end);
+    }
+
+    private static final class LoggerArgumentsProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+            Logger simple = LoggerFactory.getLogger(Parser.class);
+            Logger noop = NOPLogger.NOP_LOGGER;
+            return Stream.of(
+                    Arguments.of(noop),
+                    Arguments.of(simple)
+            );
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @NullSource
+    @ArgumentsSource(LoggerArgumentsProvider.class)
+    void testSetLogger(Logger logger) {
+        @Cleanup Parser parser = Parser.builder().language(Language.PYTHON).build();
+        Assertions.assertNull(parser.getLogger());
+        parser.setLogger(logger);
+        Assertions.assertEquals(logger, parser.getLogger());
+        @Cleanup Tree ignored = parser.parse(source);
     }
 
     @Test

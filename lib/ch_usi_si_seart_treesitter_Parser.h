@@ -25,6 +25,22 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    getLogger
+ * Signature: ()Lorg/slf4j/Logger;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLogger
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    setLogger
+ * Signature: (Lorg/slf4j/Logger;)V
+ */
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLogger
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    getIncludedRanges
  * Signature: ()Ljava/util/List;
  */

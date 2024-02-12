@@ -158,6 +158,12 @@ extern jmethodID _parsingExceptionConstructor;
 extern jclass _incompatibleLanguageExceptionClass;
 extern jmethodID _incompatibleLanguageExceptionConstructor;
 
+extern jclass _loggerClass;
+extern jmethodID _loggerDebugMethod;
+
+extern jclass _markerFactoryClass;
+extern jmethodID _markerFactoryGetMarkerStaticMethod;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -285,6 +291,8 @@ TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
+
+void __log_in_java(void* payload, TSLogType log_type, const char* buffer);
 
 #ifdef TS_LANGUAGE_ADA
 TSLanguage* tree_sitter_ada();

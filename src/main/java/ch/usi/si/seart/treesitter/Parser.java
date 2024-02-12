@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -299,6 +300,29 @@ public class Parser extends External {
     }
 
     private static native void setLanguage(Parser parser, Language language) throws IncompatibleLanguageException;
+
+    /**
+     * Get the {@link Logger} instance used by the parser
+     * for writing debugging information during parsing.
+     *
+     * @return the logger used by the parser
+     * @since 1.12.0
+     */
+    public native Logger getLogger();
+
+    /**
+     * Set the {@link Logger} that a parser should use for
+     * writing debugging information during parsing.
+     * To disable logging, pass {@code null} as an argument.
+     * <p>
+     * By default, the parser will use the {@code DEBUG} level
+     * with a dedicated {@link org.slf4j.Marker Marker} for
+     * either the {@code PARSE} or {@code LEX} events.
+     *
+     * @param logger the logger used by the parser
+     * @since 1.12.0
+     */
+    public native void setLogger(Logger logger);
 
     /**
      * Get an ordered, immutable {@link Range} sequence that corresponds

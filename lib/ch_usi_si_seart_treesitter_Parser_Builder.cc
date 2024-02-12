@@ -19,6 +19,11 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_00024Builder_bu
   } else if (timeout > 0) {
     ts_parser_set_timeout_micros(parser, (uint64_t)timeout);
   }
+  TSLogger logger = {
+    .payload = NULL,
+    .log = __log_in_java
+  };
+  ts_parser_set_logger(parser, logger);
   TSRange ranges[length];
   for (int i = 0; i < length; i++) {
     jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
