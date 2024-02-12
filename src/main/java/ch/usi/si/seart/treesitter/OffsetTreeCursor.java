@@ -17,15 +17,12 @@ import java.util.stream.Collectors;
  * during traversal.
  *
  * <p>
- * So what exactly is the purpose of this cursor?
- * Imagine a scenario in which we need to print out the node positions
- * of a source code file that begins with {@code n} blank lines.
- * Rather than modifying the original file, we can just use this
- * cursor with a positional offset of {@code new Position(-n, 0)}.
- * Likewise, when printing node positions of an indented function,
- * the {@code n} spaces of indentation can be negated with a
- * positional offset of {@code new Position(0, -n)}.
- * Row and column offsets can be combined with various
+ * So what exactly is the purpose of this cursor? Imagine a scenario in which we need to
+ * print the node positions of a source code file that begins with {@code n} blank lines.
+ * Rather than modifying the original file, we can just use this cursor with a positional
+ * offset of {@code new Position(-n, 0)}. Likewise, when printing node positions of an
+ * indented function, the {@code n} spaces of indentation can be negated with a positional
+ * offset of {@code new Position(0, -n)}. Row and column offsets can be combined with various
  * positive and negative arrangements.
  *
  * @since 1.2.0
