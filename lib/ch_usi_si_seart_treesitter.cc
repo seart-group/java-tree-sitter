@@ -174,10 +174,13 @@ const TSRange RANGE_DEFAULT = {
   .end_byte = UINT32_MAX,
 };
 
+JavaVM* JVM = NULL;
+
 jclass QUERY_EXCEPTION_CLASSES[7];
 jmethodID QUERY_EXCEPTION_CONSTRUCTORS[7];
 
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+  JVM = vm;
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
