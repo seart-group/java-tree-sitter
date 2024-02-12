@@ -178,6 +178,16 @@ const TSRange RANGE_DEFAULT = {
   .end_byte = UINT32_MAX,
 };
 
+const char* JNI_CALL_RESULT_NAMES[] = {
+  "OK",
+  "Unknown Error",
+  "Thread Detached from the VM",
+  "JNI Version Error",
+  "Not Enough Memory",
+  "VM Already Created",
+  "Invalid Arguments"
+};
+
 const char* LOG_TYPE_NAMES[] = {
   "PARSE",
   "LEX"
