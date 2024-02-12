@@ -25,6 +25,24 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
   }
 }
 
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLogger(
+  JNIEnv* env, jobject thisObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSLogger logger = ts_parser_logger(parser);
+  jobject loggerObject = reinterpret_cast<jobject>(logger.payload);
+  return env->NewLocalRef(loggerObject);
+}
+
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLogger(
+  JNIEnv* env, jobject thisObject, jobject loggerObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSLogger logger = ts_parser_logger(parser);
+  jobject globalObject = reinterpret_cast<jobject>(logger.payload);
+  if (globalObject != NULL) env->DeleteGlobalRef(globalObject);
+  logger.payload = reinterpret_cast<void*>(env->NewGlobalRef(loggerObject));
+  ts_parser_set_logger(parser, logger);
+}
+
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRanges(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
