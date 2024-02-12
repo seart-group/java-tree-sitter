@@ -157,6 +157,10 @@ jmethodID _parsingExceptionConstructor;
 jclass _incompatibleLanguageExceptionClass;
 jmethodID _incompatibleLanguageExceptionConstructor;
 
+jclass _loggerClass;
+
+jclass _markerFactoryClass;
+
 const TSPoint POINT_ORIGIN = {
   .row = 0,
   .column = 0,
@@ -350,6 +354,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadConstructor(_incompatibleLanguageExceptionConstructor, _incompatibleLanguageExceptionClass,
     "(Lch/usi/si/seart/treesitter/Language;)V")
 
+  _loadClass(_loggerClass, "org/slf4j/Logger")
+
+  _loadClass(_markerFactoryClass, "org/slf4j/MarkerFactory")
+
   QUERY_EXCEPTION_CLASSES[0] = NULL;
   QUERY_EXCEPTION_CLASSES[1] = _querySyntaxExceptionClass;
   QUERY_EXCEPTION_CLASSES[2] = _queryNodeTypeExceptionClass;
@@ -411,6 +419,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_queryStructureExceptionClass)
   _unload(_parsingExceptionClass)
   _unload(_incompatibleLanguageExceptionClass)
+  _unload(_loggerClass)
+  _unload(_markerFactoryClass)
 }
 
 ComparisonResult intcmp(uint32_t x, uint32_t y) {

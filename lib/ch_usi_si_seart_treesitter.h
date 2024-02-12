@@ -158,6 +158,10 @@ extern jmethodID _parsingExceptionConstructor;
 extern jclass _incompatibleLanguageExceptionClass;
 extern jmethodID _incompatibleLanguageExceptionConstructor;
 
+extern jclass _loggerClass;
+
+extern jclass _markerFactoryClass;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
