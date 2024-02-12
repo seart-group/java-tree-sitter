@@ -158,8 +158,10 @@ jclass _incompatibleLanguageExceptionClass;
 jmethodID _incompatibleLanguageExceptionConstructor;
 
 jclass _loggerClass;
+jmethodID _loggerDebugMethod;
 
 jclass _markerFactoryClass;
+jmethodID _markerFactoryGetMarkerStaticMethod;
 
 const TSPoint POINT_ORIGIN = {
   .row = 0,
@@ -370,8 +372,15 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     "(Lch/usi/si/seart/treesitter/Language;)V")
 
   _loadClass(_loggerClass, "org/slf4j/Logger")
+  if (_loggerClass != NULL) {
+    _loadMethod(_loggerDebugMethod, _loggerClass, "debug", "(Lorg/slf4j/Marker;Ljava/lang/String;)V");
+  }
 
   _loadClass(_markerFactoryClass, "org/slf4j/MarkerFactory")
+  if (_markerFactoryClass != NULL) {
+    _loadStaticMethod(_markerFactoryGetMarkerStaticMethod, _markerFactoryClass, "getMarker",
+      "(Ljava/lang/String;)Lorg/slf4j/Marker;");
+  }
 
   QUERY_EXCEPTION_CLASSES[0] = NULL;
   QUERY_EXCEPTION_CLASSES[1] = _querySyntaxExceptionClass;
@@ -626,4 +635,37 @@ const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject) {
   jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
   jlong languageId = env->GetLongField(languageObject, languageIdField);
   return (const TSLanguage*)languageId;
+}
+
+void __log_in_java(void* payload, TSLogType log_type, const char* buffer) {
+  if (payload == NULL) return;
+  JNIEnv* env;
+  int status = JVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_10);
+  switch (status) {
+    case JNI_OK: break;
+    case JNI_EDETACHED: {
+      int attached = JVM->AttachCurrentThread(reinterpret_cast<void**>(&env), NULL);
+      if (attached == JNI_OK) break;
+      const char* error = JNI_CALL_RESULT_NAMES[attached];
+      printf("Unable to attach current thread to the JVM: %s\n", error);
+      return;
+    }
+    default: {
+      const char* error = JNI_CALL_RESULT_NAMES[status];
+      printf("Unable to get JVM environment: %s\n", error);
+      return;
+    }
+  }
+  const char* type = LOG_TYPE_NAMES[log_type];
+  jobject markerObject = env->CallStaticObjectMethod(
+    _markerFactoryClass,
+    _markerFactoryGetMarkerStaticMethod,
+    env->NewStringUTF(type)
+  );
+  env->CallVoidMethod(
+    reinterpret_cast<jobject>(payload),
+    _loggerDebugMethod,
+    markerObject,
+    env->NewStringUTF(buffer)
+  );
 }
