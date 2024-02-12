@@ -178,6 +178,11 @@ const TSRange RANGE_DEFAULT = {
   .end_byte = UINT32_MAX,
 };
 
+const char* LOG_TYPE_NAMES[] = {
+  "PARSE",
+  "LEX"
+};
+
 JavaVM* JVM = NULL;
 
 jclass QUERY_EXCEPTION_CLASSES[7];
