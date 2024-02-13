@@ -545,9 +545,9 @@ public enum Language {
 
     long id;
     int version;
-    int totalFields;
     int totalStates;
     List<Symbol> symbols;
+    List<String> fields;
     List<String> extensions;
 
     private static final long INVALID = 0L;
@@ -581,10 +581,12 @@ public enum Language {
     Language(long id, int version, int totalStates, int totalSymbols, int totalFields, List<String> extensions) {
         this.id = id;
         this.version = version;
-        this.totalFields = totalFields;
         this.totalStates = totalStates;
         this.symbols = IntStream.range(0, totalSymbols)
                 .mapToObj(symbolId -> symbol(id, symbolId))
+                .collect(Collectors.toUnmodifiableList());
+        this.fields = IntStream.range(0, totalFields)
+                .mapToObj(fieldId -> field(id, fieldId))
                 .collect(Collectors.toUnmodifiableList());
         this.extensions = extensions;
     }
@@ -633,6 +635,11 @@ public enum Language {
     @SuppressWarnings("unused")
     public int getTotalSymbols() {
         return symbols.size();
+    }
+    @Generated
+    @SuppressWarnings("unused")
+    public int getTotalFields() {
+        return fields.size();
     }
 
     @Override
