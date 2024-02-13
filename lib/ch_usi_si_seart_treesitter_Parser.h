@@ -9,22 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    getLanguageVersion
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
- * Method:    getMinimumCompatibleLanguageVersion
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatibleLanguageVersion
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ch_usi_si_seart_treesitter_Parser
  * Method:    delete
  * Signature: ()V
  */
@@ -38,6 +22,38 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete
  */
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage
   (JNIEnv *, jclass, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    getLogger
+ * Signature: ()Lorg/slf4j/Logger;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLogger
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    setLogger
+ * Signature: (Lorg/slf4j/Logger;)V
+ */
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLogger
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    getIncludedRanges
+ * Signature: ()Ljava/util/List;
+ */
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRanges
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Parser
+ * Method:    setIncludedRanges
+ * Signature: ([Lch/usi/si/seart/treesitter/Range;I)V
+ */
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges
+  (JNIEnv *, jobject, jobjectArray, jint);
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser

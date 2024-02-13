@@ -13,6 +13,9 @@ jclass _mapClass;
 jclass _mapEntryClass;
 jmethodID _mapEntryStaticMethod;
 
+jclass _collectionsClass;
+jmethodID _collectionsEmptyListStaticMethod;
+
 jclass _externalClass;
 jfieldID _externalPointerField;
 
@@ -130,6 +133,7 @@ jclass _indexOutOfBoundsExceptionClass;
 jmethodID _indexOutOfBoundsExceptionConstructor;
 
 jclass _treeSitterExceptionClass;
+jmethodID _treeSitterExceptionConstructor;
 
 jclass _byteOffsetOutOfBoundsExceptionClass;
 jmethodID _byteOffsetOutOfBoundsExceptionConstructor;
@@ -153,7 +157,51 @@ jmethodID _parsingExceptionConstructor;
 jclass _incompatibleLanguageExceptionClass;
 jmethodID _incompatibleLanguageExceptionConstructor;
 
+jclass _loggerClass;
+jmethodID _loggerDebugMethod;
+
+jclass _markerFactoryClass;
+jmethodID _markerFactoryGetMarkerStaticMethod;
+
+const TSPoint POINT_ORIGIN = {
+  .row = 0,
+  .column = 0,
+};
+
+const TSPoint POINT_MAX = {
+  .row = UINT32_MAX,
+  .column = UINT32_MAX,
+};
+
+const TSRange RANGE_DEFAULT = {
+  .start_point = POINT_ORIGIN,
+  .end_point = POINT_MAX,
+  .start_byte = 0,
+  .end_byte = UINT32_MAX,
+};
+
+const char* JNI_CALL_RESULT_NAMES[] = {
+  "OK",
+  "Unknown Error",
+  "Thread Detached from the VM",
+  "JNI Version Error",
+  "Not Enough Memory",
+  "VM Already Created",
+  "Invalid Arguments"
+};
+
+const char* LOG_TYPE_NAMES[] = {
+  "PARSE",
+  "LEX"
+};
+
+JavaVM* JVM = NULL;
+
+jclass QUERY_EXCEPTION_CLASSES[7];
+jmethodID QUERY_EXCEPTION_CONSTRUCTORS[7];
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+  JVM = vm;
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION) != JNI_OK) {
     return JNI_ERR;
@@ -169,6 +217,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadClass(_mapEntryClass, "java/util/Map$Entry")
   _loadStaticMethod(_mapEntryStaticMethod, _mapClass, "entry",
     "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;")
+
+  _loadClass(_collectionsClass, "java/util/Collections")
+  _loadStaticMethod(_collectionsEmptyListStaticMethod, _collectionsClass, "emptyList", "()Ljava/util/List;")
 
   _loadClass(_externalClass, "ch/usi/si/seart/treesitter/External")
   _loadField(_externalPointerField, _externalClass, "pointer", "J")
@@ -293,6 +344,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadConstructor(_indexOutOfBoundsExceptionConstructor, _indexOutOfBoundsExceptionClass, "(I)V")
 
   _loadClass(_treeSitterExceptionClass, "ch/usi/si/seart/treesitter/exception/TreeSitterException")
+  _loadConstructor(_treeSitterExceptionConstructor, _treeSitterExceptionClass, "()V")
 
   _loadClass(_byteOffsetOutOfBoundsExceptionClass, "ch/usi/si/seart/treesitter/exception/ByteOffsetOutOfBoundsException")
   _loadConstructor(_byteOffsetOutOfBoundsExceptionConstructor, _byteOffsetOutOfBoundsExceptionClass, "(I)V")
@@ -319,6 +371,33 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadConstructor(_incompatibleLanguageExceptionConstructor, _incompatibleLanguageExceptionClass,
     "(Lch/usi/si/seart/treesitter/Language;)V")
 
+  _loadClass(_loggerClass, "org/slf4j/Logger")
+  if (_loggerClass != NULL) {
+    _loadMethod(_loggerDebugMethod, _loggerClass, "debug", "(Lorg/slf4j/Marker;Ljava/lang/String;)V");
+  }
+
+  _loadClass(_markerFactoryClass, "org/slf4j/MarkerFactory")
+  if (_markerFactoryClass != NULL) {
+    _loadStaticMethod(_markerFactoryGetMarkerStaticMethod, _markerFactoryClass, "getMarker",
+      "(Ljava/lang/String;)Lorg/slf4j/Marker;");
+  }
+
+  QUERY_EXCEPTION_CLASSES[0] = NULL;
+  QUERY_EXCEPTION_CLASSES[1] = _querySyntaxExceptionClass;
+  QUERY_EXCEPTION_CLASSES[2] = _queryNodeTypeExceptionClass;
+  QUERY_EXCEPTION_CLASSES[3] = _queryFieldExceptionClass;
+  QUERY_EXCEPTION_CLASSES[4] = _queryCaptureExceptionClass;
+  QUERY_EXCEPTION_CLASSES[5] = _queryStructureExceptionClass;
+  QUERY_EXCEPTION_CLASSES[6] = _incompatibleLanguageExceptionClass;
+
+  QUERY_EXCEPTION_CONSTRUCTORS[0] = NULL;
+  QUERY_EXCEPTION_CONSTRUCTORS[1] = _querySyntaxExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[2] = _queryNodeTypeExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[3] = _queryFieldExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[4] = _queryCaptureExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[5] = _queryStructureExceptionConstructor;
+  QUERY_EXCEPTION_CONSTRUCTORS[6] = _incompatibleLanguageExceptionConstructor;
+
   return JNI_VERSION;
 }
 
@@ -329,6 +408,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_listClass)
   _unload(_mapClass)
   _unload(_mapEntryClass)
+  _unload(_collectionsClass)
   _unload(_externalClass)
   _unload(_nodeClass)
   _unload(_pointClass)
@@ -363,6 +443,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_queryStructureExceptionClass)
   _unload(_parsingExceptionClass)
   _unload(_incompatibleLanguageExceptionClass)
+  _unload(_loggerClass)
+  _unload(_markerFactoryClass)
 }
 
 ComparisonResult intcmp(uint32_t x, uint32_t y) {
@@ -390,39 +472,47 @@ jint __throwIOE(JNIEnv* env, const char* message) {
 }
 
 jint __throwIOB(JNIEnv* env, jint index) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _indexOutOfBoundsExceptionClass,
     _indexOutOfBoundsExceptionConstructor,
     index
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jint __throwBOB(JNIEnv* env, jint index) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _byteOffsetOutOfBoundsExceptionClass,
     _byteOffsetOutOfBoundsExceptionConstructor,
     index
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jint __throwPOB(JNIEnv* env, jobject pointObject) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _pointOutOfBoundsExceptionClass,
     _pointOutOfBoundsExceptionConstructor,
     pointObject
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
 }
 
 jint __throwILE(JNIEnv* env, jobject languageObject) {
-  jobject exception = env->NewObject(
+  jthrowable exception = _newThrowable(
     _incompatibleLanguageExceptionClass,
     _incompatibleLanguageExceptionConstructor,
     languageObject
   );
-  return env->Throw((jthrowable)exception);
+  return env->Throw(exception);
+}
+
+jclass __getQueryExceptionClass(TSQueryError error) {
+  return QUERY_EXCEPTION_CLASSES[error];
+}
+
+jmethodID __getQueryExceptionConstructor(TSQueryError error) {
+  return QUERY_EXCEPTION_CONSTRUCTORS[error];
 }
 
 jlong __getPointer(JNIEnv* env, jobject objectInstance) {
@@ -437,7 +527,7 @@ jobject __marshalNode(JNIEnv* env, TSNode node) {
   if (node.id == 0) {
     return NULL;
   } else {
-    return env->NewObject(
+    return _newObject(
       _nodeClass,
       _nodeConstructor,
       node.context[0],
@@ -476,9 +566,24 @@ ComparisonResult __comparePoints(TSPoint left, TSPoint right) {
   return (result != EQ) ? result : intcmp(left.column, right.column);
 }
 
+bool __pointEqual(TSPoint left, TSPoint right) {
+  return left.row == right.row && left.column == right.column;
+}
+
+bool __rangeEqual(TSRange left, TSRange right) {
+  return left.start_byte == right.start_byte &&
+  left.end_byte == right.end_byte &&
+    __pointEqual(left.start_point, right.start_point) &&
+    __pointEqual(left.end_point, right.end_point);
+}
+
+bool __isDefaultRange(TSRange range) {
+  return __rangeEqual(range, RANGE_DEFAULT);
+}
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point) {
   // Not sure why I need to divide by two, probably because of utf-16
-  return env->NewObject(
+  return _newObject(
     _pointClass,
     _pointConstructor,
     point.row,
@@ -495,7 +600,7 @@ TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject) {
 }
 
 jobject __marshalRange(JNIEnv* env, TSRange range) {
-  return env->NewObject(
+  return _newObject(
     _rangeClass,
     _rangeConstructor,
     (jint)range.start_byte / 2,
@@ -530,4 +635,37 @@ const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject) {
   jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
   jlong languageId = env->GetLongField(languageObject, languageIdField);
   return (const TSLanguage*)languageId;
+}
+
+void __log_in_java(void* payload, TSLogType log_type, const char* buffer) {
+  if (payload == NULL) return;
+  JNIEnv* env;
+  int status = JVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_10);
+  switch (status) {
+    case JNI_OK: break;
+    case JNI_EDETACHED: {
+      int attached = JVM->AttachCurrentThread(reinterpret_cast<void**>(&env), NULL);
+      if (attached == JNI_OK) break;
+      const char* error = JNI_CALL_RESULT_NAMES[attached];
+      printf("Unable to attach current thread to the JVM: %s\n", error);
+      return;
+    }
+    default: {
+      const char* error = JNI_CALL_RESULT_NAMES[status];
+      printf("Unable to get JVM environment: %s\n", error);
+      return;
+    }
+  }
+  const char* type = LOG_TYPE_NAMES[log_type];
+  jobject markerObject = env->CallStaticObjectMethod(
+    _markerFactoryClass,
+    _markerFactoryGetMarkerStaticMethod,
+    env->NewStringUTF(type)
+  );
+  env->CallVoidMethod(
+    reinterpret_cast<jobject>(payload),
+    _loggerDebugMethod,
+    markerObject,
+    env->NewStringUTF(buffer)
+  );
 }

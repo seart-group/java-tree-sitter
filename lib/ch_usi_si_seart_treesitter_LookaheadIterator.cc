@@ -27,7 +27,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_LookaheadIterator_next
     _lookaheadIteratorHasNextField,
     ts_lookahead_iterator_next(iterator) ? JNI_TRUE : JNI_FALSE
   );
-  return env->NewObject(
+  return _newObject(
     _symbolClass,
     _symbolConstructor,
     (jint)symbol,

@@ -110,7 +110,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
     queryPatternsList, _listGet, match.pattern_index
   );
   jobjectArray entries = env->NewObjectArray(match.capture_count, _mapEntryClass, NULL);
-  for (int i = 0; i < match.capture_count; i++) {
+  for (uint16_t i = 0; i < match.capture_count; i++) {
     TSQueryCapture capture = match.captures[i];
     jobject captureObject = env->CallObjectMethod(
       queryCapturesList, _listGet, capture.index
@@ -125,7 +125,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_QueryCursor_nextMatch(
     );
     env->SetObjectArrayElement(entries, i, entryObject);
   }
-  return env->NewObject(
+  return _newObject(
     _queryMatchClass,
     _queryMatchConstructor,
     (jint)match.id,
