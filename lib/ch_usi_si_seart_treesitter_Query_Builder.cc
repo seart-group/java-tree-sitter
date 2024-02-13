@@ -18,18 +18,18 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
     case TSQueryErrorNone:
       {
         uint32_t patternsLength = ts_query_pattern_count(query);
-        uint32_t patternStartBytes[patternsLength];
+        uint32_t bytePositions[patternsLength];
         for (uint32_t i = 0; i < patternsLength; i++) {
-          patternStartBytes[i] = ts_query_start_byte_for_pattern(query, i);
+          bytePositions[i] = ts_query_start_byte_for_pattern(query, i);
         }
         jobjectArray patterns = env->NewObjectArray(patternsLength, _patternClass, NULL);
         for (uint32_t i = 0; i < patternsLength; i++) {
-          uint32_t patternStartByte = patternStartBytes[i];
-          uint32_t patternEndByte = (i < patternsLength - 1) ? patternStartBytes[i + 1] : length;
-          uint32_t patternLength = patternEndByte - patternStartByte;
-          char* substring = new char[patternLength + 1];
-          memcpy(substring, characters + patternStartByte, patternLength);
-          substring[patternLength] = '\0';
+          uint32_t byteLower = bytePositions[i];
+          uint32_t byteUpper = (i < patternsLength - 1) ? bytePositions[i + 1] : length;
+          uint32_t byteTotal = byteUpper - byteLower;
+          char substring[byteTotal + 1];
+          memcpy(substring, characters + byteLower, byteTotal);
+          substring[byteTotal] = '\0';
           bool rooted = ts_query_is_pattern_rooted(query, i);
           bool nonLocal = ts_query_is_pattern_non_local(query, i);
           uint32_t stepsLength = 0;
