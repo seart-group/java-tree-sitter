@@ -90,7 +90,16 @@ jmethodID _patternConstructor;
 jfieldID _patternQueryField;
 jfieldID _patternIndexField;
 jfieldID _patternValueField;
+jfieldID _patternPredicatesField;
 jfieldID _patternEnabledField;
+
+jclass _predicateClass;
+jmethodID _predicateConstructor;
+jfieldID _predicatePatternField;
+jfieldID _predicateStepsField;
+
+jclass _predicateStepClass;
+jmethodID _predicateStepConstructor;
 
 jclass _captureClass;
 jmethodID _captureConstructor;
@@ -296,11 +305,22 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     "(JLch/usi/si/seart/treesitter/Language;[Lch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/Capture;[Ljava/lang/String;)V")
 
   _loadClass(_patternClass, "ch/usi/si/seart/treesitter/Pattern")
-  _loadConstructor(_patternConstructor, _patternClass, "(IZZLjava/lang/String;)V")
+  _loadConstructor(_patternConstructor, _patternClass,
+    "(IZZLjava/lang/String;[Lch/usi/si/seart/treesitter/Predicate;)V")
   _loadField(_patternQueryField, _patternClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_patternIndexField, _patternClass, "index", "I")
   _loadField(_patternValueField, _patternClass, "value", "Ljava/lang/String;")
+  _loadField(_patternPredicatesField, _patternClass, "predicates", "Ljava/util/List;")
   _loadField(_patternEnabledField, _patternClass, "enabled", "Z")
+
+  _loadClass(_predicateClass, "ch/usi/si/seart/treesitter/Predicate")
+  _loadConstructor(_predicateConstructor, _predicateClass,
+    "(Lch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/Predicate$Step;)V")
+  _loadField(_predicatePatternField, _predicateClass, "pattern", "Lch/usi/si/seart/treesitter/Pattern;")
+  _loadField(_predicateStepsField, _predicateClass, "steps", "Ljava/util/List;")
+
+  _loadClass(_predicateStepClass, "ch/usi/si/seart/treesitter/Predicate$Step")
+  _loadConstructor(_predicateStepConstructor, _predicateStepClass, "(ILjava/lang/String;)V")
 
   _loadClass(_captureClass, "ch/usi/si/seart/treesitter/Capture")
   _loadConstructor(_captureConstructor, _captureClass, "(ILjava/lang/String;)V")
@@ -421,6 +441,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_dotGraphPrinterClass)
   _unload(_queryClass)
   _unload(_patternClass)
+  _unload(_predicateClass)
+  _unload(_predicateStepClass)
   _unload(_captureClass)
   _unload(_queryCursorClass)
   _unload(_symbolClass)
@@ -628,6 +650,80 @@ TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditOldEndPointField)),
     __unmarshalPoint(env, env->GetObjectField(inputEditObject, _inputEditNewEndPointField)),
   };
+}
+
+jobject __marshalPredicateStep(JNIEnv* env, const TSQuery* query, TSQueryPredicateStep step) {
+    TSQueryPredicateStepType type = step.type;
+    uint32_t id = step.value_id;
+    uint32_t ignored = 0;
+    jstring value = NULL;
+    switch (type) {
+      case TSQueryPredicateStepTypeCapture: {
+        const char* characters = ts_query_capture_name_for_id(query, id, &ignored);
+        value = env->NewStringUTF(characters);
+        break;
+      }
+      case TSQueryPredicateStepTypeString: {
+        const char* characters = ts_query_string_value_for_id(query, id, &ignored);
+        value = env->NewStringUTF(characters);
+        break;
+      }
+      default: break;
+    }
+    return _newObject(
+      _predicateStepClass,
+      _predicateStepConstructor,
+      (jint)type,
+      value
+    );
+}
+
+jobjectArray __marshalPredicates(
+  JNIEnv* env, const TSQuery* query, const TSQueryPredicateStep* steps, uint32_t* stepsLength, uint32_t* predicatesLength) {
+  for (uint32_t i = 0; i < *stepsLength; i++) {
+    TSQueryPredicateStep step = steps[i];
+    TSQueryPredicateStepType type = step.type;
+    bool sentinel = type == TSQueryPredicateStepTypeDone;
+    if (sentinel) (*predicatesLength)++;
+  }
+  uint32_t indexes[*predicatesLength];
+  indexes[0] = 0;
+  for (uint32_t i = 1, j = 0; i < *stepsLength; i++) {
+    TSQueryPredicateStep step = steps[i];
+    TSQueryPredicateStepType type = step.type;
+    bool sentinel = type == TSQueryPredicateStepTypeDone;
+    if (sentinel) indexes[++j] = i + 1;
+  }
+  jobjectArray predicatesArray = env->NewObjectArray(
+    *predicatesLength,
+    _predicateClass,
+    NULL
+  );
+  for (uint32_t i = 0; i < *predicatesLength; i++) {
+    uint32_t lower = indexes[i];
+    uint32_t upper = (i != (*predicatesLength) - 1)
+      ? indexes[i + 1]
+      : *stepsLength;
+    uint32_t length = upper - lower;
+    jobjectArray stepsArray = env->NewObjectArray(
+      length,
+      _predicateStepClass,
+      NULL
+    );
+    for (uint32_t j = lower; j < upper; j++) {
+      TSQueryPredicateStep step = steps[j];
+      jobject predicateStepObject = __marshalPredicateStep(env, query, step);
+      env->SetObjectArrayElement(stepsArray, j - lower, predicateStepObject);
+    }
+    jobject predicateObject = _newObject(
+      _predicateClass,
+      _predicateConstructor,
+      NULL,
+      stepsArray
+    );
+    env->SetObjectArrayElement(predicatesArray, i, predicateObject);
+  }
+  return predicatesArray;
 }
 
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject) {

@@ -103,7 +103,16 @@ extern jmethodID _patternConstructor;
 extern jfieldID _patternQueryField;
 extern jfieldID _patternIndexField;
 extern jfieldID _patternValueField;
+extern jfieldID _patternPredicatesField;
 extern jfieldID _patternEnabledField;
+
+extern jclass _predicateClass;
+extern jmethodID _predicateConstructor;
+extern jfieldID _predicatePatternField;
+extern jfieldID _predicateStepsField;
+
+extern jclass _predicateStepClass;
+extern jmethodID _predicateStepConstructor;
 
 extern jclass _captureClass;
 extern jmethodID _captureConstructor;
@@ -289,6 +298,10 @@ jobject __marshalRange(JNIEnv* env, TSRange range);
 TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
+
+jobject __marshalPredicateStep(JNIEnv* env, const TSQuery* query, TSQueryPredicateStep step);
+
+jobjectArray __marshalPredicates(JNIEnv* env, const TSQuery* query, const TSQueryPredicateStep* steps, uint32_t* stepsLength, uint32_t* predicatesLength);
 
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
 
