@@ -12,9 +12,9 @@ import java.util.Objects;
 
 /**
  * Represents a single symbolic expression (s-expression) pattern of a {@link Query}.
- * Said pattern is a structured representation of a syntax tree fragment, which can be used to query subtrees.
- * Each instance can be uniquely identified by the query it belongs to,
- * along with its ordinal position within the same query.
+ * Said pattern is a structured representation of a syntax tree fragment, which can
+ * be used to query subtrees. Each instance can be uniquely identified by the query
+ * it belongs to, along with its ordinal position within the same query.
  *
  * @since 1.7.0
  * @author Ozren Dabić
