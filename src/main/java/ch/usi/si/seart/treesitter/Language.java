@@ -585,7 +585,7 @@ public enum Language {
         this.symbols = IntStream.range(0, totalSymbols)
                 .mapToObj(symbolId -> symbol(id, symbolId))
                 .collect(Collectors.toUnmodifiableList());
-        this.fields = IntStream.range(0, totalFields)
+        this.fields = IntStream.range(1, totalFields + 1)
                 .mapToObj(fieldId -> field(id, fieldId))
                 .collect(Collectors.toUnmodifiableList());
         this.extensions = extensions;
