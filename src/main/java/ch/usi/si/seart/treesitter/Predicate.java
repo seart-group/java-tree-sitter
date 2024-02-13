@@ -65,6 +65,9 @@ public class Predicate {
      * Represents a single step in a {@link Predicate}.
      * Each step is characterized by a {@link Type Type},
      * and an optional value.
+     *
+     * @since 1.12.0
+     * @author Ozren Dabić
      */
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
