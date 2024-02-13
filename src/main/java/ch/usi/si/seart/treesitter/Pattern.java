@@ -45,9 +45,8 @@ public class Pattern {
 
     /**
      * Disable this pattern, preventing it from further matching.
-     * This will eliminate any resource usage from the query
+     * This will eliminate any resource usage from the {@link Query}
      * associated with the pattern.
-     *
      * <p>
      * <strong>
      * This can not be undone.
