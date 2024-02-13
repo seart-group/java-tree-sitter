@@ -11,10 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Represents the named capture of a {@link Query}.
- * Captures are used to extract information from syntax trees when a query match occurs.
- * Each instance can be uniquely identified by the query it belongs to,
- * along with its ordinal position within the same query.
+ * Represents the named capture of a {@link Query}. Captures are used
+ * to extract information from syntax trees when a query match occurs.
+ * Each instance can be uniquely identified by the {@link Query} it
+ * belongs to, along with its ordinal position within the same query.
  *
  * @since 1.7.0
  * @author Ozren Dabić
@@ -42,9 +42,8 @@ public class Capture {
 
     /**
      * Disable this capture, preventing it from returning in matches.
-     * This will eliminate any resource usage from the query
+     * This will eliminate any resource usage from the {@link Query}
      * associated with recording the capture.
-     *
      * <p>
      * <strong>
      * This can not be undone.
