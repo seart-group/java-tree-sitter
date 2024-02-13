@@ -547,7 +547,7 @@ public enum Language {
     int version;
     int totalFields;
     int totalStates;
-    Collection<Symbol> symbols;
+    List<Symbol> symbols;
     List<String> extensions;
 
     private static final long INVALID = 0L;
