@@ -92,6 +92,14 @@ jfieldID _patternIndexField;
 jfieldID _patternValueField;
 jfieldID _patternEnabledField;
 
+jclass _predicateClass;
+jmethodID _predicateConstructor;
+jfieldID _predicatePatternField;
+jfieldID _predicateStepsField;
+
+jclass _predicateStepClass;
+jmethodID _predicateStepConstructor;
+
 jclass _captureClass;
 jmethodID _captureConstructor;
 jfieldID _captureQueryField;
@@ -302,6 +310,15 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   _loadField(_patternValueField, _patternClass, "value", "Ljava/lang/String;")
   _loadField(_patternEnabledField, _patternClass, "enabled", "Z")
 
+  _loadClass(_predicateClass, "ch/usi/si/seart/treesitter/Predicate")
+  _loadConstructor(_predicateConstructor, _predicateClass,
+    "(Lch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/Predicate$Step;)V")
+  _loadField(_predicatePatternField, _predicateClass, "pattern", "Lch/usi/si/seart/treesitter/Pattern;")
+  _loadField(_predicateStepsField, _predicateClass, "steps", "Ljava/util/List;")
+
+  _loadClass(_predicateStepClass, "ch/usi/si/seart/treesitter/Predicate$Step")
+  _loadConstructor(_predicateStepConstructor, _predicateStepClass, "(ILjava/lang/String;)V")
+
   _loadClass(_captureClass, "ch/usi/si/seart/treesitter/Capture")
   _loadConstructor(_captureConstructor, _captureClass, "(ILjava/lang/String;)V")
   _loadField(_captureQueryField, _captureClass, "query", "Lch/usi/si/seart/treesitter/Query;")
@@ -421,6 +438,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
   _unload(_dotGraphPrinterClass)
   _unload(_queryClass)
   _unload(_patternClass)
+  _unload(_predicateClass)
+  _unload(_predicateStepClass)
   _unload(_captureClass)
   _unload(_queryCursorClass)
   _unload(_symbolClass)

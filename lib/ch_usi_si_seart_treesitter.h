@@ -105,6 +105,14 @@ extern jfieldID _patternIndexField;
 extern jfieldID _patternValueField;
 extern jfieldID _patternEnabledField;
 
+extern jclass _predicateClass;
+extern jmethodID _predicateConstructor;
+extern jfieldID _predicatePatternField;
+extern jfieldID _predicateStepsField;
+
+extern jclass _predicateStepClass;
+extern jmethodID _predicateStepConstructor;
+
 extern jclass _captureClass;
 extern jmethodID _captureConstructor;
 extern jfieldID _captureQueryField;
