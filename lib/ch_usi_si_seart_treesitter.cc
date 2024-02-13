@@ -649,6 +649,80 @@ TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEditObject) {
   };
 }
 
+jobject __marshalPredicateStep(JNIEnv* env, const TSQuery* query, TSQueryPredicateStep step) {
+    TSQueryPredicateStepType type = step.type;
+    uint32_t id = step.value_id;
+    uint32_t ignored = 0;
+    jstring value = NULL;
+    switch (type) {
+      case TSQueryPredicateStepTypeCapture: {
+        const char* characters = ts_query_capture_name_for_id(query, id, &ignored);
+        value = env->NewStringUTF(characters);
+        break;
+      }
+      case TSQueryPredicateStepTypeString: {
+        const char* characters = ts_query_string_value_for_id(query, id, &ignored);
+        value = env->NewStringUTF(characters);
+        break;
+      }
+      default: break;
+    }
+    return _newObject(
+      _predicateStepClass,
+      _predicateStepConstructor,
+      (jint)type,
+      value
+    );
+}
+
+jobjectArray __marshalPredicates(
+  JNIEnv* env, const TSQuery* query, const TSQueryPredicateStep* steps, uint32_t* stepsLength, uint32_t* predicatesLength) {
+  for (uint32_t i = 0; i < *stepsLength; i++) {
+    TSQueryPredicateStep step = steps[i];
+    TSQueryPredicateStepType type = step.type;
+    bool sentinel = type == TSQueryPredicateStepTypeDone;
+    if (sentinel) (*predicatesLength)++;
+  }
+  uint32_t indexes[*predicatesLength];
+  indexes[0] = 0;
+  for (uint32_t i = 1, j = 0; i < *stepsLength; i++) {
+    TSQueryPredicateStep step = steps[i];
+    TSQueryPredicateStepType type = step.type;
+    bool sentinel = type == TSQueryPredicateStepTypeDone;
+    if (sentinel) indexes[++j] = i + 1;
+  }
+  jobjectArray predicatesArray = env->NewObjectArray(
+    *predicatesLength,
+    _predicateClass,
+    NULL
+  );
+  for (uint32_t i = 0; i < *predicatesLength; i++) {
+    uint32_t lower = indexes[i];
+    uint32_t upper = (i != (*predicatesLength) - 1)
+      ? indexes[i + 1]
+      : *stepsLength;
+    uint32_t length = upper - lower;
+    jobjectArray stepsArray = env->NewObjectArray(
+      length,
+      _predicateStepClass,
+      NULL
+    );
+    for (uint32_t j = lower; j < upper; j++) {
+      TSQueryPredicateStep step = steps[j];
+      jobject predicateStepObject = __marshalPredicateStep(env, query, step);
+      env->SetObjectArrayElement(stepsArray, j - lower, predicateStepObject);
+    }
+    jobject predicateObject = _newObject(
+      _predicateClass,
+      _predicateConstructor,
+      NULL,
+      stepsArray
+    );
+    env->SetObjectArrayElement(predicatesArray, i, predicateObject);
+  }
+  return predicatesArray;
+}
+
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject) {
   jclass languageClass = env->GetObjectClass(languageObject);
   jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");

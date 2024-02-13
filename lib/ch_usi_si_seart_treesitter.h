@@ -298,6 +298,10 @@ TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
 
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 
+jobject __marshalPredicateStep(JNIEnv* env, const TSQuery* query, TSQueryPredicateStep step);
+
+jobjectArray __marshalPredicates(JNIEnv* env, const TSQuery* query, const TSQueryPredicateStep* steps, uint32_t* stepsLength, uint32_t* predicatesLength);
+
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
 
 void __log_in_java(void* payload, TSLogType log_type, const char* buffer);
