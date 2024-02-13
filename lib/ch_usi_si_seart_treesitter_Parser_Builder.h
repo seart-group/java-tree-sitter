@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     ch_usi_si_seart_treesitter_Parser_Builder
  * Method:    build
- * Signature: (Lch/usi/si/seart/treesitter/Language;J)Lch/usi/si/seart/treesitter/Parser;
+ * Signature: (Lch/usi/si/seart/treesitter/Language;J[Lch/usi/si/seart/treesitter/Range;I)Lch/usi/si/seart/treesitter/Parser;
  */
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_00024Builder_build
-  (JNIEnv *, jclass, jobject, jlong);
+  (JNIEnv *, jclass, jobject, jlong, jobjectArray, jint);
 
 #ifdef __cplusplus
 }

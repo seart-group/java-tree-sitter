@@ -9,6 +9,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -21,16 +23,8 @@ class LanguageTest extends BaseTest {
     private static Path tmp;
     private static final Language language = Language.PYTHON;
 
-    private static class ValidateProvider implements ArgumentsProvider {
-
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            return Stream.of(Language.values()).map(Arguments::of);
-        }
-    }
-
     @ParameterizedTest
-    @ArgumentsSource(ValidateProvider.class)
+    @EnumSource(Language.class)
     void testValidate(Language language) {
         Assertions.assertDoesNotThrow(() -> Language.validate(language));
     }
@@ -109,11 +103,17 @@ class LanguageTest extends BaseTest {
         Assertions.assertEquals(0, language.nextState(root));
     }
 
-    @Test
-    void testNextStateThrows() {
-        Assertions.assertThrows(NullPointerException.class, () -> language.nextState(null));
-        Assertions.assertThrows(NullPointerException.class, () -> invalid.nextState(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> language.nextState(empty));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> invalid.nextState(empty));
+    private static Stream<Arguments> invalidNodes() {
+        return Stream.of(
+                Arguments.of(NullPointerException.class, null),
+                Arguments.of(IllegalArgumentException.class, empty)
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("invalidNodes")
+    void testNextStateThrows(Class<Throwable> throwableType, Node node) {
+        Assertions.assertThrows(throwableType, () -> language.nextState(node));
+        Assertions.assertThrows(throwableType, () -> invalid.nextState(node));
     }
 }

@@ -5,25 +5,25 @@
 #include <tree_sitter/api.h>
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_build(
-  JNIEnv* env, jclass thisClass, jobject languageObject, jstring patterns) {
+  JNIEnv* env, jclass thisClass, jobject languageObject, jstring patternString) {
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
-  uint32_t length = env->GetStringLength(patterns);
-  const char* characters = env->GetStringUTFChars(patterns, NULL);
-  uint32_t* offset = new uint32_t;
-  TSQueryError* errorType = new TSQueryError;
-  TSQuery* query = ts_query_new(language, characters, length, offset, errorType);
-  jclass exceptionClass;
-  jmethodID exceptionConstructor;
-  switch (*errorType) {
+  uint32_t length = env->GetStringLength(patternString);
+  const char* characters = env->GetStringUTFChars(patternString, NULL);
+  uint32_t offset;
+  TSQueryError type = TSQueryErrorNone;
+  TSQuery* query = ts_query_new(language, characters, length, &offset, &type);
+  jobject result = NULL;
+  jthrowable exception = NULL;
+  switch (type) {
     case TSQueryErrorNone:
       {
         uint32_t patternsLength = ts_query_pattern_count(query);
         uint32_t patternStartBytes[patternsLength];
-        for (int i = 0; i < patternsLength; i++) {
+        for (uint32_t i = 0; i < patternsLength; i++) {
           patternStartBytes[i] = ts_query_start_byte_for_pattern(query, i);
         }
         jobjectArray patterns = env->NewObjectArray(patternsLength, _patternClass, NULL);
-        for (int i = 0; i < patternsLength; i++) {
+        for (uint32_t i = 0; i < patternsLength; i++) {
           uint32_t patternStartByte = patternStartBytes[i];
           uint32_t patternEndByte = (i < patternsLength - 1) ? patternStartBytes[i + 1] : length;
           uint32_t patternLength = patternEndByte - patternStartByte;
@@ -32,7 +32,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           substring[patternLength] = '\0';
           bool rooted = ts_query_is_pattern_rooted(query, i);
           bool nonLocal = ts_query_is_pattern_non_local(query, i);
-          jobject patternObject = env->NewObject(
+          jobject patternObject = _newObject(
             _patternClass,
             _patternConstructor,
             (jint)i,
@@ -45,9 +45,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
 
         uint32_t capturesLength = ts_query_capture_count(query);
         jobjectArray captures = env->NewObjectArray(capturesLength, _captureClass, NULL);
-        for (int i = 0; i < capturesLength; i++) {
-          const char* capture = ts_query_capture_name_for_id(query, i, new uint32_t);
-          jobject captureObject = env->NewObject(
+        for (uint32_t i = 0; i < capturesLength; i++) {
+          uint32_t ignored;
+          const char* capture = ts_query_capture_name_for_id(query, i, &ignored);
+          jobject captureObject = _newObject(
             _captureClass,
             _captureConstructor,
             (jint)i,
@@ -58,13 +59,14 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
 
         uint32_t stringsLength = ts_query_string_count(query);
         jobjectArray strings = env->NewObjectArray(stringsLength, _stringClass, NULL);
-        for (int i = 0; i < stringsLength; i++) {
-          const char* string = ts_query_string_value_for_id(query, i, new uint32_t);
+        for (uint32_t i = 0; i < stringsLength; i++) {
+          uint32_t ignored;
+          const char* string = ts_query_string_value_for_id(query, i, &ignored);
           jstring stringString = env->NewStringUTF(string);
           env->SetObjectArrayElement(strings, i, stringString);
         }
 
-        jobject queryObject = env->NewObject(
+        jobject queryObject = _newObject(
           _queryClass,
           _queryConstructor,
           (jlong)query,
@@ -74,43 +76,44 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           strings
         );
 
-        for (int i = 0; i < capturesLength; i++) {
+        for (uint32_t i = 0; i < capturesLength; i++) {
           jobject captureObject = env->GetObjectArrayElement(captures, i);
           env->SetObjectField(captureObject, _captureQueryField, queryObject);
         }
 
-        for (int i = 0; i < patternsLength; i++) {
+        for (uint32_t i = 0; i < patternsLength; i++) {
           jobject patternObject = env->GetObjectArrayElement(patterns, i);
           env->SetObjectField(patternObject, _patternQueryField, queryObject);
         }
 
-        return queryObject;
+        result = queryObject;
+        break;
       }
     case TSQueryErrorSyntax:
-      exceptionClass = _querySyntaxExceptionClass;
-      exceptionConstructor = _querySyntaxExceptionConstructor;
-      break;
     case TSQueryErrorNodeType:
-      exceptionClass = _queryNodeTypeExceptionClass;
-      exceptionConstructor = _queryNodeTypeExceptionConstructor;
-      break;
     case TSQueryErrorField:
-      exceptionClass = _queryFieldExceptionClass;
-      exceptionConstructor = _queryFieldExceptionConstructor;
-      break;
     case TSQueryErrorCapture:
-      exceptionClass = _queryCaptureExceptionClass;
-      exceptionConstructor = _queryCaptureExceptionConstructor;
-      break;
     case TSQueryErrorStructure:
-      exceptionClass = _queryStructureExceptionClass;
-      exceptionConstructor = _queryStructureExceptionConstructor;
+      exception = _newThrowable(
+        __getQueryExceptionClass(type),
+        __getQueryExceptionConstructor(type),
+        (jint)offset
+      );
+      break;
+    case TSQueryErrorLanguage:
+      exception = _newThrowable(
+        __getQueryExceptionClass(type),
+        __getQueryExceptionConstructor(type),
+        languageObject
+      );
       break;
     default:
-      env->ThrowNew(_treeSitterExceptionClass, NULL);
-      return NULL;
+      exception = _newThrowable(
+        _treeSitterExceptionClass,
+        _treeSitterExceptionConstructor
+      );
   }
-  jobject exception = env->NewObject(exceptionClass, exceptionConstructor, *offset);
-  env->Throw((jthrowable)exception);
-  return NULL;
+  env->ReleaseStringUTFChars(patternString, characters);
+  if (exception != NULL) env->Throw(exception);
+  return result;
 }

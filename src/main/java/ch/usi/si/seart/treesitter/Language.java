@@ -1,6 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
 import ch.usi.si.seart.treesitter.error.ABIVersionError;
+import ch.usi.si.seart.treesitter.version.TreeSitter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
@@ -28,12 +29,11 @@ import java.util.stream.Stream;
 
 /**
  * Enum that consists of all the officially recognized programming languages.
- *
  * <p>
- * In terms of ABI, these include only languages with a version of either 13 or 14.
- * The version of the underlying parser we use requires as a bare minimum the former.
- * For this reason, languages that have not been maintained for a significant
- * amount of time will not be supported by the library.
+ * Only languages whose ABI version is within the range of the library's
+ * supported versions are included in this enum. For this reason, the enum
+ * is not exhaustive and may not include all languages developed by the
+ * community.
  *
  * @since 1.0.0
  * @author Ozren Dabić
@@ -515,8 +515,8 @@ public enum Language {
                 "Language binding has not been defined for: " + language
         );
         int version = language.getVersion();
-        int minimum = Parser.getMinimumCompatibleLanguageVersion();
-        int maximum = Parser.getLanguageVersion();
+        int minimum = TreeSitter.getMinimumABIVersion();
+        int maximum = TreeSitter.getCurrentABIVersion();
         if (version < minimum || version > maximum)
             throw new ABIVersionError(version);
     }

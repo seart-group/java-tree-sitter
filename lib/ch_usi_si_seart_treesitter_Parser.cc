@@ -3,16 +3,6 @@
 #include <jni.h>
 #include <tree_sitter/api.h>
 
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLanguageVersion(
-  JNIEnv *, jclass) {
-  return (jint)TREE_SITTER_LANGUAGE_VERSION;
-}
-
-JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Parser_getMinimumCompatibleLanguageVersion(
-  JNIEnv *, jclass) {
-  return (jint)TREE_SITTER_MIN_COMPATIBLE_LANGUAGE_VERSION;
-}
-
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_delete(
   JNIEnv* env, jobject thisObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
@@ -24,16 +14,66 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLanguage(
   JNIEnv* env, jclass thisClass, jobject parserObject, jobject languageObject) {
   TSParser* parser = (TSParser*)__getPointer(env, parserObject);
   const TSLanguage* language = __unmarshalLanguage(env, languageObject);
-  bool succeeded = ts_parser_set_language(parser, language);
-  if (!succeeded) {
+  if (!ts_parser_set_language(parser, language)) {
     __throwILE(env, languageObject);
-    return;
+  } else {
+    env->SetObjectField(
+      parserObject,
+      _parserLanguageField,
+      languageObject
+    );
   }
-  env->SetObjectField(
-    parserObject,
-    _parserLanguageField,
-    languageObject
-  );
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getLogger(
+  JNIEnv* env, jobject thisObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSLogger logger = ts_parser_logger(parser);
+  jobject loggerObject = reinterpret_cast<jobject>(logger.payload);
+  return env->NewLocalRef(loggerObject);
+}
+
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setLogger(
+  JNIEnv* env, jobject thisObject, jobject loggerObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSLogger logger = ts_parser_logger(parser);
+  jobject globalObject = reinterpret_cast<jobject>(logger.payload);
+  if (globalObject != NULL) env->DeleteGlobalRef(globalObject);
+  logger.payload = reinterpret_cast<void*>(env->NewGlobalRef(loggerObject));
+  ts_parser_set_logger(parser, logger);
+}
+
+JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_getIncludedRanges(
+  JNIEnv* env, jobject thisObject) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  uint32_t length = 0;
+  const TSRange* ranges = ts_parser_included_ranges(parser, &length);
+  if (
+    length == 0 || (length == 1 && __isDefaultRange(ranges[0]))
+  ) {
+    return env->CallStaticObjectMethod(_collectionsClass, _collectionsEmptyListStaticMethod);
+  } else {
+    jobjectArray array = env->NewObjectArray(length, _rangeClass, NULL);
+    for (uint32_t i = 0; i < length; i++) {
+      TSRange range = ranges[i];
+      jobject rangeObject = __marshalRange(env, range);
+      env->SetObjectArrayElement(array, i, rangeObject);
+    }
+    return env->CallStaticObjectMethod(_listClass, _listOfStaticMethod, array);
+  }
+}
+
+JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setIncludedRanges(
+  JNIEnv* env, jobject thisObject, jobjectArray rangeObjectArray, jint length) {
+  TSParser* parser = (TSParser*)__getPointer(env, thisObject);
+  TSRange ranges[length];
+  for (int i = 0; i < length; i++) {
+    jobject rangeObject = env->GetObjectArrayElement(rangeObjectArray, i);
+    ranges[i] = __unmarshalRange(env, rangeObject);
+  }
+  if (!ts_parser_set_included_ranges(parser, ranges, length)) {
+    __throwISE(env, NULL);
+  }
 }
 
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Parser_getTimeout(
@@ -53,28 +93,34 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Parser_setTimeout(
 }
 
 JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Parser_parse(
-  JNIEnv* env, jobject thisObject, jstring source, jbyteArray bytes, jint length, jobject oldTreeObject) {
+  JNIEnv* env, jobject thisObject, jstring source, jbyteArray bytes, jint length, jobject treeObject) {
   TSParser* parser = (TSParser*)__getPointer(env, thisObject);
-  TSTree* oldTree = (oldTreeObject != NULL) ? (TSTree*)__getPointer(env, oldTreeObject) : NULL;
+  TSTree* tree = (treeObject != NULL) ? (TSTree*)__getPointer(env, treeObject) : NULL;
   jbyte* elements = env->GetByteArrayElements(bytes, NULL);
   TSTree* result = ts_parser_parse_string_encoding(
-    parser, oldTree, reinterpret_cast<const char*>(elements), length, TSInputEncodingUTF16
+    parser, tree, reinterpret_cast<const char*>(elements), length, TSInputEncodingUTF16
   );
   env->ReleaseByteArrayElements(bytes, elements, JNI_ABORT);
   ts_parser_reset(parser);
   if (result == 0) {
-    jobject cause = env->NewObject(
+    jthrowable cause = _newThrowable(
       _timeoutExceptionClass,
       _timeoutExceptionConstructor
     );
-    jobject exception = env->NewObject(
+    jthrowable exception = _newThrowable(
       _parsingExceptionClass,
       _parsingExceptionConstructor,
-      (jthrowable)cause
+      cause
     );
-    env->Throw((jthrowable)exception);
+    env->Throw(exception);
     return NULL;
   }
-  jobject language = env->GetObjectField(thisObject, _parserLanguageField);
-  return env->NewObject(_treeClass, _treeConstructor, (jlong)result, language, source);
+  jobject languageObject = env->GetObjectField(thisObject, _parserLanguageField);
+  return _newObject(
+    _treeClass,
+    _treeConstructor,
+    (jlong)result,
+    languageObject,
+    source
+  );
 }

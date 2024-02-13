@@ -14,6 +14,9 @@ extern jclass _mapClass;
 extern jclass _mapEntryClass;
 extern jmethodID _mapEntryStaticMethod;
 
+extern jclass _collectionsClass;
+extern jmethodID _collectionsEmptyListStaticMethod;
+
 extern jclass _noSuchElementExceptionClass;
 extern jclass _nullPointerExceptionClass;
 extern jclass _illegalArgumentExceptionClass;
@@ -131,6 +134,7 @@ extern jfieldID _lookaheadIteratorLanguageField;
 extern jmethodID _lookaheadIteratorConstructor;
 
 extern jclass _treeSitterExceptionClass;
+extern jmethodID _treeSitterExceptionConstructor;
 
 extern jclass _byteOffsetOutOfBoundsExceptionClass;
 extern jmethodID _byteOffsetOutOfBoundsExceptionConstructor;
@@ -153,6 +157,12 @@ extern jmethodID _parsingExceptionConstructor;
 
 extern jclass _incompatibleLanguageExceptionClass;
 extern jmethodID _incompatibleLanguageExceptionConstructor;
+
+extern jclass _loggerClass;
+extern jmethodID _loggerDebugMethod;
+
+extern jclass _markerFactoryClass;
+extern jmethodID _markerFactoryGetMarkerStaticMethod;
 
 #ifdef __cplusplus
 extern "C" {
@@ -216,6 +226,12 @@ extern "C" {
 #define _setNodeTreeField(NODE, TREE) \
   env->SetObjectField(NODE, _nodeTreeField, TREE)
 
+#define _newObject(CLASS, CONSTRUCTOR, ...) \
+  env->NewObject(CLASS, CONSTRUCTOR __VA_OPT__(,) __VA_ARGS__)
+
+#define _newThrowable(CLASS, CONSTRUCTOR, ...) \
+  (jthrowable)_newObject(CLASS, CONSTRUCTOR __VA_OPT__(,) __VA_ARGS__)
+
 typedef enum {
   LT = -1,
   EQ =  0,
@@ -242,6 +258,10 @@ jint __throwPOB(JNIEnv* env, jobject pointObject);
 
 jint __throwILE(JNIEnv* env, jobject languageObject);
 
+jclass __getQueryExceptionClass(TSQueryError error);
+
+jmethodID __getQueryExceptionConstructor(TSQueryError error);
+
 jlong __getPointer(JNIEnv* env, jobject objectInstance);
 
 void __clearPointer(JNIEnv* env, jobject objectInstance);
@@ -254,6 +274,12 @@ void __copyTree(JNIEnv* env, jobject sourceNodeObject, jobject targetNodeObject)
 
 ComparisonResult __comparePoints(TSPoint left, TSPoint right);
 
+bool __pointEqual(TSPoint left, TSPoint right);
+
+bool __rangeEqual(TSRange left, TSRange right);
+
+bool __isDefaultRange(TSRange range);
+
 jobject __marshalPoint(JNIEnv* env, TSPoint point);
 
 TSPoint __unmarshalPoint(JNIEnv* env, jobject pointObject);
@@ -265,6 +291,8 @@ TSRange __unmarshalRange(JNIEnv* env, jobject rangeObject);
 TSInputEdit __unmarshalInputEdit(JNIEnv* env, jobject inputEdit);
 
 const TSLanguage* __unmarshalLanguage(JNIEnv* env, jobject languageObject);
+
+void __log_in_java(void* payload, TSLogType log_type, const char* buffer);
 
 #ifdef TS_LANGUAGE_ADA
 TSLanguage* tree_sitter_ada();

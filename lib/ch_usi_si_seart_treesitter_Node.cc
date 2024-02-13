@@ -34,6 +34,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildByFieldNa
   const char* childName = env->GetStringUTFChars(name, NULL);
   TSNode node = __unmarshalNode(env, thisObject);
   TSNode child = ts_node_child_by_field_name(node, childName, length);
+  env->ReleaseStringUTFChars(name, childName);
   if (ts_node_is_null(child)) return NULL;
   jobject childObject = __marshalNode(env, child);
   __copyTree(env, thisObject, childObject);
@@ -61,7 +62,7 @@ JNIEXPORT jobjectArray JNICALL Java_ch_usi_si_seart_treesitter_Node_getChildren(
   TSNode node = __unmarshalNode(env, nodeObject);
   uint32_t count = ts_node_is_null(node) ? 0 : child_counter(node);
   jobjectArray children = env->NewObjectArray(count, _nodeClass, NULL);
-  for (int i = 0; i < count; i++) {
+  for (uint32_t i = 0; i < count; i++) {
     TSNode child = child_getter(node, i);
     jobject childObject = __marshalNode(env, child);
     __copyTree(env, nodeObject, childObject);
@@ -271,10 +272,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol(
   if (treeObject == NULL) return NULL;
   jobject languageObject = env->GetObjectField(treeObject, _treeLanguageField);
   if (languageObject == NULL) return NULL;
-  jclass languageClass = env->GetObjectClass(languageObject);
-  jfieldID languageIdField = env->GetFieldID(languageClass, "id", "J");
-  jlong languageId = env->GetLongField(languageObject, languageIdField);
-  const TSLanguage* language = (const TSLanguage*)languageId;
+  const TSLanguage* language = __unmarshalLanguage(env, languageObject);
   TSNode node = __unmarshalNode(env, thisObject);
   if (ts_node_is_null(node)) return NULL;
   TSSymbol (*symbol_getter)(TSNode) = (bool)grammar
@@ -283,7 +281,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_getSymbol(
   TSSymbol symbol = symbol_getter(node);
   const char* name = ts_language_symbol_name(language, symbol);
   TSSymbolType type = ts_language_symbol_type(language, symbol);
-  return env->NewObject(
+  return _newObject(
     _symbolClass,
     _symbolConstructor,
     (jint)symbol,
@@ -365,7 +363,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__(
     return NULL;
   }
   TSTreeCursor cursor = ts_tree_cursor_new(node);
-  return env->NewObject(
+  return _newObject(
     _treeCursorClass,
     _treeCursorConstructor,
     new TSTreeCursor(cursor),
@@ -392,11 +390,10 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Node_walk__Lch_usi_si_
     __throwISE(env, "Cannot construct a QueryCursor instance from a `null` Node!");
     return NULL;
   }
-  TSQueryCursor* cursor = ts_query_cursor_new();
-  return env->NewObject(
+  return _newObject(
     _queryCursorClass,
     _queryCursorConstructor,
-    cursor,
+    ts_query_cursor_new(),
     thisObject,
     queryObject
   );
