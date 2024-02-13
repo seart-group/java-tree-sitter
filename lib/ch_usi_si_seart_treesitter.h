@@ -103,6 +103,7 @@ extern jmethodID _patternConstructor;
 extern jfieldID _patternQueryField;
 extern jfieldID _patternIndexField;
 extern jfieldID _patternValueField;
+extern jfieldID _patternPredicatesField;
 extern jfieldID _patternEnabledField;
 
 extern jclass _predicateClass;

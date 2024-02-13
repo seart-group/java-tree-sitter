@@ -90,6 +90,7 @@ jmethodID _patternConstructor;
 jfieldID _patternQueryField;
 jfieldID _patternIndexField;
 jfieldID _patternValueField;
+jfieldID _patternPredicatesField;
 jfieldID _patternEnabledField;
 
 jclass _predicateClass;
@@ -304,10 +305,12 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     "(JLch/usi/si/seart/treesitter/Language;[Lch/usi/si/seart/treesitter/Pattern;[Lch/usi/si/seart/treesitter/Capture;[Ljava/lang/String;)V")
 
   _loadClass(_patternClass, "ch/usi/si/seart/treesitter/Pattern")
-  _loadConstructor(_patternConstructor, _patternClass, "(IZZLjava/lang/String;)V")
+  _loadConstructor(_patternConstructor, _patternClass,
+    "(IZZLjava/lang/String;[Lch/usi/si/seart/treesitter/Predicate;)V")
   _loadField(_patternQueryField, _patternClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_patternIndexField, _patternClass, "index", "I")
   _loadField(_patternValueField, _patternClass, "value", "Ljava/lang/String;")
+  _loadField(_patternPredicatesField, _patternClass, "predicates", "Ljava/util/List;")
   _loadField(_patternEnabledField, _patternClass, "enabled", "Z")
 
   _loadClass(_predicateClass, "ch/usi/si/seart/treesitter/Predicate")

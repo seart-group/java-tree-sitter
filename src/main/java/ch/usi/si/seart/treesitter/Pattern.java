@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -35,12 +36,14 @@ public class Pattern {
 
     String value;
 
+    List<Predicate> predicates;
+
     @NonFinal
     boolean enabled = true;
 
     @SuppressWarnings("unused")
-    Pattern(int index, boolean rooted, boolean nonLocal, @NotNull String value) {
-        this(null, index, rooted, nonLocal, value);
+    Pattern(int index, boolean rooted, boolean nonLocal, @NotNull String value, @NotNull Predicate[] predicates) {
+        this(null, index, rooted, nonLocal, value, List.of(predicates));
     }
 
     /**

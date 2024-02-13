@@ -32,14 +32,23 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
           substring[patternLength] = '\0';
           bool rooted = ts_query_is_pattern_rooted(query, i);
           bool nonLocal = ts_query_is_pattern_non_local(query, i);
+          uint32_t stepsLength = 0;
+          uint32_t predicatesLength = 0;
+          const TSQueryPredicateStep* steps = ts_query_predicates_for_pattern(query, i, &stepsLength);
+          jobjectArray predicatesArray = __marshalPredicates(env, query, steps, &stepsLength, &predicatesLength);
           jobject patternObject = _newObject(
             _patternClass,
             _patternConstructor,
             (jint)i,
             (rooted) ? JNI_TRUE : JNI_FALSE,
             (nonLocal) ? JNI_TRUE : JNI_FALSE,
-            env->NewStringUTF(substring)
+            env->NewStringUTF(substring),
+            predicatesArray
           );
+          for (uint32_t j = 0; j < predicatesLength; j++) {
+            jobject predicateObject = env->GetObjectArrayElement(predicatesArray, j);
+            env->SetObjectField(predicateObject, _predicatePatternField, patternObject);
+          }
           env->SetObjectArrayElement(patterns, i, patternObject);
         }
 
