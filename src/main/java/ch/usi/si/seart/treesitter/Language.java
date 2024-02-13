@@ -540,6 +540,7 @@ public enum Language {
     private static native int symbols(long id);
     private static native Symbol symbol(long languageId, int symbolId);
     private static native int fields(long id);
+    private static native String field(long languageId, int fieldId);
     private static native int states(long id);
 
     long id;
