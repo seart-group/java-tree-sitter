@@ -26,10 +26,10 @@ public abstract class BaseTest {
 
         Mockito.when(invalid.getId()).thenReturn(0L);
         Mockito.when(invalid.getVersion()).thenReturn(0);
-        Mockito.when(invalid.getTotalFields()).thenReturn(0);
         Mockito.when(invalid.getTotalStates()).thenReturn(0);
-        Mockito.when(invalid.getTotalSymbols()).thenReturn(0);
         Mockito.when(invalid.getSymbols()).thenReturn(List.of());
+        Mockito.when(invalid.getFields()).thenReturn(List.of());
+        Mockito.when(invalid.getExtensions()).thenReturn(List.of());
 
         Mockito.when(invalid.nextState(Mockito.any())).thenCallRealMethod();
     }
