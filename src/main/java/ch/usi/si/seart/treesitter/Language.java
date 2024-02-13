@@ -575,10 +575,10 @@ public enum Language {
             ));
 
     Language(long id, String... extensions) {
-        this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));
+        this(id, version(id), states(id), symbols(id), fields(id), List.of(extensions));
     }
 
-    Language(long id, int version, int totalFields, int totalStates, int totalSymbols, List<String> extensions) {
+    Language(long id, int version, int totalStates, int totalSymbols, int totalFields, List<String> extensions) {
         this.id = id;
         this.version = version;
         this.totalFields = totalFields;
