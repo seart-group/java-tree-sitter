@@ -88,7 +88,6 @@ public final class TreeSitter {{
 
     /**
      * The earliest ABI version that is supported by the current version of the library.
-     * <p>
      * The {{@code tree-sitter}} library is generally backwards-compatible with languages
      * generated using older CLI versions, but is not forwards-compatible.
      *
