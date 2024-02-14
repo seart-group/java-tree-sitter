@@ -8,7 +8,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Represents the named capture of a {@link Query}. Captures are used
@@ -50,6 +52,33 @@ public class Capture {
      * </strong>
      */
     public native void disable();
+
+    /**
+     * Get the capture quantifier for a given query {@link Pattern}.
+     *
+     * @param pattern the query pattern
+     * @return the quantifier
+     * @throws NullPointerException if pattern is {@code null}
+     * @throws IllegalArgumentException if the pattern is not present in the query
+     * @since 1.12.0
+     */
+    public Quantifier getQuantifier(@NotNull Pattern pattern) {
+        return query.getQuantifier(pattern, this);
+    }
+
+    /**
+     * Get the capture quantifiers for all {@link Query} patterns.
+     * The order of the quantifiers in the returned list corresponds
+     * to the {@link Pattern} order in the query.
+     *
+     * @return the quantifiers
+     * @since 1.12.0
+     */
+    public List<Quantifier> getQuantifiers() {
+        return query.getPatterns().stream()
+                .map(this::getQuantifier)
+                .collect(Collectors.toUnmodifiableList());
+    }
 
     @Override
     @Generated
