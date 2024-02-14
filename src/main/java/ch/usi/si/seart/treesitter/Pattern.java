@@ -31,6 +31,8 @@ public class Pattern {
 
     int index;
 
+    int startOffset;
+
     boolean rooted;
     boolean nonLocal;
 
@@ -42,8 +44,15 @@ public class Pattern {
     boolean enabled = true;
 
     @SuppressWarnings("unused")
-    Pattern(int index, boolean rooted, boolean nonLocal, @NotNull String value, @NotNull Predicate[] predicates) {
-        this(null, index, rooted, nonLocal, value, List.of(predicates));
+    Pattern(
+            int index,
+            int startOffset,
+            boolean rooted,
+            boolean nonLocal,
+            @NotNull String value,
+            @NotNull Predicate[] predicates
+    ) {
+        this(null, index, startOffset, rooted, nonLocal, value.stripTrailing(), List.of(predicates));
     }
 
     /**
@@ -56,6 +65,11 @@ public class Pattern {
      * </strong>
      */
     public native void disable();
+
+    @Generated
+    public int getEndOffset() {
+        return startOffset + value.length();
+    }
 
     @Override
     @Generated

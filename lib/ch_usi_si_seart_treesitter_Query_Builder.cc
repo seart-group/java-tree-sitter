@@ -40,6 +40,7 @@ JNIEXPORT jobject JNICALL Java_ch_usi_si_seart_treesitter_Query_00024Builder_bui
             _patternClass,
             _patternConstructor,
             (jint)i,
+            (jint)byteLower,
             (rooted) ? JNI_TRUE : JNI_FALSE,
             (nonLocal) ? JNI_TRUE : JNI_FALSE,
             env->NewStringUTF(substring),
