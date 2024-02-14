@@ -62,7 +62,7 @@ public class Capture {
      * @throws IllegalArgumentException if the pattern is not present in the query
      * @since 1.12.0
      */
-    public Quantifier getQuantifier(Pattern pattern) {
+    public Quantifier getQuantifier(@NotNull Pattern pattern) {
         return query.getQuantifier(pattern, this);
     }
 

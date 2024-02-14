@@ -231,7 +231,7 @@ public class Query extends External {
                 .collect(Collectors.joining(" "));
     }
 
-    Quantifier getQuantifier(Pattern pattern, Capture capture) {
+    Quantifier getQuantifier(@NotNull Pattern pattern, @NotNull Capture capture) {
         Objects.requireNonNull(pattern, "Pattern must not be null!");
         Objects.requireNonNull(capture, "Capture must not be null!");
         if (!patterns.contains(pattern)) throw new IllegalArgumentException("Pattern not present in query!");
