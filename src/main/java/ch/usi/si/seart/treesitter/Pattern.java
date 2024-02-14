@@ -52,7 +52,7 @@ public class Pattern {
             @NotNull String value,
             @NotNull Predicate[] predicates
     ) {
-        this(null, index, startOffset, rooted, nonLocal, value, List.of(predicates));
+        this(null, index, startOffset, rooted, nonLocal, value.stripTrailing(), List.of(predicates));
     }
 
     /**
@@ -65,6 +65,11 @@ public class Pattern {
      * </strong>
      */
     public native void disable();
+
+    @Generated
+    public int getEndOffset() {
+        return startOffset + value.length();
+    }
 
     @Override
     @Generated
