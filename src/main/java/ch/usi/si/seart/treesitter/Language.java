@@ -557,13 +557,14 @@ public enum Language {
     private static native int symbols(long id);
     private static native Symbol symbol(long languageId, int symbolId);
     private static native int fields(long id);
+    private static native String field(long languageId, int fieldId);
     private static native int states(long id);
 
     long id;
     int version;
-    int totalFields;
     int totalStates;
-    Collection<Symbol> symbols;
+    List<Symbol> symbols;
+    List<String> fields;
     List<String> extensions;
 
     private static final long INVALID = 0L;
@@ -591,16 +592,18 @@ public enum Language {
             ));
 
     Language(long id, String... extensions) {
-        this(id, version(id), fields(id), states(id), symbols(id), List.of(extensions));
+        this(id, version(id), states(id), symbols(id), fields(id), List.of(extensions));
     }
 
-    Language(long id, int version, int totalFields, int totalStates, int totalSymbols, List<String> extensions) {
+    Language(long id, int version, int totalStates, int totalSymbols, int totalFields, List<String> extensions) {
         this.id = id;
         this.version = version;
-        this.totalFields = totalFields;
         this.totalStates = totalStates;
         this.symbols = IntStream.range(0, totalSymbols)
                 .mapToObj(symbolId -> symbol(id, symbolId))
+                .collect(Collectors.toUnmodifiableList());
+        this.fields = IntStream.range(1, totalFields + 1)
+                .mapToObj(fieldId -> field(id, fieldId))
                 .collect(Collectors.toUnmodifiableList());
         this.extensions = extensions;
     }
@@ -645,10 +648,22 @@ public enum Language {
 
     private static native int nextState(long id, int state, int symbol);
 
+    /**
+     * @deprecated Just calculate the {@link List#size() size} of the list returned by {@link #symbols} getter.
+     */
     @Generated
-    @SuppressWarnings("unused")
+    @Deprecated(forRemoval = true, since = "1.12.0")
     public int getTotalSymbols() {
         return symbols.size();
+    }
+
+    /**
+     * @deprecated Just calculate the {@link List#size() size} of the list returned by {@link #fields} getter.
+     */
+    @Generated
+    @Deprecated(forRemoval = true, since = "1.12.0")
+    public int getTotalFields() {
+        return fields.size();
     }
 
     @Override

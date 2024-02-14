@@ -6,6 +6,7 @@ import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -186,8 +187,16 @@ public class Query extends External {
          */
         public Query build() {
             Objects.requireNonNull(language, "Language must not be null!");
-            String pattern = String.join(" ", patterns).trim();
-            return build(language, pattern);
+            String joined = String.join(" ", patterns);
+            return build(language, normalize(joined));
+        }
+
+        private static String normalize(String pattern) {
+            return StringUtils.normalizeSpace(pattern)
+                    .replace(" )", ")")
+                    .replace("( ", "(")
+                    .replace(" ]", "]")
+                    .replace("[ ", "[");
         }
 
         private static native Query build(Language language, String pattern) throws QueryException;
@@ -230,4 +239,16 @@ public class Query extends External {
                 .map(Pattern::toString)
                 .collect(Collectors.joining(" "));
     }
+
+    Quantifier getQuantifier(@NotNull Pattern pattern, @NotNull Capture capture) {
+        Objects.requireNonNull(pattern, "Pattern must not be null!");
+        Objects.requireNonNull(capture, "Capture must not be null!");
+        if (!patterns.contains(pattern)) throw new IllegalArgumentException("Pattern not present in query!");
+        if (!captures.contains(capture)) throw new IllegalArgumentException("Capture not present in query!");
+        Quantifier[] quantifiers = Quantifier.values();
+        int ordinal = getQuantifier(pattern.getIndex(), capture.getIndex());
+        return quantifiers[ordinal];
+    }
+
+    private native int getQuantifier(int patternIndex, int captureIndex);
 }

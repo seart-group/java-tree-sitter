@@ -14,7 +14,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.provider.NullSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.NOPLogger;
@@ -96,16 +95,16 @@ class ParserTest extends BaseTest {
             Logger simple = LoggerFactory.getLogger(Parser.class);
             Logger noop = NOPLogger.NOP_LOGGER;
             return Stream.of(
-                    Arguments.of(noop),
-                    Arguments.of(simple)
+                    Arguments.of("null", null),
+                    Arguments.of(noop.getClass().getSimpleName(), noop),
+                    Arguments.of(simple.getClass().getSimpleName(), simple)
             );
         }
     }
 
     @ParameterizedTest(name = "[{index}] {0}")
-    @NullSource
     @ArgumentsSource(LoggerArgumentsProvider.class)
-    void testSetLogger(Logger logger) {
+    void testSetLogger(String ignoredTestTitle, Logger logger) {
         @Cleanup Parser parser = Parser.builder().language(Language.PYTHON).build();
         Assertions.assertNull(parser.getLogger());
         parser.setLogger(logger);
