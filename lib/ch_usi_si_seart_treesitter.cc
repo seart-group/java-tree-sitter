@@ -89,6 +89,7 @@ jclass _patternClass;
 jmethodID _patternConstructor;
 jfieldID _patternQueryField;
 jfieldID _patternIndexField;
+jfieldID _patternStartOffsetField;
 jfieldID _patternValueField;
 jfieldID _patternPredicatesField;
 jfieldID _patternEnabledField;
@@ -306,9 +307,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
   _loadClass(_patternClass, "ch/usi/si/seart/treesitter/Pattern")
   _loadConstructor(_patternConstructor, _patternClass,
-    "(IZZLjava/lang/String;[Lch/usi/si/seart/treesitter/Predicate;)V")
+    "(IIZZLjava/lang/String;[Lch/usi/si/seart/treesitter/Predicate;)V")
   _loadField(_patternQueryField, _patternClass, "query", "Lch/usi/si/seart/treesitter/Query;")
   _loadField(_patternIndexField, _patternClass, "index", "I")
+  _loadField(_patternStartOffsetField, _patternClass, "startOffset", "I")
   _loadField(_patternValueField, _patternClass, "value", "Ljava/lang/String;")
   _loadField(_patternPredicatesField, _patternClass, "predicates", "Ljava/util/List;")
   _loadField(_patternEnabledField, _patternClass, "enabled", "Z")
