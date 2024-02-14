@@ -10,3 +10,13 @@ JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_delete(
   ts_query_delete(query);
   __clearPointer(env, thisObject);
 }
+
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_getQuantifier(
+  JNIEnv* env, jobject thisObject, jint patternIndex, jint captureIndex) {
+  TSQuery* query = (TSQuery*)__getPointer(env, thisObject);
+  return (jint)ts_query_capture_quantifier_for_id(
+    query,
+    (uint32_t)patternIndex,
+    (uint32_t)captureIndex
+  );
+}

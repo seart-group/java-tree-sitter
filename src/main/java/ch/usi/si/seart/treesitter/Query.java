@@ -230,4 +230,16 @@ public class Query extends External {
                 .map(Pattern::toString)
                 .collect(Collectors.joining(" "));
     }
+
+    Quantifier getQuantifier(Pattern pattern, Capture capture) {
+        Objects.requireNonNull(pattern, "Pattern must not be null!");
+        Objects.requireNonNull(capture, "Capture must not be null!");
+        if (!patterns.contains(pattern)) throw new IllegalArgumentException("Pattern not present in query!");
+        if (!captures.contains(capture)) throw new IllegalArgumentException("Capture not present in query!");
+        Quantifier[] quantifiers = Quantifier.values();
+        int ordinal = getQuantifier(pattern.getIndex(), capture.getIndex());
+        return quantifiers[ordinal];
+    }
+
+    private native int getQuantifier(int patternIndex, int captureIndex);
 }

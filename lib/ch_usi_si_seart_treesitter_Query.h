@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT void JNICALL Java_ch_usi_si_seart_treesitter_Query_delete
   (JNIEnv *, jobject);
 
+/*
+ * Class:     ch_usi_si_seart_treesitter_Query
+ * Method:    getQuantifier
+ * Signature: (II)I
+ */
+JNIEXPORT jint JNICALL Java_ch_usi_si_seart_treesitter_Query_getQuantifier
+  (JNIEnv *, jobject, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif
