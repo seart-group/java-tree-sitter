@@ -632,7 +632,7 @@ public enum Language {
     private static native int nextState(long id, int state, int symbol);
 
     /**
-     * @deprecated Just calculate the {@link List#size() size} of the list returned by {@link #getSymbols()}.
+     * @deprecated Just calculate the {@link List#size() size} of the list returned by {@link #symbols} getter.
      */
     @Generated
     @Deprecated(forRemoval = true, since = "1.12.0")
@@ -641,7 +641,7 @@ public enum Language {
     }
 
     /**
-     * @deprecated Just calculate the {@link List#size() size} of the list returned by {@link #getFields()}.
+     * @deprecated Just calculate the {@link List#size() size} of the list returned by {@link #fields} getter.
      */
     @Generated
     @Deprecated(forRemoval = true, since = "1.12.0")
