@@ -34,13 +34,16 @@ class RangeTest extends BaseTest {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            Point negative = new Point(-1, 0);
+            Point negativeRow = new Point(-1, 0);
+            Point negativeCol = new Point(0, -1);
             Executable setNegativeStartByte = () -> Range.builder().startByte(-1);
             Executable setNegativeEndByte = () -> Range.builder().endByte(-1);
             Executable setNullStartPoint = () -> Range.builder().startPoint(null);
             Executable setNullEndPoint = () -> Range.builder().endPoint(null);
-            Executable setNegativeStartPoint = () -> Range.builder().startPoint(negative);
-            Executable setNegativeEndPoint = () -> Range.builder().endPoint(negative);
+            Executable setNegativeStartPointRow = () -> Range.builder().startPoint(negativeRow);
+            Executable setNegativeEndPointRow = () -> Range.builder().endPoint(negativeRow);
+            Executable setNegativeStartPointCol = () -> Range.builder().startPoint(negativeCol);
+            Executable setNegativeEndPointCol = () -> Range.builder().endPoint(negativeCol);
             Executable buildReversedByteRange = () -> Range.builder().startByte(2).endByte(0).build();
             Executable buildReversedPointRange = () -> Range.builder().startPoint(_1_1_).endPoint(_0_0_).build();
             return Stream.of(
@@ -48,8 +51,10 @@ class RangeTest extends BaseTest {
                     Arguments.of(IllegalArgumentException.class, setNegativeEndByte),
                     Arguments.of(NullPointerException.class, setNullStartPoint),
                     Arguments.of(NullPointerException.class, setNullEndPoint),
-                    Arguments.of(IllegalArgumentException.class, setNegativeStartPoint),
-                    Arguments.of(IllegalArgumentException.class, setNegativeEndPoint),
+                    Arguments.of(IllegalArgumentException.class, setNegativeStartPointRow),
+                    Arguments.of(IllegalArgumentException.class, setNegativeEndPointRow),
+                    Arguments.of(IllegalArgumentException.class, setNegativeStartPointCol),
+                    Arguments.of(IllegalArgumentException.class, setNegativeEndPointCol),
                     Arguments.of(IllegalArgumentException.class, buildReversedByteRange),
                     Arguments.of(IllegalArgumentException.class, buildReversedPointRange)
             );
