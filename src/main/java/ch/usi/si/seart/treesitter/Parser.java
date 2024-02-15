@@ -80,7 +80,10 @@ public class Parser extends External {
      * @since 1.8.0
      */
     public Builder toBuilder() {
-        return builder().language(getLanguage()).timeout(getTimeout());
+        return builder()
+                .language(getLanguage())
+                .timeout(getTimeout())
+                .ranges(getIncludedRanges());
     }
 
     /**
