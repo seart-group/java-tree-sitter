@@ -184,20 +184,26 @@ extern "C" {
 #define _getClass(NAME) \
   env->FindClass(NAME)
 
-#define _loadClass(VARIABLE, NAME)               \
-  {                                              \
-    jclass local;                                \
-    local = _getClass(NAME);                     \
-    VARIABLE = (jclass)env->NewGlobalRef(local); \
-    env->DeleteLocalRef(local);                  \
+#define _loadClass(VARIABLE, NAME)                 \
+  {                                                \
+    jclass local = _getClass(NAME);                \
+    if (local != NULL) {                           \
+      VARIABLE = (jclass)env->NewGlobalRef(local); \
+      env->DeleteLocalRef(local);                  \
+    } else {                                       \
+      VARIABLE = NULL;                             \
+    }                                              \
   }
 
-#define _loadStaticObject(VARIABLE, CLASS, FIELD)    \
-  {                                                  \
-    jobject local;                                   \
-    local = env->GetStaticObjectField(CLASS, FIELD); \
-    VARIABLE = env->NewGlobalRef(local);             \
-    env->DeleteLocalRef(local);                      \
+#define _loadStaticObject(VARIABLE, CLASS, FIELD)            \
+  {                                                          \
+    jobject local = env->GetStaticObjectField(CLASS, FIELD); \
+    if (local != NULL) {                                     \
+      VARIABLE = env->NewGlobalRef(local);                   \
+      env->DeleteLocalRef(local);                            \
+    } else {                                                 \
+      VARIABLE = NULL;                                       \
+    }                                                        \
   }
 
 #define _unload(VARIABLE) \
