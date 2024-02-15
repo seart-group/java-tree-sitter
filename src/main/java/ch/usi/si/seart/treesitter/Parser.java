@@ -44,6 +44,7 @@ public class Parser extends External {
     private static final String NULL_DURATION = "Duration must not be null!";
     private static final String NULL_TIME_UNIT = "Time unit must not be null!";
     private static final String NEGATIVE_TIMEOUT = "Timeout must not be negative!";
+    private static final String NEGATIVE_DURATION = "Duration must not be negative!";
     private static final String OVERLAPPING_RANGES = "Ranges must not overlap!";
 
     @SuppressWarnings("unused")
@@ -133,6 +134,7 @@ public class Parser extends External {
          */
         public Builder timeout(@NotNull Duration duration) {
             Objects.requireNonNull(duration, NULL_DURATION);
+            if (duration.isNegative()) throw new IllegalArgumentException(NEGATIVE_DURATION);
             long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
             return timeout(micros);
         }
