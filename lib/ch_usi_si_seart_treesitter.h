@@ -184,6 +184,12 @@ extern "C" {
 #define _getClass(NAME) \
   env->FindClass(NAME)
 
+#define _clearException() \
+  env->ExceptionClear()
+
+#define _describeException() \
+  env->ExceptionDescribe()
+
 #define _loadClass(VARIABLE, NAME)                 \
   {                                                \
     jclass local = _getClass(NAME);                \
