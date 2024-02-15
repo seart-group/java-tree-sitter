@@ -1,5 +1,7 @@
 package ch.usi.si.seart.treesitter;
 
+import ch.usi.si.seart.treesitter.error.ABIVersionError;
+import ch.usi.si.seart.treesitter.version.TreeSitter;
 import lombok.Cleanup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -33,9 +36,19 @@ class LanguageTest extends BaseTest {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            int min = TreeSitter.getMinimumABIVersion();
+            int max = TreeSitter.getCurrentABIVersion();
+            Language outdated = Mockito.mock(Language.class);
+            Mockito.when(outdated.getId()).thenReturn(1L);
+            Mockito.when(outdated.getVersion()).thenReturn(min - 1);
+            Language unsupported = Mockito.mock(Language.class);
+            Mockito.when(unsupported.getId()).thenReturn(1L);
+            Mockito.when(unsupported.getVersion()).thenReturn(max + 1);
             return Stream.of(
                     Arguments.of(NullPointerException.class, null),
-                    Arguments.of(UnsatisfiedLinkError.class, invalid)
+                    Arguments.of(UnsatisfiedLinkError.class, invalid),
+                    Arguments.of(ABIVersionError.class, outdated),
+                    Arguments.of(ABIVersionError.class, unsupported)
             );
         }
     }
