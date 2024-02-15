@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
@@ -57,6 +58,18 @@ class LanguageTest extends BaseTest {
     @ArgumentsSource(ValidateExceptionProvider.class)
     void testValidateThrows(Class<Throwable> throwableType, Language language) {
         Assertions.assertThrows(throwableType, () -> Language.validate(language));
+    }
+
+    @ParameterizedTest
+    @EnumSource(Language.class)
+    void testGetMetadata(Language language) {
+        Language.Metadata metadata = language.getMetadata();
+        Assertions.assertNotNull(metadata);
+        String sha = metadata.getSHA();
+        Assertions.assertNotNull(sha);
+        Assertions.assertEquals(40, sha.length());
+        URL url = metadata.getURL();
+        Assertions.assertNotNull(url);
     }
 
     private static class AssociatedWithProvider implements ArgumentsProvider {
