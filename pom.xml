@@ -379,6 +379,8 @@
             <exclude>**/function/**</exclude>
             <exclude>**/version/**</exclude>
             <exclude>**/External.class</exclude>
+            <exclude>**/Node$*.class</exclude>
+            <exclude>**/TreeCursor$*.class</exclude>
             <exclude>**/OffsetTreeCursor$*.class</exclude>
           </excludes>
         </configuration>
