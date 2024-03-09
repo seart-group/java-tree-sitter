@@ -1,9 +1,18 @@
 version: 2
 updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    target-branch: master
+    labels:
+      - dependencies
   - package-ecosystem: maven
     directory: /
     schedule:
-      interval: weekly
+      interval: daily
     target-branch: master
     ignore:
       - dependency-name: org.apache.maven:*
+    labels:
+      - dependencies
