@@ -259,6 +259,7 @@ class ParserTest extends BaseTest {
             Executable nullLanguage = () -> Parser.builder().language(null);
             Executable invalidLanguage = () -> Parser.builder().language(invalid);
             Executable nullDuration = () -> Parser.builder().timeout(null);
+            Executable negativeDuration = () -> Parser.builder().timeout(Duration.ofSeconds(-1));
             Executable nullTimeUnit = () -> Parser.builder().timeout(100L, null);
             Executable negativeTimeUnit = () -> Parser.builder().timeout(-1L, TimeUnit.SECONDS);
             Executable negativeTimeout = () -> Parser.builder().timeout(-1L);
@@ -278,6 +279,7 @@ class ParserTest extends BaseTest {
                     Arguments.of(NullPointerException.class, nullLanguage),
                     Arguments.of(UnsatisfiedLinkError.class, invalidLanguage),
                     Arguments.of(NullPointerException.class, nullDuration),
+                    Arguments.of(IllegalArgumentException.class, negativeDuration),
                     Arguments.of(NullPointerException.class, nullTimeUnit),
                     Arguments.of(IllegalArgumentException.class, negativeTimeUnit),
                     Arguments.of(IllegalArgumentException.class, negativeTimeout),

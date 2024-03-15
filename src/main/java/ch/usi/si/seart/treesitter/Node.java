@@ -503,6 +503,7 @@ public class Node implements Iterable<Node> {
     public native QueryCursor walk(@NotNull Query query);
 
     @Override
+    @Generated
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
@@ -513,6 +514,7 @@ public class Node implements Iterable<Node> {
     private static native boolean equals(@NotNull Node node, @NotNull Node other);
 
     @Override
+    @Generated
     public int hashCode() {
         return Long.hashCode(id);
     }
