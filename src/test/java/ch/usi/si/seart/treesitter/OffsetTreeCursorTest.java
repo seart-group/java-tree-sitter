@@ -50,7 +50,8 @@ class OffsetTreeCursorTest extends PrinterTestBase {
                 "          field: identifier [4:13] - [4:16]\n" +
                 "        name: identifier [4:17] - [4:24]\n" +
                 "        arguments: argument_list [4:24] - [4:41]\n" +
-                "          string_literal [4:25] - [4:40]\n";
+                "          string_literal [4:25] - [4:40]\n" +
+                "            string_fragment [4:26] - [4:39]\n";
     }
 
     @Override

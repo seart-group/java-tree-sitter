@@ -36,7 +36,8 @@ class SyntaxTreePrinterTest extends PrinterTestBase {
                 "                field: identifier [5:15] - [5:18]\n" +
                 "              name: identifier [5:19] - [5:26]\n" +
                 "              arguments: argument_list [5:26] - [5:43]\n" +
-                "                string_literal [5:27] - [5:42]\n";
+                "                string_literal [5:27] - [5:42]\n" +
+                "                  string_fragment [5:28] - [5:41]\n";
     }
 
     @Override
