@@ -56,13 +56,13 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
         compiler.define_macro(repository_macro, "1")
         match repository_name:
-            case "tree-sitter-dtd" |\
-                 "tree-sitter-markdown" |\
-                 "tree-sitter-xml":
+            case "tree-sitter-markdown":
                 src_path = path(repository, repository_name, "src")
-            case "tree-sitter-ocaml" |\
+            case "tree-sitter-dtd" |\
+                 "tree-sitter-ocaml" |\
                  "tree-sitter-tsx" |\
-                 "tree-sitter-typescript":
+                 "tree-sitter-typescript" | \
+                 "tree-sitter-xml":
                 src_path = path(repository, repository_language, "src")
             case _:
                 src_path = path(repository, "src")
