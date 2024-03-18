@@ -6,11 +6,12 @@ from distutils.ccompiler import new_compiler as new_c_compiler
 from distutils.log import set_verbosity as set_log_verbosity
 from glob import glob as find
 from os import environ
-from os import system as cmd
 from os.path import basename, dirname, exists, getmtime, realpath
 from os.path import join as path
 from os.path import split as split_path
 from platform import system as os_name
+from subprocess import DEVNULL
+from subprocess import call as cmd
 from tempfile import TemporaryDirectory
 
 
@@ -34,18 +35,20 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
 
     output_extension = "dylib" if system == "Darwin" else "so"
     output_path = f"{output_path}.{output_extension}"
-    env = ""
+    env = {}
     if arch:
-        env += (
-            f"CFLAGS='-arch {arch} -mmacosx-version-min=11.0' LDFLAGS='-arch {arch}'"
-            if system == "Darwin"
-            else f"CFLAGS='-m{arch}' LDFLAGS='-m{arch}'"
-        )
+        env_macos = {"CFLAGS": f"-arch {arch} -mmacosx-version-min=11.0", "LDFLAGS": f"-arch {arch}"}
+        env_linux = {"CFLAGS": f"-m{arch}", "LDFLAGS": f"-m{arch}"}
+        env = env_macos if system == "Darwin" else env_linux
 
     tree_sitter = path(here, "tree-sitter")
-    redirect = "> /dev/null" if not verbose else ""
-    cmd(f"make -C \"{tree_sitter}\" clean {redirect}")
-    cmd(f"{env} make -C \"{tree_sitter}\" {redirect}")
+    redirect = DEVNULL if not verbose else None
+    code = cmd(["make", "-C", tree_sitter, "clean"], stdout=redirect)
+    if code != 0:
+        raise RuntimeError("Failed to clean tree-sitter library.")
+    code = cmd(["make", "-C", tree_sitter], stdout=redirect, env=env)
+    if code != 0:
+        raise RuntimeError("Failed to build tree-sitter library.")
 
     source_paths = find(path(here, "lib", "*.cc"))
 
@@ -56,12 +59,12 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
         compiler.define_macro(repository_macro, "1")
         match repository_name:
-            case "tree-sitter-dtd" |\
-                 "tree-sitter-markdown" |\
+            case "tree-sitter-dtd" | \
+                 "tree-sitter-markdown" | \
                  "tree-sitter-xml":
                 src_path = path(repository, repository_name, "src")
-            case "tree-sitter-ocaml" |\
-                 "tree-sitter-tsx" |\
+            case "tree-sitter-ocaml" | \
+                 "tree-sitter-tsx" | \
                  "tree-sitter-typescript":
                 src_path = path(repository, repository_language, "src")
             case _:
