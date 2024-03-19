@@ -277,7 +277,7 @@ public enum Language {
     /**
      * Objective-C programming language.
      *
-     * @see <a href="https://github.com/jiyee/tree-sitter-objc">tree-sitter-objc</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-objc">tree-sitter-objc</a>
      */
     OBJECTIVE_C(objectiveC(), "h", "m"),
 
