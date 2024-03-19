@@ -21,7 +21,7 @@
 	url = https://github.com/uyha/tree-sitter-cmake.git
 [submodule "tree-sitter-common-lisp"]
 	path = tree-sitter-common-lisp
-	url = https://github.com/theHamsta/tree-sitter-commonlisp.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-commonlisp.git
 [submodule "tree-sitter-cpp"]
 	path = tree-sitter-cpp
 	url = https://github.com/tree-sitter/tree-sitter-cpp.git
@@ -36,7 +36,7 @@
 	url = https://github.com/rydesun/tree-sitter-dot.git
 [submodule "tree-sitter-dtd"]
 	path = tree-sitter-dtd
-	url = https://github.com/ObserverOfTime/tree-sitter-xml.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-xml.git
 [submodule "tree-sitter-elixir"]
 	path = tree-sitter-elixir
 	url = https://github.com/elixir-lang/tree-sitter-elixir.git
@@ -69,7 +69,7 @@
 	url = https://github.com/tree-sitter/tree-sitter-haskell.git
 [submodule "tree-sitter-hcl"]
 	path = tree-sitter-hcl
-	url = https://github.com/MichaHoffmann/tree-sitter-hcl.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-hcl.git
 [submodule "tree-sitter-html"]
 	path = tree-sitter-html
 	url = https://github.com/tree-sitter/tree-sitter-html.git
@@ -93,10 +93,10 @@
 	url = https://github.com/latex-lsp/tree-sitter-latex.git
 [submodule "tree-sitter-lua"]
 	path = tree-sitter-lua
-	url = https://github.com/Azganoth/tree-sitter-lua.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-lua.git
 [submodule "tree-sitter-markdown"]
 	path = tree-sitter-markdown
-	url = https://github.com/MDeiml/tree-sitter-markdown.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-markdown.git
 [submodule "tree-sitter-nix"]
 	path = tree-sitter-nix
 	url = https://github.com/nix-community/tree-sitter-nix.git
@@ -144,7 +144,7 @@
 	url = https://github.com/alex-pinkus/tree-sitter-swift.git
 [submodule "tree-sitter-thrift"]
 	path = tree-sitter-thrift
-	url = https://github.com/duskmoon314/tree-sitter-thrift.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-thrift.git
 [submodule "tree-sitter-toml"]
 	path = tree-sitter-toml
 	url = https://github.com/ikatyang/tree-sitter-toml.git
@@ -162,7 +162,7 @@
 	url = https://github.com/tree-sitter/tree-sitter-verilog.git
 [submodule "tree-sitter-xml"]
 	path = tree-sitter-xml
-	url = https://github.com/ObserverOfTime/tree-sitter-xml.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-xml.git
 [submodule "tree-sitter-yaml"]
 	path = tree-sitter-yaml
 	url = https://github.com/ikatyang/tree-sitter-yaml.git

@@ -81,7 +81,7 @@ public enum Language {
     /**
      * Common Lisp programming language.
      *
-     * @see <a href="https://github.com/theHamsta/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
      */
     COMMON_LISP(commonLisp(), "lisp"),
 
@@ -123,7 +123,7 @@ public enum Language {
     /**
      * DTD: Document Type Definition.
      *
-     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-xml">tree-sitter-xml</a>
      */
     DTD(dtd(), "dtd"),
 
@@ -193,7 +193,7 @@ public enum Language {
     /**
      * HCL: HashiCorp Configuration Language.
      *
-     * @see <a href="https://github.com/MichaHoffmann/tree-sitter-hcl">tree-sitter-hcl</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-hcl">tree-sitter-hcl</a>
      */
     HCL(hcl(), "hcl", "tf", "tfvars"),
 
@@ -256,14 +256,14 @@ public enum Language {
     /**
      * Lua programming language.
      *
-     * @see <a href="https://github.com/Azganoth/tree-sitter-lua">tree-sitter-lua</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-lua">tree-sitter-lua</a>
      */
     LUA(lua(), "lua"),
 
     /**
      * Markdown markup language for creating formatted text.
      *
-     * @see <a href="https://github.com/MDeiml/tree-sitter-markdown">tree-sitter-markdown</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-markdown">tree-sitter-markdown</a>
      */
     MARKDOWN(markdown(), "md"),
 
@@ -375,7 +375,7 @@ public enum Language {
     /**
      * Thrift interface description language.
      *
-     * @see <a href="https://github.com/duskmoon314/tree-sitter-thrift">tree-sitter-thrift</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-thrift">tree-sitter-thrift</a>
      */
     THRIFT(thrift(), "thrift"),
 
@@ -417,7 +417,7 @@ public enum Language {
     /**
      * XML: Extensible Markup Language.
      *
-     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-xml">tree-sitter-xml</a>
      */
     XML(xml(), "svg", "xml", "xsd", "xslt"),
 
