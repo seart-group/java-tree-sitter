@@ -193,7 +193,7 @@ public enum Language {
     /**
      * HCL: HashiCorp Configuration Language.
      *
-     * @see <a href="https://github.com/MichaHoffmann/tree-sitter-hcl">tree-sitter-hcl</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-hcl">tree-sitter-hcl</a>
      */
     HCL(hcl(), "hcl", "tf", "tfvars"),
 

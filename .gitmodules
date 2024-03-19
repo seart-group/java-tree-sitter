@@ -69,7 +69,7 @@
 	url = https://github.com/tree-sitter/tree-sitter-haskell.git
 [submodule "tree-sitter-hcl"]
 	path = tree-sitter-hcl
-	url = https://github.com/MichaHoffmann/tree-sitter-hcl.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-hcl.git
 [submodule "tree-sitter-html"]
 	path = tree-sitter-html
 	url = https://github.com/tree-sitter/tree-sitter-html.git
