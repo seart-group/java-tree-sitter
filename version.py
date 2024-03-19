@@ -52,7 +52,7 @@ f"""/*
 package ch.usi.si.seart.treesitter.version;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Utility used for obtaining the current version of the {{@code tree-sitter}} API.
@@ -60,8 +60,8 @@ import lombok.NoArgsConstructor;
  * @author Ozren Dabić
  * @since 1.11.0
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class TreeSitter {{
+@UtilityClass
+public class TreeSitter {{
 
     public static final String SHA = \"{sha}\";
 
@@ -72,7 +72,7 @@ public final class TreeSitter {{
      *
      * @return the semantic version string, along with a commit SHA
      */
-    public static String getVersion() {{
+    public String getVersion() {{
         return TAG + \" (\" + SHA + \")\";
     }}
     
@@ -84,7 +84,7 @@ public final class TreeSitter {{
      * @return current ABI version number
      * @since 1.12.0
      */
-    public static native int getCurrentABIVersion();
+    public native int getCurrentABIVersion();
 
     /**
      * The earliest ABI version that is supported by the current version of the library.
@@ -94,7 +94,7 @@ public final class TreeSitter {{
      * @return earliest supported ABI version number
      * @since 1.12.0
      */
-    public static native int getMinimumABIVersion();
+    public native int getMinimumABIVersion();
 }}
 """
     with open(output, "w") as file:

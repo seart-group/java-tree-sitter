@@ -1,7 +1,7 @@
 package ch.usi.si.seart.treesitter.version;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Utility used for obtaining the current version of the {@code ${project.artifactId}} codebase.
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
  * @author Ozren Dabić
  * @since 1.11.0
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class Version {
 
     private static final String VALUE = "${project.version}";
@@ -22,7 +22,7 @@ public final class Version {
      *
      * @return the semantic version string
      */
-    public static String getVersion() {
+    public String getVersion() {
         return VALUE;
     }
 }
