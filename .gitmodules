@@ -93,7 +93,7 @@
 	url = https://github.com/latex-lsp/tree-sitter-latex.git
 [submodule "tree-sitter-lua"]
 	path = tree-sitter-lua
-	url = https://github.com/Azganoth/tree-sitter-lua.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-lua.git
 [submodule "tree-sitter-markdown"]
 	path = tree-sitter-markdown
 	url = https://github.com/MDeiml/tree-sitter-markdown.git

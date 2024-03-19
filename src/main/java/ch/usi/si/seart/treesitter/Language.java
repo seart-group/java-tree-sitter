@@ -256,7 +256,7 @@ public enum Language {
     /**
      * Lua programming language.
      *
-     * @see <a href="https://github.com/Azganoth/tree-sitter-lua">tree-sitter-lua</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-lua">tree-sitter-lua</a>
      */
     LUA(lua(), "lua"),
 
