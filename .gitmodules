@@ -36,7 +36,7 @@
 	url = https://github.com/rydesun/tree-sitter-dot.git
 [submodule "tree-sitter-dtd"]
 	path = tree-sitter-dtd
-	url = https://github.com/ObserverOfTime/tree-sitter-xml.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-xml.git
 [submodule "tree-sitter-elixir"]
 	path = tree-sitter-elixir
 	url = https://github.com/elixir-lang/tree-sitter-elixir.git
@@ -162,7 +162,7 @@
 	url = https://github.com/tree-sitter/tree-sitter-verilog.git
 [submodule "tree-sitter-xml"]
 	path = tree-sitter-xml
-	url = https://github.com/ObserverOfTime/tree-sitter-xml.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-xml.git
 [submodule "tree-sitter-yaml"]
 	path = tree-sitter-yaml
 	url = https://github.com/ikatyang/tree-sitter-yaml.git

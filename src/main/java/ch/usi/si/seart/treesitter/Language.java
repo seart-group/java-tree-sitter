@@ -123,7 +123,7 @@ public enum Language {
     /**
      * DTD: Document Type Definition.
      *
-     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-xml">tree-sitter-xml</a>
      */
     DTD(dtd(), "dtd"),
 
@@ -417,7 +417,7 @@ public enum Language {
     /**
      * XML: Extensible Markup Language.
      *
-     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-xml">tree-sitter-xml</a>
      */
     XML(xml(), "svg", "xml", "xsd", "xslt"),
 
