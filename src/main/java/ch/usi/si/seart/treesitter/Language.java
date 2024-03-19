@@ -263,7 +263,7 @@ public enum Language {
     /**
      * Markdown markup language for creating formatted text.
      *
-     * @see <a href="https://github.com/MDeiml/tree-sitter-markdown">tree-sitter-markdown</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-markdown">tree-sitter-markdown</a>
      */
     MARKDOWN(markdown(), "md"),
 
