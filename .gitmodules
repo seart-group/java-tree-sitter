@@ -151,12 +151,12 @@
 [submodule "tree-sitter-tsx"]
 	path = tree-sitter-tsx
 	url = https://github.com/tree-sitter/tree-sitter-typescript.git
-[submodule "tree-sitter-twig"]
-	path = tree-sitter-twig
-	url = https://github.com/gbprod/tree-sitter-twig.git
 [submodule "tree-sitter-typescript"]
 	path = tree-sitter-typescript
 	url = https://github.com/tree-sitter/tree-sitter-typescript.git
+[submodule "tree-sitter-twig"]
+	path = tree-sitter-twig
+	url = https://github.com/kaermorchen/tree-sitter-twig.git
 [submodule "tree-sitter-verilog"]
 	path = tree-sitter-verilog
 	url = https://github.com/tree-sitter/tree-sitter-verilog.git

@@ -396,7 +396,7 @@ public enum Language {
     /**
      * Twig template language.
      *
-     * @see <a href="https://github.com/gbprod/tree-sitter-twig">tree-sitter-twig</a>
+     * @see <a href="https://github.com/kaermorchen/tree-sitter-twig">tree-sitter-twig</a>
      */
     TWIG(twig(), "twig"),
 
