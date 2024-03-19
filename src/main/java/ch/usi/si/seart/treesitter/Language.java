@@ -81,7 +81,7 @@ public enum Language {
     /**
      * Common Lisp programming language.
      *
-     * @see <a href="https://github.com/theHamsta/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
      */
     COMMON_LISP(commonLisp(), "lisp"),
 
