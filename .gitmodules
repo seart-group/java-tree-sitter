@@ -102,7 +102,7 @@
 	url = https://github.com/nix-community/tree-sitter-nix.git
 [submodule "tree-sitter-objective-c"]
 	path = tree-sitter-objective-c
-	url = https://github.com/jiyee/tree-sitter-objc.git
+	url = https://github.com/tree-sitter-grammars/tree-sitter-objc.git
 [submodule "tree-sitter-ocaml"]
 	path = tree-sitter-ocaml
 	url = https://github.com/tree-sitter/tree-sitter-ocaml.git
