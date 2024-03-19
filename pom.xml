@@ -454,7 +454,7 @@
                 <executable>python3</executable>
                 <workingDirectory>${project.basedir}</workingDirectory>
                 <arguments>
-                  <argument>generate.py</argument>
+                  <argument>version.py</argument>
                   <argument>-o</argument>
                   <argument>
                     ${project.build.generatedSourceDirectory}/ch/usi/si/seart/treesitter/version/TreeSitter.java
