@@ -375,7 +375,7 @@ public enum Language {
     /**
      * Thrift interface description language.
      *
-     * @see <a href="https://github.com/duskmoon314/tree-sitter-thrift">tree-sitter-thrift</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-thrift">tree-sitter-thrift</a>
      */
     THRIFT(thrift(), "thrift"),
 
