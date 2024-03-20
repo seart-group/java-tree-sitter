@@ -373,6 +373,13 @@ public enum Language {
     RACKET(racket(), "rkt"),
 
     /**
+     * Requirements file format for Python.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-requirements">tree-sitter-requirements</a>
+     */
+    REQUIREMENTS(requirements()),
+
+    /**
      * Ruby programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter-ruby</a>
@@ -539,6 +546,7 @@ public enum Language {
     private static native long ruby();
     private static native long r();
     private static native long racket();
+    private static native long requirements();
     private static native long rust();
     private static native long scala();
     private static native long scheme();
@@ -594,6 +602,7 @@ public enum Language {
                 "Path argument must not be a directory!"
         );
         String name = path.getFileName().toString();
+        if (name.equals("requirements.txt")) return List.of(REQUIREMENTS);
         String extension = FilenameUtils.getExtension(name);
         return Optional.of(extension)
                 .map(EXTENSION_LOOKUP::get)
@@ -770,6 +779,7 @@ public enum Language {
             case PROPERTIES:
             case PYTHON:
             case RACKET:
+            case REQUIREMENTS:
             case RUBY:
             case RUST:
             case SCALA:

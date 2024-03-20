@@ -427,6 +427,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_racket(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_requirements(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_REQUIREMENTS
+  return (jlong)tree_sitter_requirements();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ruby(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_RUBY
