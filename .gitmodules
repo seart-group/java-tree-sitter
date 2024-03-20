@@ -34,6 +34,9 @@
 [submodule "tree-sitter-css"]
 	path = tree-sitter-css
 	url = https://github.com/tree-sitter/tree-sitter-css.git
+[submodule "tree-sitter-csv"]
+	path = tree-sitter-csv
+	url = https://github.com/tree-sitter-grammars/tree-sitter-csv.git
 [submodule "tree-sitter-dart"]
 	path = tree-sitter-dart
 	url = https://github.com/UserNobody14/tree-sitter-dart.git
