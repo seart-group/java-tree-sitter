@@ -60,10 +60,10 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
                 src_path = path(repository, repository_name, "src")
             case "tree-sitter-ocaml":
                 src_path = path(repository, "grammars", repository_language, "src")
-            case "tree-sitter-dtd" |\
-                 "tree-sitter-ocaml" |\
-                 "tree-sitter-php" |\
-                 "tree-sitter-tsx" |\
+            case "tree-sitter-dtd" | \
+                 "tree-sitter-ocaml" | \
+                 "tree-sitter-php" | \
+                 "tree-sitter-tsx" | \
                  "tree-sitter-typescript" | \
                  "tree-sitter-xml":
                 src_path = path(repository, repository_language, "src")
