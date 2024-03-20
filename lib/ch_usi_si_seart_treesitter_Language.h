@@ -99,6 +99,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_css
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    csv
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_csv
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    dart
  * Signature: ()J
  */
@@ -323,6 +331,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_php
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    psv
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_psv
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    python
  * Signature: ()J
  */
@@ -415,6 +431,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_thrift
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_toml
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    tsv
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_tsv
   (JNIEnv *, jclass);
 
 /*
