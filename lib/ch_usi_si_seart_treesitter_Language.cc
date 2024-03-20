@@ -355,6 +355,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ocaml(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_odin(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_ODIN
+  return (jlong)tree_sitter_odin();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_pascal(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_PASCAL

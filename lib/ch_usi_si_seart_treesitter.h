@@ -437,6 +437,9 @@ TSLanguage* tree_sitter_objc();
 #ifdef TS_LANGUAGE_OCAML
 TSLanguage* tree_sitter_ocaml();
 #endif
+#ifdef TS_LANGUAGE_ODIN
+TSLanguage* tree_sitter_odin();
+#endif
 #ifdef TS_LANGUAGE_PASCAL
 TSLanguage* tree_sitter_pascal();
 #endif

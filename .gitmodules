@@ -118,6 +118,9 @@
 [submodule "tree-sitter-ocaml"]
 	path = tree-sitter-ocaml
 	url = https://github.com/tree-sitter/tree-sitter-ocaml.git
+[submodule "tree-sitter-odin"]
+	path = tree-sitter-odin
+	url = https://github.com/tree-sitter-grammars/tree-sitter-odin.git
 [submodule "tree-sitter-pascal"]
 	path = tree-sitter-pascal
 	url = https://github.com/Isopod/tree-sitter-pascal.git

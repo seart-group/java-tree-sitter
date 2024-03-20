@@ -323,6 +323,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ocaml
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    odin
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_odin
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    pascal
  * Signature: ()J
  */
