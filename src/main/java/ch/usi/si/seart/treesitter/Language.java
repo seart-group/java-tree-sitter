@@ -608,13 +608,13 @@ public enum Language {
 
     private static final long INVALID = 0L;
 
-    private static final Properties PROPERTIES = new Properties();
+    private static final Properties LANGUAGE_PROPERTIES = new Properties();
 
     static {
         ClassLoader loader = Language.class.getClassLoader();
         try (InputStream stream = loader.getResourceAsStream("language.properties")) {
-            PROPERTIES.load(stream);
-            PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
+            LANGUAGE_PROPERTIES.load(stream);
+            LANGUAGE_PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
         } catch (Exception ex) {
             throw new ExceptionInInitializerError(ex);
         }
@@ -817,7 +817,7 @@ public enum Language {
 
     private URL getURL() {
         String key = "url." + getSubmoduleName();
-        String value = PROPERTIES.getProperty(key);
+        String value = LANGUAGE_PROPERTIES.getProperty(key);
         if (value == null) return null;
         try {
             return new URL(value);
@@ -828,12 +828,12 @@ public enum Language {
 
     private String getSHA() {
         String key = "sha." + getSubmoduleName();
-        return PROPERTIES.getProperty(key);
+        return LANGUAGE_PROPERTIES.getProperty(key);
     }
 
     private String getTag() {
         String key = "tag." + getSubmoduleName();
-        return PROPERTIES.getProperty(key);
+        return LANGUAGE_PROPERTIES.getProperty(key);
     }
 
     private String getSubmoduleName() {
