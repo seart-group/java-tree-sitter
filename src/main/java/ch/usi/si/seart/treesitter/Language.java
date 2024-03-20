@@ -121,6 +121,13 @@ public enum Language {
     CSS(css(), "css"),
 
     /**
+     * CSV: Comma-Separated Values.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
+     */
+    CSV(csv(), "csv"),
+
+    /**
      * Dart programming language.
      *
      * @see <a href="https://github.com/UserNobody14/tree-sitter-dart">tree-sitter-dart</a>
@@ -317,6 +324,13 @@ public enum Language {
     PHP(php(), "php"),
 
     /**
+     * PSV: Pipe-Separated Values.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
+     */
+    PSV(psv(), "psv"),
+
+    /**
      * Python programming language.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter-python</a>
@@ -401,6 +415,13 @@ public enum Language {
     TOML(toml(), "toml"),
 
     /**
+     * TSV: Tab-Separated Values.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
+     */
+    TSV(tsv(), "tsv"),
+
+    /**
      * JSX-enhanced TypeScript.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
@@ -460,6 +481,7 @@ public enum Language {
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
+    private static native long csv();
     private static native long dart();
     private static native long dot();
     private static native long dtd();
@@ -488,6 +510,7 @@ public enum Language {
     private static native long ocaml();
     private static native long pascal();
     private static native long php();
+    private static native long psv();
     private static native long python();
     private static native long ruby();
     private static native long r();
@@ -500,6 +523,7 @@ public enum Language {
     private static native long swift();
     private static native long thrift();
     private static native long toml();
+    private static native long tsv();
     private static native long tsx();
     private static native long twig();
     private static native long typescript();
@@ -674,15 +698,18 @@ public enum Language {
             case C:
             case COBOL:
             case CSS:
+            case CSV:
             case DOT:
             case DTD:
             case HCL:
             case HTML:
             case JSON:
             case PHP:
+            case PSV:
             case R:
             case SCSS:
             case TOML:
+            case TSV:
             case TSX:
             case XML:
             case YAML:

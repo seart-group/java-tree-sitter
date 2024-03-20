@@ -341,6 +341,9 @@ TSLanguage* tree_sitter_clojure();
 #ifdef TS_LANGUAGE_CMAKE
 TSLanguage* tree_sitter_cmake();
 #endif
+#ifdef TS_LANGUAGE_CSV
+TSLanguage* tree_sitter_csv();
+#endif
 #ifdef TS_LANGUAGE_COBOL
 TSLanguage* tree_sitter_COBOL();
 #endif
@@ -437,6 +440,9 @@ TSLanguage* tree_sitter_pascal();
 #ifdef TS_LANGUAGE_PHP
 TSLanguage* tree_sitter_php();
 #endif
+#ifdef TS_LANGUAGE_PSV
+TSLanguage* tree_sitter_psv();
+#endif
 #ifdef TS_LANGUAGE_PYTHON
 TSLanguage* tree_sitter_python();
 #endif
@@ -472,6 +478,9 @@ TSLanguage* tree_sitter_thrift();
 #endif
 #ifdef TS_LANGUAGE_TOML
 TSLanguage* tree_sitter_toml();
+#endif
+#ifdef TS_LANGUAGE_TSV
+TSLanguage* tree_sitter_tsv();
 #endif
 #ifdef TS_LANGUAGE_TSX
 TSLanguage* tree_sitter_tsx();
