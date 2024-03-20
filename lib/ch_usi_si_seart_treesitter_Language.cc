@@ -13,6 +13,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_arduino(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_ARDUINO
+  return (jlong)tree_sitter_arduino();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_bash(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_BASH

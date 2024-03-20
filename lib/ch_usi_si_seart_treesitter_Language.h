@@ -19,6 +19,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    arduino
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_arduino
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    bash
  * Signature: ()J
  */
