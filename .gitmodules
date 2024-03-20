@@ -160,6 +160,9 @@
 [submodule "tree-sitter-scss"]
 	path = tree-sitter-scss
 	url = https://github.com/serenadeai/tree-sitter-scss.git
+[submodule "tree-sitter-sql"]
+	path = tree-sitter-sql
+	url = https://github.com/DerekStride/tree-sitter-sql.git
 [submodule "tree-sitter-svelte"]
 	path = tree-sitter-svelte
 	url = https://github.com/Himujjal/tree-sitter-svelte.git
