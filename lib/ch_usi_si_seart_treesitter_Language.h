@@ -163,6 +163,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    fish
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fish
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    fortran
  * Signature: ()J
  */

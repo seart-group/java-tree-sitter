@@ -377,6 +377,9 @@ TSLanguage* tree_sitter_embedded_template();
 #ifdef TS_LANGUAGE_ERLANG
 TSLanguage* tree_sitter_erlang();
 #endif
+#ifdef TS_LANGUAGE_FISH
+TSLanguage* tree_sitter_fish();
+#endif
 #ifdef TS_LANGUAGE_FORTRAN
 TSLanguage* tree_sitter_fortran();
 #endif
