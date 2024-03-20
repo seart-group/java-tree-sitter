@@ -461,6 +461,9 @@ TSLanguage* tree_sitter_r();
 #ifdef TS_LANGUAGE_RACKET
 TSLanguage* tree_sitter_racket();
 #endif
+#ifdef TS_LANGUAGE_REQUIREMENTS
+TSLanguage* tree_sitter_requirements();
+#endif
 #ifdef TS_LANGUAGE_RUBY
 TSLanguage* tree_sitter_ruby();
 #endif

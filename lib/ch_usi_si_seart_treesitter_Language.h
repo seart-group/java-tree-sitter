@@ -395,6 +395,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_racket
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    requirements
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_requirements
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    rust
  * Signature: ()J
  */
