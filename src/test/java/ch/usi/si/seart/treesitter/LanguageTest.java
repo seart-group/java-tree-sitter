@@ -77,7 +77,8 @@ class LanguageTest extends BaseTest {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                    Arguments.of("requirements.txt", List.of()),
+                    Arguments.of(".keep", List.of()),
+                    Arguments.of("requirements.txt", List.of(Language.REQUIREMENTS)),
                     Arguments.of(".py", List.of(Language.PYTHON)),
                     Arguments.of(".gitattributes", List.of(Language.GITATTRIBUTES)),
                     Arguments.of("__init__.py", List.of(Language.PYTHON)),

@@ -602,6 +602,7 @@ public enum Language {
                 "Path argument must not be a directory!"
         );
         String name = path.getFileName().toString();
+        if (name.equals("requirements.txt")) return List.of(REQUIREMENTS);
         String extension = FilenameUtils.getExtension(name);
         return Optional.of(extension)
                 .map(EXTENSION_LOOKUP::get)
