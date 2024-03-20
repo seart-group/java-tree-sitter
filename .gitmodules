@@ -142,6 +142,9 @@
 [submodule "tree-sitter-racket"]
 	path = tree-sitter-racket
 	url = https://github.com/6cdh/tree-sitter-racket.git
+[submodule "tree-sitter-requirements"]
+	path = tree-sitter-requirements
+	url = https://github.com/tree-sitter-grammars/tree-sitter-requirements.git
 [submodule "tree-sitter-ruby"]
 	path = tree-sitter-ruby
 	url = https://github.com/tree-sitter/tree-sitter-ruby.git
