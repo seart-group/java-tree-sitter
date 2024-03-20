@@ -177,6 +177,13 @@ public enum Language {
     ERLANG(erlang(), "erl", "hrl"),
 
     /**
+     * Fish: Friendly Interactive Shell.
+     *
+     * @see <a href="https://github.com/ram02z/tree-sitter-fish">tree-sitter-fish</a>
+     */
+    FISH(fish(), "fish"),
+
+    /**
      * Fortran programming language.
      *
      * @see <a href="https://github.com/stadelmanma/tree-sitter-fortran">tree-sitter-fortran</a>
@@ -489,6 +496,7 @@ public enum Language {
     private static native long elm();
     private static native long embeddedTemplate();
     private static native long erlang();
+    private static native long fish();
     private static native long fortran();
     private static native long gitattributes();
     private static native long gitignore();
@@ -731,6 +739,7 @@ public enum Language {
             case ELIXIR:
             case ELM:
             case ERLANG:
+            case FISH:
             case FORTRAN:
             case GO:
             case HASKELL:

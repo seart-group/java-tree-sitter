@@ -175,6 +175,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fish(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_FISH
+  return (jlong)tree_sitter_fish();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fortran(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_FORTRAN
