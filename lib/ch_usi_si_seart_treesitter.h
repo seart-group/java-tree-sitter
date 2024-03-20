@@ -446,6 +446,9 @@ TSLanguage* tree_sitter_pascal();
 #ifdef TS_LANGUAGE_PHP
 TSLanguage* tree_sitter_php();
 #endif
+#ifdef TS_LANGUAGE_PROPERTIES
+TSLanguage* tree_sitter_properties();
+#endif
 #ifdef TS_LANGUAGE_PSV
 TSLanguage* tree_sitter_psv();
 #endif

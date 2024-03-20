@@ -347,6 +347,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_php
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    properties
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_properties
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    psv
  * Signature: ()J
  */

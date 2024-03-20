@@ -338,6 +338,13 @@ public enum Language {
     PHP(php(), "php"),
 
     /**
+     * Java properties file format.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-properties">tree-sitter-properties</a>
+     */
+    PROPERTIES(properties(), "properties"),
+
+    /**
      * PSV: Pipe-Separated Values.
      *
      * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
@@ -526,6 +533,7 @@ public enum Language {
     private static native long odin();
     private static native long pascal();
     private static native long php();
+    private static native long properties();
     private static native long psv();
     private static native long python();
     private static native long ruby();
@@ -759,6 +767,7 @@ public enum Language {
             case NIX:
             case ODIN:
             case PASCAL:
+            case PROPERTIES:
             case PYTHON:
             case RACKET:
             case RUBY:
