@@ -22,6 +22,9 @@
 [submodule "tree-sitter-cmake"]
 	path = tree-sitter-cmake
 	url = https://github.com/uyha/tree-sitter-cmake.git
+[submodule "tree-sitter-cobol"]
+	path = tree-sitter-cobol
+	url = https://github.com/yutaro-sakamoto/tree-sitter-cobol.git
 [submodule "tree-sitter-common-lisp"]
 	path = tree-sitter-common-lisp
 	url = https://github.com/tree-sitter-grammars/tree-sitter-commonlisp.git
