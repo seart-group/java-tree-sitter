@@ -317,6 +317,13 @@ public enum Language {
     OCAML(ocaml(), "ml", "mli"),
 
     /**
+     * Odin programming language.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-odin">tree-sitter-odin</a>
+     */
+    ODIN(odin(), "odin"),
+
+    /**
      * Pascal programming language.
      *
      * @see <a href="https://github.com/Isopod/tree-sitter-pascal">tree-sitter-pascal</a>
@@ -516,6 +523,7 @@ public enum Language {
     private static native long nix();
     private static native long objectiveC();
     private static native long ocaml();
+    private static native long odin();
     private static native long pascal();
     private static native long php();
     private static native long psv();
@@ -749,6 +757,7 @@ public enum Language {
             case LUA:
             case MARKDOWN:
             case NIX:
+            case ODIN:
             case PASCAL:
             case PYTHON:
             case RACKET:
