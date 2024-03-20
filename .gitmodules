@@ -58,6 +58,9 @@
 [submodule "tree-sitter-erlang"]
 	path = tree-sitter-erlang
 	url = https://github.com/WhatsApp/tree-sitter-erlang.git
+[submodule "tree-sitter-fish"]
+	path = tree-sitter-fish
+	url = https://github.com/ram02z/tree-sitter-fish.git
 [submodule "tree-sitter-fortran"]
 	path = tree-sitter-fortran
 	url = https://github.com/stadelmanma/tree-sitter-fortran.git
