@@ -338,6 +338,13 @@ public enum Language {
     PHP(php(), "php"),
 
     /**
+     * Java properties file format.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-properties">tree-sitter-properties</a>
+     */
+    PROPERTIES(properties(), "properties"),
+
+    /**
      * PSV: Pipe-Separated Values.
      *
      * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
@@ -526,6 +533,7 @@ public enum Language {
     private static native long odin();
     private static native long pascal();
     private static native long php();
+    private static native long properties();
     private static native long psv();
     private static native long python();
     private static native long ruby();
@@ -608,13 +616,13 @@ public enum Language {
 
     private static final long INVALID = 0L;
 
-    private static final Properties PROPERTIES = new Properties();
+    private static final Properties LANGUAGE_PROPERTIES = new Properties();
 
     static {
         ClassLoader loader = Language.class.getClassLoader();
         try (InputStream stream = loader.getResourceAsStream("language.properties")) {
-            PROPERTIES.load(stream);
-            PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
+            LANGUAGE_PROPERTIES.load(stream);
+            LANGUAGE_PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
         } catch (Exception ex) {
             throw new ExceptionInInitializerError(ex);
         }
@@ -759,6 +767,7 @@ public enum Language {
             case NIX:
             case ODIN:
             case PASCAL:
+            case PROPERTIES:
             case PYTHON:
             case RACKET:
             case RUBY:
@@ -817,7 +826,7 @@ public enum Language {
 
     private URL getURL() {
         String key = "url." + getSubmoduleName();
-        String value = PROPERTIES.getProperty(key);
+        String value = LANGUAGE_PROPERTIES.getProperty(key);
         if (value == null) return null;
         try {
             return new URL(value);
@@ -828,12 +837,12 @@ public enum Language {
 
     private String getSHA() {
         String key = "sha." + getSubmoduleName();
-        return PROPERTIES.getProperty(key);
+        return LANGUAGE_PROPERTIES.getProperty(key);
     }
 
     private String getTag() {
         String key = "tag." + getSubmoduleName();
-        return PROPERTIES.getProperty(key);
+        return LANGUAGE_PROPERTIES.getProperty(key);
     }
 
     private String getSubmoduleName() {
