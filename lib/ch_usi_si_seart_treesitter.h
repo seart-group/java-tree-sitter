@@ -323,6 +323,9 @@ void __log_in_java(void* payload, TSLogType log_type, const char* buffer);
 #ifdef TS_LANGUAGE_ADA
 TSLanguage* tree_sitter_ada();
 #endif
+#ifdef TS_LANGUAGE_ARDUINO
+TSLanguage* tree_sitter_arduino();
+#endif
 #ifdef TS_LANGUAGE_BASH
 TSLanguage* tree_sitter_bash();
 #endif

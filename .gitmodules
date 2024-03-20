@@ -4,6 +4,9 @@
 [submodule "tree-sitter-ada"]
 	path = tree-sitter-ada
 	url = https://github.com/briot/tree-sitter-ada.git
+[submodule "tree-sitter-arduino"]
+	path = tree-sitter-arduino
+	url = https://github.com/tree-sitter-grammars/tree-sitter-arduino.git
 [submodule "tree-sitter-bash"]
 	path = tree-sitter-bash
 	url = https://github.com/tree-sitter/tree-sitter-bash.git

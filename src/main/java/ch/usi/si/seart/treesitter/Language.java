@@ -51,6 +51,13 @@ public enum Language {
     ADA(ada(), "adb", "ads"),
 
     /**
+     * Arduino programming language.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-arduino">tree-sitter-arduino</a>
+     */
+    ARDUINO(arduino(), "ino"),
+
+    /**
      * Bash: Bourne Again SHell.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter-bash</a>
@@ -436,6 +443,7 @@ public enum Language {
     ZIG(zig(), "zig");
 
     private static native long ada();
+    private static native long arduino();
     private static native long bash();
     private static native long c();
     private static native long clojure();
@@ -680,6 +688,7 @@ public enum Language {
              * Capital Case
              */
             case ADA:
+            case ARDUINO:
             case BASH:
             case CLOJURE:
             case DART:
