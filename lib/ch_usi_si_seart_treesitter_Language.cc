@@ -67,6 +67,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cobol(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_COBOL
+  return (jlong)tree_sitter_COBOL();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_commonLisp(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_COMMON_LISP

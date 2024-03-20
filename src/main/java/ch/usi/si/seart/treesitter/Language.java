@@ -86,6 +86,13 @@ public enum Language {
     CMAKE(cmake(), "cmake"),
 
     /**
+     * COBOL: Common Business-Oriented Language.
+     *
+     * @see <a href="https://github.com/yutaro-sakamoto/tree-sitter-cobol">tree-sitter-cobol</a>
+     */
+    COBOL(cobol(), "cbl", "cob"),
+
+    /**
      * Common Lisp programming language.
      *
      * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
@@ -449,6 +456,7 @@ public enum Language {
     private static native long clojure();
     private static native long commonLisp();
     private static native long cmake();
+    private static native long cobol();
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
@@ -664,6 +672,7 @@ public enum Language {
              * Uppercase
              */
             case C:
+            case COBOL:
             case CSS:
             case DOT:
             case DTD:

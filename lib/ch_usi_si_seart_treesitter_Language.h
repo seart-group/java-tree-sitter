@@ -67,6 +67,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    cobol
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cobol
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    cSharp
  * Signature: ()J
  */

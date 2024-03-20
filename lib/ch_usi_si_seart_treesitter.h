@@ -341,6 +341,9 @@ TSLanguage* tree_sitter_clojure();
 #ifdef TS_LANGUAGE_CMAKE
 TSLanguage* tree_sitter_cmake();
 #endif
+#ifdef TS_LANGUAGE_COBOL
+TSLanguage* tree_sitter_COBOL();
+#endif
 #ifdef TS_LANGUAGE_COMMON_LISP
 TSLanguage* tree_sitter_commonlisp();
 #endif
