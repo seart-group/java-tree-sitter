@@ -7,11 +7,11 @@ ENV IMAGE_NAME="seart-group/java-tree-sitter" \
 
 RUN apk update && \
     apk add --no-cache \
-            openjdk11 \
-            python3 \
-            py3-distutils-extra \
-            make \
-            g++
+            openjdk11~=11.0.22 \
+            python3~=3.10.13 \
+            py3-distutils-extra~=2.47 \
+            make~=4.3 \
+            g++~=12.2.1
 
 WORKDIR /java-tree-sitter
 COPY . ./
