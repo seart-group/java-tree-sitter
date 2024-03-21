@@ -1,6 +1,6 @@
 [submodule "tree-sitter"]
 	path = tree-sitter
-	url = https://github.com/tree-sitter/tree-sitter
+	url = https://github.com/tree-sitter/tree-sitter.git
 [submodule "tree-sitter-ada"]
 	path = tree-sitter-ada
 	url = https://github.com/briot/tree-sitter-ada.git
@@ -198,4 +198,4 @@
 	url = https://github.com/ikatyang/tree-sitter-yaml.git
 [submodule "tree-sitter-zig"]
 	path = tree-sitter-zig
-	url = https://github.com/maxxnino/tree-sitter-zig
+	url = https://github.com/maxxnino/tree-sitter-zig.git
