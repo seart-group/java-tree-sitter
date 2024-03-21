@@ -19,4 +19,7 @@ COPY . ./
 RUN python3 build.py
 
 FROM scratch AS export
+
+WORKDIR /
+
 COPY --from=build /java-tree-sitter/libjava-tree-sitter.so .
