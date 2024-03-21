@@ -8,7 +8,6 @@ from subprocess import run
 
 __location__ = realpath(path(cwd(), dirname(__file__)))
 
-
 if __name__ == "__main__":
     parser = ArgumentParser(description="Generate tree-sitter API version class.")
     parser.add_argument(
@@ -25,8 +24,8 @@ if __name__ == "__main__":
     revparse = [*base, "rev-parse", "--verify", "HEAD"]
     tag = run(describe, capture_output=True, text=True).stdout.rstrip()
     sha = run(revparse, capture_output=True, text=True).stdout.rstrip()
-    content =\
-f"""/*
+    content = f"""\
+/*
  * MIT License
  *
  * Copyright (c) 2022-present SEART Research Group and Contributors
