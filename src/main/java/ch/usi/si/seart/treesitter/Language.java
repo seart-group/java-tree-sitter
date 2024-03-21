@@ -415,6 +415,13 @@ public enum Language {
     SCSS(scss(), "scss"),
 
     /**
+     * SQL: Structured Query Language.
+     *
+     * @see <a href="https://github.com/DerekStride/tree-sitter-sql">tree-sitter-sql</a>
+     */
+    SQL(sql(), "sql"),
+
+    /**
      * Svelte front-end component framework.
      *
      * @see <a href="https://github.com/Himujjal/tree-sitter-svelte">tree-sitter-svelte</a>
@@ -551,6 +558,7 @@ public enum Language {
     private static native long scala();
     private static native long scheme();
     private static native long scss();
+    private static native long sql();
     private static native long svelte();
     private static native long swift();
     private static native long thrift();
@@ -741,6 +749,7 @@ public enum Language {
             case PSV:
             case R:
             case SCSS:
+            case SQL:
             case TOML:
             case TSV:
             case TSX:

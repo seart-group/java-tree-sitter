@@ -435,6 +435,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scss
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    sql
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_sql
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    svelte
  * Signature: ()J
  */
