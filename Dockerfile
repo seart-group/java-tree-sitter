@@ -14,7 +14,7 @@ RUN apk update && \
 WORKDIR /java-tree-sitter
 COPY . ./
 
-RUN python3 build.py
+RUN python build.py
 
 FROM scratch AS export
 

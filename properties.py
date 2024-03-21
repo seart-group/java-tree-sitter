@@ -1,14 +1,13 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from argparse import ArgumentParser
+from git import Repo as GitRepository, Tag as GitTag
 from glob import glob as find
 from os import PathLike
 from os import getcwd as cwd
 from os.path import basename, dirname, realpath
 from os.path import join as path
 from typing import AnyStr, TextIO
-
-from git import Repo as GitRepository, Tag as GitTag
 
 __location__ = realpath(path(cwd(), dirname(__file__)))
 

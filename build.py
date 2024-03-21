@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from argparse import ArgumentParser
 from ctypes.util import find_library as find_cpp_library

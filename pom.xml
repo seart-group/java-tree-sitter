@@ -451,7 +451,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-                <executable>python3</executable>
+                <executable>python</executable>
                 <workingDirectory>${project.basedir}</workingDirectory>
                 <arguments>
                   <argument>version.py</argument>
@@ -469,7 +469,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>python3</executable>
+              <executable>python</executable>
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>properties.py</argument>
@@ -485,7 +485,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>python3</executable>
+              <executable>python</executable>
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>build.py</argument>

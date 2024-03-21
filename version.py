@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from argparse import ArgumentParser
+from git import Repo as GitRepository
 from os import getcwd as cwd
 from os.path import dirname, realpath
 from os.path import join as path
-
-from git import Repo as GitRepository
 
 __location__ = realpath(path(cwd(), dirname(__file__)))
 
