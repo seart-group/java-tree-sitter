@@ -1,9 +1,7 @@
 FROM alpine:3.17.7 AS build
 LABEL maintainer="Ozren Dabić (dabico@usi.ch)"
 
-ENV IMAGE_NAME="seart-group/java-tree-sitter" \
-    IMAGE_REPO_URL="https://github.com/${IMAGE_NAME}/" \
-    JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
 RUN apk update && \
     apk add --no-cache \
