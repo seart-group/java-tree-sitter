@@ -4,7 +4,8 @@ from argparse import ArgumentParser
 from os import getcwd as cwd
 from os.path import dirname, realpath
 from os.path import join as path
-from subprocess import run
+
+from git import Repo as GitRepository
 
 __location__ = realpath(path(cwd(), dirname(__file__)))
 
@@ -17,14 +18,11 @@ if __name__ == "__main__":
         help="Output file path.",
     )
     args = parser.parse_args()
-    output = args.output
-    directory = path(__location__, "tree-sitter")
-    base = ["git", "-C", directory]
-    describe = [*base, "describe", "--tags", "--abbrev=0"]
-    revparse = [*base, "rev-parse", "--verify", "HEAD"]
-    tag = run(describe, capture_output=True, text=True).stdout.rstrip()
-    sha = run(revparse, capture_output=True, text=True).stdout.rstrip()
-    content = f"""\
+    tree_sitter = path(__location__, "tree-sitter")
+    with open(args.output, "w") as output, GitRepository(tree_sitter) as repository:
+        commit = repository.head.commit
+        tags = [tag for tag in repository.tags if tag.commit == commit]
+        output.write(f"""\
 /*
  * MIT License
  *
@@ -61,9 +59,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TreeSitter {{
 
-    public static final String SHA = \"{sha}\";
+    public static final String SHA = \"{commit.hexsha}\";
 
-    public static final String TAG = \"{tag}\";
+    public static final String TAG = \"{next((tag.name for tag in tags), "")}\";
 
     /**
      * Get the current version of {{@code tree-sitter}}.
@@ -94,6 +92,4 @@ public class TreeSitter {{
      */
     public native int getMinimumABIVersion();
 }}
-"""
-    with open(output, "w") as file:
-        file.write(content)
+""")
