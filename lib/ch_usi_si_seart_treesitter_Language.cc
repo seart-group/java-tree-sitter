@@ -481,6 +481,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scss(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_sql(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_SQL
+  return (jlong)tree_sitter_sql();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_svelte(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_SVELTE

@@ -479,6 +479,9 @@ TSLanguage* tree_sitter_scheme();
 #ifdef TS_LANGUAGE_SCSS
 TSLanguage* tree_sitter_scss();
 #endif
+#ifdef TS_LANGUAGE_SQL
+TSLanguage* tree_sitter_sql();
+#endif
 #ifdef TS_LANGUAGE_SVELTE
 TSLanguage* tree_sitter_svelte();
 #endif
