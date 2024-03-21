@@ -50,7 +50,6 @@ if __name__ == "__main__":
  */
 package ch.usi.si.seart.treesitter.version;
 
-import lombok.AccessLevel;
 import lombok.experimental.UtilityClass;
 
 /**
