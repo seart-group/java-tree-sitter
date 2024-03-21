@@ -1,4 +1,4 @@
-FROM alpine:latest AS build
+FROM alpine:3.17.7 AS build
 LABEL maintainer="Ozren Dabić (dabico@usi.ch)"
 
 ENV IMAGE_NAME="seart-group/java-tree-sitter" \
