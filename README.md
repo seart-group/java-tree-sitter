@@ -9,6 +9,7 @@ while introducing support for those that were completely absent from the origina
 Highlights include:
 
 - Incremental abstract syntax tree edits
+- Parser and lexer debugging through loggers
 - APIs for querying parsed abstract syntax trees
 - Support for both macOS and Linux out of the box
 - A wide range of languages [supported](.gitmodules) out of the box
@@ -51,10 +52,10 @@ For it to work, you must have the following installed:
 
 | Dependency | Version |
 |:-----------|--------:|
-| Java       |     11+ |
-| Maven      |    3.9+ |
-| Python     |     3.9 |
-| Docker     |     23+ |
+| Java       |      11 |
+| Maven      |     3.9 |
+| Python     |    3.10 |
+| Docker     |      23 |
 
 ## Adding dependency to project
 
@@ -64,7 +65,7 @@ To use in your own Maven project, include the following in your POM file:
 <dependency>
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.11.0</version>
+  <version>1.12.0</version>
 </dependency>
 ```
 
@@ -198,6 +199,28 @@ public class Example {
                 "      arguments: argument_list [0:5] - [0:11]\n" +
                 "        string [0:6] - [0:10]\n";
             assert expected.equals(actual);
+        } catch (Exception ex) {
+            // ...
+        }
+    }
+}
+```
+
+If you would like to debug the parsing process, you can attach loggers directly to a `Parser`:
+
+```java
+import ch.usi.si.seart.treesitter.*;
+import org.slf4j.*;
+
+public class Example {
+
+    // init omitted...
+
+    public static void main(String[] args) {
+        Logger logger = LoggerFactory.getLogger(Example.class);
+        try (Parser parser = Parser.getFor(Language.PYTHON)) {
+            parser.setLogger(logger);
+            parser.parse("pass").close();
         } catch (Exception ex) {
             // ...
         }

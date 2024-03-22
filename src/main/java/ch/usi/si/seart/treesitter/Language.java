@@ -51,6 +51,13 @@ public enum Language {
     ADA(ada(), "adb", "ads"),
 
     /**
+     * Arduino programming language.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-arduino">tree-sitter-arduino</a>
+     */
+    ARDUINO(arduino(), "ino"),
+
+    /**
      * Bash: Bourne Again SHell.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter-bash</a>
@@ -79,9 +86,16 @@ public enum Language {
     CMAKE(cmake(), "cmake"),
 
     /**
+     * COBOL: Common Business-Oriented Language.
+     *
+     * @see <a href="https://github.com/yutaro-sakamoto/tree-sitter-cobol">tree-sitter-cobol</a>
+     */
+    COBOL(cobol(), "cbl", "cob"),
+
+    /**
      * Common Lisp programming language.
      *
-     * @see <a href="https://github.com/theHamsta/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-commonlisp">tree-sitter-commonlisp</a>
      */
     COMMON_LISP(commonLisp(), "lisp"),
 
@@ -107,6 +121,13 @@ public enum Language {
     CSS(css(), "css"),
 
     /**
+     * CSV: Comma-Separated Values.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
+     */
+    CSV(csv(), "csv"),
+
+    /**
      * Dart programming language.
      *
      * @see <a href="https://github.com/UserNobody14/tree-sitter-dart">tree-sitter-dart</a>
@@ -130,7 +151,7 @@ public enum Language {
     /**
      * DTD: Document Type Definition.
      *
-     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-xml">tree-sitter-xml</a>
      */
     DTD(dtd(), "dtd"),
 
@@ -161,6 +182,13 @@ public enum Language {
      * @see <a href="https://github.com/WhatsApp/tree-sitter-erlang">tree-sitter-erlang</a>
      */
     ERLANG(erlang(), "erl", "hrl"),
+
+    /**
+     * Fish: Friendly Interactive Shell.
+     *
+     * @see <a href="https://github.com/ram02z/tree-sitter-fish">tree-sitter-fish</a>
+     */
+    FISH(fish(), "fish"),
 
     /**
      * Fortran programming language.
@@ -200,7 +228,7 @@ public enum Language {
     /**
      * HCL: HashiCorp Configuration Language.
      *
-     * @see <a href="https://github.com/MichaHoffmann/tree-sitter-hcl">tree-sitter-hcl</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-hcl">tree-sitter-hcl</a>
      */
     HCL(hcl(), "hcl", "tf", "tfvars"),
 
@@ -263,14 +291,14 @@ public enum Language {
     /**
      * Lua programming language.
      *
-     * @see <a href="https://github.com/Azganoth/tree-sitter-lua">tree-sitter-lua</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-lua">tree-sitter-lua</a>
      */
     LUA(lua(), "lua"),
 
     /**
      * Markdown markup language for creating formatted text.
      *
-     * @see <a href="https://github.com/MDeiml/tree-sitter-markdown">tree-sitter-markdown</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-markdown">tree-sitter-markdown</a>
      */
     MARKDOWN(markdown(), "md"),
 
@@ -284,7 +312,7 @@ public enum Language {
     /**
      * Objective-C programming language.
      *
-     * @see <a href="https://github.com/jiyee/tree-sitter-objc">tree-sitter-objc</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-objc">tree-sitter-objc</a>
      */
     OBJECTIVE_C(objectiveC(), "h", "m"),
 
@@ -294,6 +322,13 @@ public enum Language {
      * @see <a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter-ocaml</a>
      */
     OCAML(ocaml(), "ml", "mli"),
+
+    /**
+     * Odin programming language.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-odin">tree-sitter-odin</a>
+     */
+    ODIN(odin(), "odin"),
 
     /**
      * Pascal programming language.
@@ -308,6 +343,20 @@ public enum Language {
      * @see <a href="https://github.com/tree-sitter/tree-sitter-php">tree-sitter-php</a>
      */
     PHP(php(), "php"),
+
+    /**
+     * Java properties file format.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-properties">tree-sitter-properties</a>
+     */
+    PROPERTIES(properties(), "properties"),
+
+    /**
+     * PSV: Pipe-Separated Values.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
+     */
+    PSV(psv(), "psv"),
 
     /**
      * Python programming language.
@@ -329,6 +378,13 @@ public enum Language {
      * @see <a href="https://github.com/6cdh/tree-sitter-racket">tree-sitter-racket</a>
      */
     RACKET(racket(), "rkt"),
+
+    /**
+     * Requirements file format for Python.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-requirements">tree-sitter-requirements</a>
+     */
+    REQUIREMENTS(requirements()),
 
     /**
      * Ruby programming language.
@@ -366,6 +422,13 @@ public enum Language {
     SCSS(scss(), "scss"),
 
     /**
+     * SQL: Structured Query Language.
+     *
+     * @see <a href="https://github.com/DerekStride/tree-sitter-sql">tree-sitter-sql</a>
+     */
+    SQL(sql(), "sql"),
+
+    /**
      * Svelte front-end component framework.
      *
      * @see <a href="https://github.com/Himujjal/tree-sitter-svelte">tree-sitter-svelte</a>
@@ -382,7 +445,7 @@ public enum Language {
     /**
      * Thrift interface description language.
      *
-     * @see <a href="https://github.com/duskmoon314/tree-sitter-thrift">tree-sitter-thrift</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-thrift">tree-sitter-thrift</a>
      */
     THRIFT(thrift(), "thrift"),
 
@@ -394,6 +457,13 @@ public enum Language {
     TOML(toml(), "toml"),
 
     /**
+     * TSV: Tab-Separated Values.
+     *
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-csv">tree-sitter-csv</a>
+     */
+    TSV(tsv(), "tsv"),
+
+    /**
      * JSX-enhanced TypeScript.
      *
      * @see <a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter-typescript</a>
@@ -403,7 +473,7 @@ public enum Language {
     /**
      * Twig template language.
      *
-     * @see <a href="https://github.com/gbprod/tree-sitter-twig">tree-sitter-twig</a>
+     * @see <a href="https://github.com/kaermorchen/tree-sitter-twig">tree-sitter-twig</a>
      */
     TWIG(twig(), "twig"),
 
@@ -424,7 +494,7 @@ public enum Language {
     /**
      * XML: Extensible Markup Language.
      *
-     * @see <a href="https://github.com/ObserverOfTime/tree-sitter-xml">tree-sitter-xml</a>
+     * @see <a href="https://github.com/tree-sitter-grammars/tree-sitter-xml">tree-sitter-xml</a>
      */
     XML(xml(), "svg", "xml", "xsd", "xslt"),
 
@@ -443,14 +513,17 @@ public enum Language {
     ZIG(zig(), "zig");
 
     private static native long ada();
+    private static native long arduino();
     private static native long bash();
     private static native long c();
     private static native long clojure();
     private static native long commonLisp();
     private static native long cmake();
+    private static native long cobol();
     private static native long cSharp();
     private static native long cpp();
     private static native long css();
+    private static native long csv();
     private static native long dart();
     private static native long dockerfile();
     private static native long dot();
@@ -459,6 +532,7 @@ public enum Language {
     private static native long elm();
     private static native long embeddedTemplate();
     private static native long erlang();
+    private static native long fish();
     private static native long fortran();
     private static native long gitattributes();
     private static native long gitignore();
@@ -478,20 +552,26 @@ public enum Language {
     private static native long nix();
     private static native long objectiveC();
     private static native long ocaml();
+    private static native long odin();
     private static native long pascal();
     private static native long php();
+    private static native long properties();
+    private static native long psv();
     private static native long python();
     private static native long ruby();
     private static native long r();
     private static native long racket();
+    private static native long requirements();
     private static native long rust();
     private static native long scala();
     private static native long scheme();
     private static native long scss();
+    private static native long sql();
     private static native long svelte();
     private static native long swift();
     private static native long thrift();
     private static native long toml();
+    private static native long tsv();
     private static native long tsx();
     private static native long twig();
     private static native long typescript();
@@ -545,6 +625,8 @@ public enum Language {
             case "dockerfile":
             case "Containerfile":
                 return Collections.singletonList(DOCKERFILE);
+            case "requirements.txt":
+                return Collections.singletonList(REQUIREMENTS);
             default:
                 String extension = FilenameUtils.getExtension(name);
                 return Optional.of(extension)
@@ -569,13 +651,13 @@ public enum Language {
 
     private static final long INVALID = 0L;
 
-    private static final Properties PROPERTIES = new Properties();
+    private static final Properties LANGUAGE_PROPERTIES = new Properties();
 
     static {
         ClassLoader loader = Language.class.getClassLoader();
         try (InputStream stream = loader.getResourceAsStream("language.properties")) {
-            PROPERTIES.load(stream);
-            PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
+            LANGUAGE_PROPERTIES.load(stream);
+            LANGUAGE_PROPERTIES.entrySet().removeIf(entry -> entry.getValue().toString().isEmpty());
         } catch (Exception ex) {
             throw new ExceptionInInitializerError(ex);
         }
@@ -673,16 +755,21 @@ public enum Language {
              * Uppercase
              */
             case C:
+            case COBOL:
             case CSS:
+            case CSV:
             case DOT:
             case DTD:
             case HCL:
             case HTML:
             case JSON:
             case PHP:
+            case PSV:
             case R:
             case SCSS:
+            case SQL:
             case TOML:
+            case TSV:
             case TSX:
             case XML:
             case YAML:
@@ -697,6 +784,7 @@ public enum Language {
              * Capital Case
              */
             case ADA:
+            case ARDUINO:
             case BASH:
             case CLOJURE:
             case DART:
@@ -704,6 +792,7 @@ public enum Language {
             case ELIXIR:
             case ELM:
             case ERLANG:
+            case FISH:
             case FORTRAN:
             case GO:
             case HASKELL:
@@ -713,9 +802,12 @@ public enum Language {
             case LUA:
             case MARKDOWN:
             case NIX:
+            case ODIN:
             case PASCAL:
+            case PROPERTIES:
             case PYTHON:
             case RACKET:
+            case REQUIREMENTS:
             case RUBY:
             case RUST:
             case SCALA:
@@ -772,7 +864,7 @@ public enum Language {
 
     private URL getURL() {
         String key = "url." + getSubmoduleName();
-        String value = PROPERTIES.getProperty(key);
+        String value = LANGUAGE_PROPERTIES.getProperty(key);
         if (value == null) return null;
         try {
             return new URL(value);
@@ -783,12 +875,12 @@ public enum Language {
 
     private String getSHA() {
         String key = "sha." + getSubmoduleName();
-        return PROPERTIES.getProperty(key);
+        return LANGUAGE_PROPERTIES.getProperty(key);
     }
 
     private String getTag() {
         String key = "tag." + getSubmoduleName();
-        return PROPERTIES.getProperty(key);
+        return LANGUAGE_PROPERTIES.getProperty(key);
     }
 
     private String getSubmoduleName() {

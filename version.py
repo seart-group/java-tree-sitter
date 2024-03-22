@@ -1,16 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from argparse import ArgumentParser
+from git import Repo as GitRepository
 from os import getcwd as cwd
 from os.path import dirname, realpath
 from os.path import join as path
-from re import search as match
-from subprocess import run
 
-# https://www.debuggex.com/r/6FsTee7fWKlzfqVb
-pattern = r"\s([0-9a-fA-F]+)\s[^\s]+\s\(([^)]+)\)"
 __location__ = realpath(path(cwd(), dirname(__file__)))
-
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Generate tree-sitter API version class.")
@@ -21,12 +17,12 @@ if __name__ == "__main__":
         help="Output file path.",
     )
     args = parser.parse_args()
-    output = args.output
-    submodule = path(__location__, "tree-sitter")
-    cmd = ["git", "submodule", "status", submodule]
-    status = run(cmd, capture_output=True, text=True)
-    sha, tag = match(pattern, status.stdout).groups()
-    content = f"""/*
+    tree_sitter = path(__location__, "tree-sitter")
+    with open(args.output, "w") as output, GitRepository(tree_sitter) as repository:
+        commit = repository.head.commit
+        tags = [tag for tag in repository.tags if tag.commit == commit]
+        output.write(f"""\
+/*
  * MIT License
  *
  * Copyright (c) 2022-present SEART Research Group and Contributors
@@ -51,8 +47,7 @@ if __name__ == "__main__":
  */
 package ch.usi.si.seart.treesitter.version;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Utility used for obtaining the current version of the {{@code tree-sitter}} API.
@@ -60,19 +55,19 @@ import lombok.NoArgsConstructor;
  * @author Ozren Dabić
  * @since 1.11.0
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class TreeSitter {{
+@UtilityClass
+public class TreeSitter {{
 
-    public static final String SHA = \"{sha}\";
+    public static final String SHA = \"{commit.hexsha}\";
 
-    public static final String TAG = \"{tag}\";
+    public static final String TAG = \"{next((tag.name for tag in tags), "")}\";
 
     /**
      * Get the current version of {{@code tree-sitter}}.
      *
      * @return the semantic version string, along with a commit SHA
      */
-    public static String getVersion() {{
+    public String getVersion() {{
         return TAG + \" (\" + SHA + \")\";
     }}
     
@@ -84,7 +79,7 @@ public final class TreeSitter {{
      * @return current ABI version number
      * @since 1.12.0
      */
-    public static native int getCurrentABIVersion();
+    public native int getCurrentABIVersion();
 
     /**
      * The earliest ABI version that is supported by the current version of the library.
@@ -94,8 +89,6 @@ public final class TreeSitter {{
      * @return earliest supported ABI version number
      * @since 1.12.0
      */
-    public static native int getMinimumABIVersion();
+    public native int getMinimumABIVersion();
 }}
-"""
-    with open(output, "w") as file:
-        file.write(content)
+""")

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from argparse import ArgumentParser
 from ctypes.util import find_library as find_cpp_library
@@ -56,13 +56,19 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
         repository_macro = f"TS_LANGUAGE_{repository_language.replace('-', '_').upper()}"
         compiler.define_macro(repository_macro, "1")
         match repository_name:
-            case "tree-sitter-dtd" |\
-                 "tree-sitter-markdown" |\
-                 "tree-sitter-xml":
+            case "tree-sitter-markdown":
                 src_path = path(repository, repository_name, "src")
-            case "tree-sitter-ocaml" |\
-                 "tree-sitter-tsx" |\
-                 "tree-sitter-typescript":
+            case "tree-sitter-ocaml":
+                src_path = path(repository, "grammars", repository_language, "src")
+            case "tree-sitter-csv" | \
+                 "tree-sitter-dtd" | \
+                 "tree-sitter-ocaml" | \
+                 "tree-sitter-php" | \
+                 "tree-sitter-psv" | \
+                 "tree-sitter-tsv" | \
+                 "tree-sitter-tsx" | \
+                 "tree-sitter-typescript" | \
+                 "tree-sitter-xml":
                 src_path = path(repository, repository_language, "src")
             case _:
                 src_path = path(repository, "src")

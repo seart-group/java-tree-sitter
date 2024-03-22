@@ -13,6 +13,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_arduino(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_ARDUINO
+  return (jlong)tree_sitter_arduino();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_bash(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_BASH
@@ -58,6 +67,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cobol(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_COBOL
+  return (jlong)tree_sitter_COBOL();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_commonLisp(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_COMMON_LISP
@@ -80,6 +98,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_css(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_CSS
   return (jlong)tree_sitter_css();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_csv(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_CSV
+  return (jlong)tree_sitter_csv();
 #else
   return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
 #endif
@@ -152,6 +179,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_ERLANG
   return (jlong)tree_sitter_erlang();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fish(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_FISH
+  return (jlong)tree_sitter_fish();
 #else
   return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
 #endif
@@ -328,6 +364,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ocaml(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_odin(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_ODIN
+  return (jlong)tree_sitter_odin();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_pascal(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_PASCAL
@@ -341,6 +386,24 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_php(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_PHP
   return (jlong)tree_sitter_php();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_properties(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_PROPERTIES
+  return (jlong)tree_sitter_properties();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_psv(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_PSV
+  return (jlong)tree_sitter_psv();
 #else
   return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
 #endif
@@ -368,6 +431,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_racket(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_RACKET
   return (jlong)tree_sitter_racket();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_requirements(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_REQUIREMENTS
+  return (jlong)tree_sitter_requirements();
 #else
   return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
 #endif
@@ -418,6 +490,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scss(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_sql(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_SQL
+  return (jlong)tree_sitter_sql();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_svelte(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_SVELTE
@@ -449,6 +530,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_toml(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_TOML
   return (jlong)tree_sitter_toml();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_tsv(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_TSV
+  return (jlong)tree_sitter_tsv();
 #else
   return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
 #endif

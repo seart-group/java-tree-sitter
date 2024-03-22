@@ -184,20 +184,32 @@ extern "C" {
 #define _getClass(NAME) \
   env->FindClass(NAME)
 
-#define _loadClass(VARIABLE, NAME)               \
-  {                                              \
-    jclass local;                                \
-    local = _getClass(NAME);                     \
-    VARIABLE = (jclass)env->NewGlobalRef(local); \
-    env->DeleteLocalRef(local);                  \
+#define _clearException() \
+  env->ExceptionClear()
+
+#define _describeException() \
+  env->ExceptionDescribe()
+
+#define _loadClass(VARIABLE, NAME)                 \
+  {                                                \
+    jclass local = _getClass(NAME);                \
+    if (local != NULL) {                           \
+      VARIABLE = (jclass)env->NewGlobalRef(local); \
+      env->DeleteLocalRef(local);                  \
+    } else {                                       \
+      VARIABLE = NULL;                             \
+    }                                              \
   }
 
-#define _loadStaticObject(VARIABLE, CLASS, FIELD)    \
-  {                                                  \
-    jobject local;                                   \
-    local = env->GetStaticObjectField(CLASS, FIELD); \
-    VARIABLE = env->NewGlobalRef(local);             \
-    env->DeleteLocalRef(local);                      \
+#define _loadStaticObject(VARIABLE, CLASS, FIELD)            \
+  {                                                          \
+    jobject local = env->GetStaticObjectField(CLASS, FIELD); \
+    if (local != NULL) {                                     \
+      VARIABLE = env->NewGlobalRef(local);                   \
+      env->DeleteLocalRef(local);                            \
+    } else {                                                 \
+      VARIABLE = NULL;                                       \
+    }                                                        \
   }
 
 #define _unload(VARIABLE) \
@@ -311,6 +323,9 @@ void __log_in_java(void* payload, TSLogType log_type, const char* buffer);
 #ifdef TS_LANGUAGE_ADA
 TSLanguage* tree_sitter_ada();
 #endif
+#ifdef TS_LANGUAGE_ARDUINO
+TSLanguage* tree_sitter_arduino();
+#endif
 #ifdef TS_LANGUAGE_BASH
 TSLanguage* tree_sitter_bash();
 #endif
@@ -325,6 +340,12 @@ TSLanguage* tree_sitter_clojure();
 #endif
 #ifdef TS_LANGUAGE_CMAKE
 TSLanguage* tree_sitter_cmake();
+#endif
+#ifdef TS_LANGUAGE_CSV
+TSLanguage* tree_sitter_csv();
+#endif
+#ifdef TS_LANGUAGE_COBOL
+TSLanguage* tree_sitter_COBOL();
 #endif
 #ifdef TS_LANGUAGE_COMMON_LISP
 TSLanguage* tree_sitter_commonlisp();
@@ -358,6 +379,9 @@ TSLanguage* tree_sitter_embedded_template();
 #endif
 #ifdef TS_LANGUAGE_ERLANG
 TSLanguage* tree_sitter_erlang();
+#endif
+#ifdef TS_LANGUAGE_FISH
+TSLanguage* tree_sitter_fish();
 #endif
 #ifdef TS_LANGUAGE_FORTRAN
 TSLanguage* tree_sitter_fortran();
@@ -416,11 +440,20 @@ TSLanguage* tree_sitter_objc();
 #ifdef TS_LANGUAGE_OCAML
 TSLanguage* tree_sitter_ocaml();
 #endif
+#ifdef TS_LANGUAGE_ODIN
+TSLanguage* tree_sitter_odin();
+#endif
 #ifdef TS_LANGUAGE_PASCAL
 TSLanguage* tree_sitter_pascal();
 #endif
 #ifdef TS_LANGUAGE_PHP
 TSLanguage* tree_sitter_php();
+#endif
+#ifdef TS_LANGUAGE_PROPERTIES
+TSLanguage* tree_sitter_properties();
+#endif
+#ifdef TS_LANGUAGE_PSV
+TSLanguage* tree_sitter_psv();
 #endif
 #ifdef TS_LANGUAGE_PYTHON
 TSLanguage* tree_sitter_python();
@@ -430,6 +463,9 @@ TSLanguage* tree_sitter_r();
 #endif
 #ifdef TS_LANGUAGE_RACKET
 TSLanguage* tree_sitter_racket();
+#endif
+#ifdef TS_LANGUAGE_REQUIREMENTS
+TSLanguage* tree_sitter_requirements();
 #endif
 #ifdef TS_LANGUAGE_RUBY
 TSLanguage* tree_sitter_ruby();
@@ -446,6 +482,9 @@ TSLanguage* tree_sitter_scheme();
 #ifdef TS_LANGUAGE_SCSS
 TSLanguage* tree_sitter_scss();
 #endif
+#ifdef TS_LANGUAGE_SQL
+TSLanguage* tree_sitter_sql();
+#endif
 #ifdef TS_LANGUAGE_SVELTE
 TSLanguage* tree_sitter_svelte();
 #endif
@@ -457,6 +496,9 @@ TSLanguage* tree_sitter_thrift();
 #endif
 #ifdef TS_LANGUAGE_TOML
 TSLanguage* tree_sitter_toml();
+#endif
+#ifdef TS_LANGUAGE_TSV
+TSLanguage* tree_sitter_tsv();
 #endif
 #ifdef TS_LANGUAGE_TSX
 TSLanguage* tree_sitter_tsx();

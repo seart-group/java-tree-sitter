@@ -44,7 +44,9 @@ class SymbolicExpressionPrinterTest extends PrinterTestBase {
                                             ") " +
                                             "name: (identifier) " +
                                             "arguments: (argument_list " +
-                                                "(string_literal)" +
+                                                "(string_literal " +
+                                                    "(string_fragment)" +
+                                                ")" +
                                             ")" +
                                         ")" +
                                     ")" +

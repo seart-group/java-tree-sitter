@@ -60,6 +60,8 @@ class XMLPrinterTest extends PrinterTestBase {
                                             "</identifier>" +
                                             "<argument_list name=\"arguments\" start=\"5:26\" end=\"5:43\">" +
                                                 "<string_literal start=\"5:27\" end=\"5:42\">" +
+                                                    "<string_fragment start=\"5:28\" end=\"5:41\">" +
+                                                    "</string_fragment>" +
                                                 "</string_literal>" +
                                             "</argument_list>" +
                                         "</method_invocation>" +

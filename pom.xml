@@ -4,7 +4,7 @@
 
   <groupId>ch.usi.si.seart</groupId>
   <artifactId>java-tree-sitter</artifactId>
-  <version>1.12.0-SNAPSHOT</version>
+  <version>1.13.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java bindings for tree-sitter</description>
@@ -85,14 +85,14 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
     <org.junit.version>5.10.2</org.junit.version>
-    <org.mockito.version>5.10.0</org.mockito.version>
+    <org.mockito.version>5.11.0</org.mockito.version>
     <org.slf4j.version>2.0.12</org.slf4j.version>
     <org.apache.commons.collections.version>4.4</org.apache.commons.collections.version>
     <org.apache.commons.lang.version>3.14.0</org.apache.commons.lang.version>
     <org.apache.commons.io.version>2.15.1</org.apache.commons.io.version>
-    <org.projectlombok.lombok.version>1.18.30</org.projectlombok.lombok.version>
+    <org.projectlombok.lombok.version>1.18.32</org.projectlombok.lombok.version>
     <org.jetbrains.annotations.version>24.1.0</org.jetbrains.annotations.version>
-    <com.puppycrawl.tools.checkstyle.version>10.13.0</com.puppycrawl.tools.checkstyle.version>
+    <com.puppycrawl.tools.checkstyle.version>10.14.2</com.puppycrawl.tools.checkstyle.version>
   </properties>
 
   <dependencyManagement>
@@ -222,7 +222,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.12.1</version>
+        <version>3.13.0</version>
         <configuration>
           <release>${java.version}</release>
           <compilerArgs>
@@ -282,7 +282,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>7.0.0</version>
+        <version>8.0.2</version>
         <executions>
           <execution>
             <goals>
@@ -359,12 +359,12 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.85</minimum>
+                      <minimum>0.9</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.85</minimum>
+                      <minimum>0.9</minimum>
                     </limit>
                   </limits>
                 </rule>
@@ -379,6 +379,8 @@
             <exclude>**/function/**</exclude>
             <exclude>**/version/**</exclude>
             <exclude>**/External.class</exclude>
+            <exclude>**/Node$*.class</exclude>
+            <exclude>**/TreeCursor$*.class</exclude>
             <exclude>**/OffsetTreeCursor$*.class</exclude>
           </excludes>
         </configuration>
@@ -401,7 +403,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -430,7 +432,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>git-update-submodules</id>
@@ -449,10 +451,10 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-                <executable>python3</executable>
+                <executable>python</executable>
                 <workingDirectory>${project.basedir}</workingDirectory>
                 <arguments>
-                  <argument>generate.py</argument>
+                  <argument>version.py</argument>
                   <argument>-o</argument>
                   <argument>
                     ${project.build.generatedSourceDirectory}/ch/usi/si/seart/treesitter/version/TreeSitter.java
@@ -467,7 +469,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>python3</executable>
+              <executable>python</executable>
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>properties.py</argument>
@@ -483,7 +485,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>python3</executable>
+              <executable>python</executable>
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>build.py</argument>

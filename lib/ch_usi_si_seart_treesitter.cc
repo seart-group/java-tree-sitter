@@ -394,12 +394,16 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     "(Lch/usi/si/seart/treesitter/Language;)V")
 
   _loadClass(_loggerClass, "org/slf4j/Logger")
-  if (_loggerClass != NULL) {
+  if (env->ExceptionCheck() == JNI_TRUE) {
+    _clearException();
+  } else {
     _loadMethod(_loggerDebugMethod, _loggerClass, "debug", "(Lorg/slf4j/Marker;Ljava/lang/String;)V");
   }
 
   _loadClass(_markerFactoryClass, "org/slf4j/MarkerFactory")
-  if (_markerFactoryClass != NULL) {
+  if (env->ExceptionCheck() == JNI_TRUE) {
+    _clearException();
+  } else {
     _loadStaticMethod(_markerFactoryGetMarkerStaticMethod, _markerFactoryClass, "getMarker",
       "(Ljava/lang/String;)Lorg/slf4j/Marker;");
   }

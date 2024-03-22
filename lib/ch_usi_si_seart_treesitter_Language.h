@@ -19,6 +19,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ada
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    arduino
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_arduino
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    bash
  * Signature: ()J
  */
@@ -59,6 +67,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cmake
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    cobol
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cobol
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    cSharp
  * Signature: ()J
  */
@@ -79,6 +95,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_cpp
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_css
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    csv
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_csv
   (JNIEnv *, jclass);
 
 /*
@@ -143,6 +167,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_embeddedTemplat
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_erlang
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    fish
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_fish
   (JNIEnv *, jclass);
 
 /*
@@ -299,6 +331,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_ocaml
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    odin
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_odin
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    pascal
  * Signature: ()J
  */
@@ -311,6 +351,22 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_pascal
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_php
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    properties
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_properties
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    psv
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_psv
   (JNIEnv *, jclass);
 
 /*
@@ -347,6 +403,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_racket
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    requirements
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_requirements
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    rust
  * Signature: ()J
  */
@@ -379,6 +443,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_scss
 
 /*
  * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    sql
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_sql
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
  * Method:    svelte
  * Signature: ()J
  */
@@ -407,6 +479,14 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_thrift
  * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_toml
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ch_usi_si_seart_treesitter_Language
+ * Method:    tsv
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_tsv
   (JNIEnv *, jclass);
 
 /*

@@ -44,6 +44,7 @@ public class Parser extends External {
     private static final String NULL_DURATION = "Duration must not be null!";
     private static final String NULL_TIME_UNIT = "Time unit must not be null!";
     private static final String NEGATIVE_TIMEOUT = "Timeout must not be negative!";
+    private static final String NEGATIVE_DURATION = "Duration must not be negative!";
     private static final String OVERLAPPING_RANGES = "Ranges must not overlap!";
 
     @SuppressWarnings("unused")
@@ -80,7 +81,10 @@ public class Parser extends External {
      * @since 1.8.0
      */
     public Builder toBuilder() {
-        return builder().language(getLanguage()).timeout(getTimeout());
+        return builder()
+                .language(getLanguage())
+                .timeout(getTimeout())
+                .ranges(getIncludedRanges());
     }
 
     /**
@@ -130,7 +134,7 @@ public class Parser extends External {
          */
         public Builder timeout(@NotNull Duration duration) {
             Objects.requireNonNull(duration, NULL_DURATION);
-            if (duration.isZero()) return this;
+            if (duration.isNegative()) throw new IllegalArgumentException(NEGATIVE_DURATION);
             long micros = duration.toMillis() * TimeUnit.MILLISECONDS.toMicros(1);
             return timeout(micros);
         }
@@ -149,7 +153,6 @@ public class Parser extends External {
          * @since 1.8.0
          */
         public Builder timeout(long timeout, @NotNull TimeUnit timeUnit) {
-            if (timeout == 0) return this;
             if (timeout < 0) throw new IllegalArgumentException(NEGATIVE_TIMEOUT);
             Objects.requireNonNull(timeUnit, NULL_TIME_UNIT);
             long micros = timeUnit.toMicros(timeout);
@@ -167,7 +170,6 @@ public class Parser extends External {
          * @since 1.8.0
          */
         public Builder timeout(long timeout) {
-            if (timeout == 0) return this;
             if (timeout < 0) throw new IllegalArgumentException(NEGATIVE_TIMEOUT);
             this.timeout = timeout;
             return this;
