@@ -121,6 +121,15 @@ JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dart(
 #endif
 }
 
+JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dockerfile(
+  JNIEnv* env, jclass self) {
+#ifdef TS_LANGUAGE_DOCKERFILE
+  return (jlong)tree_sitter_dockerfile();
+#else
+  return (jlong)ch_usi_si_seart_treesitter_Language_INVALID;
+#endif
+}
+
 JNIEXPORT jlong JNICALL Java_ch_usi_si_seart_treesitter_Language_dot(
   JNIEnv* env, jclass self) {
 #ifdef TS_LANGUAGE_DOT

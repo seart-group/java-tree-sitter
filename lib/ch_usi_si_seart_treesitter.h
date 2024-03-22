@@ -359,6 +359,9 @@ TSLanguage* tree_sitter_css();
 #ifdef TS_LANGUAGE_DART
 TSLanguage* tree_sitter_dart();
 #endif
+#ifdef TS_LANGUAGE_DOCKERFILE
+TSLanguage* tree_sitter_dockerfile();
+#endif
 #ifdef TS_LANGUAGE_DOT
 TSLanguage* tree_sitter_dot();
 #endif
