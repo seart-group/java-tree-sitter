@@ -5,7 +5,7 @@ ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
 RUN apk update && \
     apk add --no-cache \
-            openjdk11~=11.0.22 \
+            openjdk11~=11.0.23 \
             python3~=3.10.14 \
             py3-distutils-extra~=2.47 \
             make~=4.3 \
