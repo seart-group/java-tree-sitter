@@ -194,7 +194,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -326,7 +326,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -387,7 +387,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.4.2</version>
         <configuration>
           <archive>
             <manifest>
@@ -419,7 +419,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
         <configuration>
           <releaseProfiles>release</releaseProfiles>
           <preparationProfiles>release</preparationProfiles>
