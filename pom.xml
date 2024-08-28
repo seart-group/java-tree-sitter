@@ -85,7 +85,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
     <org.junit.version>5.11.0</org.junit.version>
-    <org.mockito.version>5.12.0</org.mockito.version>
+    <org.mockito.version>5.13.0</org.mockito.version>
     <org.slf4j.version>2.0.16</org.slf4j.version>
     <org.apache.commons.collections.version>4.4</org.apache.commons.collections.version>
     <org.apache.commons.lang.version>3.16.0</org.apache.commons.lang.version>
