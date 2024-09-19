@@ -84,15 +84,15 @@
     <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
-    <org.junit.version>5.10.2</org.junit.version>
-    <org.mockito.version>5.12.0</org.mockito.version>
-    <org.slf4j.version>2.0.13</org.slf4j.version>
+    <org.junit.version>5.11.0</org.junit.version>
+    <org.mockito.version>5.13.0</org.mockito.version>
+    <org.slf4j.version>2.0.16</org.slf4j.version>
     <org.apache.commons.collections.version>4.4</org.apache.commons.collections.version>
-    <org.apache.commons.lang.version>3.14.0</org.apache.commons.lang.version>
-    <org.apache.commons.io.version>2.16.1</org.apache.commons.io.version>
-    <org.projectlombok.lombok.version>1.18.32</org.projectlombok.lombok.version>
+    <org.apache.commons.lang.version>3.17.0</org.apache.commons.lang.version>
+    <org.apache.commons.io.version>2.17.0</org.apache.commons.io.version>
+    <org.projectlombok.lombok.version>1.18.34</org.projectlombok.lombok.version>
     <org.jetbrains.annotations.version>24.1.0</org.jetbrains.annotations.version>
-    <com.puppycrawl.tools.checkstyle.version>10.17.0</com.puppycrawl.tools.checkstyle.version>
+    <com.puppycrawl.tools.checkstyle.version>10.18.1</com.puppycrawl.tools.checkstyle.version>
   </properties>
 
   <dependencyManagement>
@@ -233,7 +233,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.4.0</version>
+        <version>3.5.0</version>
         <dependencies>
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
@@ -282,7 +282,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>9.0.0</version>
+        <version>9.0.1</version>
         <executions>
           <execution>
             <goals>
@@ -311,7 +311,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>3.10.0</version>
         <executions>
           <execution>
             <goals>
@@ -326,7 +326,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.5.0</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -399,11 +399,11 @@
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.3</version>
       </plugin>
       <plugin>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.2.6</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -415,11 +415,11 @@
       </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.3</version>
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
         <configuration>
           <releaseProfiles>release</releaseProfiles>
           <preparationProfiles>release</preparationProfiles>
@@ -430,20 +430,22 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.3.0</version>
+        <groupId>ch.usi.si.seart</groupId>
+        <artifactId>git-submodule-maven-plugin</artifactId>
+        <version>1.1.0</version>
         <executions>
           <execution>
-            <id>git-update-submodules</id>
-            <phase>initialize</phase>
             <goals>
-              <goal>exec</goal>
+              <goal>update</goal>
             </goals>
-            <configuration>
-              <executable>update.sh</executable>
-            </configuration>
           </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
           <execution>
             <id>generate-api-version-file</id>
             <phase>generate-sources</phase>
