@@ -99,7 +99,7 @@ def build(repositories, output_path="libjava-tree-sitter", system=None, arch=Non
                 flags.append("-fPIC")
 
             if source_path.endswith(".c"):
-                flags.append("-std=c99")
+                flags.append("-std=c11")
 
             if arch:
                 flags += ["-arch", arch] if system == "Darwin" else [f"-m{arch}"]
