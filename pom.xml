@@ -84,7 +84,7 @@
     <project.build.resourceDirectory>${project.basedir}/src/main/resources</project.build.resourceDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
-    <org.junit.version>5.11.2</org.junit.version>
+    <org.junit.version>5.11.3</org.junit.version>
     <org.mockito.version>5.14.2</org.mockito.version>
     <org.slf4j.version>2.0.16</org.slf4j.version>
     <org.apache.commons.collections.version>4.4</org.apache.commons.collections.version>
