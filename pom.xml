@@ -432,7 +432,7 @@
       <plugin>
         <groupId>ch.usi.si.seart</groupId>
         <artifactId>git-submodule-maven-plugin</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
         <executions>
           <execution>
             <goals>
