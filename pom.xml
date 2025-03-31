@@ -92,7 +92,7 @@
     <org.apache.commons.io.version>2.18.0</org.apache.commons.io.version>
     <org.projectlombok.lombok.version>1.18.36</org.projectlombok.lombok.version>
     <org.jetbrains.annotations.version>26.0.2</org.jetbrains.annotations.version>
-    <com.puppycrawl.tools.checkstyle.version>10.21.4</com.puppycrawl.tools.checkstyle.version>
+    <com.puppycrawl.tools.checkstyle.version>10.22.0</com.puppycrawl.tools.checkstyle.version>
   </properties>
 
   <dependencyManagement>
