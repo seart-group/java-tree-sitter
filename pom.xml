@@ -87,7 +87,7 @@
     <org.junit.version>5.12.2</org.junit.version>
     <org.mockito.version>5.17.0</org.mockito.version>
     <org.slf4j.version>2.0.17</org.slf4j.version>
-    <org.apache.commons.collections.version>4.4</org.apache.commons.collections.version>
+    <org.apache.commons.collections.version>4.5.0</org.apache.commons.collections.version>
     <org.apache.commons.lang.version>3.17.0</org.apache.commons.lang.version>
     <org.apache.commons.io.version>2.19.0</org.apache.commons.io.version>
     <org.projectlombok.lombok.version>1.18.38</org.projectlombok.lombok.version>
